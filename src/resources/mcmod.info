@@ -1,0 +1,20 @@
+[
+    {
+        "modid": "yatm",
+        "name": "Yet Another Tech Mod",
+        "description": "Yet another tech mod",
+        "version": "$version",
+        "mcversion": "$mcversion",
+        "url": "",
+        "updateUrl": "",
+        "authorList": ["IceDragon200"],
+        "credits": "",
+        "logoFile": "",
+        "screenshots": [],
+        "parent": "",
+        "requiredMods": [ "Forge" ],
+        "dependencies": [ ],
+        "dependants": [],
+        "useDependencyInformation": "true"
+    }
+]

@@ -1,0 +1,17 @@
+// Blocks
+tile.yatm.BlockChassis.name=Chassis
+tile.yatm.BlockAutocrafter.name=Auto Crafter
+tile.yatm.BlockAutoGrinder.name=Auto Grindstone
+tile.yatm.BlockDryer.name=Flux Dryer
+tile.yatm.BlockElectrolyser.name=Flux Electrolyser
+
+// Items
+item.yatm.ItemUraniumDust.name=Uranium Dust
+item.yatm.ItemUraniumIngot.name=Uranium Ingot
+item.yatm.ItemUraniumSeed.name=Uranium Seed
+item.yatm.ItemPurifiedUraniumCrystal.name=Pure Uranium Crystal
+item.yatm.ItemPurifiedUraniumDust.name=Pure Uranium Dust
+item.yatm.ItemPurifiedUraniumIngot.name=Pure Uranium Ingot
+
+// Creative Tabs
+itemGroup.yatm=Yet Another Tech Mod
