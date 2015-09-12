@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection
 
 class BlockAutoGrinder extends Block(Material.rock) with ITileEntityProvider
 {
+	@SideOnly(Side.CLIENT)
 	val icons = new Array[IIcon](3)
 	this.setStepSound(Block.soundTypeStone)
 	this.setHardness(3.2F)

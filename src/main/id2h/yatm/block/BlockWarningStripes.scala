@@ -27,7 +27,7 @@ class BlockWarningStripes extends Block(Material.rock)
 
 	@SideOnly(Side.CLIENT)
 	override def getIcon(w: IBlockAccess, x: Int, y: Int, z: Int, s: Int): IIcon = {
-		return this.getIcon(0, w.getBlockMetadata( x, y, z ))
+		return this.getIcon(0, w.getBlockMetadata(x, y, z))
 	}
 
 	@SideOnly( Side.CLIENT )

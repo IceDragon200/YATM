@@ -4,6 +4,14 @@ tile.yatm.BlockAutocrafter.name=Auto Crafter
 tile.yatm.BlockAutoGrinder.name=Auto Grindstone
 tile.yatm.BlockDryer.name=Flux Dryer
 tile.yatm.BlockElectrolyser.name=Flux Electrolyser
+tile.yatm.BlockMixer.name=Flux Mixer
+tile.yatm.BlockLamp.name=Vent Lamp
+tile.yatm.BlockVentedMesh.2x.name=Vented Mesh 2x2
+tile.yatm.BlockVentedMesh.4x.name=Vented Mesh 4x4
+tile.yatm.BlockVentedMesh.8x.name=Vented Mesh 8x8
+tile.yatm.BlockWarningStripes.2x.name=Warning Stripes 2x2
+tile.yatm.BlockWarningStripes.4x.name=Warning Stripes 4x4
+tile.yatm.BlockWarningStripes.8x.name=Warning Stripes 8x8
 
 // Items
 item.yatm.ItemUraniumDust.name=Uranium Dust
