@@ -2,6 +2,7 @@ package id2h.yatm
 
 import id2h.yatm.creativetabs.CreativeTabsYATM
 import id2h.yatm.block.BlockDecorative
+import id2h.yatm.tileentity.TileEntityAutoGrinder
 
 import appeng.block.AEBaseBlock
 import appeng.core.api.definitions.DefinitionConstructor
@@ -11,6 +12,7 @@ import appeng.util.Platform
 import cpw.mods.fml.common.registry.GameRegistry
 
 import net.minecraft.block.Block
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.block.material.Material
 import net.minecraft.creativetab.CreativeTabs
 
@@ -122,6 +124,6 @@ object Blocks {
 		GameRegistry.registerBlock(ventedMesh4x, "BlockVentedMesh.4x.tiled")
 		GameRegistry.registerBlock(ventedMesh8x, "BlockVentedMesh.8x.tiled")
 
-		GameRegistry.registerTileEntity(tileentity.TileEntityAutoGrinder, "yatm.tileentity.TileAutoGrinder")
+		GameRegistry.registerTileEntity(classOf[TileEntityAutoGrinder], "yatm.tileentity.TileEntityAutoGrinder")
 	}
 }

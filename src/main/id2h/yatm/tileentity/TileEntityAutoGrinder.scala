@@ -1,21 +1,21 @@
 package id2h.yatm.tileentity
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayList
+import java.util.List
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.inventory.IInventory
+import net.minecraft.item.ItemStack
+import net.minecraftforge.common.util.ForgeDirection
 
-import appeng.api.AEApi;
-import appeng.api.features.IGrinderEntry;
-import appeng.api.util.WorldCoord;
-import appeng.tile.AEBaseInvTile;
-import appeng.tile.inventory.AppEngInternalInventory;
-import appeng.tile.inventory.InvOperation;
-import appeng.util.InventoryAdaptor;
-import appeng.util.Platform;
-import appeng.util.inv.WrapperInventoryRange;
+import appeng.api.AEApi
+import appeng.api.features.IGrinderEntry
+import appeng.api.util.WorldCoord
+import appeng.tile.AEBaseInvTile
+import appeng.tile.inventory.AppEngInternalInventory
+import appeng.tile.inventory.InvOperation
+import appeng.util.InventoryAdaptor
+import appeng.util.Platform
+import appeng.util.inv.WrapperInventoryRange
 
 class TileEntityAutoGrinder extends AEBaseInvTile {
 
