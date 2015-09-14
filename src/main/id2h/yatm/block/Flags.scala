@@ -1,4 +1,5 @@
 package id2h.yatm.block
+
 /*
  * Constant class for Block flags
  */
