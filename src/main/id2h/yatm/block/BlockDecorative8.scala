@@ -13,16 +13,19 @@ import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
-class BlockDecorative(material: Material) extends BlockDecorativeBase(material)
+// 8 direction solving
+class BlockDecorative8(material: Material) extends BlockDecorativeBase(material)
 {
+	this.use8Dir = true
+
 	@SideOnly(Side.CLIENT)
-	val icons = new Array[IIcon](16)
+	val icons = new Array[IIcon](47)
 
 	@SideOnly(Side.CLIENT)
 	override def registerBlockIcons(reg: IIconRegister) {
 		val basename: String = getTextureName()
 		var i: Int = 0
-		for (i <- 0 to 15) {
+		for (i <- 0 to 46) {
 			val name: String = basename + "/" + i
 			icons(i) = reg.registerIcon(name)
 		}

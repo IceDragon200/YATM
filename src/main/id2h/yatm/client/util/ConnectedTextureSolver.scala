@@ -1,5 +1,7 @@
 package id2h.yatm.client.util
 
+import id2h.yatm.block.Sides
+
 import net.minecraft.block.Block
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection
@@ -10,11 +12,34 @@ object ConnectedTextureSolver
 	val RIGHT: Int = 2
 	val DOWN: Int = 4
 	val LEFT: Int = 8
-	val OBSTRUCTED: Int = 16 // face is obstructed
-	val FULLMASK: Int = 0x1F
-	val MASK: Int = 0xF
+	val DIR4: Int = 0xF
+	val DIR8: Int = 0xF0
+	val OBSTRUCTED: Int = 256 // face is obstructed
+	val FULLMASK: Int = 0x1FF
+	val MASK: Int = 0xFF
 
-	def indexForDirections(up: Boolean, right: Boolean, down: Boolean, left: Boolean): Int = {
+	private def removeInvalidDirs(value: Int): Int = {
+		(value & 0xF) match {
+			case 0 => 0
+			case 1 => value & 0x10F
+			case 2 => value & 0x10F
+			case 3 => value & 0x11F
+			case 4 => value & 0x10F
+			case 5 => value & 0x10F
+			case 6 => value & 0x12F
+			case 7 => value & 0x13F
+			case 8 => value & 0x10F
+			case 9 => value & 0x18F
+			case 10 => value & 0x10F
+			case 11 => value & 0x19F
+			case 12 => value & 0x14F
+			case 13 => value & 0x1CF
+			case 14 => value & 0x16F
+			case _ => value
+		}
+	}
+
+	private def packDirs(up: Boolean, right: Boolean, down: Boolean, left: Boolean): Int = {
 		var index: Int = 0
 		if (up)
 			index |= UP
@@ -27,57 +52,168 @@ object ConnectedTextureSolver
 		index
 	}
 
-	def solve(world: IBlockAccess, x: Int, y: Int, z: Int, block: Block): Int = {
-		var result: Int = 0
-		var top: Boolean = false
-		var bottom: Boolean = false
-		var west: Boolean = false
-		var east: Boolean = false
+	def solveSide(world: IBlockAccess, x: Int, y: Int, z: Int, block: Block, side: Int, dir8: Boolean): Int = {
 		var north: Boolean = false
+		var east: Boolean = false
 		var south: Boolean = false
+		var west: Boolean = false
 
-		top = Block.isEqualTo(block, world.getBlock(x, y + 1, z))
-		bottom = Block.isEqualTo(block, world.getBlock(x, y - 1, z))
-		north = Block.isEqualTo(block, world.getBlock(x, y, z - 1))
-		east = Block.isEqualTo(block, world.getBlock(x + 1, y, z))
-		south = Block.isEqualTo(block, world.getBlock(x, y, z + 1))
-		west = Block.isEqualTo(block, world.getBlock(x - 1, y, z))
+		var north_east: Boolean = false
+		var north_west: Boolean = false
+		var south_east: Boolean = false
+		var south_west: Boolean = false
 
-		// solve for top face
-		result |= indexForDirections(north, east, south, west)         // DOWN
-		if (bottom) result |= OBSTRUCTED
-		result |= indexForDirections(north, east, south, west) << 5    // UP
-		if (top) result |= OBSTRUCTED << 5
-		result |= indexForDirections(top, west, bottom, east) << 10     // NORTH
-		if (north) result |= OBSTRUCTED << 10
-		result |= indexForDirections(top, east, bottom, west) << 15    // SOUTH
-		if (south) result |= OBSTRUCTED << 15
-		result |= indexForDirections(top, south, bottom, north) << 20  // WEST
-		if (west) result |= OBSTRUCTED << 20
-		result |= indexForDirections(top, north, bottom, south) << 25  // EAST
-		if (east) result |= OBSTRUCTED << 25
+		var facing: Boolean = false
 
-		result
+		// north, east, south, west
+		side match {
+			case Sides.DOWN  =>
+				north = Block.isEqualTo(block, world.getBlock(x, y, z - 1))
+				east = Block.isEqualTo(block, world.getBlock(x + 1, y, z))
+				south = Block.isEqualTo(block, world.getBlock(x, y, z + 1))
+				west = Block.isEqualTo(block, world.getBlock(x - 1, y, z))
+
+				if (dir8) {
+					north_east = Block.isEqualTo(block, world.getBlock(x + 1, y, z - 1))
+					north_west = Block.isEqualTo(block, world.getBlock(x - 1, y, z - 1))
+					south_east = Block.isEqualTo(block, world.getBlock(x + 1, y, z + 1))
+					south_west = Block.isEqualTo(block, world.getBlock(x - 1, y, z + 1))
+				}
+
+				facing = Block.isEqualTo(block, world.getBlock(x, y - 1, z))
+			case Sides.UP    =>
+				north = Block.isEqualTo(block, world.getBlock(x, y, z - 1))
+				east = Block.isEqualTo(block, world.getBlock(x + 1, y, z))
+				south = Block.isEqualTo(block, world.getBlock(x, y, z + 1))
+				west = Block.isEqualTo(block, world.getBlock(x - 1, y, z))
+
+				if (dir8) {
+					north_east = Block.isEqualTo(block, world.getBlock(x + 1, y, z - 1))
+					north_west = Block.isEqualTo(block, world.getBlock(x - 1, y, z - 1))
+					south_east = Block.isEqualTo(block, world.getBlock(x + 1, y, z + 1))
+					south_west = Block.isEqualTo(block, world.getBlock(x - 1, y, z + 1))
+				}
+
+				facing = Block.isEqualTo(block, world.getBlock(x, y + 1, z))
+			case Sides.NORTH =>
+				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z))
+				east = Block.isEqualTo(block, world.getBlock(x - 1, y, z))
+				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z))
+				west = Block.isEqualTo(block, world.getBlock(x + 1, y, z))
+
+				if (dir8) {
+					north_east = Block.isEqualTo(block, world.getBlock(x - 1, y + 1, z))
+					north_west = Block.isEqualTo(block, world.getBlock(x + 1, y + 1, z))
+					south_east = Block.isEqualTo(block, world.getBlock(x - 1, y - 1, z))
+					south_west = Block.isEqualTo(block, world.getBlock(x + 1, y - 1, z))
+				}
+
+				facing = Block.isEqualTo(block, world.getBlock(x, y, z - 1))
+			case Sides.SOUTH =>
+				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z))
+				east = Block.isEqualTo(block, world.getBlock(x + 1, y, z))
+				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z))
+				west = Block.isEqualTo(block, world.getBlock(x - 1, y, z))
+
+				if (dir8) {
+					north_east = Block.isEqualTo(block, world.getBlock(x + 1, y + 1, z))
+					north_west = Block.isEqualTo(block, world.getBlock(x - 1, y + 1, z))
+					south_east = Block.isEqualTo(block, world.getBlock(x + 1, y - 1, z))
+					south_west = Block.isEqualTo(block, world.getBlock(x - 1, y - 1, z))
+				}
+
+				facing = Block.isEqualTo(block, world.getBlock(x, y, z + 1))
+			case Sides.WEST  =>
+				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z))
+				east = Block.isEqualTo(block, world.getBlock(x, y, z + 1))
+				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z))
+				west = Block.isEqualTo(block, world.getBlock(x, y, z - 1))
+
+				if (dir8) {
+					north_east = Block.isEqualTo(block, world.getBlock(x, y + 1, z + 1))
+					north_west = Block.isEqualTo(block, world.getBlock(x, y + 1, z - 1))
+					south_east = Block.isEqualTo(block, world.getBlock(x, y - 1, z + 1))
+					south_west = Block.isEqualTo(block, world.getBlock(x, y - 1, z - 1))
+				}
+
+				facing = Block.isEqualTo(block, world.getBlock(x - 1, y, z))
+			case Sides.EAST  =>
+				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z))
+				east = Block.isEqualTo(block, world.getBlock(x, y, z - 1))
+				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z))
+				west = Block.isEqualTo(block, world.getBlock(x, y, z + 1))
+
+				if (dir8) {
+					north_east = Block.isEqualTo(block, world.getBlock(x, y + 1, z - 1))
+					north_west = Block.isEqualTo(block, world.getBlock(x, y + 1, z + 1))
+					south_east = Block.isEqualTo(block, world.getBlock(x, y - 1, z - 1))
+					south_west = Block.isEqualTo(block, world.getBlock(x, y - 1, z + 1))
+				}
+
+				facing = Block.isEqualTo(block, world.getBlock(x + 1, y, z))
+			case _ =>
+				return 0
+		}
+
+		removeInvalidDirs((packDirs(north_east, south_east, south_west, north_west) << 4) |
+						  packDirs(north, east, south, west)) | (if (facing) OBSTRUCTED else 0)
 	}
 
-	def solve(world: IBlockAccess, x: Int, y: Int, z: Int): Int = solve(world, x, y, z, world.getBlock(x, y, z))
-
-	def indexForSide(side: ForgeDirection, meta: Int): Int = {
-		val value: Int = side match {
-			case ForgeDirection.DOWN => meta
-			case ForgeDirection.UP => (meta >> 5)
-			case ForgeDirection.NORTH => (meta >> 10)
-			case ForgeDirection.SOUTH => (meta >> 15)
-			case ForgeDirection.WEST => (meta >> 20)
-			case ForgeDirection.EAST => (meta >> 25)
+	def indexToIcon(side: Int, value: Int): Int = {
+		val index: Int = (value & 0xFF) match {
+			case 0x00 => 0
+			case 0x01 => 1
+			case 0x02 => 2
+			case 0x03 => 3
+			case 0x04 => 4
+			case 0x05 => 5
+			case 0x06 => 6
+			case 0x07 => 7
+			case 0x08 => 8
+			case 0x09 => 9
+			case 0x0a => 10
+			case 0x0b => 11
+			case 0x0c => 12
+			case 0x0d => 13
+			case 0x0e => 14
+			case 0x0f => 15
+			case 0x13 => 16
+			case 0x17 => 17
+			case 0x1b => 18
+			case 0x1f => 19
+			case 0x26 => 20
+			case 0x27 => 21
+			case 0x2e => 22
+			case 0x2f => 23
+			case 0x37 => 24
+			case 0x3f => 25
+			case 0x4c => 26
+			case 0x4d => 27
+			case 0x4e => 28
+			case 0x4f => 29
+			case 0x5f => 30
+			case 0x6e => 31
+			case 0x6f => 32
+			case 0x7f => 33
+			case 0x89 => 34
+			case 0x8b => 35
+			case 0x8d => 36
+			case 0x8f => 37
+			case 0x9b => 38
+			case 0x9f => 39
+			case 0xaf => 40
+			case 0xbf => 41
+			case 0xcd => 42
+			case 0xcf => 43
+			case 0xdf => 44
+			case 0xef => 45
+			case 0xff => 46
 			case _ => 0
 		}
-		value & FULLMASK
+		index | (value & 0x100)
 	}
 
-	def indexForSide(side: Int, meta: Int): Int = indexForSide(ForgeDirection.getOrientation(side), meta)
-
-	def solveForSide(world: IBlockAccess, x: Int, y: Int, z: Int, block: Block, side: Int): Int = {
-		indexForSide(side, solve(world, x, y, z, block))
+	def iconForSide(world: IBlockAccess, x: Int, y: Int, z: Int, block: Block, side: Int, dir8: Boolean): Int = {
+		indexToIcon(side, solveSide(world, x, y, z, block, side, dir8))
 	}
 }
