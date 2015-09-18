@@ -89,6 +89,11 @@ sourceSets {
             srcDir 'src/resources'
         }
     }
+    api {
+        java {
+            srcDir 'src/api'
+        }
+    }
 }
 
 processResources
