@@ -3,7 +3,11 @@ package id2h.yatm
 import id2h.yatm.creativetabs.CreativeTabsYATM
 import id2h.yatm.block.BlockDecorative
 import id2h.yatm.block.BlockDecorative8
+import id2h.yatm.tileentity.TileEntityAutoCrafter
 import id2h.yatm.tileentity.TileEntityAutoGrinder
+import id2h.yatm.tileentity.TileEntityDryer
+import id2h.yatm.tileentity.TileEntityElectrolyser
+import id2h.yatm.tileentity.TileEntitySolarPanel
 
 import appeng.block.AEBaseBlock
 import appeng.core.api.definitions.DefinitionConstructor
@@ -124,6 +128,10 @@ object Blocks {
 		GameRegistry.registerBlock(window, "BlockWindow")
 
 
+		GameRegistry.registerTileEntity(classOf[TileEntityAutoCrafter], "yatm.tileentity.TileEntityAutoCrafter")
 		GameRegistry.registerTileEntity(classOf[TileEntityAutoGrinder], "yatm.tileentity.TileEntityAutoGrinder")
+		GameRegistry.registerTileEntity(classOf[TileEntityDryer], "yatm.tileentity.TileEntityDryer")
+		GameRegistry.registerTileEntity(classOf[TileEntityElectrolyser], "yatm.tileentity.TileEntityElectrolyser")
+		GameRegistry.registerTileEntity(classOf[TileEntitySolarPanel], "yatm.tileentity.TileEntitySolarPanel")
 	}
 }
