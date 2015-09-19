@@ -10,6 +10,8 @@ import appeng.util.Platform
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 
+import net.minecraftforge.common.util.ForgeDirection
+
 import net.minecraft.block.Block
 import net.minecraft.block.ITileEntityProvider
 import net.minecraft.block.material.Material
@@ -18,7 +20,6 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.IIcon
 import net.minecraft.world.World
-import net.minecraftforge.common.util.ForgeDirection
 
 class BlockAutoGrinder extends Block(Material.rock) with ITileEntityProvider
 {

@@ -1,15 +1,20 @@
 package id2h.yatm.block
 
 import id2h.yatm.creativetabs.CreativeTabsYATM
+import id2h.yatm.tileentity.TileEntityAutoCrafter
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 
 import net.minecraft.block.Block
+import net.minecraft.block.ITileEntityProvider
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.IIcon
+import net.minecraft.world.World
 
-class BlockAutoCrafter extends Block(Material.rock)
+class BlockAutoCrafter extends Block(Material.rock) with ITileEntityProvider
 {
 	@SideOnly(Side.CLIENT)
 	val icons = new Array[IIcon](3)
@@ -17,7 +22,7 @@ class BlockAutoCrafter extends Block(Material.rock)
 	this.setStepSound(Block.soundTypeStone)
 	this.setHardness(2.0F)
 	this.setResistance(5.0F)
-	this.setBlockName("yatm.BlockAutocrafter")
+	this.setBlockName("yatm.BlockAutoCrafter")
 	this.setCreativeTab(CreativeTabsYATM.instance())
 
 	@SideOnly(Side.CLIENT)
@@ -36,5 +41,24 @@ class BlockAutoCrafter extends Block(Material.rock)
 		} else {
 			icons(2)
 		}
+	}
+
+	def getTileEntity(world: World, x: Int, y: Int, z: Int): TileEntityAutoCrafter = {
+		world.getTileEntity(x, y, z).asInstanceOf[TileEntityAutoCrafter]
+	}
+
+	override def onBlockActivated(world: World, x: Int, y: Int, z: Int, p: EntityPlayer, side: Int, hitX: Float, hitY: Float, hitZ: Float): Boolean = {
+		val tg: TileEntityAutoCrafter = this.getTileEntity(world, x, y, z)
+		if (tg != null && !p.isSneaking())
+		{
+
+			//Platform.openGUI(p, tg, ForgeDirection.getOrientation( side ), GuiBridge.GUI_GRINDER)
+			return true
+		}
+		return false
+	}
+
+	override def createNewTileEntity(world: World, unused: Int): TileEntity = {
+		new TileEntityAutoCrafter()
 	}
 }
