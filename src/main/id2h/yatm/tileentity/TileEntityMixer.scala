@@ -8,9 +8,9 @@ import net.minecraftforge.common.util.ForgeDirection
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
 
-class TileEntityAutoCrafter extends TileEntity with IEnergyReceiver
+class TileEntityMixer extends TileEntity with IEnergyReceiver
 {
-	protected val energyStorage = new EnergyStorage(4096, 10)
+	protected val energyStorage = new EnergyStorage(8192, 20)
 
 	override def readFromNBT(nbt: NBTTagCompound) {
 		super.readFromNBT(nbt)

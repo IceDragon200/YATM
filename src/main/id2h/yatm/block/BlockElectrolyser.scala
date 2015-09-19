@@ -1,16 +1,21 @@
 package id2h.yatm.block
 
 import id2h.yatm.creativetabs.CreativeTabsYATM
+import id2h.yatm.tileentity.TileEntityElectrolyser
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 
 import net.minecraft.block.Block
+import net.minecraft.block.ITileEntityProvider
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.IIcon
+import net.minecraft.world.IBlockAccess
+import net.minecraft.world.World
 
-class BlockElectrolyser extends Block(Material.rock)
+class BlockElectrolyser extends Block(Material.rock) with ITileEntityProvider
 {
 	@SideOnly(Side.CLIENT)
 	val icons = new Array[IIcon](3)
@@ -37,5 +42,9 @@ class BlockElectrolyser extends Block(Material.rock)
 		} else {
 			icons(2)
 		}
+	}
+
+	override def createNewTileEntity(world: World, unused: Int): TileEntity = {
+		new TileEntityElectrolyser()
 	}
 }

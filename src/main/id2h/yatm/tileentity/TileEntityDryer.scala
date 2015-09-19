@@ -1,10 +1,5 @@
 package id2h.yatm.tileentity
 
-import java.util.List
-
-import org.apache.logging.log4j.Level
-import cpw.mods.fml.common.FMLLog
-
 import cofh.api.energy.IEnergyReceiver
 import cofh.api.energy.EnergyStorage
 
