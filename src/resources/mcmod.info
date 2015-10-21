@@ -12,8 +12,8 @@
         "logoFile": "",
         "screenshots": [],
         "parent": "",
-        "requiredMods": [ "Forge" ],
-        "dependencies": [ ],
+        "requiredMods": [ "Forge", "appliedenergistics2" ],
+        "dependencies": [ "appliedenergistics2" ],
         "dependants": [],
         "useDependencyInformation": "true"
     }

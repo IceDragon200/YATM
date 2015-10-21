@@ -1,14 +1,13 @@
-apply plugin: 'scala'
-apply plugin: 'forge'
-
 buildscript {
     repositories {
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
+
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+
         maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
@@ -19,12 +18,20 @@ buildscript {
     }
 }
 
-version = "1.0.0"
+apply plugin: 'forge'
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = "6.11.2"
+    configFile = new File(rootDir, "checkstyle/checkstyle.xml")
+}
+
+version = yatm_version
 group = "id2h"
 archivesBaseName = "yatm"
 
 minecraft {
-    version = "1.7.10-10.13.4.1448-1.7.10"
+    version = minecraft_forge_version
     runDir = "run"
 
     replace '@VERSION@', project.version
@@ -33,6 +40,7 @@ minecraft {
 
 // Because of some oddities in the AE api/dev I'll need these...
 repositories {
+    mavenCentral()
     mavenLocal()
 
     maven {
@@ -78,11 +86,12 @@ repositories {
 
 dependencies {
     compile "appeng:appliedenergistics2:rv2-stable-10:dev"
+    //compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:api"
 }
 
 sourceSets {
     main {
-        scala {
+        java {
             srcDir 'src/main'
         }
         resources {
@@ -92,6 +101,7 @@ sourceSets {
     api {
         java {
             srcDir 'src/api'
+            srcDir 'api'
         }
     }
 }
