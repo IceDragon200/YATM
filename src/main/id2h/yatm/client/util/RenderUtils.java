@@ -33,10 +33,9 @@ public class RenderUtils
 		GL11.glScalef(1.0f, 1.0f, 1.0f);
 	}
 
-	public static void renderFace(Face face, Block block, RenderBlocks renderer, Tessellator tes, IIcon icon, double i, double j, double k)
+	public static void renderCubeFace(Face face, Block block, RenderBlocks renderer, Tessellator tes, IIcon icon, double i, double j, double k)
 	{
 		final float f = 0.0F;
-		tes.startDrawingQuads();
 		switch (face)
 		{
 			case XPOS:
@@ -92,6 +91,12 @@ public class RenderUtils
 				throw new IllegalArgumentException("Invalid face value " + face + ".");
 			}
 		}
+	}
+
+	public static void renderFace(Face face, Block block, RenderBlocks renderer, Tessellator tes, IIcon icon, double i, double j, double k)
+	{
+		tes.startDrawingQuads();
+		renderCubeFace(face, block, renderer, tes, icon, i, j, k);
 		tes.draw();
 	}
 
@@ -108,23 +113,27 @@ public class RenderUtils
 	public static void renderInventoryBlockOverride(Block block, RenderBlocks renderer, IIcon[] icon, Tessellator tessellator)
 	{
 		beginInventoryRender();
-		renderFace(Face.YNEG, block, renderer, tessellator, icon[0], 0.0D, 0.0D, 0.0D);
-		renderFace(Face.YPOS, block, renderer, tessellator, icon[1], 0.0D, 0.0D, 0.0D);
-		renderFace(Face.ZNEG, block, renderer, tessellator, icon[2], 0.0D, 0.0D, 0.0D);
-		renderFace(Face.ZPOS, block, renderer, tessellator, icon[3], 0.0D, 0.0D, 0.0D);
-		renderFace(Face.XNEG, block, renderer, tessellator, icon[4], 0.0D, 0.0D, 0.0D);
-		renderFace(Face.XPOS, block, renderer, tessellator, icon[5], 0.0D, 0.0D, 0.0D);
+		tessellator.startDrawingQuads();
+		renderCubeFace(Face.YNEG, block, renderer, tessellator, icon[0], 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.YPOS, block, renderer, tessellator, icon[1], 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.ZNEG, block, renderer, tessellator, icon[2], 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.ZPOS, block, renderer, tessellator, icon[3], 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.XNEG, block, renderer, tessellator, icon[4], 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.XPOS, block, renderer, tessellator, icon[5], 0.0D, 0.0D, 0.0D);
+		tessellator.draw();
 		endInventoryRender();
 	}
 
 	public static void renderInventoryBlockFaces(Block block, int meta, RenderBlocks renderer, Tessellator tessellator)
 	{
-		renderFace(Face.YNEG, block, renderer, tessellator, block.getIcon(0, meta), 0.0D, 0.0D, 0.0D);
-		renderFace(Face.YPOS, block, renderer, tessellator, block.getIcon(1, meta), 0.0D, 0.0D, 0.0D);
-		renderFace(Face.ZNEG, block, renderer, tessellator, block.getIcon(2, meta), 0.0D, 0.0D, 0.0D);
-		renderFace(Face.ZPOS, block, renderer, tessellator, block.getIcon(3, meta), 0.0D, 0.0D, 0.0D);
-		renderFace(Face.XNEG, block, renderer, tessellator, block.getIcon(4, meta), 0.0D, 0.0D, 0.0D);
-		renderFace(Face.XPOS, block, renderer, tessellator, block.getIcon(5, meta), 0.0D, 0.0D, 0.0D);
+		tessellator.startDrawingQuads();
+		renderCubeFace(Face.YNEG, block, renderer, tessellator, block.getIcon(0, meta), 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.YPOS, block, renderer, tessellator, block.getIcon(1, meta), 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.ZNEG, block, renderer, tessellator, block.getIcon(2, meta), 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.ZPOS, block, renderer, tessellator, block.getIcon(3, meta), 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.XNEG, block, renderer, tessellator, block.getIcon(4, meta), 0.0D, 0.0D, 0.0D);
+		renderCubeFace(Face.XPOS, block, renderer, tessellator, block.getIcon(5, meta), 0.0D, 0.0D, 0.0D);
+		tessellator.draw();
 	}
 
 	public static void renderInventoryBlock(Block block, int meta, RenderBlocks renderer, Tessellator tessellator)
