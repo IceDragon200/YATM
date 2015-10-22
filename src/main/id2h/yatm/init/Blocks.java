@@ -2,13 +2,14 @@ package id2h.yatm.init;
 
 import id2h.yatm.common.block.BlockAutoCrafter;
 import id2h.yatm.common.block.BlockAutoGrinder;
-import id2h.yatm.common.block.BlockCagedEnergyCell;
 import id2h.yatm.common.block.BlockChassis;
 import id2h.yatm.common.block.BlockCrusher;
 import id2h.yatm.common.block.BlockDecorative8;
 import id2h.yatm.common.block.BlockDecorative;
 import id2h.yatm.common.block.BlockDryer;
 import id2h.yatm.common.block.BlockElectrolyser;
+import id2h.yatm.common.block.BlockEnergyCell;
+import id2h.yatm.common.block.BlockEnergyCellCreative;
 import id2h.yatm.common.block.BlockLamp;
 import id2h.yatm.common.block.BlockMetalCrate;
 import id2h.yatm.common.block.BlockMixer;
@@ -16,10 +17,15 @@ import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
-import id2h.yatm.common.tileentity.TileEntityCagedEnergyCell;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.common.tileentity.TileEntityDryer;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
+import id2h.yatm.common.tileentity.TileEntityEnergyCellBasic;
+import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
+import id2h.yatm.common.tileentity.TileEntityEnergyCellNormal;
+import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
+import id2h.yatm.common.tileentity.TileEntityEnergyCellDense;
+import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
 import id2h.yatm.common.tileentity.TileEntityMixer;
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 
@@ -34,7 +40,12 @@ public class Blocks
 {
 	public static Block autoCrafter;
 	public static Block autoGrinder;
-	public static Block cagedEnergyCell;
+	public static Block energyCellBasic;
+	public static Block energyCellBasicCreative;
+	public static Block energyCellNormal;
+	public static Block energyCellNormalCreative;
+	public static Block energyCellDense;
+	public static Block energyCellDenseCreative;
 	public static Block chassis;
 	public static Block crusher;
 	public static Block floorEngraving1;
@@ -126,7 +137,12 @@ public class Blocks
 
 		window = new BlockWindow();
 
-		cagedEnergyCell = new BlockCagedEnergyCell();
+		energyCellBasic = new BlockEnergyCell("Basic", TileEntityEnergyCellBasic.class);
+		energyCellBasicCreative = new BlockEnergyCellCreative("Basic", TileEntityCreativeEnergyCellBasic.class);
+		energyCellNormal = new BlockEnergyCell("Normal", TileEntityEnergyCellNormal.class);
+		energyCellNormalCreative = new BlockEnergyCellCreative("Normal", TileEntityCreativeEnergyCellNormal.class);
+		energyCellDense = new BlockEnergyCell("Dense", TileEntityEnergyCellDense.class);
+		energyCellDenseCreative = new BlockEnergyCellCreative("Dense", TileEntityCreativeEnergyCellDense.class);
 	}
 
 	public static void register()
@@ -153,11 +169,21 @@ public class Blocks
 		GameRegistry.registerBlock(warningStripes4x, "yatm.BlockWarningStripes.4x.tiled");
 		GameRegistry.registerBlock(warningStripes8x, "yatm.BlockWarningStripes.8x.tiled");
 		GameRegistry.registerBlock(window, "yatm.BlockWindow");
-		GameRegistry.registerBlock(cagedEnergyCell, "yatm.BlockCagedEnergyCell");
+		GameRegistry.registerBlock(energyCellBasic, "yatm.BlockEnergyCellBasic");
+		GameRegistry.registerBlock(energyCellBasicCreative, "yatm.BlockEnergyCellBasicCreative");
+		GameRegistry.registerBlock(energyCellNormal, "yatm.BlockEnergyCellNormal");
+		GameRegistry.registerBlock(energyCellNormalCreative, "yatm.BlockEnergyCellNormalCreative");
+		GameRegistry.registerBlock(energyCellDense, "yatm.BlockEnergyCellDense");
+		GameRegistry.registerBlock(energyCellDenseCreative, "yatm.BlockEnergyCellDenseCreative");
 
 		GameRegistry.registerTileEntity(TileEntityAutoCrafter.class, "yatm.tileentity.TileEntityAutoCrafter");
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");
-		GameRegistry.registerTileEntity(TileEntityCagedEnergyCell.class, "yatm.tileentity.TileEntityCagedEnergyCell");
+		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellBasic.class, "yatm.tileentity.TileEntityCreativeEnergyCellBasic");
+		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellNormal.class, "yatm.tileentity.TileEntityCreativeEnergyCellNormal");
+		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellDense.class, "yatm.tileentity.TileEntityCreativeEnergyCellDense");
+		GameRegistry.registerTileEntity(TileEntityEnergyCellBasic.class, "yatm.tileentity.TileEntityEnergyCellBasic");
+		GameRegistry.registerTileEntity(TileEntityEnergyCellNormal.class, "yatm.tileentity.TileEntityEnergyCellNormal");
+		GameRegistry.registerTileEntity(TileEntityEnergyCellDense.class, "yatm.tileentity.TileEntityEnergyCellDense");
 		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.TileEntityCrusher");
 		GameRegistry.registerTileEntity(TileEntityDryer.class, "yatm.tileentity.TileEntityDryer");
 		GameRegistry.registerTileEntity(TileEntityElectrolyser.class, "yatm.tileentity.TileEntityElectrolyser");

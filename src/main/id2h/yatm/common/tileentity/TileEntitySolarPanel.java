@@ -5,8 +5,8 @@ import cofh.api.energy.EnergyStorage;
 public class TileEntitySolarPanel extends YATMPoweredTile
 {
 	@Override
-	protected void createEnergyStorage()
+	protected EnergyStorage createEnergyStorage()
 	{
-		energyStorage = new EnergyStorage(4000, 10);
+		return new EnergyStorage(4000, 10);
 	}
 }

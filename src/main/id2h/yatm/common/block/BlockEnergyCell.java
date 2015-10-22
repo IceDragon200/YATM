@@ -1,7 +1,7 @@
 package id2h.yatm.common.block;
 
-import id2h.yatm.client.renderer.RenderCagedEnergyCell;
-import id2h.yatm.common.tileentity.TileEntityCagedEnergyCell;
+import id2h.yatm.client.renderer.RenderEnergyCell;
+import id2h.yatm.common.tileentity.TileEntityEnergyCell;
 
 import appeng.client.texture.FlippableIcon;
 
@@ -13,21 +13,22 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
-public class BlockCagedEnergyCell extends YATMBlockBaseTile
+public class BlockEnergyCell extends YATMBlockBaseTile
 {
-	public BlockCagedEnergyCell()
+	public BlockEnergyCell(String basename, Class<? extends TileEntityEnergyCell> tileentity)
 	{
-		super(Material.rock, TileEntityCagedEnergyCell.class);
-		setBlockName("yatm.BlockCagedEnergyCell");
-		setBlockTextureName("yatm:BlockCagedEnergyCell");
+		super(Material.rock, tileentity);
+		setBlockName("yatm.BlockEnergyCell" + basename);
+		setBlockTextureName("yatm:BlockEnergyCell." + basename);
 	}
 
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
-		if (world.isRemote()) return;
+		if (world.isRemote) return;
 
-		final TileEntityCagedEnergyCell te = getTileEntity<TileEntityCagedEnergyCell>(world, x, y, z);
+		final TileEntityEnergyCell te = getTileEntity(world, x, y, z);
 		if (te != null)
 		{
 			te.onNeighborBlockChange(world, x, y, z, block);
@@ -38,7 +39,7 @@ public class BlockCagedEnergyCell extends YATMBlockBaseTile
 	@SideOnly(Side.CLIENT)
 	public int getRenderType()
 	{
-		return RenderCagedEnergyCell.id;
+		return RenderEnergyCell.id;
 	}
 
 	@Override
@@ -79,6 +80,6 @@ public class BlockCagedEnergyCell extends YATMBlockBaseTile
 		{
 			return icons[meta];
 		}
-		return icons[7];
+		return icons[icons.length - 1];
 	}
 }

@@ -5,8 +5,26 @@ import cofh.api.energy.EnergyStorage;
 public class TileEntityCrusher extends YATMPoweredMachine
 {
 	@Override
-	protected void createEnergyStorage()
+	protected EnergyStorage createEnergyStorage()
 	{
-		energyStorage = new EnergyStorage(4000, 10);
+		return new EnergyStorage(16000, 10);
+	}
+
+	@Override
+	public int powerRequiredToWork()
+	{
+		return 100;
+	}
+
+	@Override
+	public boolean canWork()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean doWork()
+	{
+		return true;
 	}
 }

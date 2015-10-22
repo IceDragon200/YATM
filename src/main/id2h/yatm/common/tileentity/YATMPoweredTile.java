@@ -14,12 +14,12 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 	public YATMPoweredTile()
 	{
 		super();
-		createEnergyStorage();
+		this.energyStorage = createEnergyStorage();
 	}
 
-	protected void createEnergyStorage()
+	protected EnergyStorage createEnergyStorage()
 	{
-		energyStorage = new EnergyStorage(4000, 10);
+		return new EnergyStorage(4000, 10);
 	}
 
 	@Override

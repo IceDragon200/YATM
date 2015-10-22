@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
-public class RenderCagedEnergyCell implements ISimpleBlockRenderingHandler
+public class RenderEnergyCell implements ISimpleBlockRenderingHandler
 {
 	public static final int id = RenderingRegistry.getNextAvailableRenderId();
 
