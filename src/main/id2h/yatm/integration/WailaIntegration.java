@@ -4,9 +4,7 @@ import java.util.List;
 
 import cofh.api.energy.IEnergyReceiver;
 
-import id2h.yatm.common.block.BlockAutoCrafter;
-import id2h.yatm.common.block.BlockDryer;
-import id2h.yatm.common.block.BlockElectrolyser;
+import id2h.yatm.common.block.YATMBlockBaseTile;
 
 import cpw.mods.fml.common.Optional;
 
@@ -30,12 +28,8 @@ public class WailaIntegration implements IWailaDataProvider
 	{
 		final IWailaDataProvider instance = new WailaIntegration();
 
-		reg.registerBodyProvider(instance, BlockAutoCrafter.class);
-		reg.registerNBTProvider(instance, BlockAutoCrafter.class);
-		reg.registerBodyProvider(instance, BlockDryer.class);
-		reg.registerNBTProvider(instance, BlockDryer.class);
-		reg.registerBodyProvider(instance, BlockElectrolyser.class);
-		reg.registerNBTProvider(instance, BlockElectrolyser.class);
+		reg.registerBodyProvider(instance, YATMBlockBaseTile.class);
+		reg.registerNBTProvider(instance, YATMBlockBaseTile.class);
 	}
 
 	@Override

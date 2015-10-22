@@ -2,7 +2,7 @@ package id2h.yatm.common.tileentity;
 
 import cofh.api.energy.EnergyStorage;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+public class TileEntityCrusher extends YATMPoweredMachine
 {
 	@Override
 	protected void createEnergyStorage()

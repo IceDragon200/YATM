@@ -77,7 +77,7 @@ public class TileEntityAutoGrinder extends AEBaseInvTile
 		}
 		if (null == this.getStackInSlot(6))
 		{
-			final WrapperInventoryRange src = new WrapperInventoryRange(this, this.inputs, true);
+			final WrapperInventoryRange src = new WrapperInventoryRange(this, inputs, true);
 			for (int x = 0; x < src.getSizeInventory(); ++x)
 			{
 				ItemStack item = src.getStackInSlot(x);

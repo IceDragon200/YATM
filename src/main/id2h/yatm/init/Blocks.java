@@ -2,7 +2,9 @@ package id2h.yatm.init;
 
 import id2h.yatm.common.block.BlockAutoCrafter;
 import id2h.yatm.common.block.BlockAutoGrinder;
+import id2h.yatm.common.block.BlockCagedEnergyCell;
 import id2h.yatm.common.block.BlockChassis;
+import id2h.yatm.common.block.BlockCrusher;
 import id2h.yatm.common.block.BlockDecorative8;
 import id2h.yatm.common.block.BlockDecorative;
 import id2h.yatm.common.block.BlockDryer;
@@ -14,8 +16,11 @@ import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.tileentity.TileEntityCagedEnergyCell;
+import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.common.tileentity.TileEntityDryer;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
+import id2h.yatm.common.tileentity.TileEntityMixer;
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 
 import appeng.core.api.definitions.DefinitionConstructor;
@@ -29,7 +34,9 @@ public class Blocks
 {
 	public static Block autoCrafter;
 	public static Block autoGrinder;
+	public static Block cagedEnergyCell;
 	public static Block chassis;
+	public static Block crusher;
 	public static Block floorEngraving1;
 	public static Block floorEngraving2;
 	public static Block floorWarning1;
@@ -56,6 +63,7 @@ public class Blocks
 		autoCrafter = new BlockAutoCrafter();
 		autoGrinder = new BlockAutoGrinder();
 		chassis = new BlockChassis();
+		crusher = new BlockCrusher();
 		floorEngraving1 = new BlockDecorative8(Material.rock)
 			.setBlockTextureName("yatm:BlockFloorEngraving1")
 			.setBlockName("yatm.BlockFloorEngraving1");
@@ -117,37 +125,43 @@ public class Blocks
 			.setBlockName("yatm.BlockWarningStripes.8x");
 
 		window = new BlockWindow();
+
+		cagedEnergyCell = new BlockCagedEnergyCell();
 	}
 
 	public static void register()
 	{
-		GameRegistry.registerBlock(autoCrafter, "BlockAutoCrafter");
-		GameRegistry.registerBlock(autoGrinder, "BlockAutoGrinder");
-		GameRegistry.registerBlock(chassis, "BlockChassis");
-		GameRegistry.registerBlock(floorEngraving1, "BlockFloorEngraving1");
-		GameRegistry.registerBlock(floorEngraving2, "BlockFloorEngraving2");
-		GameRegistry.registerBlock(floorWarning1, "BlockFloorWarning1");
-		GameRegistry.registerBlock(floorWarning2, "BlockFloorWarning2");
-		GameRegistry.registerBlock(dryer, "BlockDryer");
-		GameRegistry.registerBlock(electrolyser, "BlockElectrolyser");
-		GameRegistry.registerBlock(lamp, "BlockLamp");
-		GameRegistry.registerBlock(metalCrate, "BlockMetalCrate");
-		GameRegistry.registerBlock(mixer, "BlockMixer");
-		GameRegistry.registerBlock(reinforcedGlass, "BlockReinforcedGlass");
-		GameRegistry.registerBlock(solarPanel, "BlockSolarPanel");
-		GameRegistry.registerBlock(ventedMesh2x, "BlockVentedMesh.2x.tiled");
-		GameRegistry.registerBlock(ventedMesh4x, "BlockVentedMesh.4x.tiled");
-		GameRegistry.registerBlock(ventedMesh8x, "BlockVentedMesh.8x.tiled");
-		GameRegistry.registerBlock(warningStripes2x, "BlockWarningStripes.2x.tiled");
-		GameRegistry.registerBlock(warningStripes4x, "BlockWarningStripes.4x.tiled");
-		GameRegistry.registerBlock(warningStripes8x, "BlockWarningStripes.8x.tiled");
-		GameRegistry.registerBlock(window, "BlockWindow");
-
+		GameRegistry.registerBlock(autoCrafter, "yatm.BlockAutoCrafter");
+		GameRegistry.registerBlock(autoGrinder, "yatm.BlockAutoGrinder");
+		GameRegistry.registerBlock(chassis, "yatm.BlockChassis");
+		GameRegistry.registerBlock(crusher, "yatm.BlockCrusher");
+		GameRegistry.registerBlock(floorEngraving1, "yatm.BlockFloorEngraving1");
+		GameRegistry.registerBlock(floorEngraving2, "yatm.BlockFloorEngraving2");
+		GameRegistry.registerBlock(floorWarning1, "yatm.BlockFloorWarning1");
+		GameRegistry.registerBlock(floorWarning2, "yatm.BlockFloorWarning2");
+		GameRegistry.registerBlock(dryer, "yatm.BlockDryer");
+		GameRegistry.registerBlock(electrolyser, "yatm.BlockElectrolyser");
+		GameRegistry.registerBlock(lamp, "yatm.BlockLamp");
+		GameRegistry.registerBlock(metalCrate, "yatm.BlockMetalCrate");
+		GameRegistry.registerBlock(mixer, "yatm.BlockMixer");
+		GameRegistry.registerBlock(reinforcedGlass, "yatm.BlockReinforcedGlass");
+		GameRegistry.registerBlock(solarPanel, "yatm.BlockSolarPanel");
+		GameRegistry.registerBlock(ventedMesh2x, "yatm.BlockVentedMesh.2x.tiled");
+		GameRegistry.registerBlock(ventedMesh4x, "yatm.BlockVentedMesh.4x.tiled");
+		GameRegistry.registerBlock(ventedMesh8x, "yatm.BlockVentedMesh.8x.tiled");
+		GameRegistry.registerBlock(warningStripes2x, "yatm.BlockWarningStripes.2x.tiled");
+		GameRegistry.registerBlock(warningStripes4x, "yatm.BlockWarningStripes.4x.tiled");
+		GameRegistry.registerBlock(warningStripes8x, "yatm.BlockWarningStripes.8x.tiled");
+		GameRegistry.registerBlock(window, "yatm.BlockWindow");
+		GameRegistry.registerBlock(cagedEnergyCell, "yatm.BlockCagedEnergyCell");
 
 		GameRegistry.registerTileEntity(TileEntityAutoCrafter.class, "yatm.tileentity.TileEntityAutoCrafter");
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");
+		GameRegistry.registerTileEntity(TileEntityCagedEnergyCell.class, "yatm.tileentity.TileEntityCagedEnergyCell");
+		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.TileEntityCrusher");
 		GameRegistry.registerTileEntity(TileEntityDryer.class, "yatm.tileentity.TileEntityDryer");
 		GameRegistry.registerTileEntity(TileEntityElectrolyser.class, "yatm.tileentity.TileEntityElectrolyser");
+		GameRegistry.registerTileEntity(TileEntityMixer.class, "yatm.tileentity.TileEntityMixer");
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "yatm.tileentity.TileEntitySolarPanel");
 	}
 }

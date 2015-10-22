@@ -46,9 +46,12 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 	private static ItemStack newStyle(ItemStack itemStack)
 	{
 		final Item item = itemStack.getItem();
-		if (item instanceof ItemUraniumSeed) {
+		if (item instanceof ItemUraniumSeed)
+		{
 			((ItemUraniumSeed)item).getProgress(itemStack);
-		} else {
+		}
+		else
+		{
 			// TODO: warn
 		}
 		return itemStack;

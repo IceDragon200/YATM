@@ -30,6 +30,8 @@ version = yatm_version
 group = "id2h"
 archivesBaseName = "yatm"
 
+ext.cofhApiExclusionPattern = "**/api/cofh/**"
+
 minecraft {
     version = minecraft_forge_version
     runDir = "run"
@@ -122,6 +124,12 @@ processResources
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-Xlint:all', '-Xlint:-rawtypes', '-Xlint:deprecation', '-Xlint:-unchecked']
+    options.deprecation = true
+    options.encoding = 'utf8'
+}
+
 // --------------------
 // extra jar section
 // -------------------
@@ -130,6 +138,15 @@ processResources
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
     classifier = 'sources'
+}
+
+javadoc {
+    // add api classes to javadoc
+    source += sourceSets.api.allSource
+    // exclude 3rd party apis from the javadoc
+    exclude project.cofhApiExclusionPattern
+
+    failOnError = false
 }
 
 // add a javadoc jar
@@ -143,6 +160,10 @@ task deobfJar(type: Jar) {
     from sourceSets.main.output
     from sourceSets.api.output
     classifier = 'dev'
+}
+
+jar {
+    classifier = 'release'
 }
 
 // make sure all of these happen when we run build

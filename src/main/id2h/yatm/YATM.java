@@ -19,7 +19,6 @@ import cpw.mods.fml.common.Mod.Instance;
 	modid = YATM.MOD_ID,
 	name = YATM.MOD_NAME,
 	version = YATM.MOD_VERSION,
-	modLanguage = "scala",
 	dependencies = "required-after:appliedenergistics2"
 )
 public class YATM

@@ -18,13 +18,7 @@ public class BlockSolarPanel extends Block
 		setHardness(2.0F);
 		setResistance(5.0F);
 		setBlockName("yatm.BlockSolarPanel");
+		setBlockTextureName("yatm:BlockSolarPanel/Top");
 		setCreativeTab(CreativeTabsYATM.instance());
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
-	{
-		this.blockIcon = reg.registerIcon("yatm:BlockSolarPanel.Top");
 	}
 }
