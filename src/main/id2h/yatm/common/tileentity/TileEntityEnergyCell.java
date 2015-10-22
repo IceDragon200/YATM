@@ -16,7 +16,6 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 	protected boolean needCacheRebuild = true;
 	protected boolean needUpdate = true;
 	protected int lastMeta = -1;
-	protected int resyncTime;
 	protected TileEntity[] tileCache = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
 
 	@Override
@@ -116,13 +115,8 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 				this.markDirty();
 			}
 
-			resyncTime--;
-			if (resyncTime < 0)
-			{
-				resyncTime = 10;
-				updateCells();
-				needUpdate = true;
-			}
+			updateCells();
+			needUpdate = true;
 		}
 	}
 }
