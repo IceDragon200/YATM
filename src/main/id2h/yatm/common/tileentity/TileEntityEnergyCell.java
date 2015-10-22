@@ -21,6 +21,16 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 	@Override
 	protected abstract EnergyStorage createEnergyStorage();
 
+	public int getMaxReceive()
+	{
+		return energyStorage.getMaxReceive();
+	}
+
+	public int getMaxExtract()
+	{
+		return energyStorage.getMaxExtract();
+	}
+
 	private void rebuildTileCache()
 	{
 		for (int i = 0; i < tileCache.length; ++i)

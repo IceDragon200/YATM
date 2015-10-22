@@ -5,6 +5,7 @@ import java.util.List;
 import cofh.api.energy.IEnergyReceiver;
 
 import id2h.yatm.common.block.YATMBlockBaseTile;
+import id2h.yatm.common.tileentity.TileEntityEnergyCell;
 
 import cpw.mods.fml.common.Optional;
 
@@ -51,13 +52,19 @@ public class WailaIntegration implements IWailaDataProvider
 	public List<String> getWailaBody(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		final TileEntity te = accessor.getTileEntity();
+		final NBTTagCompound tag = accessor.getNBTData();
 		if (te instanceof IEnergyReceiver)
 		{
-			final NBTTagCompound tag = accessor.getNBTData();
-			final int energy = tag.getInteger("energy");
-			final int maxEnergy = tag.getInteger("maxenergy");
+			final long energy = tag.getLong("energy");
+			final long maxEnergy = tag.getLong("maxenergy");
 			tooltip.add("Online: " + (energy > 0));
 			tooltip.add("Energy: " + energy + " / " + maxEnergy + " RF");
+		}
+		if (te instanceof TileEntityEnergyCell)
+		{
+			final long maxIN = tag.getLong("maxIN");
+			final long maxOUT = tag.getLong("maxOUT");
+			tooltip.add("I/O: " + maxIN + " / " + maxOUT + " RF/t");
 		}
 		return tooltip;
 	}
@@ -79,7 +86,12 @@ public class WailaIntegration implements IWailaDataProvider
 			tag.setLong("maxenergy", er.getMaxEnergyStored(ForgeDirection.UNKNOWN));
 			tag.setLong("energy", er.getEnergyStored(ForgeDirection.UNKNOWN));
 		}
-
+		if (te instanceof TileEntityEnergyCell)
+		{
+			final TileEntityEnergyCell energyCell = (TileEntityEnergyCell)te;
+			tag.setLong("maxIN", energyCell.getMaxReceive());
+			tag.setLong("maxOUT", energyCell.getMaxExtract());
+		}
 		return tag;
 	}
 }
