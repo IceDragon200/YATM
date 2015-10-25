@@ -1,4 +1,4 @@
-# [![YATM](https://raw.githubusercontent.com/IceDragon200/YATM/master/YATM.gif)](https://github.com/IceDragon200/YATM) YATM 
+# [![YATM](https://raw.githubusercontent.com/IceDragon200/YATM/master/wiki/EnergyCell.Basic.png)](https://github.com/IceDragon200/YATM) YATM 
 
 Yet Another Tech Mod
 
