@@ -1,0 +1,3 @@
+[submodule "sub/Growthcraft"]
+  path = sub/Growthcraft
+  url = https://github.com/Alatyami/Growthcraft-1.7.git
