@@ -23,13 +23,9 @@
  */
 package id2h.yatm.common.tileentity;
 
-import cofh.api.energy.EnergyStorage;
+import java.util.Iterator;
 
-public class TileEntityCrusher extends YATMPoweredMachine
+public class YATMInternalInventory implements IInventory, Iterable<ItemStack>
 {
-	@Override
-	protected EnergyStorage createEnergyStorage()
-	{
-		return new EnergyStorage(16000, 10);
-	}
+
 }

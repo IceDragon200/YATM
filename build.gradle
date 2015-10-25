@@ -46,6 +46,11 @@ repositories {
     mavenLocal()
 
     maven {
+        name = "AppleCore"
+        url = "http://www.ryanliptak.com/maven/"
+    }
+
+    maven {
         name "ChickenBones"
         url "http://chickenbones.net/maven/"
     }
@@ -87,6 +92,7 @@ repositories {
 }
 
 dependencies {
+    compile project(":sub/Growthcraft")
     compile "appeng:appliedenergistics2:rv2-stable-10:dev"
     //compile "mcp.mobius.waila:Waila:1.5.10_1.7.10:api"
 }
@@ -102,7 +108,7 @@ sourceSets {
     }
     api {
         java {
-            srcDir 'src/api'
+            srcDir 'src/main/id2h/yatm/api'
             srcDir 'api'
         }
     }

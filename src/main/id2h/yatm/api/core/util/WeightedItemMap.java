@@ -21,15 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.api.core.util;
 
-import cofh.api.energy.EnergyStorage;
+import java.util.HashMap;
+import javax.annotation.Nonnull;
 
-public class TileEntityCrusher extends YATMPoweredMachine
+import growthcraft.api.core.util.ItemKey;
+
+public class WeightedItemMap extends HashMap<ItemKey, WeightedItemList>
 {
-	@Override
-	protected EnergyStorage createEnergyStorage()
+	public static final long serialVersionUID = 1L;
+
+	public WeightedItemList touch(@Nonnull ItemKey key)
 	{
-		return new EnergyStorage(16000, 10);
+		if (!containsKey(key))
+		{
+			put(key, new WeightedItemList());
+		}
+		return get(key);
 	}
 }

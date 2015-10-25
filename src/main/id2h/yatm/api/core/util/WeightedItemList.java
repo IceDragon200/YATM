@@ -21,15 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.api.core.util;
 
-import cofh.api.energy.EnergyStorage;
+import java.util.ArrayList;
+import java.util.Random;
 
-public class TileEntityCrusher extends YATMPoweredMachine
+import net.minecraft.util.WeightedRandom;
+
+public class WeightedItemList extends ArrayList<WeightedItem>
 {
-	@Override
-	protected EnergyStorage createEnergyStorage()
+	public static final long serialVersionUID = 1L;
+
+	public WeightedItem getRandomItem(Random rand, int maxWeight)
 	{
-		return new EnergyStorage(16000, 10);
+		return (WeightedItem)WeightedRandom.getRandomItem(rand, this, maxWeight);
+	}
+
+	public WeightedItem getRandomItem(Random rand)
+	{
+		return (WeightedItem)WeightedRandom.getRandomItem(rand, this);
 	}
 }

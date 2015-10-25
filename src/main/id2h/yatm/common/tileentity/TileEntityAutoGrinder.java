@@ -49,6 +49,7 @@ public class TileEntityAutoGrinder extends AEBaseInvTile
 
 	public TileEntityAutoGrinder()
 	{
+		super();
 		inv = new AppEngInternalInventory(this, 7);
 	}
 

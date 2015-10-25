@@ -21,15 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.api.crusher;
 
-import cofh.api.energy.EnergyStorage;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import javax.annotation.Nonnull;
 
-public class TileEntityCrusher extends YATMPoweredMachine
+import id2h.yatm.api.core.util.WeightedItem;
+import id2h.yatm.api.core.util.WeightedItemMap;
+import id2h.yatm.api.core.util.WeightedItemList;
+
+import growthcraft.api.core.util.ItemKey;
+
+import net.minecraft.item.ItemStack;
+
+public class CrusherRegistry
 {
-	@Override
-	protected EnergyStorage createEnergyStorage()
+	private WeightedItemMap crushingResults = new WeightedItemMap();
+
+	public void addCrushing(@Nonnull ItemStack src, @Nonnull List<WeightedItem> items)
 	{
-		return new EnergyStorage(16000, 10);
+		crushingResults.touch(new ItemKey(src)).addAll(items);
+	}
+
+	public WeightedItemList getCrushingResults(@Nonnull ItemStack src)
+	{
+		return crushingResults.get(new ItemKey(src));
+	}
+
+	public boolean canCrush(@Nonnull ItemStack src)
+	{
+		return crushingResults.containsKey(new ItemKey(src));
 	}
 }

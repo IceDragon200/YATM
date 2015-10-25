@@ -21,15 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.tileentity.machine;
 
 import cofh.api.energy.EnergyStorage;
 
-public class TileEntityCrusher extends YATMPoweredMachine
+import net.minecraft.inventory.IInventory;
+
+public class MachineCrusher implements IMachineLogic
 {
 	@Override
-	protected EnergyStorage createEnergyStorage()
+	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return new EnergyStorage(16000, 10);
+		return 0;
+	}
+
+	@Override
+	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 0;
+	}
+
+	@Override
+	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return true;
+	}
+
+	@Override
+	public int doWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 0;
 	}
 }
