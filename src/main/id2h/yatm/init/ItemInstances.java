@@ -39,18 +39,18 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraftforge.oredict.OreDictionary;
 
-public class Items
+public class ItemInstances
 {
-	public static IItemDefinition uraniumSeed;
-	public static IItemDefinition purifiedUraniumCrystal;
-	public static IItemDefinition uraniumDust;
-	public static IItemDefinition purifiedUraniumDust;
-	public static IItemDefinition uraniumIngot;
-	public static IItemDefinition purifiedUraniumIngot;
+	public IItemDefinition uraniumSeed;
+	public IItemDefinition purifiedUraniumCrystal;
+	public IItemDefinition uraniumDust;
+	public IItemDefinition purifiedUraniumDust;
+	public IItemDefinition uraniumIngot;
+	public IItemDefinition purifiedUraniumIngot;
 
-	private Items() {}
+	public ItemInstances() {}
 
-	public static void preInit(DefinitionConstructor constructor)
+	public void preInit(DefinitionConstructor constructor)
 	{
 		uraniumDust = constructor.registerItemDefinition(new ItemDust(Dusts.UraniumDust));
 		uraniumIngot = constructor.registerItemDefinition(new ItemIngot(Ingots.UraniumIngot));
@@ -69,7 +69,7 @@ public class Items
 		purifiedUraniumIngot.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
 	}
 
-	public static void register()
+	public void register()
 	{
 		GameRegistry.registerItem(uraniumDust.maybeItem().get(), "uraniumDust");
 		GameRegistry.registerItem(uraniumIngot.maybeItem().get(), "uraniumIngot");

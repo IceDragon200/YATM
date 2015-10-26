@@ -23,16 +23,23 @@
  */
 package id2h.yatm.common.tileentity;
 
-import id2h.yatm.common.tileentity.machine.IMachineLogic;
+import java.io.IOException;
 
-import net.minecraft.inventory.IInventory;
+import io.netty.buffer.ByteBuf;
+
+import id2h.yatm.common.tileentity.inventory.IYATMInventory;
+import id2h.yatm.common.tileentity.machine.IMachineLogic;
+import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
+import id2h.yatm.event.EventHandler;
+
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory
 {
-	protected IInventory inventory;
+	protected IYATMInventory inventory;
 	protected IMachineLogic machine;
 
 	public YATMPoweredMachine()
@@ -42,8 +49,36 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		this.machine = createMachine();
 	}
 
-	public abstract IInventory createInventory();
-	public abstract IMachineLogic createMachine();
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		inventory.readFromNBT(nbt, "inventory");
+		machine.readFromNBT(nbt, "machine");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		inventory.writeToNBT(nbt, "inventory");
+		machine.writeToNBT(nbt, "machine");
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	public boolean readFromStream_Machine(ByteBuf stream) throws IOException
+	{
+		return machine.readFromStream(stream);
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	public void writeToStream_Machine(ByteBuf stream) throws IOException
+	{
+		machine.writeToStream(stream);
+	}
+
+	protected abstract IYATMInventory createInventory();
+	protected abstract IMachineLogic createMachine();
 
 	@Override
 	public int getSizeInventory()
@@ -117,19 +152,31 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		return inventory.isItemValidForSlot(index, stack);
 	}
 
+	@Override
 	public int[] getAccessibleSlotsFromSide(int side)
 	{
 		return new int[] {0};
 	}
 
+	@Override
 	public boolean canInsertItem(int index, ItemStack stack, int side)
 	{
 		return false;
 	}
 
+	@Override
 	public boolean canExtractItem(int index, ItemStack stack, int side)
 	{
 		return false;
+	}
+
+	public float getMachineProgressRate()
+	{
+		if (machine instanceof IProgressiveMachine)
+		{
+			return ((IProgressiveMachine)machine).getProgressRate();
+		}
+		return 0.0f;
 	}
 
 	public int getRunningPowerCost()
@@ -161,6 +208,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 			if (energyStorage.getEnergyStored() >= consumed)
 			{
 				consumed += doWork();
+				markForUpdate();
 			}
 		}
 		if (consumed != 0)
@@ -173,6 +221,6 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	public void updateEntity()
 	{
 		super.updateEntity();
-		updateMachine();
+		if (!worldObj.isRemote) updateMachine();
 	}
 }

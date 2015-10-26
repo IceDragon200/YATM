@@ -25,11 +25,14 @@ package id2h.yatm.client.util;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 
+@SideOnly(Side.CLIENT)
 public class RenderUtils
 {
 	public static enum Face

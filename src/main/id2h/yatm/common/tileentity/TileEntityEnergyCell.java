@@ -23,9 +23,9 @@
  */
 package id2h.yatm.common.tileentity;
 
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.util.BlockFlags;
 
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 
@@ -42,7 +42,7 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 	protected TileEntity[] tileCache = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
 
 	@Override
-	protected abstract EnergyStorage createEnergyStorage();
+	protected abstract YATMEnergyStorage createEnergyStorage();
 
 	public int getMaxReceive()
 	{

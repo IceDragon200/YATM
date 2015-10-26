@@ -23,13 +23,13 @@
  */
 package id2h.yatm.common.tileentity;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 
 public class TileEntityEnergyCellNormal extends TileEntityEnergyCell
 {
 	@Override
-	protected EnergyStorage createEnergyStorage()
+	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new EnergyStorage(2000000, 200);
+		return new YATMEnergyStorage(2000000, 200);
 	}
 }

@@ -23,9 +23,12 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
+import io.netty.buffer.ByteBuf;
+
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.nbt.NBTTagCompound;
 
 public interface IMachineLogic
 {
@@ -66,4 +69,10 @@ public interface IMachineLogic
 	 * @return worked power cost
 	 */
 	int doWork(EnergyStorage energyStorage, IInventory inventory);
+
+	void readFromNBT(NBTTagCompound data, String name);
+	void writeToNBT(NBTTagCompound data, String name);
+
+	public boolean readFromStream(ByteBuf stream);
+	public void writeToStream(ByteBuf stream);
 }

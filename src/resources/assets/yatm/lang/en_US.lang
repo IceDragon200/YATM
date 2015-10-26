@@ -2,6 +2,7 @@
 tile.yatm.BlockAutoCrafter.name=Auto Crafter
 tile.yatm.BlockAutoGrinder.name=Auto Grindstone
 tile.yatm.BlockChassis.name=Chassis
+tile.yatm.BlockCrusher.name=Crusher
 tile.yatm.BlockDryer.name=Flux Dryer
 tile.yatm.BlockElectrolyser.name=Flux Electrolyser
 tile.yatm.BlockEnergyCellBasic.name=Basic Energy Cell

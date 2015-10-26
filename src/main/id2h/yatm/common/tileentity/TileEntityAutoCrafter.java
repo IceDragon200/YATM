@@ -23,13 +23,36 @@
  */
 package id2h.yatm.common.tileentity;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.inventory.IYATMInventory;
+import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
+import id2h.yatm.common.tileentity.machine.IMachineLogic;
+import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
 
 public class TileEntityAutoCrafter extends YATMPoweredMachine
 {
 	@Override
-	protected EnergyStorage createEnergyStorage()
+	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new EnergyStorage(4000, 10);
+		return new YATMEnergyStorage(4000, 10);
+	}
+
+	@Override
+	protected IYATMInventory createInventory()
+	{
+		/*
+		 * 0..7 - :Input
+		 * 8..15 - :Output
+		 * 16..24 - :Fake crafting
+		 * 25..34 - :Processing
+		 */
+		// 8 - input, 8 - output, 9 crafting, 9 processing
+		return new YATMInternalInventory(this, 8 + 8 + 9 + 9);
+	}
+
+	@Override
+	protected IMachineLogic createMachine()
+	{
+		return new MachineAutoCrafter();
 	}
 }

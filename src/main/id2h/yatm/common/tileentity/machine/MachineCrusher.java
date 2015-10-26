@@ -23,33 +23,95 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
+import id2h.yatm.api.YATMApi;
+import id2h.yatm.api.crusher.CrushingResult;
+import id2h.yatm.api.core.util.PossibleItem;
+
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 
-public class MachineCrusher implements IMachineLogic
+public class MachineCrusher extends AbstractProgressiveMachine
 {
-	@Override
-	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
-	}
-
-	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
-	}
-
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return true;
+		return inventory.getStackInSlot(0) != null || inventory.getStackInSlot(6) != null;
+	}
+
+	private void finishProcessing(IInventory inventory)
+	{
+		inventory.decrStackSize(6, 1);
+		resetProgress();
 	}
 
 	@Override
 	public int doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
+		if (inventory.getStackInSlot(6) == null)
+		{
+			final CrushingResult result = YATMApi.instance.crusher.getCrushingResult(inventory.getStackInSlot(0));
+			if (result != null)
+			{
+				inventory.setInventorySlotContents(6, inventory.decrStackSize(0, 1));
+				this.progress = 0.0f;
+				this.progressMax = (float)result.time;
+			}
+		}
+
+		final ItemStack processing = inventory.getStackInSlot(6);
+		if (processing != null)
+		{
+			final CrushingResult result = YATMApi.instance.crusher.getCrushingResult(processing);
+			if (result == null)
+			{
+				inventory.setInventorySlotContents(6, null);
+				resetProgress();
+			}
+			else
+			{
+				this.progressMax = (float)result.time;
+				if ((int)progress >= progressMax)
+				{
+					finishProcessing(inventory);
+
+					for (PossibleItem item : result.items.randomResults(rand))
+					{
+						final ItemStack stack = item.asStack();
+						System.out.println("Finding available slot for stack=" + stack);
+						for (int i = 1; i < 5; ++i)
+						{
+							final ItemStack target = inventory.getStackInSlot(i);
+							if (target == null)
+							{
+								inventory.setInventorySlotContents(i, stack);
+								break;
+							}
+							else if (target.isItemEqual(stack))
+							{
+								final int newSize = MathHelper.clamp_int(target.stackSize + stack.stackSize, 0, target.getMaxStackSize());
+								final int consumed = newSize - target.stackSize;
+								stack.stackSize -= consumed;
+								target.stackSize = newSize;
+								inventory.setInventorySlotContents(i, target);
+							}
+							if (stack.stackSize <= 0) break;
+						}
+						if (stack.stackSize > 0)
+						{
+							// EJECT
+							System.err.println("Item was ejected stack=" + stack);
+						}
+					}
+				}
+				else
+				{
+					this.progress += 1;
+				}
+			}
+		}
 		return 0;
 	}
 }

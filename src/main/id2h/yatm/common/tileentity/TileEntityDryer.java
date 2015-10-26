@@ -23,13 +23,29 @@
  */
 package id2h.yatm.common.tileentity;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.inventory.IYATMInventory;
+import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
+import id2h.yatm.common.tileentity.machine.IMachineLogic;
+import id2h.yatm.common.tileentity.machine.MachineDryer;
 
 public class TileEntityDryer extends YATMPoweredMachine
 {
 	@Override
-	protected EnergyStorage createEnergyStorage()
+	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new EnergyStorage(4000, 10);
+		return new YATMEnergyStorage(4000, 10);
+	}
+
+	@Override
+	protected IYATMInventory createInventory()
+	{
+		return new YATMInternalInventory(this, 7);
+	}
+
+	@Override
+	protected IMachineLogic createMachine()
+	{
+		return new MachineDryer();
 	}
 }

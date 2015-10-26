@@ -27,7 +27,7 @@ import java.util.EnumSet;
 import java.util.List;
 import javax.annotation.Nullable;
 
-import id2h.yatm.init.Items;
+import id2h.yatm.YATM;
 
 import appeng.api.implementations.items.IGrowableCrystal;
 import appeng.api.recipes.ResolverResult;
@@ -85,7 +85,7 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 	{
 		ResolverResult resolver = null;
 
-		for (ItemStack crystalSeedStack : Items.uraniumSeed.maybeStack(1).asSet())
+		for (ItemStack crystalSeedStack : YATM.items.uraniumSeed.maybeStack(1).asSet())
 		{
 			crystalSeedStack.setItemDamage(damage);
 			crystalSeedStack = newStyle(crystalSeedStack);
@@ -204,7 +204,7 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 
 		if (progress >= MAX_LEVEL_OFFSET)
 		{
-			for (ItemStack stack : Items.purifiedUraniumCrystal.maybeStack(size).asSet())
+			for (ItemStack stack : YATM.items.purifiedUraniumCrystal.maybeStack(size).asSet())
 			{
 				return stack;
 			}

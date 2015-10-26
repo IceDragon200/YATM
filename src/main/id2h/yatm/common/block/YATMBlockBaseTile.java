@@ -24,6 +24,8 @@
 package id2h.yatm.common.block;
 
 import id2h.yatm.creativetab.CreativeTabsYATM;
+import id2h.yatm.util.GuiType;
+import id2h.yatm.util.YATMPlatform;
 
 import appeng.client.texture.FlippableIcon;
 
@@ -41,12 +43,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class YATMBlockBaseTile extends Block implements ITileEntityProvider
 {
 	@SideOnly(Side.CLIENT)
 	protected FlippableIcon[] icons;
 
+	protected GuiType guiType;
 	protected Class<? extends TileEntity> tileEntityType;
 
 	public YATMBlockBaseTile(Material material, Class<? extends TileEntity> klass)
@@ -56,6 +60,16 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		setHardness(4.0F);
 		setCreativeTab(CreativeTabsYATM.instance());
 		this.tileEntityType = klass;
+	}
+
+	protected void setGuiType(GuiType type)
+	{
+		this.guiType = type;
+	}
+
+	public GuiType getGuiType()
+	{
+		return guiType;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -130,12 +144,15 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer p, int side, float hitX, float hitY, float hitZ)
 	{
-		final TileEntity te = this.getTileEntity(world, x, y, z);
-		//if (te != null && !p.isSneaking())
-		//{
-		//	Platform.openGUI(p, te, ForgeDirection.getOrientation(side), GuiBridge.GUI_GRINDER);
-		//	return true;
-		//}
+		if (getGuiType() != null)
+		{
+			final TileEntity te = this.getTileEntity(world, x, y, z);
+			if (te != null && !p.isSneaking())
+			{
+				YATMPlatform.openGui(p, te, ForgeDirection.getOrientation(side), getGuiType());
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -147,13 +164,13 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 			{
 				return tileEntityType.newInstance();
 			}
-			catch( InstantiationException e )
+			catch (InstantiationException e)
 			{
-				throw new IllegalStateException( "Failed to create a new instance of an illegal class " + this.tileEntityType, e );
+				throw new IllegalStateException("Failed to create a new instance of an illegal class " + this.tileEntityType, e);
 			}
-			catch( IllegalAccessException e )
+			catch (IllegalAccessException e)
 			{
-				throw new IllegalStateException( "Failed to create a new instance of " + this.tileEntityType + ", because lack of permissions", e );
+				throw new IllegalStateException("Failed to create a new instance of " + this.tileEntityType + ", because lack of permissions", e);
 			}
 		}
 		return null;

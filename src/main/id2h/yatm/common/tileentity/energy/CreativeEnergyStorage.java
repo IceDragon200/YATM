@@ -23,11 +23,9 @@
  */
 package id2h.yatm.common.tileentity.energy;
 
-import cofh.api.energy.EnergyStorage;
-
 import net.minecraft.nbt.NBTTagCompound;
 
-public class CreativeEnergyStorage extends EnergyStorage
+public class CreativeEnergyStorage extends YATMEnergyStorage
 {
 	public CreativeEnergyStorage(int capacity, int maxReceive, int maxExtract)
 	{

@@ -23,7 +23,7 @@
  */
 package id2h.yatm.creativetab;
 
-import id2h.yatm.init.Blocks;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +44,7 @@ public class CreativeTabsYATM extends CreativeTabs
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem()
 	{
-		return Item.getItemFromBlock(Blocks.chassis);
+		return YATM.blocks.chassis.getItem();
 	}
 
 	public static CreativeTabs instance()

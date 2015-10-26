@@ -21,37 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.api.crusher;
+package id2h.yatm.common.tileentity.machine;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import javax.annotation.Nonnull;
+import cofh.api.energy.EnergyStorage;
 
-import id2h.yatm.api.core.util.WeightedItem;
-import id2h.yatm.api.core.util.WeightedItemMap;
-import id2h.yatm.api.core.util.WeightedItemList;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.nbt.NBTTagCompound;
 
-import growthcraft.api.core.util.ItemKey;
-
-import net.minecraft.item.ItemStack;
-
-public class CrusherRegistry
+public class MachineElectrolyser extends AbstractMachine
 {
-	private WeightedItemMap crushingResults = new WeightedItemMap();
-
-	public void addCrushing(@Nonnull ItemStack src, @Nonnull List<WeightedItem> items)
+	@Override
+	protected void readFromNBT(NBTTagCompound data)
 	{
-		crushingResults.touch(new ItemKey(src)).addAll(items);
+
 	}
 
-	public WeightedItemList getCrushingResults(@Nonnull ItemStack src)
+	@Override
+	protected void writeToNBT(NBTTagCompound data)
 	{
-		return crushingResults.get(new ItemKey(src));
+
 	}
 
-	public boolean canCrush(@Nonnull ItemStack src)
+	@Override
+	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return crushingResults.containsKey(new ItemKey(src));
+		return 0;
+	}
+
+	@Override
+	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 0;
+	}
+
+	@Override
+	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return true;
+	}
+
+	@Override
+	public int doWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 0;
 	}
 }

@@ -39,6 +39,11 @@ public class WeightedItem extends WeightedRandom.Item
 		this.stack = itemstack;
 	}
 
+	public WeightedItem(@Nonnull ItemStack itemstack)
+	{
+		this(itemstack, 1);
+	}
+
 	public Item getItem()
 	{
 		return stack.getItem();

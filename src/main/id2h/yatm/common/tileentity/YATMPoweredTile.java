@@ -23,16 +23,20 @@
  */
 package id2h.yatm.common.tileentity;
 
-import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.EnergyStorage;
+import java.io.IOException;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import io.netty.buffer.ByteBuf;
+
+import cofh.api.energy.IEnergyReceiver;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.event.EventHandler;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyReceiver
 {
-	protected EnergyStorage energyStorage;
+	protected YATMEnergyStorage energyStorage;
 
 	public YATMPoweredTile()
 	{
@@ -40,25 +44,9 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 		this.energyStorage = createEnergyStorage();
 	}
 
-	protected EnergyStorage createEnergyStorage()
+	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new EnergyStorage(4000, 10);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		super.readFromNBT(nbt);
-		energyStorage.readFromNBT(nbt.getCompoundTag("storage"));
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
-		super.writeToNBT(nbt);
-		final NBTTagCompound storageTag = new NBTTagCompound();
-		energyStorage.writeToNBT(storageTag);
-		nbt.setTag("storage", storageTag);
+		return new YATMEnergyStorage(4000, 10);
 	}
 
 	@Override
@@ -70,7 +58,12 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulated)
 	{
-		return energyStorage.receiveEnergy(maxReceive, simulated);
+		final int result = energyStorage.receiveEnergy(maxReceive, simulated);
+		if (!simulated && result != 0)
+		{
+			markForUpdate();
+		}
+		return result;
 	}
 
 	@Override
@@ -83,5 +76,43 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 	public int getMaxEnergyStored(ForgeDirection from)
 	{
 		return energyStorage.getMaxEnergyStored();
+	}
+
+	public float getPowerStorageRate(ForgeDirection from)
+	{
+		final int max = getMaxEnergyStored(from);
+		if (max != 0) return (float)getEnergyStored(from) / (float)max;
+		return 0.0f;
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	public boolean readFromStream_Energy(ByteBuf stream) throws IOException
+	{
+		final int energy = stream.readInt();
+		energyStorage.setEnergyStored(energy);
+		//System.out.println(">> energy=" + energy + " x=" + xCoord + " y=" + yCoord + " z=" + zCoord);
+		return true;
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	public void writeToStream_Energy(ByteBuf stream) throws IOException
+	{
+		final int energy = getEnergyStored(ForgeDirection.UNKNOWN);
+		//System.out.println("<< energy=" + energy + " x=" + xCoord + " y=" + yCoord + " z=" + zCoord);
+		stream.writeInt(energy);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		energyStorage.readFromNBT(nbt, "energy");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		energyStorage.writeToNBT(nbt, "energy");
 	}
 }

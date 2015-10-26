@@ -25,6 +25,7 @@ package id2h.yatm.api.core.util;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javax.annotation.Nonnull;
 
 import net.minecraft.util.WeightedRandom;
 
@@ -32,13 +33,23 @@ public class WeightedItemList extends ArrayList<WeightedItem>
 {
 	public static final long serialVersionUID = 1L;
 
-	public WeightedItem getRandomItem(Random rand, int maxWeight)
+	public WeightedItem getRandomItem(@Nonnull Random rand, int maxWeight)
 	{
 		return (WeightedItem)WeightedRandom.getRandomItem(rand, this, maxWeight);
 	}
 
-	public WeightedItem getRandomItem(Random rand)
+	public WeightedItem getRandomItem(@Nonnull Random rand)
 	{
 		return (WeightedItem)WeightedRandom.getRandomItem(rand, this);
+	}
+
+	public static WeightedItemList create(@Nonnull WeightedItem... items)
+	{
+		final WeightedItemList list = new WeightedItemList();
+		for (WeightedItem item : items)
+		{
+			list.add(item);
+		}
+		return list;
 	}
 }

@@ -23,13 +23,89 @@
  */
 package id2h.yatm.common.tileentity;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.machine.IMachineLogic;
+import id2h.yatm.common.tileentity.machine.MachineMixer;
+import id2h.yatm.common.tileentity.inventory.IYATMInventory;
+import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
+import id2h.yatm.util.NumUtils;
+
+import net.minecraft.item.ItemStack;
 
 public class TileEntityMixer extends YATMPoweredMachine
 {
+	protected static final int[][] slotTable = {
+		{ 0 },
+		{ 0 },
+		{ 1, 2, 3, 4 },
+		{ 3, 4, 1, 2 },
+		{ 4, 1, 2, 3 },
+		{ 2, 3, 4, 1 },
+	};
+
 	@Override
-	protected EnergyStorage createEnergyStorage()
+	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new EnergyStorage(4000, 10);
+		return new YATMEnergyStorage(4000, 10);
+	}
+
+	@Override
+	protected IYATMInventory createInventory()
+	{
+		/*
+		 * 0 - :Output
+		 * 1 - :Input Top
+		 * 2 - :Input Right
+		 * 3 - :Input Bottom
+		 * 4 - :Input Left
+		 * 5 - :Processing :Input Top
+		 * 6 - :Processing :Input Right
+		 * 7 - :Processing :Input Bottom
+		 * 8 - :Processing :Input Left
+		 */
+		return new YATMInternalInventory(this, 9);
+	}
+
+	@Override
+	protected IMachineLogic createMachine()
+	{
+		return new MachineMixer();
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		return slotTable[side];
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, int side)
+	{
+		if (NumUtils.between(index, 1, 4))
+		{
+			if (side > 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return true;
+				return existing.isItemEqual(stack);
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, int side)
+	{
+		if (index == 0)
+		{
+			if (side == 0 || side == 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return false;
+				return true;
+			}
+		}
+		return false;
 	}
 }
