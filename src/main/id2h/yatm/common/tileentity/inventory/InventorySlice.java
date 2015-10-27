@@ -28,6 +28,7 @@ import javax.annotation.Nonnull;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 
 public class InventorySlice implements IInventory
 {
@@ -105,5 +106,42 @@ public class InventorySlice implements IInventory
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
 		return parent.isItemValidForSlot(accesible[index], stack);
+	}
+
+	public ItemStack mergeStackBang(ItemStack stack)
+	{
+		for (int i = 0; i < getSizeInventory(); ++i)
+		{
+			if (stack.stackSize <= 0) break;
+
+			final ItemStack target = getStackInSlot(i);
+			if (target == null)
+			{
+				setInventorySlotContents(i, stack.copy());
+				stack.stackSize = 0;
+			}
+			else
+			{
+				if (target.isItemEqual(stack))
+				{
+					final int newSize = MathHelper.clamp_int(target.stackSize + stack.stackSize, 0, target.getMaxStackSize());
+					if (newSize != target.stackSize)
+					{
+						final int consumed = newSize - target.stackSize;
+						stack.stackSize -= consumed;
+						target.stackSize = newSize;
+						setInventorySlotContents(i, target);
+					}
+				}
+			}
+		}
+		return stack.stackSize <= 0 ? null : stack;
+	}
+
+	public ItemStack mergeStack(ItemStack stack)
+	{
+		final ItemStack result = stack.copy();
+		mergeStackBang(result);
+		return result.stackSize <= 0 ? null : result;
 	}
 }

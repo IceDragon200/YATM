@@ -27,7 +27,17 @@ import id2h.yatm.api.crusher.CrushingRegistry;
 
 public class YATMApi
 {
-	public static final YATMApi instance = new YATMApi();
+	public static final YATMApi inst = new YATMApi();
 
-	public final CrushingRegistry crusher = new CrushingRegistry();
+	private final CrushingRegistry crushingRegistry = new CrushingRegistry();
+
+	public static YATMApi instance()
+	{
+		return inst;
+	}
+
+	public CrushingRegistry crushing()
+	{
+		return crushingRegistry;
+	}
 }

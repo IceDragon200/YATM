@@ -23,8 +23,8 @@
  */
 package id2h.yatm.client.gui;
 
-import id2h.yatm.common.inventory.ContainerAutoGrinder;
-import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.inventory.ContainerFluxFurnace;
+import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
 import id2h.yatm.client.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
@@ -34,28 +34,28 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiAutoGrinder extends YATMGuiContainer
+public class GuiFluxFurnace extends YATMGuiContainer
 {
-	protected static final ResourceLocation grinderResource = new ResourceLocation("yatm", "textures/gui/GuiAutoGrinder.png");
-	protected TileEntityAutoGrinder tileEntity;
+	protected static final ResourceLocation fluxFurnaceResource = new ResourceLocation("yatm", "textures/gui/GuiFluxFurnace.png");
+	protected TileEntityFluxFurnace tileEntity;
 
-	public GuiAutoGrinder(IInventory playerInventory, TileEntityAutoGrinder grinder)
+	public GuiFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
 	{
-		super(new ContainerAutoGrinder(playerInventory, grinder));
-		this.tileEntity = grinder;
+		super(new ContainerFluxFurnace(playerInventory, fluxFurnace));
+		this.tileEntity = fluxFurnace;
 		this.ySize = 176;
 	}
 
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
 		RenderUtils.resetColor();
-		bindTexture(grinderResource);
+		bindTexture(fluxFurnaceResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
 
-		final int w = (int)(tileEntity.getMachineProgressRate() * 31);
-		drawTexturedModalRect(x1 + 104, y1 + 41, 176, 0, w, 12);
+		final int w = (int)(tileEntity.getMachineProgressRate() * 21);
+		drawTexturedModalRect(x1 + 84, y1 + 40, 176, 0, w, 14);
 
 		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}

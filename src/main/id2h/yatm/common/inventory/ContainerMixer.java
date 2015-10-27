@@ -37,7 +37,7 @@ public class ContainerMixer extends YATMTileContainer
 
 		addSlotToContainer(new Slot(mixer, 1, 81, 42));
 		addSlotToContainer(new Slot(mixer, 2, 62, 23));
-		addSlotToContainer(new Slot(mixer, 3, 62, 23));
+		addSlotToContainer(new Slot(mixer, 3, 62, 61));
 		addSlotToContainer(new Slot(mixer, 4, 43, 42));
 
 		bindPlayerInventory(playerInventory, 8, 94);

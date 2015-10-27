@@ -30,17 +30,22 @@ import io.netty.buffer.ByteBuf;
 import id2h.yatm.common.tileentity.inventory.IYATMInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
+import id2h.yatm.common.tileentity.feature.IGuiNetworkSync;
 import id2h.yatm.event.EventHandler;
+import id2h.yatm.util.BlockFlags;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory
+public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync
 {
 	protected IYATMInventory inventory;
 	protected IMachineLogic machine;
+	protected boolean lastWorkingState = true;
 
 	public YATMPoweredMachine()
 	{
@@ -75,6 +80,37 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	public void writeToStream_Machine(ByteBuf stream) throws IOException
 	{
 		machine.writeToStream(stream);
+	}
+
+	@Override
+	public void sendGUINetworkData(Container container, ICrafting icrafting)
+	{
+		if (machine instanceof IProgressiveMachine)
+		{
+			final IProgressiveMachine progMachine = (IProgressiveMachine)machine;
+			icrafting.sendProgressBarUpdate(container, 0, (int)progMachine.getProgress());
+			icrafting.sendProgressBarUpdate(container, 1, (int)progMachine.getProgressMax());
+		}
+	}
+
+	@Override
+	public void receiveGUINetworkData(int id, int value)
+	{
+		if (machine instanceof IProgressiveMachine)
+		{
+			final IProgressiveMachine progMachine = (IProgressiveMachine)machine;
+			switch (id)
+			{
+				case 0:
+					progMachine.setProgress((float)value);
+					break;
+				case 1:
+					progMachine.setProgressMax((float)value);
+					break;
+				default:
+					System.err.println("Invalid DATA class=" + this + " id=" + id);
+			}
+		}
 	}
 
 	protected abstract IYATMInventory createInventory();
@@ -202,18 +238,35 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	public void updateMachine()
 	{
 		int consumed = getRunningPowerCost();
+		boolean didWork = false;
 		if (canWork())
 		{
 			consumed += getWorkingPowerCost();
 			if (energyStorage.getEnergyStored() >= consumed)
 			{
 				consumed += doWork();
-				markForUpdate();
+				didWork = true;
 			}
 		}
 		if (consumed != 0)
 		{
 			energyStorage.extractEnergy(consumed, false);
+			markForUpdate();
+		}
+		if (lastWorkingState != didWork)
+		{
+			lastWorkingState = didWork;
+			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 3;
+			if (lastWorkingState) meta |= 4;
+
+			System.out.println("Machine changed state:" +
+				" obj=" + this +
+				" state=" + lastWorkingState +
+				" meta=" + meta +
+				" x=" + xCoord +
+				" y=" + yCoord +
+				" z=" + zCoord);
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.UPDATE_CLIENT);
 		}
 	}
 
@@ -222,5 +275,16 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	{
 		super.updateEntity();
 		if (!worldObj.isRemote) updateMachine();
+	}
+
+	@Override
+	public void markDirty()
+	{
+		super.markDirty();
+		System.out.println("Marked as dirty:" +
+				" obj=" + this +
+				" x=" + xCoord +
+				" y=" + yCoord +
+				" z=" + zCoord);
 	}
 }

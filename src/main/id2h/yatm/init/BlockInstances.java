@@ -33,6 +33,7 @@ import id2h.yatm.common.block.BlockDryer;
 import id2h.yatm.common.block.BlockElectrolyser;
 import id2h.yatm.common.block.BlockEnergyCell;
 import id2h.yatm.common.block.BlockEnergyCellCreative;
+import id2h.yatm.common.block.BlockFluxFurnace;
 import id2h.yatm.common.block.BlockLamp;
 import id2h.yatm.common.block.BlockMetalCrate;
 import id2h.yatm.common.block.BlockMixer;
@@ -40,15 +41,16 @@ import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
+import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
+import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.common.tileentity.TileEntityDryer;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellBasic;
-import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
-import id2h.yatm.common.tileentity.TileEntityEnergyCellNormal;
-import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellDense;
-import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
+import id2h.yatm.common.tileentity.TileEntityEnergyCellNormal;
+import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
 import id2h.yatm.common.tileentity.TileEntityMixer;
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 
@@ -78,6 +80,7 @@ public class BlockInstances
 	public BlockDefinition floorEngraving2;
 	public BlockDefinition floorWarning1;
 	public BlockDefinition floorWarning2;
+	public BlockDefinition fluxFurnace;
 	public BlockDefinition dryer;
 	public BlockDefinition electrolyser;
 	public BlockDefinition lamp;
@@ -97,10 +100,27 @@ public class BlockInstances
 
 	public void preInit(DefinitionConstructor constructor)
 	{
+		chassis = new BlockDefinition(new BlockChassis());
+
+		solarPanel = new BlockDefinition(new BlockSolarPanel());
+
+		energyCellBasic = new BlockDefinition(new BlockEnergyCell("Basic", TileEntityEnergyCellBasic.class));
+		energyCellBasicCreative = new BlockDefinition(new BlockEnergyCellCreative("Basic", TileEntityCreativeEnergyCellBasic.class));
+		energyCellNormal = new BlockDefinition(new BlockEnergyCell("Normal", TileEntityEnergyCellNormal.class));
+		energyCellNormalCreative = new BlockDefinition(new BlockEnergyCellCreative("Normal", TileEntityCreativeEnergyCellNormal.class));
+		energyCellDense = new BlockDefinition(new BlockEnergyCell("Dense", TileEntityEnergyCellDense.class));
+		energyCellDenseCreative = new BlockDefinition(new BlockEnergyCellCreative("Dense", TileEntityCreativeEnergyCellDense.class));
+
 		autoCrafter = new BlockDefinition(new BlockAutoCrafter());
 		autoGrinder = new BlockDefinition(new BlockAutoGrinder());
-		chassis = new BlockDefinition(new BlockChassis());
 		crusher = new BlockDefinition(new BlockCrusher());
+		dryer = new BlockDefinition(new BlockDryer());
+		electrolyser = new BlockDefinition(new BlockElectrolyser());
+		fluxFurnace = new BlockDefinition(new BlockFluxFurnace());
+		mixer = new BlockDefinition(new BlockMixer());
+
+		metalCrate = new BlockDefinition(new BlockMetalCrate());
+
 		floorEngraving1 = new BlockDefinition(new BlockDecorative8(Material.rock)
 			.setBlockTextureName("yatm:BlockFloorEngraving1")
 			.setBlockName("yatm.BlockFloorEngraving1"));
@@ -117,11 +137,7 @@ public class BlockInstances
 			.setBlockTextureName("yatm:BlockFloorWarning2")
 			.setBlockName("yatm.BlockFloorWarning2"));
 
-		dryer = new BlockDefinition(new BlockDryer());
-		electrolyser = new BlockDefinition(new BlockElectrolyser());
 		lamp = new BlockDefinition(new BlockLamp());
-		metalCrate = new BlockDefinition(new BlockMetalCrate());
-		mixer = new BlockDefinition(new BlockMixer());
 
 		reinforcedGlass = new BlockDecorativeDefinition(new BlockDecorative8(Material.glass));
 		reinforcedGlass.getBlock().setStepSound(Block.soundTypeGlass)
@@ -129,7 +145,6 @@ public class BlockInstances
 			.setBlockTextureName("yatm:BlockReinforcedGlass");
 		reinforcedGlass.getBlock().setOpaque(false);
 
-		solarPanel = new BlockDefinition(new BlockSolarPanel());
 
 		ventedMesh2x = new BlockDecorativeDefinition(new BlockDecorative8(Material.rock));
 		ventedMesh2x.getBlock().setBlockTextureName("yatm:BlockVentedMesh.2x")
@@ -162,32 +177,36 @@ public class BlockInstances
 			.setBlockName("yatm.BlockWarningStripes.8x");
 
 		window = new BlockDefinition(new BlockWindow());
-
-		energyCellBasic = new BlockDefinition(new BlockEnergyCell("Basic", TileEntityEnergyCellBasic.class));
-		energyCellBasicCreative = new BlockDefinition(new BlockEnergyCellCreative("Basic", TileEntityCreativeEnergyCellBasic.class));
-		energyCellNormal = new BlockDefinition(new BlockEnergyCell("Normal", TileEntityEnergyCellNormal.class));
-		energyCellNormalCreative = new BlockDefinition(new BlockEnergyCellCreative("Normal", TileEntityCreativeEnergyCellNormal.class));
-		energyCellDense = new BlockDefinition(new BlockEnergyCell("Dense", TileEntityEnergyCellDense.class));
-		energyCellDenseCreative = new BlockDefinition(new BlockEnergyCellCreative("Dense", TileEntityCreativeEnergyCellDense.class));
 	}
 
 	public void register()
 	{
+		GameRegistry.registerBlock(chassis.getBlock(), "yatm.BlockChassis");
+
+		GameRegistry.registerBlock(solarPanel.getBlock(), "yatm.BlockSolarPanel");
+
+		GameRegistry.registerBlock(energyCellBasic.getBlock(), "yatm.BlockEnergyCellBasic");
+		GameRegistry.registerBlock(energyCellBasicCreative.getBlock(), "yatm.BlockEnergyCellBasicCreative");
+		GameRegistry.registerBlock(energyCellNormal.getBlock(), "yatm.BlockEnergyCellNormal");
+		GameRegistry.registerBlock(energyCellNormalCreative.getBlock(), "yatm.BlockEnergyCellNormalCreative");
+		GameRegistry.registerBlock(energyCellDense.getBlock(), "yatm.BlockEnergyCellDense");
+		GameRegistry.registerBlock(energyCellDenseCreative.getBlock(), "yatm.BlockEnergyCellDenseCreative");
+
 		GameRegistry.registerBlock(autoCrafter.getBlock(), "yatm.BlockAutoCrafter");
 		GameRegistry.registerBlock(autoGrinder.getBlock(), "yatm.BlockAutoGrinder");
-		GameRegistry.registerBlock(chassis.getBlock(), "yatm.BlockChassis");
+		GameRegistry.registerBlock(fluxFurnace.getBlock(), "yatm.BlockFluxFurnace");
 		GameRegistry.registerBlock(crusher.getBlock(), "yatm.BlockCrusher");
+		GameRegistry.registerBlock(dryer.getBlock(), "yatm.BlockDryer");
+		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");
+		GameRegistry.registerBlock(electrolyser.getBlock(), "yatm.BlockElectrolyser");
+
 		GameRegistry.registerBlock(floorEngraving1.getBlock(), "yatm.BlockFloorEngraving1");
 		GameRegistry.registerBlock(floorEngraving2.getBlock(), "yatm.BlockFloorEngraving2");
 		GameRegistry.registerBlock(floorWarning1.getBlock(), "yatm.BlockFloorWarning1");
 		GameRegistry.registerBlock(floorWarning2.getBlock(), "yatm.BlockFloorWarning2");
-		GameRegistry.registerBlock(dryer.getBlock(), "yatm.BlockDryer");
-		GameRegistry.registerBlock(electrolyser.getBlock(), "yatm.BlockElectrolyser");
 		GameRegistry.registerBlock(lamp.getBlock(), "yatm.BlockLamp");
 		GameRegistry.registerBlock(metalCrate.getBlock(), "yatm.BlockMetalCrate");
-		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");
 		GameRegistry.registerBlock(reinforcedGlass.getBlock(), "yatm.BlockReinforcedGlass");
-		GameRegistry.registerBlock(solarPanel.getBlock(), "yatm.BlockSolarPanel");
 		GameRegistry.registerBlock(ventedMesh2x.getBlock(), "yatm.BlockVentedMesh.2x.tiled");
 		GameRegistry.registerBlock(ventedMesh4x.getBlock(), "yatm.BlockVentedMesh.4x.tiled");
 		GameRegistry.registerBlock(ventedMesh8x.getBlock(), "yatm.BlockVentedMesh.8x.tiled");
@@ -195,12 +214,6 @@ public class BlockInstances
 		GameRegistry.registerBlock(warningStripes4x.getBlock(), "yatm.BlockWarningStripes.4x.tiled");
 		GameRegistry.registerBlock(warningStripes8x.getBlock(), "yatm.BlockWarningStripes.8x.tiled");
 		GameRegistry.registerBlock(window.getBlock(), "yatm.BlockWindow");
-		GameRegistry.registerBlock(energyCellBasic.getBlock(), "yatm.BlockEnergyCellBasic");
-		GameRegistry.registerBlock(energyCellBasicCreative.getBlock(), "yatm.BlockEnergyCellBasicCreative");
-		GameRegistry.registerBlock(energyCellNormal.getBlock(), "yatm.BlockEnergyCellNormal");
-		GameRegistry.registerBlock(energyCellNormalCreative.getBlock(), "yatm.BlockEnergyCellNormalCreative");
-		GameRegistry.registerBlock(energyCellDense.getBlock(), "yatm.BlockEnergyCellDense");
-		GameRegistry.registerBlock(energyCellDenseCreative.getBlock(), "yatm.BlockEnergyCellDenseCreative");
 
 		GameRegistry.registerTileEntity(TileEntityAutoCrafter.class, "yatm.tileentity.TileEntityAutoCrafter");
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");
@@ -213,6 +226,7 @@ public class BlockInstances
 		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.TileEntityCrusher");
 		GameRegistry.registerTileEntity(TileEntityDryer.class, "yatm.tileentity.TileEntityDryer");
 		GameRegistry.registerTileEntity(TileEntityElectrolyser.class, "yatm.tileentity.TileEntityElectrolyser");
+		GameRegistry.registerTileEntity(TileEntityFluxFurnace.class, "yatm.tileentity.TileEntityFluxFurnace");
 		GameRegistry.registerTileEntity(TileEntityMixer.class, "yatm.tileentity.TileEntityMixer");
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "yatm.tileentity.TileEntitySolarPanel");
 	}

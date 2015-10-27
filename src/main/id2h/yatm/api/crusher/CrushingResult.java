@@ -29,14 +29,23 @@ import javax.annotation.Nonnull;
 
 import id2h.yatm.api.core.util.PossibleItemList;
 
+import net.minecraft.item.ItemStack;
+
 public class CrushingResult
 {
+	private final ItemStack input;
 	public final PossibleItemList items;
 	public final int time;
 
-	public CrushingResult(@Nonnull PossibleItemList i, int t)
+	public CrushingResult(@Nonnull ItemStack inp, @Nonnull PossibleItemList i, int t)
 	{
+		this.input = inp;
 		this.items = i;
 		this.time = t;
+	}
+
+	public ItemStack getInput()
+	{
+		return input;
 	}
 }

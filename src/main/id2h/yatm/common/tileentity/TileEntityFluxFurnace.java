@@ -27,31 +27,31 @@ import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.inventory.IYATMInventory;
 import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
-import id2h.yatm.common.tileentity.machine.MachineCrusher;
+import id2h.yatm.common.tileentity.machine.MachineFluxFurnace;
 import id2h.yatm.util.NumUtils;
 
 import net.minecraft.item.ItemStack;
 
-/*
- * A Crusher applies pressure to a crack, smashing it into smaller pieces,
- * it can be used to shard certain blocks, or reduce stone to cobble, cobble
- * to gravel and gravel to sand.
+/**
+ * The flux furnace is a slow working but batch operation Redstone Flux furnace
+ * While it works 4x slower than a regular furnace, it can process 4 items
+ * at once, all at the same rate.
  */
-public class TileEntityCrusher extends YATMPoweredMachine
+public class TileEntityFluxFurnace extends YATMPoweredMachine
 {
 	protected static final int[][] slotTable = {
-		{ 0 },
-		{ 0 },
-		{ 1, 2, 3, 4 },
-		{ 3, 4, 1, 2 },
-		{ 4, 1, 2, 3 },
-		{ 2, 3, 4, 1 },
+		{ 0, 1, 2, 3 },
+		{ 0, 1, 2, 3 },
+		{ 4, 5, 6, 7 },
+		{ 4, 5, 6, 7 },
+		{ 4, 5, 6, 7 },
+		{ 4, 5, 6, 7 },
 	};
 
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(16000, 10);
+		return new YATMEnergyStorage(24000, 10);
 	}
 
 	@Override
@@ -59,21 +59,17 @@ public class TileEntityCrusher extends YATMPoweredMachine
 	{
 		/*
 		 * Slots are reserved as such:
-		 * 0 - primary input
-		 * 1 - output 0
-		 * 2 - output 1
-		 * 3 - output 2
-		 * 4 - output 3
-		 * 5 - RESERVED
-		 * 6 - Processing
+		 * 0..3 - Inputs
+		 * 4..7 - Outputs
+		 * 8..11 - Processing
 		 */
-		return new YATMInternalInventory(this, 7);
+		return new YATMInternalInventory(this, 12);
 	}
 
 	@Override
 	protected IMachineLogic createMachine()
 	{
-		return new MachineCrusher();
+		return new MachineFluxFurnace();
 	}
 
 	@Override
@@ -85,7 +81,7 @@ public class TileEntityCrusher extends YATMPoweredMachine
 	@Override
 	public boolean canInsertItem(int index, ItemStack stack, int side)
 	{
-		if (index == 0)
+		if (NumUtils.between(index, 0, 3))
 		{
 			if (side == 0 || side == 1)
 			{
@@ -100,7 +96,7 @@ public class TileEntityCrusher extends YATMPoweredMachine
 	@Override
 	public boolean canExtractItem(int index, ItemStack stack, int side)
 	{
-		if (NumUtils.between(index, 1, 4))
+		if (NumUtils.between(index, 4, 7))
 		{
 			if (side > 1)
 			{

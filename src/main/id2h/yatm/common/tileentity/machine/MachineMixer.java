@@ -26,38 +26,14 @@ package id2h.yatm.common.tileentity.machine;
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.NBTTagCompound;
+//import net.minecraft.nbt.NBTTagCompound;
 
-public class MachineMixer extends AbstractMachine
+public class MachineMixer extends AbstractProgressiveMachine
 {
-	@Override
-	protected void readFromNBT(NBTTagCompound data)
-	{
-
-	}
-
-	@Override
-	protected void writeToNBT(NBTTagCompound data)
-	{
-
-	}
-
-	@Override
-	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
-	}
-
-	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
-	}
-
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return true;
+		return false;
 	}
 
 	@Override

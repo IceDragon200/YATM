@@ -23,46 +23,108 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
+import id2h.yatm.common.tileentity.inventory.InventorySlice;
+
 import cofh.api.energy.EnergyStorage;
 
+import appeng.api.AEApi;
+import appeng.api.features.IGrinderEntry;
+
 import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.ItemStack;
 
-public class MachineAutoGrinder extends AbstractMachine
+public class MachineAutoGrinder extends AbstractProgressiveMachine
 {
-	@Override
-	protected void readFromNBT(NBTTagCompound data)
+	protected IGrinderEntry getGrinderEntryFromInput(IInventory inventory)
 	{
-
+		for (int i = 0; i < 3; ++i)
+		{
+			final ItemStack stack = inventory.getStackInSlot(i);
+			if (stack != null)
+			{
+				final IGrinderEntry entry = AEApi.instance().registries().grinder().getRecipeForInput(stack);
+				if (entry != null)
+				{
+					return entry;
+				}
+			}
+		}
+		return null;
 	}
 
-	@Override
-	protected void writeToNBT(NBTTagCompound data)
+	protected IGrinderEntry getGrinderEntryFromProcessing(IInventory inventory)
 	{
-
-	}
-
-	@Override
-	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
-	}
-
-	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
+		return AEApi.instance().registries().grinder().getRecipeForInput(inventory.getStackInSlot(6));
 	}
 
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return true;
+		return getGrinderEntryFromInput(inventory) != null ||
+			getGrinderEntryFromProcessing(inventory) != null;
+	}
+
+	protected void addOutputItem(IInventory inventory, ItemStack stack)
+	{
+		final ItemStack srcStack = stack.copy();
+		new InventorySlice(inventory, new int[] { 3, 4, 5 }).mergeStackBang(srcStack);
+		if (srcStack.stackSize > 0)
+		{
+			// EJECT stack
+			System.err.println("Item was ejected stack=" + srcStack);
+		}
 	}
 
 	@Override
 	public int doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
+		if (inventory.getStackInSlot(6) == null)
+		{
+			for (int i = 0; i < 3; ++i)
+			{
+				final ItemStack stack = inventory.getStackInSlot(i);
+				final IGrinderEntry entry = AEApi.instance().registries().grinder().getRecipeForInput(stack);
+				if (entry != null)
+				{
+					if (stack.stackSize >= entry.getInput().stackSize)
+					{
+						inventory.setInventorySlotContents(6, inventory.decrStackSize(i, entry.getInput().stackSize));
+						this.progress = 0.0f;
+						this.progressMax = (float)entry.getEnergyCost() * 5;
+						break;
+					}
+				}
+			}
+		}
+
+		if (inventory.getStackInSlot(6) != null)
+		{
+			if (progress >= progressMax)
+			{
+				final IGrinderEntry entry = getGrinderEntryFromProcessing(inventory);
+				resetProgress();
+
+				addOutputItem(inventory, entry.getOutput());
+
+				float chance = (rand.nextInt(2001)) / 2000.0f;
+				if (chance <= entry.getOptionalChance())
+				{
+					addOutputItem(inventory, entry.getOptionalOutput());
+				}
+
+				chance = (rand.nextInt(2001)) / 2000.0f;
+				if (chance <= entry.getSecondOptionalChance())
+				{
+					addOutputItem(inventory, entry.getSecondOptionalOutput());
+				}
+
+				inventory.setInventorySlotContents(6, null);
+			}
+			else
+			{
+				this.progress += 1;
+			}
+		}
 		return 0;
 	}
 }

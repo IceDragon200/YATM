@@ -26,4 +26,8 @@ package id2h.yatm.common.tileentity.machine;
 public interface IProgressiveMachine
 {
 	float getProgressRate();
+	float getProgress();
+	float getProgressMax();
+	void setProgress(float value);
+	void setProgressMax(float value);
 }

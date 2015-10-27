@@ -81,7 +81,7 @@ public class YATM
 
 	private void registerCrushingRecipes()
 	{
-		YATMApi.instance.crusher.addCrushing(new ItemStack(Blocks.stone),
+		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.stone),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.gravel), 0.1f)
@@ -90,7 +90,7 @@ public class YATM
 		);
 
 		// stone brick > cracked stone brick
-		YATMApi.instance.crusher.addCrushing(new ItemStack(Blocks.stonebrick, 1, 0),
+		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.stonebrick, 1, 0),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.stonebrick, 1, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 0.1f)
@@ -99,7 +99,7 @@ public class YATM
 		);
 
 		// mossy stonebrick > 2 mossy cobblestone (100%) + 1 cobblestone (20%) + 1 vine (10%)
-		YATMApi.instance.crusher.addCrushing(new ItemStack(Blocks.stonebrick, 1, 1),
+		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.stonebrick, 1, 1),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.mossy_cobblestone, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone, 1), 0.2f),
@@ -108,7 +108,7 @@ public class YATM
 			60
 		);
 
-		YATMApi.instance.crusher.addCrushing(new ItemStack(Blocks.cobblestone),
+		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.cobblestone),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.gravel), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.sand), 0.1f)
@@ -116,14 +116,14 @@ public class YATM
 			90
 		);
 
-		YATMApi.instance.crusher.addCrushing(new ItemStack(Blocks.gravel),
+		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.gravel),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand), 1.0f)
 			),
 			120
 		);
 
-		//YATMApi.instance.crusher.addCrushing(new ItemStack(Blocks.sand),
+		//YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.sand),
 		//	WeightedItemList.create(
 		//	)
 		//);

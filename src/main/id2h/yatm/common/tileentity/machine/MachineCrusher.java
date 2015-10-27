@@ -26,25 +26,40 @@ package id2h.yatm.common.tileentity.machine;
 import id2h.yatm.api.YATMApi;
 import id2h.yatm.api.crusher.CrushingResult;
 import id2h.yatm.api.core.util.PossibleItem;
+import id2h.yatm.common.tileentity.inventory.InventorySlice;
 
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 
 public class MachineCrusher extends AbstractProgressiveMachine
 {
+	protected CrushingResult getCrushingResultFromInput(IInventory inventory)
+	{
+		return YATMApi.instance().crushing().getCrushingResult(inventory.getStackInSlot(0));
+	}
+
+	protected CrushingResult getCrushingResultFromtProcessing(IInventory inventory)
+	{
+		return YATMApi.instance().crushing().getCrushingResult(inventory.getStackInSlot(6));
+	}
+
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return inventory.getStackInSlot(0) != null || inventory.getStackInSlot(6) != null;
+		return getCrushingResultFromInput(inventory) != null ||
+			getCrushingResultFromtProcessing(inventory) != null;
 	}
 
-	private void finishProcessing(IInventory inventory)
+	protected void addOutputItem(IInventory inventory, ItemStack stack)
 	{
-		inventory.decrStackSize(6, 1);
-		resetProgress();
+		new InventorySlice(inventory, new int[] { 1, 2, 3, 4 }).mergeStackBang(stack);
+		if (stack.stackSize > 0)
+		{
+			// EJECT stack
+			System.err.println("Item was ejected stack=" + stack);
+		}
 	}
 
 	@Override
@@ -52,59 +67,45 @@ public class MachineCrusher extends AbstractProgressiveMachine
 	{
 		if (inventory.getStackInSlot(6) == null)
 		{
-			final CrushingResult result = YATMApi.instance.crusher.getCrushingResult(inventory.getStackInSlot(0));
+			final CrushingResult result = getCrushingResultFromInput(inventory);
 			if (result != null)
 			{
-				inventory.setInventorySlotContents(6, inventory.decrStackSize(0, 1));
-				this.progress = 0.0f;
-				this.progressMax = (float)result.time;
+				final ItemStack inputStack = result.getInput();
+				final ItemStack srcStack = inventory.getStackInSlot(0);
+				if (inputStack.stackSize <= srcStack.stackSize)
+				{
+					inventory.setInventorySlotContents(6, inventory.decrStackSize(0, inputStack.stackSize));
+					this.progress = 0.0f;
+					this.progressMax = (float)result.time;
+				}
 			}
 		}
 
-		final ItemStack processing = inventory.getStackInSlot(6);
-		if (processing != null)
+		if (inventory.getStackInSlot(6) != null)
 		{
-			final CrushingResult result = YATMApi.instance.crusher.getCrushingResult(processing);
+			final CrushingResult result = getCrushingResultFromtProcessing(inventory);
+
 			if (result == null)
 			{
+				// EJECT stack
 				inventory.setInventorySlotContents(6, null);
 				resetProgress();
 			}
 			else
 			{
 				this.progressMax = (float)result.time;
-				if ((int)progress >= progressMax)
+				if (progress >= progressMax)
 				{
-					finishProcessing(inventory);
+					resetProgress();
 
 					for (PossibleItem item : result.items.randomResults(rand))
 					{
 						final ItemStack stack = item.asStack();
 						System.out.println("Finding available slot for stack=" + stack);
-						for (int i = 1; i < 5; ++i)
-						{
-							final ItemStack target = inventory.getStackInSlot(i);
-							if (target == null)
-							{
-								inventory.setInventorySlotContents(i, stack);
-								break;
-							}
-							else if (target.isItemEqual(stack))
-							{
-								final int newSize = MathHelper.clamp_int(target.stackSize + stack.stackSize, 0, target.getMaxStackSize());
-								final int consumed = newSize - target.stackSize;
-								stack.stackSize -= consumed;
-								target.stackSize = newSize;
-								inventory.setInventorySlotContents(i, target);
-							}
-							if (stack.stackSize <= 0) break;
-						}
-						if (stack.stackSize > 0)
-						{
-							// EJECT
-							System.err.println("Item was ejected stack=" + stack);
-						}
+						addOutputItem(inventory, stack);
 					}
+
+					inventory.setInventorySlotContents(6, null);
 				}
 				else
 				{

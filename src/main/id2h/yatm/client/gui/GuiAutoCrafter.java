@@ -53,6 +53,7 @@ public class GuiAutoCrafter extends YATMGuiContainer
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+
 		final int w = (int)(tileEntity.getMachineProgressRate() * 14);
 		drawTexturedModalRect(x1 + 81, y1 + 18, 176, 0, w, 15);
 

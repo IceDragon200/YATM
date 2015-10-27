@@ -53,6 +53,7 @@ public class GuiMixer extends YATMGuiContainer
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+
 		final int h = (int)(tileEntity.getMachineProgressRate() * 23);
 		final int gaugeY = 23 - h;
 		drawTexturedModalRect(x1 + 100, y1 + 39 + gaugeY, 176, gaugeY, 11, h);

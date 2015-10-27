@@ -40,16 +40,18 @@ public class CrushingRegistry
 
 	public void addCrushing(@Nonnull ItemStack src, @Nonnull PossibleItemList items, int time)
 	{
-		crushingResults.put(new ItemKey(src), new CrushingResult(items, time));
+		crushingResults.put(new ItemKey(src), new CrushingResult(src, items, time));
 	}
 
-	public CrushingResult getCrushingResult(@Nonnull ItemStack src)
+	public CrushingResult getCrushingResult(ItemStack src)
 	{
+		if (src == null) return null;
 		return crushingResults.get(new ItemKey(src));
 	}
 
-	public boolean canCrush(@Nonnull ItemStack src)
+	public boolean canCrush(ItemStack src)
 	{
+		if (src == null) return false;
 		return crushingResults.containsKey(new ItemKey(src));
 	}
 }

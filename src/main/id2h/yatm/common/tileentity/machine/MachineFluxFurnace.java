@@ -23,76 +23,85 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import java.util.Random;
-
-import io.netty.buffer.ByteBuf;
-
 import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.tileentity.inventory.InventorySlice;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.ItemStack;
 
-public abstract class AbstractMachine implements IMachineLogic
+public class MachineFluxFurnace extends AbstractProgressiveMachine
 {
-	protected Random rand = new Random();
-
-	@Override
-	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 10;
-	}
-
 	@Override
 	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return 30;
+		return 50;
 	}
 
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
+		if (progressMax > 0) return true;
+		for (int i = 0; i < 4; ++i)
+		{
+			if (inventory.getStackInSlot(i) != null) return true;
+			if (inventory.getStackInSlot(8 + i) != null) return true;
+		}
 		return false;
 	}
 
 	@Override
 	public int doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
+		if (progressMax <= 0)
+		{
+			resetProgress();
+
+			for (int i = 0; i < 4; ++i)
+			{
+				final ItemStack inp = inventory.getStackInSlot(i);
+				if (inp != null)
+				{
+					final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
+
+					if (itemstack != null)
+					{
+						inventory.setInventorySlotContents(8 + i, inventory.decrStackSize(i, 1));
+						this.progressMax += 100;
+					}
+				}
+			}
+			this.progressMax *= 0.9f;
+		}
+
+		if (progressMax > 0)
+		{
+			if (progress >= progressMax)
+			{
+				final InventorySlice outputInv = new InventorySlice(inventory, new int[] { 4, 5, 6, 7 });
+				for (int i = 0; i < 4; ++i)
+				{
+					final ItemStack inp = inventory.getStackInSlot(8 + i);
+					if (inp != null)
+					{
+						final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
+						final ItemStack rem = outputInv.mergeStack(itemstack);
+
+						if (rem != null)
+						{
+							// EJECT
+							System.out.println("Ejecting remaining stack=" + rem);
+						}
+					}
+					inventory.setInventorySlotContents(8 + i, null);
+				}
+				resetProgress();
+			}
+			else
+			{
+				this.progress += 1;
+			}
+		}
 		return 0;
-	}
-
-	protected abstract void readFromNBT(NBTTagCompound data);
-
-	@Override
-	public void readFromNBT(NBTTagCompound data, String name)
-	{
-		final NBTTagCompound invData = data.getCompoundTag(name);
-		if (invData != null)
-		{
-			readFromNBT(invData);
-		}
-		else
-		{
-			// LOG error
-		}
-	}
-
-	protected abstract void writeToNBT(NBTTagCompound data);
-
-	@Override
-	public void writeToNBT(NBTTagCompound data, String name)
-	{
-		final NBTTagCompound invData = new NBTTagCompound();
-		writeToNBT(invData);
-		data.setTag(name, invData);
-	}
-
-	public boolean readFromStream(ByteBuf stream)
-	{
-		return false;
-	}
-
-	public void writeToStream(ByteBuf stream)
-	{
-
 	}
 }

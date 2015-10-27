@@ -21,42 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.inventory;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.inventory.IYATMInventory;
-import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
-import id2h.yatm.common.tileentity.machine.IMachineLogic;
-import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
+import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
 
-/*
- * An RF powered Crafting bench which autocrafts from a 8 slot input to a
- * 8 slot output, this thing eats power like its nobody's business however.
- */
-public class TileEntityAutoCrafter extends YATMPoweredMachine
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+
+public class ContainerFluxFurnace extends YATMTileContainer
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public ContainerFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
 	{
-		return new YATMEnergyStorage(40000, 10);
-	}
+		super(fluxFurnace);
+		addSlotToContainer(new Slot(fluxFurnace, 0, 44, 30));
+		addSlotToContainer(new Slot(fluxFurnace, 1, 63, 30));
+		addSlotToContainer(new Slot(fluxFurnace, 2, 44, 49));
+		addSlotToContainer(new Slot(fluxFurnace, 3, 63, 49));
 
-	@Override
-	protected IYATMInventory createInventory()
-	{
-		/*
-		 * 0..7 - :Input
-		 * 8..15 - :Output
-		 * 16..24 - :Fake crafting
-		 * 25..34 - :Processing
-		 */
-		// 8 - input, 8 - output, 9 crafting, 9 processing
-		return new YATMInternalInventory(this, 8 + 8 + 9 + 9);
-	}
+		addSlotToContainer(new Slot(fluxFurnace, 4, 110, 30));
+		addSlotToContainer(new Slot(fluxFurnace, 5, 129, 30));
+		addSlotToContainer(new Slot(fluxFurnace, 6, 110, 49));
+		addSlotToContainer(new Slot(fluxFurnace, 7, 129, 49));
 
-	@Override
-	protected IMachineLogic createMachine()
-	{
-		return new MachineAutoCrafter();
+		bindPlayerInventory(playerInventory, 8, 94);
 	}
 }

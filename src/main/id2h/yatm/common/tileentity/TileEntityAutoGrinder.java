@@ -28,13 +28,28 @@ import id2h.yatm.common.tileentity.inventory.IYATMInventory;
 import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineAutoGrinder;
+import id2h.yatm.util.NumUtils;
 
+import net.minecraft.item.ItemStack;
+
+/*
+ * Its an AE2 grindstone, except automatic and super fast.
+ */
 public class TileEntityAutoGrinder extends YATMPoweredMachine
 {
+	protected static final int[][] slotTable = {
+		{ 0, 1, 2 },
+		{ 0, 1, 2 },
+		{ 3, 4, 5 },
+		{ 3, 4, 5 },
+		{ 3, 4, 5 },
+		{ 3, 4, 5 },
+	};
+
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(4000, 10);
+		return new YATMEnergyStorage(16000, 10);
 	}
 
 	@Override
@@ -56,5 +71,42 @@ public class TileEntityAutoGrinder extends YATMPoweredMachine
 	protected IMachineLogic createMachine()
 	{
 		return new MachineAutoGrinder();
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		return slotTable[side];
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, int side)
+	{
+		if (NumUtils.between(index, 0, 2))
+		{
+			if (side == 0 || side == 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return true;
+				return existing.isItemEqual(stack);
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, int side)
+	{
+		if (NumUtils.between(index, 3, 5))
+		{
+			if (side > 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return false;
+				return true;
+			}
+		}
+		return false;
 	}
 }

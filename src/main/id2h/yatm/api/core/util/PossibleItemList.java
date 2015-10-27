@@ -34,7 +34,7 @@ public class PossibleItemList extends ArrayList<PossibleItem>
 
 	public List<PossibleItem> randomResults(@Nonnull Random rand)
 	{
-		final float v = (float)rand.nextInt(101) / 100.0f;
+		final float v = (float)rand.nextInt(2001) / 2000.0f;
 		final List<PossibleItem> result = new ArrayList<PossibleItem>();
 		for (PossibleItem item : this)
 		{

@@ -43,6 +43,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.nbt.NBTTagCompound;
 
+/*
+ * Event handling system is a stripped version of the one seen in AE2, I've
+ * copied the code for use here.
+ */
 public abstract class YATMBaseTile extends TileEntity
 {
 	protected static class HandlerMap extends EnumMap<EventHandler.EventType, List<EventFunction>>
