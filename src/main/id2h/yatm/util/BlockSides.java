@@ -32,5 +32,20 @@ public class BlockSides
 	public static final int WEST = 4;
 	public static final int EAST = 5;
 
+	// 6 directions
+	public static final int[] DIR6 = { DOWN, UP, NORTH, SOUTH, WEST, EAST };
+	// 6 directions - opposite / 180
+	public static final int[] OPP6 = { UP, DOWN, SOUTH, NORTH, EAST, WEST };
+
+	// 4 directions - Y axis
+	public static final int[] DIR4 = { NORTH, SOUTH, WEST, EAST };
+	// 4 directions - opposite / 180 - Y axis
+	public static final int[] OPP4 = { SOUTH, NORTH, EAST, WEST };
+
+	// rotate clockwise rotated on the Y axis
+	public static final int[] CW = { EAST, WEST, NORTH, SOUTH };
+	// rotate counter-clockwise rotated on the Y axis
+	public static final int[] CCW = { WEST, EAST, SOUTH, NORTH };
+
 	private BlockSides() {}
 }
