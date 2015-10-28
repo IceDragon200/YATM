@@ -23,6 +23,8 @@
  */
 package id2h.yatm.util;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 public class BlockSides
 {
 	public static final int DOWN = 0;
@@ -37,15 +39,55 @@ public class BlockSides
 	// 6 directions - opposite / 180
 	public static final int[] OPP6 = { UP, DOWN, SOUTH, NORTH, EAST, WEST };
 
+	// 4 directions - Forge
+	public static final ForgeDirection[] FORGE_DIR4 = { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST };
+
 	// 4 directions - Y axis
 	public static final int[] DIR4 = { NORTH, SOUTH, WEST, EAST };
 	// 4 directions - opposite / 180 - Y axis
 	public static final int[] OPP4 = { SOUTH, NORTH, EAST, WEST };
 
-	// rotate clockwise rotated on the Y axis
-	public static final int[] CW = { EAST, WEST, NORTH, SOUTH };
 	// rotate counter-clockwise rotated on the Y axis
 	public static final int[] CCW = { WEST, EAST, SOUTH, NORTH };
+	// rotate clockwise rotated on the Y axis
+	public static final int[] CW = { EAST, WEST, NORTH, SOUTH };
+
+	public static final int[][] ORIENTATIONS4 = {
+		{ NORTH, SOUTH, WEST, EAST },
+		{ SOUTH, NORTH, EAST, WEST },
+		{ WEST, EAST, NORTH, SOUTH },
+		{ EAST, WEST, SOUTH, NORTH }
+	};
 
 	private BlockSides() {}
+
+	public static int getNormalized4(int index)
+	{
+		return BlockSides.ORIENTATIONS4[index][0];
+	}
+
+	public static int getNormalizedIndex4(int index)
+	{
+		return getNormalized4(index) - 2;
+	}
+
+	public static int rotateClockwiseIndex(int index)
+	{
+		return CW[index] - 2;
+	}
+
+	public static int rotateCounterClockwiseIndex(int index)
+	{
+		return CCW[index] - 2;
+	}
+
+	public static int getOppositeIndex4(int index)
+	{
+		return BlockSides.OPP4[index] - 2;
+	}
+
+	public static ForgeDirection getOppositeForgeDirection4(int index)
+	{
+		return BlockSides.FORGE_DIR4[getOppositeIndex4(index)];
+	}
 }

@@ -24,25 +24,44 @@
 package id2h.yatm.common.inventory;
 
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
+import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotOutput;
+import id2h.yatm.common.inventory.slot.SlotProcessing;
+import id2h.yatm.util.NumUtils;
 
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerAutoCrafter extends YATMTileContainer
 {
-	public ContainerAutoCrafter(IInventory playerInventory, TileEntityAutoCrafter autoCrafter)
+	public ContainerAutoCrafter(InventoryPlayer playerInventory, TileEntityAutoCrafter autoCrafter)
 	{
 		super(autoCrafter);
-		for (int i = 0; i < 3; ++i)
+
+		// Input Slots
+		for (int row = 0; row < 4; ++row)
 		{
-			addSlotToContainer(new Slot(autoCrafter, i, 62 + i * SLOT_W, 8));
+			for (int col = 0; col < 2; ++col)
+			{
+				final int slotIndex = col + row * 2;
+				addSlotToContainer(new SlotInput(autoCrafter, slotIndex, 17 + col * SLOT_W, 18 + row * SLOT_H));
+			}
 		}
 
-		for (int i = 0; i < 3; ++i)
+		final InventorySlice craftingGrid = new InventoryCraftingSlice(autoCrafter, NumUtils.newIntRangeArray(16, 9));
+
+		// Crafting Slots
+		for (int row = 0; row < 3; ++row)
 		{
-			addSlotToContainer(new Slot(autoCrafter, 3 + i, 62 + i * SLOT_W, 72));
+			for (int col = 0; col < 3; ++col)
+			{
+				final int slotIndex = col + row * 3;
+				addSlotToContainer(new Slot(craftingGrid, slotIndex, 62 + col * SLOT_W, 18 + row * SLOT_H));
+			}
 		}
-		addSlotToContainer(new Slot(autoCrafter, 6, 80, 40));
+
+		addSlotToContainer(new SlotProcessing(autoCrafter, 9, 133, 28));
+		addSlotToContainer(new SlotOutput(autoCrafter, 8, 133, 63));
 
 		bindPlayerInventory(playerInventory, 8, 94);
 	}

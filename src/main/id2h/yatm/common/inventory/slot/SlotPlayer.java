@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.inventory;
+package id2h.yatm.common.inventory.slot;
 
 import net.minecraft.inventory.IInventory;
 
-public class SlotPlayerHotbar extends SlotPlayer
+public class SlotPlayer extends YATMSlot
 {
-	public SlotPlayerHotbar(IInventory inv, int index, int x, int y)
+	public SlotPlayer(IInventory inv, int index, int x, int y)
 	{
 		super(inv, index, x, y);
 	}

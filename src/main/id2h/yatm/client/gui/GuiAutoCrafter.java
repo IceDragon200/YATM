@@ -29,7 +29,7 @@ import id2h.yatm.client.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -39,7 +39,7 @@ public class GuiAutoCrafter extends YATMGuiContainer
 	protected static final ResourceLocation crafterResource = new ResourceLocation("yatm", "textures/gui/GuiAutoCrafter.png");
 	protected TileEntityAutoCrafter tileEntity;
 
-	public GuiAutoCrafter(IInventory playerInventory, TileEntityAutoCrafter crafter)
+	public GuiAutoCrafter(InventoryPlayer playerInventory, TileEntityAutoCrafter crafter)
 	{
 		super(new ContainerAutoCrafter(playerInventory, crafter));
 		this.tileEntity = crafter;

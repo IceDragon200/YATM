@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import id2h.yatm.common.tileentity.inventory.InventorySlice;
+import id2h.yatm.common.inventory.InventorySlice;
 
 import cofh.api.energy.EnergyStorage;
 

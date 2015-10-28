@@ -23,10 +23,20 @@
  */
 package id2h.yatm.common.block;
 
+import java.util.Random;
+
 import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.util.GuiType;
+import id2h.yatm.util.BlockSides;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockCrusher extends YATMBlockBaseMachine
 {
@@ -36,5 +46,35 @@ public class BlockCrusher extends YATMBlockBaseMachine
 		setBlockName("yatm.BlockCrusher");
 		setBlockTextureName("yatm:BlockCrusher");
 		setGuiType(GuiType.CRUSHER);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
+	{
+		final int l = world.getBlockMetadata(x, y, z);
+		if ((l & 4) == 4)
+		{
+			final TileEntityCrusher te = getTileEntity(world, x, y, z);
+			if (te != null)
+			{
+				final ItemStack crushingStack = te.getCrushingBlock();
+				if (crushingStack != null)
+				{
+					final Block block = ((ItemBlock)crushingStack.getItem()).field_150939_a;
+					if (block != null)
+					{
+						final int bmeta = crushingStack.getItemDamage();
+						final ForgeDirection dir = BlockSides.getOppositeForgeDirection4(l & 3);
+						final float px = (float)x + 0.5F;
+						final float py = (float)y + 0.5F;
+						final float pz = (float)z + 0.5F;
+
+						// All that, just to spawn a damn block particle -.-;
+						final String particle = "blockcrack_" + Block.getIdFromBlock(block) + "_" + bmeta;
+						world.spawnParticle(particle, (double)(px + dir.offsetX * 0.52f), (double)py, (double)(pz + dir.offsetZ * 0.52f), 0.0D, 0.0D, 0.0D);
+					}
+				}
+			}
+		}
 	}
 }

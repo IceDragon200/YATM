@@ -23,9 +23,9 @@
  */
 package id2h.yatm.common.tileentity;
 
+import id2h.yatm.common.inventory.IYATMInventory;
+import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.inventory.IYATMInventory;
-import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
 
@@ -46,7 +46,9 @@ public class TileEntityAutoCrafter extends YATMPoweredMachine
 	{
 		/*
 		 * 0..7 - :Input
-		 * 8..15 - :Output
+		 * 8    - :Output
+		 * 9    - :Crafting Result
+		 * 10..15 - :RESERVED
 		 * 16..24 - :Fake crafting
 		 * 25..34 - :Processing
 		 */

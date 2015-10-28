@@ -24,25 +24,29 @@
 package id2h.yatm.common.inventory;
 
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotOutput;
+import id2h.yatm.common.inventory.slot.SlotProcessing;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 
 public class ContainerAutoGrinder extends YATMTileContainer
 {
 	public ContainerAutoGrinder(IInventory playerInventory, TileEntityAutoGrinder autoGrinder)
 	{
 		super(autoGrinder);
+		// Input
 		for (int i = 0; i < 3; ++i)
 		{
-			addSlotToContainer(new Slot(autoGrinder, i, 62 + i * SLOT_W, 8));
+			addSlotToContainer(new SlotInput(autoGrinder, i, 62 + i * SLOT_W, 8));
 		}
 
+		// Output
 		for (int i = 0; i < 3; ++i)
 		{
-			addSlotToContainer(new Slot(autoGrinder, 3 + i, 62 + i * SLOT_W, 72));
+			addSlotToContainer(new SlotOutput(autoGrinder, 3 + i, 62 + i * SLOT_W, 72));
 		}
-		addSlotToContainer(new Slot(autoGrinder, 6, 80, 40));
+		addSlotToContainer(new SlotProcessing(autoGrinder, 6, 80, 40));
 
 		bindPlayerInventory(playerInventory, 8, 94);
 	}

@@ -21,14 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.inventory;
+package id2h.yatm.common.inventory.slot;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
-public class SlotPlayerBackpack extends SlotPlayer
+public class SlotProcessing extends YATMSlot
 {
-	public SlotPlayerBackpack(IInventory inv, int index, int x, int y)
+	public SlotProcessing(IInventory inv, int index, int x, int y)
 	{
 		super(inv, index, x, y);
+	}
+
+	public boolean canTakeStack(EntityPlayer player)
+	{
+		return false;
+	}
+
+	public boolean isItemValid(ItemStack p_75214_1_)
+	{
+		return false;
 	}
 }

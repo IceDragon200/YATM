@@ -23,6 +23,11 @@
  */
 package id2h.yatm.common.inventory;
 
+import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotPlayer;
+import id2h.yatm.common.inventory.slot.SlotPlayerHotbar;
+import id2h.yatm.common.inventory.slot.SlotPlayerBackpack;
+
 import appeng.util.Platform;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +41,48 @@ public abstract class YATMContainer extends Container
 	protected static final int SLOT_W = 18;
 	protected static final int SLOT_H = 18;
 
+	public boolean mergeWithSlot(Slot slot, ItemStack stack)
+	{
+		if (slot.isItemValid(stack))
+		{
+			if (mergeItemStack(stack, slot.slotNumber, slot.slotNumber + 1, false))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean mergeWithPlayer(ItemStack stack)
+	{
+		boolean wasMerged = false;
+		for (Object sub : inventorySlots)
+		{
+			if (sub instanceof SlotPlayer)
+			{
+				final SlotPlayer subSlot = (SlotPlayer)sub;
+				wasMerged |= mergeWithSlot(subSlot, stack);
+			}
+			if (stack.stackSize <= 0) break;
+		}
+		return wasMerged;
+	}
+
+	public boolean mergeWithInput(ItemStack stack)
+	{
+		boolean wasMerged = false;
+		for (Object sub : inventorySlots)
+		{
+			if (sub instanceof SlotInput)
+			{
+				final SlotInput subSlot = (SlotInput)sub;
+				wasMerged |= mergeWithSlot(subSlot, stack);
+			}
+			if (stack.stackSize <= 0) break;
+		}
+		return wasMerged;
+	}
+
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index)
 	{
@@ -47,27 +94,24 @@ public abstract class YATMContainer extends Container
 		final Slot s = getSlot(index);
 		ItemStack itemstack = null;
 
+		System.out.println("Slot shift clicked slot=" + s + " index=" + index);
+
 		if (s != null && s.getHasStack())
 		{
 			final ItemStack stack = s.getStack();
 			itemstack = stack.copy();
 
 			boolean wasMerged = false;
-			for (Object sub : inventorySlots)
+
+			if (s instanceof SlotPlayer)
 			{
-				if (sub instanceof SlotPlayer)
-				{
-					final SlotPlayer subSlot = (SlotPlayer)sub;
-					if (subSlot.isItemValid(stack))
-					{
-						if (mergeItemStack(stack, subSlot.getSlotIndex(), subSlot.getSlotIndex() + 1, false))
-						{
-							wasMerged = true;
-						}
-						if (stack.stackSize <= 0) break;
-					}
-				}
+				wasMerged |= mergeWithInput(stack);
 			}
+			else
+			{
+				wasMerged |= mergeWithPlayer(stack);
+			}
+
 			if (wasMerged)
 			{
 				s.onSlotChange(stack, itemstack);
@@ -76,32 +120,6 @@ public abstract class YATMContainer extends Container
 			{
 				return null;
 			}
-
-			/*
-			if (s instanceof SlotPlayer)
-			{
-				return null;
-			}
-			else
-			{
-				boolean wasMerged = false;
-				for (Object sub : inventorySlots)
-				{
-					if (sub instanceof SlotPlayer)
-					{
-						final SlotPlayer subSlot = (SlotPlayer)sub;
-						if (subSlot.isItemValid(stack))
-						{
-							if (mergeItemStack(stack, subSlot.getSlotIndex(), subSlot.getSlotIndex() + 1, false))
-							{
-								wasMerged = true;
-							}
-							if (stack.stackSize <= 0) break;
-						}
-					}
-				}
-				if (!wasMerged) return null;
-			}*/
 
 			if (stack.stackSize <= 0)
 			{

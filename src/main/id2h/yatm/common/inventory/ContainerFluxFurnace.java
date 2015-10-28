@@ -24,24 +24,34 @@
 package id2h.yatm.common.inventory;
 
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
+import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotOutput;
+import id2h.yatm.common.inventory.slot.SlotProcessing;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 
 public class ContainerFluxFurnace extends YATMTileContainer
 {
 	public ContainerFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
 	{
 		super(fluxFurnace);
-		addSlotToContainer(new Slot(fluxFurnace, 0, 44, 30));
-		addSlotToContainer(new Slot(fluxFurnace, 1, 63, 30));
-		addSlotToContainer(new Slot(fluxFurnace, 2, 44, 49));
-		addSlotToContainer(new Slot(fluxFurnace, 3, 63, 49));
+		// input
+		addSlotToContainer(new SlotInput(fluxFurnace, 0, 17, 31));
+		addSlotToContainer(new SlotInput(fluxFurnace, 1, 35, 31));
+		addSlotToContainer(new SlotInput(fluxFurnace, 2, 17, 49));
+		addSlotToContainer(new SlotInput(fluxFurnace, 3, 35, 49));
 
-		addSlotToContainer(new Slot(fluxFurnace, 4, 110, 30));
-		addSlotToContainer(new Slot(fluxFurnace, 5, 129, 30));
-		addSlotToContainer(new Slot(fluxFurnace, 6, 110, 49));
-		addSlotToContainer(new Slot(fluxFurnace, 7, 129, 49));
+		// output
+		addSlotToContainer(new SlotOutput(fluxFurnace, 4, 123, 31));
+		addSlotToContainer(new SlotOutput(fluxFurnace, 5, 141, 31));
+		addSlotToContainer(new SlotOutput(fluxFurnace, 6, 123, 49));
+		addSlotToContainer(new SlotOutput(fluxFurnace, 7, 141, 49));
+
+		// processing
+		addSlotToContainer(new SlotProcessing(fluxFurnace, 8, 71, 32));
+		addSlotToContainer(new SlotProcessing(fluxFurnace, 9, 87, 32));
+		addSlotToContainer(new SlotProcessing(fluxFurnace, 10, 71, 48));
+		addSlotToContainer(new SlotProcessing(fluxFurnace, 11, 87, 48));
 
 		bindPlayerInventory(playerInventory, 8, 94);
 	}

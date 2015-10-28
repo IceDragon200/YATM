@@ -25,6 +25,8 @@ package id2h.yatm.common.block;
 
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.GuiType;
+import id2h.yatm.util.BlockFlags;
+import id2h.yatm.util.BlockSides;
 import id2h.yatm.util.YATMPlatform;
 
 import appeng.client.texture.FlippableIcon;
@@ -38,9 +40,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.IResource;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -72,16 +77,42 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return guiType;
 	}
 
+	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	{
+		final int meta = world.getBlockMetadata(x, y, z);
+		final int orn = meta & 3;
+		final int extflag = meta & 12;
+		// first normalize the orientation and then get its clockwise direction
+		final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
+		world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.UPDATE_CLIENT);
+		return true;
+	}
+
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
+	{
+		final int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+		int meta = 2;
+
+		if (l == 0) meta = 1;
+		else if (l == 1) meta = 2;
+		else if (l == 2) meta = 0;
+		else if (l == 3) meta = 3;
+
+		System.out.println("Placed block=" + this + " meta=" + meta + " l=" + l);
+		world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.UPDATE_CLIENT);
+	}
+
 	@SideOnly(Side.CLIENT)
-	protected FlippableIcon optionalIcon( IIconRegister ir, String name, IIcon substitute )
+	protected FlippableIcon optionalIcon(IIconRegister ir, String name, IIcon substitute)
 	{
 		// if the input is an flippable IIcon find the original.
-		while( substitute instanceof FlippableIcon )
+		while (substitute instanceof FlippableIcon)
 		{
-			substitute = ( (FlippableIcon) substitute ).getOriginal();
+			substitute = ((FlippableIcon)substitute).getOriginal();
 		}
 
-		if( substitute != null )
+		if (substitute != null)
 		{
 			try
 			{
@@ -103,26 +134,53 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return new FlippableIcon( ir.registerIcon( name ) );
 	}
 
+	@SideOnly(Side.CLIENT)
+	public FlippableIcon optionalSubIcon(IIconRegister ir, String name, IIcon substitute)
+	{
+		return optionalIcon(ir, getTextureName() + name, substitute);
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		icons = new FlippableIcon[6];
+		icons = new FlippableIcon[12];
+
 		this.blockIcon = optionalIcon(reg, getTextureName(), null);
-		final IIcon sideIcon = optionalIcon(reg, getTextureName() + "/Side", blockIcon);
-		icons[0] = optionalIcon(reg, getTextureName() + "/Bottom", this.blockIcon);
-		icons[1] = optionalIcon(reg, getTextureName() + "/Top", this.blockIcon);
-		icons[2] = optionalIcon(reg, getTextureName() + "/Back", sideIcon);
-		icons[3] = optionalIcon(reg, getTextureName() + "/Front", sideIcon);
-		icons[4] = optionalIcon(reg, getTextureName() + "/East", sideIcon);
-		icons[5] = optionalIcon(reg, getTextureName() + "/West", sideIcon);
+		final IIcon sideIconOff = optionalSubIcon(reg, "/Side.Off", optionalSubIcon(reg, "/Side", blockIcon));
+		icons[0] = optionalSubIcon(reg, "/Bottom.Off", optionalSubIcon(reg, "/Bottom", this.blockIcon));
+		icons[1] = optionalSubIcon(reg, "/Top.Off", optionalSubIcon(reg, "/Top", this.blockIcon));
+		icons[2] = optionalSubIcon(reg, "/Back.Off", optionalSubIcon(reg, "/Back", sideIconOff));
+		icons[3] = optionalSubIcon(reg, "/Front.Off", optionalSubIcon(reg, "/Front", sideIconOff));
+		icons[4] = optionalSubIcon(reg, "/East.Off", optionalSubIcon(reg, "/East", sideIconOff));
+		icons[5] = optionalSubIcon(reg, "/West.Off", optionalSubIcon(reg, "/West", sideIconOff));
+
+		icons[6] = optionalSubIcon(reg, "/Bottom.On", icons[0]);
+		icons[7] = optionalSubIcon(reg, "/Top.On", icons[1]);
+		icons[8] = optionalSubIcon(reg, "/Back.On",  optionalSubIcon(reg, "/Side.On", icons[2]));
+		icons[9] = optionalSubIcon(reg, "/Front.On", optionalSubIcon(reg, "/Side.On", icons[3]));
+		icons[10] = optionalSubIcon(reg, "/East.On", optionalSubIcon(reg, "/Side.On", icons[4]));
+		icons[11] = optionalSubIcon(reg, "/West.On", optionalSubIcon(reg, "/Side.On", icons[5]));
+
+		this.blockIcon = null;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		return icons[side];
+		final boolean online = (meta & 4) == 4;
+		final int onlineOffset = online ? 6 : 0;
+		if (side > 1)
+		{
+			final int orientation = meta & 3;
+			final int newSide = BlockSides.ORIENTATIONS4[orientation][side - 2];
+			return icons[newSide + onlineOffset];
+		}
+		else
+		{
+			return icons[side + onlineOffset];
+		}
 	}
 
 	public <T extends TileEntity> T getTileEntity(World world, int x, int y, int z)

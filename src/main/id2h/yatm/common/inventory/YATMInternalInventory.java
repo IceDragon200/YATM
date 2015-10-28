@@ -21,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.inventory;
+package id2h.yatm.common.inventory;
 
 import java.util.Iterator;
+
+import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 
 import appeng.util.iterators.InvIterator;
 
@@ -58,13 +60,28 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 		return maxSize;
 	}
 
+	@Override
+	public void markDirty()
+	{
+		parent.markDirty();
+	}
+
+	protected void onSlotChanged(int index)
+	{
+		markDirty();
+		if (parent instanceof IInventoryWatcher)
+		{
+			((IInventoryWatcher)parent).onInventoryChanged(this, index);
+		}
+	}
+
 	public void clearInventory()
 	{
 		for (int i = 0; i < getMaxSize(); ++i)
 		{
 			items[i] = null;
 		}
-		markDirty();
+		onSlotChanged(-1);
 	}
 
 	public void readFromNBT(NBTTagCompound data)
@@ -78,7 +95,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 				items[i] = ItemStack.loadItemStackFromNBT(itemTag);
 			}
 		}
-		markDirty();
+		onSlotChanged(-1);
 	}
 
 	public void readFromNBT(NBTTagCompound data, String name)
@@ -137,12 +154,6 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 	}
 
 	@Override
-	public void markDirty()
-	{
-		parent.markDirty();
-	}
-
-	@Override
 	public int getSizeInventory()
 	{
 		return maxSize;
@@ -189,7 +200,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 				}
 			}
 		}
-		markDirty();
+		onSlotChanged(index);
 	}
 
 	@Override
@@ -197,7 +208,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 	{
 		final ItemStack stack = items[index];
 		items[index] = null;
-		markDirty();
+		onSlotChanged(index);
 		return stack;
 	}
 
@@ -222,7 +233,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 					items[index] = null;
 				}
 			}
-			markDirty();
+			onSlotChanged(index);
 			return itemstack;
 		}
 		return null;

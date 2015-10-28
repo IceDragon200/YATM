@@ -27,10 +27,11 @@ import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 
-import id2h.yatm.common.tileentity.inventory.IYATMInventory;
+import id2h.yatm.common.inventory.IYATMInventory;
+import id2h.yatm.common.tileentity.feature.IGuiNetworkSync;
+import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
-import id2h.yatm.common.tileentity.feature.IGuiNetworkSync;
 import id2h.yatm.event.EventHandler;
 import id2h.yatm.util.BlockFlags;
 
@@ -41,7 +42,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync
+import net.minecraft.inventory.IInventory;
+
+
+public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync, IInventoryWatcher
 {
 	protected IYATMInventory inventory;
 	protected IMachineLogic machine;
@@ -239,14 +243,12 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	{
 		int consumed = getRunningPowerCost();
 		boolean didWork = false;
-		if (canWork())
+		final int workingCost = getWorkingPowerCost();
+		if (energyStorage.getEnergyStored() >= workingCost && canWork())
 		{
-			consumed += getWorkingPowerCost();
-			if (energyStorage.getEnergyStored() >= consumed)
-			{
-				consumed += doWork();
-				didWork = true;
-			}
+			consumed += workingCost;
+			consumed += doWork();
+			didWork = true;
 		}
 		if (consumed != 0)
 		{
@@ -286,5 +288,14 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 				" x=" + xCoord +
 				" y=" + yCoord +
 				" z=" + zCoord);
+	}
+
+	@Override
+	public void onInventoryChanged(IInventory inv, int index)
+	{
+		if (machine instanceof IInventoryWatcher)
+		{
+			((IInventoryWatcher)machine).onInventoryChanged(inv, index);
+		}
 	}
 }

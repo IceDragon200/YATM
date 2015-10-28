@@ -24,13 +24,16 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.inventory.IYATMInventory;
-import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
+import id2h.yatm.common.inventory.IYATMInventory;
+import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineCrusher;
 import id2h.yatm.util.NumUtils;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemBlock;
 
 /*
  * A Crusher applies pressure to a crack, smashing it into smaller pieces,
@@ -47,6 +50,20 @@ public class TileEntityCrusher extends YATMPoweredMachine
 		{ 4, 1, 2, 3 },
 		{ 2, 3, 4, 1 },
 	};
+
+	@SideOnly(Side.CLIENT)
+	public ItemStack getCrushingBlock()
+	{
+		final ItemStack stack = inventory.getStackInSlot(6);
+		if (stack != null)
+		{
+			if (stack.getItem() instanceof ItemBlock)
+			{
+				return stack;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()

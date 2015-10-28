@@ -24,11 +24,10 @@
 package id2h.yatm.common.inventory;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class SlotPlayer extends YATMSlot
+public interface IYATMInventory extends IInventory
 {
-	public SlotPlayer(IInventory inv, int index, int x, int y)
-	{
-		super(inv, index, x, y);
-	}
+	void readFromNBT(NBTTagCompound data, String name);
+	void writeToNBT(NBTTagCompound data, String name);
 }

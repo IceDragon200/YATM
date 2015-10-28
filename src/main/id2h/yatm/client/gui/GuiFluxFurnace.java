@@ -54,8 +54,9 @@ public class GuiFluxFurnace extends YATMGuiContainer
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
 
+		// progress bar
 		final int w = (int)(tileEntity.getMachineProgressRate() * 21);
-		drawTexturedModalRect(x1 + 84, y1 + 40, 176, 0, w, 14);
+		drawTexturedModalRect(x1 + 76, y1 + 70, 176, 0, w, 14);
 
 		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}

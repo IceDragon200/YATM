@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.inventory;
+package id2h.yatm.common.inventory;
 
 import javax.annotation.Nonnull;
 
@@ -110,6 +110,7 @@ public class InventorySlice implements IInventory
 
 	public ItemStack mergeStackBang(ItemStack stack)
 	{
+		if (stack == null) return null;
 		for (int i = 0; i < getSizeInventory(); ++i)
 		{
 			if (stack.stackSize <= 0) break;
@@ -140,8 +141,12 @@ public class InventorySlice implements IInventory
 
 	public ItemStack mergeStack(ItemStack stack)
 	{
-		final ItemStack result = stack.copy();
-		mergeStackBang(result);
-		return result.stackSize <= 0 ? null : result;
+		if (stack != null)
+		{
+			final ItemStack result = stack.copy();
+			mergeStackBang(result);
+			return result.stackSize <= 0 ? null : result;
+		}
+		return null;
 	}
 }

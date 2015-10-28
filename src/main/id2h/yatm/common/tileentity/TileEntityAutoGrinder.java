@@ -24,8 +24,8 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.inventory.IYATMInventory;
-import id2h.yatm.common.tileentity.inventory.YATMInternalInventory;
+import id2h.yatm.common.inventory.IYATMInventory;
+import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineAutoGrinder;
 import id2h.yatm.util.NumUtils;

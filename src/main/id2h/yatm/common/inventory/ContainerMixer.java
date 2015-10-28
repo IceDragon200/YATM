@@ -24,21 +24,22 @@
 package id2h.yatm.common.inventory;
 
 import id2h.yatm.common.tileentity.TileEntityMixer;
+import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotOutput;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 
 public class ContainerMixer extends YATMTileContainer
 {
 	public ContainerMixer(IInventory playerInventory, TileEntityMixer mixer)
 	{
 		super(mixer);
-		addSlotToContainer(new Slot(mixer, 0, 62, 42));
+		addSlotToContainer(new SlotOutput(mixer, 0, 62, 42));
 
-		addSlotToContainer(new Slot(mixer, 1, 81, 42));
-		addSlotToContainer(new Slot(mixer, 2, 62, 23));
-		addSlotToContainer(new Slot(mixer, 3, 62, 61));
-		addSlotToContainer(new Slot(mixer, 4, 43, 42));
+		addSlotToContainer(new SlotInput(mixer, 1, 81, 42));
+		addSlotToContainer(new SlotInput(mixer, 2, 62, 23));
+		addSlotToContainer(new SlotInput(mixer, 3, 62, 61));
+		addSlotToContainer(new SlotInput(mixer, 4, 43, 42));
 
 		bindPlayerInventory(playerInventory, 8, 94);
 	}

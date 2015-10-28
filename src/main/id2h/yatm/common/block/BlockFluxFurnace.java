@@ -23,20 +23,16 @@
  */
 package id2h.yatm.common.block;
 
+import java.util.Random;
+
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
 import id2h.yatm.util.GuiType;
-import id2h.yatm.util.BlockFlags;
-
-import appeng.client.texture.FlippableIcon;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFluxFurnace extends YATMBlockBaseMachine
@@ -49,58 +45,34 @@ public class BlockFluxFurnace extends YATMBlockBaseMachine
 		setGuiType(GuiType.FLUX_FURNACE);
 	}
 
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
 	{
-		final int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-
-		int meta = 2;
-
-		if (l == 0) meta = 0;
-		else if (l == 1) meta = 3;
-		else if (l == 2) meta = 1;
-		else if (l == 3) meta = 2;
-
-		world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.UPDATE_CLIENT);
+		final Block block = world.getBlock(x, y, z);
+		if (block != this)
+		{
+			return block.getLightValue(world, x, y, z);
+		}
+		final int l = world.getBlockMetadata(x, y, z);
+		if ((l & 4) == 4)
+		{
+			return 15;
+		}
+		return getLightValue();
 	}
 
-	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
 	{
-		icons = new FlippableIcon[6];
-
-		icons[0] = optionalIcon(reg, getTextureName() + "/Bottom", null);
-		icons[1] = optionalIcon(reg, getTextureName() + "/Top.Off", null);
-		icons[2] = optionalIcon(reg, getTextureName() + "/Top.On", null);
-		icons[3] = optionalIcon(reg, getTextureName() + "/Side", null);
-		icons[4] = optionalIcon(reg, getTextureName() + "/Front.Off", null);
-		icons[5] = optionalIcon(reg, getTextureName() + "/Front.On", null);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta)
-	{
-		if (side == 0)
+		final int l = world.getBlockMetadata(x, y, z);
+		if ((l & 4) == 4)
 		{
-			return icons[0];
+			final float px = (float)x + 0.2f + 0.6f * random.nextFloat();
+			final float py = (float)y + 1.0F;
+			final float pz = (float)z + 0.2f + 0.6f * random.nextFloat();
+
+			world.spawnParticle("smoke", (double)px, (double)py, (double)pz, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("flame", (double)px, (double)py, (double)pz, 0.0D, 0.0D, 0.0D);
 		}
-		else
-		{
-			final boolean online = (meta & 4) == 4;
-			if (side == 1)
-			{
-				return online ? icons[2] : icons[1];
-			}
-			else
-			{
-				final int facing = meta & 3;
-				if (facing == (side - 2))
-				{
-					return online ? icons[5] : icons[4];
-				}
-			}
-		}
-		return icons[3];
 	}
 }

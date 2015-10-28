@@ -24,7 +24,7 @@
 package id2h.yatm.common.tileentity.machine;
 
 import cofh.api.energy.EnergyStorage;
-import id2h.yatm.common.tileentity.inventory.InventorySlice;
+import id2h.yatm.common.inventory.InventorySlice;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -67,11 +67,11 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine
 					if (itemstack != null)
 					{
 						inventory.setInventorySlotContents(8 + i, inventory.decrStackSize(i, 1));
-						this.progressMax += 100;
+						this.progressMax += 80;
 					}
 				}
 			}
-			this.progressMax *= 0.9f;
+			this.progressMax *= 0.8f;
 		}
 
 		if (progressMax > 0)

@@ -39,7 +39,7 @@ public abstract class AbstractMachine implements IMachineLogic
 	@Override
 	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return 10;
+		return 0;
 	}
 
 	@Override

@@ -23,13 +23,22 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
+import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
 //import net.minecraft.nbt.NBTTagCompound;
 
-public class MachineAutoCrafter extends AbstractProgressiveMachine
+public class MachineAutoCrafter extends AbstractProgressiveMachine implements IInventoryWatcher
 {
+	@Override
+	public void onInventoryChanged(IInventory inventory, int index)
+	{
+		//CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj)
+		System.out.println("Inventory has changed inv=" + inventory + " index=" + index);
+	}
+
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{

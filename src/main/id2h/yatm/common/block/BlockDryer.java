@@ -25,7 +25,9 @@ package id2h.yatm.common.block;
 
 import id2h.yatm.common.tileentity.TileEntityDryer;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.IBlockAccess;
 
 public class BlockDryer extends YATMBlockBaseMachine
 {
@@ -34,5 +36,21 @@ public class BlockDryer extends YATMBlockBaseMachine
 		super(Material.rock, TileEntityDryer.class);
 		setBlockName("yatm.BlockDryer");
 		setBlockTextureName("yatm:BlockDryer");
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		final Block block = world.getBlock(x, y, z);
+		if (block != this)
+		{
+			return block.getLightValue(world, x, y, z);
+		}
+		final int l = world.getBlockMetadata(x, y, z);
+		if ((l & 4) == 4)
+		{
+			return 15;
+		}
+		return getLightValue();
 	}
 }

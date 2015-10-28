@@ -31,4 +31,14 @@ public class NumUtils
 	{
 		return num >= bot && num <= top;
 	}
+
+	public static int[] newIntRangeArray(int start, int length)
+	{
+		final int[] result = new int[length];
+		for (int i = 0; i < result.length; ++i)
+		{
+			result[i] = start + i;
+		}
+		return result;
+	}
 }

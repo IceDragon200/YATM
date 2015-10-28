@@ -21,13 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.inventory;
+package id2h.yatm.common.tileentity.feature;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.NBTTagCompound;
 
-public interface IYATMInventory extends IInventory
+public interface IInventoryWatcher
 {
-	void readFromNBT(NBTTagCompound data, String name);
-	void writeToNBT(NBTTagCompound data, String name);
+	public void onInventoryChanged(IInventory inv, int index);
 }
