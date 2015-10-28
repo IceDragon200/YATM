@@ -23,6 +23,8 @@
  */
 package id2h.yatm.common.block;
 
+import java.util.Random;
+
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.GuiType;
 import id2h.yatm.util.BlockFlags;
@@ -30,6 +32,7 @@ import id2h.yatm.util.BlockSides;
 import id2h.yatm.util.YATMPlatform;
 
 import appeng.client.texture.FlippableIcon;
+import growthcraft.core.util.ItemUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,6 +45,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -55,6 +59,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 	@SideOnly(Side.CLIENT)
 	protected FlippableIcon[] icons;
 
+	protected Random rand = new Random();
 	protected GuiType guiType;
 	protected Class<? extends TileEntity> tileEntityType;
 
@@ -98,8 +103,6 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		else if (l == 1) meta = 2;
 		else if (l == 2) meta = 0;
 		else if (l == 3) meta = 3;
-
-		System.out.println("Placed block=" + this + " meta=" + meta + " l=" + l);
 		world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.UPDATE_CLIENT);
 	}
 
@@ -232,5 +235,21 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 			}
 		}
 		return null;
+	}
+
+	public void breakBlock(World world, int x, int y, int z, Block block, int par6)
+	{
+		final TileEntity te = getTileEntity(world, x, y, z);
+		if (te instanceof IInventory)
+		{
+			final IInventory inv = (IInventory)te;
+			for (int i1 = 0; i1 < inv.getSizeInventory(); ++i1)
+			{
+				final ItemStack itemstack = inv.getStackInSlot(i1);
+				ItemUtils.spawnItemFromStack(world, x, y, z, itemstack, rand);
+			}
+		}
+
+		super.breakBlock(world, x, y, z, block, par6);
 	}
 }

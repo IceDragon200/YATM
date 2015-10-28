@@ -21,18 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.machine;
+package id2h.yatm.util;
 
-import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.common.FMLLog;
 
-import net.minecraft.inventory.IInventory;
-//import net.minecraft.nbt.NBTTagCompound;
+import org.apache.logging.log4j.Level;
 
-public class MachineMixer extends AbstractProgressiveMachine
+public class YATMDebug
 {
-	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	private YATMDebug() {}
+
+	public static void write(String str)
 	{
-		return true;
+		//FMLLog.log("YATM", Level.INFO, "DEBUG: " + str);
+	}
+
+	public static void writeMachineState(String str)
+	{
+		FMLLog.log("YATM", Level.INFO, "DEBUG/Machine: " + str);
 	}
 }

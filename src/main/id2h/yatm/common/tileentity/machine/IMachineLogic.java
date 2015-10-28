@@ -29,9 +29,12 @@ import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public interface IMachineLogic
 {
+	void updateMachine(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory);
+
 	/**
 	 * Power cost regardless of machine state, by simply being connected to a
 	 * power source, the machine should drain this amount.
@@ -66,13 +69,18 @@ public interface IMachineLogic
 	 *
 	 * @param energyStorage - energy storage cell, just for reference
 	 * @param inventory - an inventory object
-	 * @return worked power cost
 	 */
-	int doWork(EnergyStorage energyStorage, IInventory inventory);
+	void doWork(EnergyStorage energyStorage, IInventory inventory);
 
 	void readFromNBT(NBTTagCompound data, String name);
 	void writeToNBT(NBTTagCompound data, String name);
 
-	public boolean readFromStream(ByteBuf stream);
-	public void writeToStream(ByteBuf stream);
+	boolean readFromStream(ByteBuf stream);
+	void writeToStream(ByteBuf stream);
+
+	// Machines do not REQUIRE a TileEntity if they don't need access to the
+	// world around them, most machines can do without it.
+	// The only exception is the AutoCrafter, which requires a world for
+	// the crafting recipes.
+	void setTileEntity(TileEntity te);
 }

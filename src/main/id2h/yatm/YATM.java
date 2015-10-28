@@ -25,6 +25,7 @@ package id2h.yatm;
 
 import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.core.util.PossibleItemList;
+import id2h.yatm.api.crusher.CrushingRegistry;
 import id2h.yatm.api.YATMApi;
 import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.common.CommonProxy;
@@ -43,6 +44,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 @Mod(
@@ -81,7 +83,9 @@ public class YATM
 
 	private void registerCrushingRecipes()
 	{
-		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.stone),
+		final CrushingRegistry c = YATMApi.instance().crushing();
+
+		c.addCrushing(new ItemStack(Blocks.stone),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.gravel), 0.1f)
@@ -90,7 +94,7 @@ public class YATM
 		);
 
 		// stone brick > cracked stone brick
-		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.stonebrick, 1, 0),
+		c.addCrushing(new ItemStack(Blocks.stonebrick, 1, 0),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.stonebrick, 1, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 0.1f)
@@ -99,7 +103,7 @@ public class YATM
 		);
 
 		// mossy stonebrick > 2 mossy cobblestone (100%) + 1 cobblestone (20%) + 1 vine (10%)
-		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.stonebrick, 1, 1),
+		c.addCrushing(new ItemStack(Blocks.stonebrick, 1, 1),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.mossy_cobblestone, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone, 1), 0.2f),
@@ -108,7 +112,7 @@ public class YATM
 			60
 		);
 
-		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.cobblestone),
+		c.addCrushing(new ItemStack(Blocks.cobblestone),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.gravel), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.sand), 0.1f)
@@ -116,14 +120,36 @@ public class YATM
 			90
 		);
 
-		YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.gravel),
+		c.addCrushing(new ItemStack(Blocks.gravel),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand), 1.0f)
 			),
 			120
 		);
 
-		//YATMApi.instance().crushing().addCrushing(new ItemStack(Blocks.sand),
+		for (int i = 0; i < 3; ++i)
+		{
+			c.addCrushing(new ItemStack(Blocks.quartz_block, 1, i),
+				PossibleItemList.create(
+					new PossibleItem(new ItemStack(Items.quartz, 2), 1.0f),
+					new PossibleItem(new ItemStack(Items.quartz, 1), 0.3f),
+					new PossibleItem(new ItemStack(Items.quartz, 1), 0.1f)
+				),
+				60
+			);
+		}
+
+		c.addCrushing(new ItemStack(Blocks.quartz_stairs),
+			PossibleItemList.create(
+				new PossibleItem(new ItemStack(Items.quartz, 2), 1.0f),
+				new PossibleItem(new ItemStack(Items.quartz, 1), 0.3f),
+				new PossibleItem(new ItemStack(Items.quartz, 1), 0.1f),
+				new PossibleItem(new ItemStack(Items.quartz, 1), 0.07f)
+			),
+			60
+		);
+
+		//c.addCrushing(new ItemStack(Blocks.sand),
 		//	WeightedItemList.create(
 		//	)
 		//);

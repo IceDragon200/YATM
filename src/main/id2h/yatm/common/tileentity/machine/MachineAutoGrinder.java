@@ -24,6 +24,8 @@
 package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.common.inventory.InventorySlice;
+import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import id2h.yatm.util.NumUtils;
 
 import cofh.api.energy.EnergyStorage;
 
@@ -33,8 +35,17 @@ import appeng.api.features.IGrinderEntry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public class MachineAutoGrinder extends AbstractProgressiveMachine
+public class MachineAutoGrinder extends AbstractProgressiveMachine implements IInventoryWatcher
 {
+	@Override
+	public void onInventoryChanged(IInventory inventory, int index)
+	{
+		if (NumUtils.between(index, 0, 2))
+		{
+			awake();
+		}
+	}
+
 	protected IGrinderEntry getGrinderEntryFromInput(IInventory inventory)
 	{
 		for (int i = 0; i < 3; ++i)
@@ -67,19 +78,16 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine
 	protected void addOutputItem(IInventory inventory, ItemStack stack)
 	{
 		final ItemStack srcStack = stack.copy();
-		new InventorySlice(inventory, new int[] { 3, 4, 5 }).mergeStackBang(srcStack);
-		if (srcStack.stackSize > 0)
-		{
-			// EJECT stack
-			System.err.println("Item was ejected stack=" + srcStack);
-		}
+		final ItemStack result = new InventorySlice(inventory, new int[] { 3, 4, 5 }).mergeStackBang(srcStack);
+		if (result != null) discardItemStack(result);
 	}
 
 	@Override
-	public int doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
 		if (inventory.getStackInSlot(6) == null)
 		{
+			boolean foundRecipe = false;
 			for (int i = 0; i < 3; ++i)
 			{
 				final ItemStack stack = inventory.getStackInSlot(i);
@@ -91,9 +99,15 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine
 						inventory.setInventorySlotContents(6, inventory.decrStackSize(i, entry.getInput().stackSize));
 						this.progress = 0.0f;
 						this.progressMax = (float)entry.getEnergyCost() * 5;
+						foundRecipe = true;
 						break;
 					}
 				}
+			}
+			if (!foundRecipe)
+			{
+				gotoSleep();
+				return;
 			}
 		}
 
@@ -125,6 +139,5 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine
 				this.progress += 1;
 			}
 		}
-		return 0;
 	}
 }

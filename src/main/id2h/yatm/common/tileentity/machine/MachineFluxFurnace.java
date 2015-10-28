@@ -25,13 +25,24 @@ package id2h.yatm.common.tileentity.machine;
 
 import cofh.api.energy.EnergyStorage;
 import id2h.yatm.common.inventory.InventorySlice;
+import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import id2h.yatm.util.NumUtils;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.ItemStack;
 
-public class MachineFluxFurnace extends AbstractProgressiveMachine
+public class MachineFluxFurnace extends AbstractProgressiveMachine implements IInventoryWatcher
 {
+	@Override
+	public void onInventoryChanged(IInventory inventory, int index)
+	{
+		if (NumUtils.between(index, 0, 3))
+		{
+			awake();
+		}
+	}
+
 	@Override
 	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
@@ -51,7 +62,7 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine
 	}
 
 	@Override
-	public int doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
 		if (progressMax <= 0)
 		{
@@ -72,6 +83,11 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine
 				}
 			}
 			this.progressMax *= 0.8f;
+			if (progressMax <= 0)
+			{
+				gotoSleep();
+				return;
+			}
 		}
 
 		if (progressMax > 0)
@@ -87,11 +103,7 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine
 						final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
 						final ItemStack rem = outputInv.mergeStack(itemstack);
 
-						if (rem != null)
-						{
-							// EJECT
-							System.out.println("Ejecting remaining stack=" + rem);
-						}
+						if (rem != null) discardItemStack(rem);
 					}
 					inventory.setInventorySlotContents(8 + i, null);
 				}
@@ -102,6 +114,5 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine
 				this.progress += 1;
 			}
 		}
-		return 0;
 	}
 }

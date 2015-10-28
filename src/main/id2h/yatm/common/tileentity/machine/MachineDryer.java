@@ -33,12 +33,6 @@ public class MachineDryer extends AbstractProgressiveMachine
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return false;
-	}
-
-	@Override
-	public int doWork(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return 0;
+		return true;
 	}
 }

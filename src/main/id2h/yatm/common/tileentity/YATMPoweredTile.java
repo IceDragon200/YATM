@@ -90,15 +90,13 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 	{
 		final int energy = stream.readInt();
 		energyStorage.setEnergyStored(energy);
-		//System.out.println(">> energy=" + energy + " x=" + xCoord + " y=" + yCoord + " z=" + zCoord);
-		return true;
+		return false;
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
 	public void writeToStream_Energy(ByteBuf stream) throws IOException
 	{
 		final int energy = getEnergyStored(ForgeDirection.UNKNOWN);
-		//System.out.println("<< energy=" + energy + " x=" + xCoord + " y=" + yCoord + " z=" + zCoord);
 		stream.writeInt(energy);
 	}
 

@@ -36,6 +36,7 @@ import io.netty.buffer.Unpooled;
 
 import id2h.yatm.event.EventHandler;
 import id2h.yatm.event.EventFunction;
+import id2h.yatm.util.YATMDebug;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.network.NetworkManager;
@@ -100,9 +101,13 @@ public abstract class YATMBaseTile extends TileEntity
 
 	protected void writeToStream(ByteBuf stream)
 	{
-		for (EventFunction func : getHandlersFor(EventHandler.EventType.NETWORK_WRITE))
+		final List<EventFunction> handlers = getHandlersFor(EventHandler.EventType.NETWORK_WRITE);
+		if (handlers != null)
 		{
-			func.writeToStream(this, stream);
+			for (EventFunction func : handlers)
+			{
+				func.writeToStream(this, stream);
+			}
 		}
 	}
 
@@ -125,21 +130,25 @@ public abstract class YATMBaseTile extends TileEntity
 			System.err.println(t);
 		}
 
+		YATMDebug.write("Created Description Packet obj=" + this);
 		// P, for payload
 		data.setByteArray("P", stream.array());
 
-		//System.out.println("Creating Description Packet: " + toString());
 		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 127, data);
 	}
 
 	protected boolean readFromStream(ByteBuf stream)
 	{
 		boolean shouldUpdate = false;
-		for (EventFunction func : getHandlersFor(EventHandler.EventType.NETWORK_READ))
+		final List<EventFunction> handlers = getHandlersFor(EventHandler.EventType.NETWORK_READ);
+		if (handlers != null)
 		{
-			if (func.readFromStream(this, stream))
+			for (EventFunction func : handlers)
 			{
-				shouldUpdate = true;
+				if (func.readFromStream(this, stream))
+				{
+					shouldUpdate = true;
+				}
 			}
 		}
 		return shouldUpdate;
@@ -150,6 +159,7 @@ public abstract class YATMBaseTile extends TileEntity
 	{
 		if (packet.func_148853_f() == 127)
 		{
+			YATMDebug.write("Received Description Packet obj=" + this);
 			//System.out.println("Received Description Packet: " + toString());
 			final NBTTagCompound tag = packet.func_148857_g();
 			if (tag != null)

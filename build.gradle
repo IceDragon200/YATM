@@ -27,6 +27,9 @@ checkstyle {
     configFile = new File(rootDir, "checkstyle/checkstyle.xml")
 }
 
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
 version = yatm_version
 group = "id2h"
 archivesBaseName = "yatm"

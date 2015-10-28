@@ -24,30 +24,185 @@
 package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import id2h.yatm.common.inventory.InventorySlice;
+import id2h.yatm.util.NumUtils;
+import id2h.yatm.util.YATMDebug;
+
+import growthcraft.core.util.ItemUtils;
 
 import cofh.api.energy.EnergyStorage;
 
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-//import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.ItemStack;
 
 public class MachineAutoCrafter extends AbstractProgressiveMachine implements IInventoryWatcher
 {
+	protected static class FakeContainer extends Container
+	{
+		public boolean canInteractWith(EntityPlayer _player)
+		{
+			return false;
+		}
+	}
+
+	protected static Container fakeContainer = new FakeContainer();
+
+	protected void clearProcessing(IInventory inventory)
+	{
+		for (int i = 0; i < 9; ++i)
+		{
+			inventory.setInventorySlotContents(25 + i, null);
+		}
+	}
+
+	protected void refundProcessing(IInventory inventory)
+	{
+		final InventorySlice slice = new InventorySlice(inventory, NumUtils.newIntRangeArray(0, 8));
+		for (int i = 0; i < 9; ++i)
+		{
+			ItemStack stack = inventory.getStackInSlotOnClosing(25 + i);
+			stack = slice.mergeStackBang(stack);
+			if (stack != null) discardItemStack(stack);
+		}
+	}
+
+	protected void writeCraftingSlotsTo(IInventory src, IInventory dest)
+	{
+		final InventorySlice slice = new InventorySlice(src, NumUtils.newIntRangeArray(16, 9));
+		for (int i = 0; i < 9; ++i)
+		{
+			dest.setInventorySlotContents(i, slice.getStackInSlot(i));
+		}
+	}
+
+	protected int countIngredients(IInventory inventory)
+	{
+		int result = 0;
+		for (int i = 0; i < 9; ++i)
+		{
+			final ItemStack ind = inventory.getStackInSlot(16 + i);
+			if (ind != null) result += 1;
+		}
+		return result;
+	}
+
+	protected int whereIsIngredient(IInventory inventory, ItemStack ind)
+	{
+		for (int i = 0; i < 8; ++i)
+		{
+			final ItemStack slotItem = inventory.getStackInSlot(i);
+			if (slotItem != null)
+			{
+				if (slotItem.isItemEqual(ind)) return i;
+			}
+		}
+		return -1;
+	}
+
+	protected boolean startProcessing(IInventory inventory)
+	{
+		for (int i = 0; i < 9; ++i)
+		{
+			final ItemStack expected = inventory.getStackInSlot(16 + i);
+			if (expected != null)
+			{
+				final int validSlot = whereIsIngredient(inventory, expected);
+				if (validSlot != -1)
+				{
+					inventory.setInventorySlotContents(25 + i, inventory.decrStackSize(validSlot, 1));
+				}
+				else
+				{
+					refundProcessing(inventory);
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
-		//CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj)
-		System.out.println("Inventory has changed inv=" + inventory + " index=" + index);
+		if (NumUtils.between(index, 0, 7))
+		{
+			// input has changed
+			awake();
+		}
+		else if (NumUtils.between(index, 16, 24))
+		{
+			// recipe has changed
+			// DAMN YOU MINECRAFT, WHY THE HELL DO I NEED A CRAFTING INVENTORY D8<
+			final InventoryCrafting crafting = new InventoryCrafting(fakeContainer, 3, 3);
+			writeCraftingSlotsTo(inventory, crafting);
+			final ItemStack result = CraftingManager.getInstance().findMatchingRecipe(crafting, tileEntity.getWorldObj());
+
+			inventory.setInventorySlotContents(9, result);
+			refundProcessing(inventory);
+			resetProgress();
+			YATMDebug.write("Recipe has changed inv=" + inventory + " index=" + index);
+			awake();
+		}
+		else
+		{
+			YATMDebug.write("Inventory has changed inv=" + inventory + " index=" + index);
+		}
 	}
 
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return false;
+		return progressMax > 0;
+	}
+
+	protected void outputResult(IInventory inventory)
+	{
+		final ItemStack result = inventory.getStackInSlot(9);
+		inventory.setInventorySlotContents(8, ItemUtils.mergeStacks(inventory.getStackInSlot(8), result));
 	}
 
 	@Override
-	public int doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
 	{
-		return 0;
+		if (progressMax <= 0)
+		{
+			final ItemStack result = inventory.getStackInSlot(9);
+			if (result != null)
+			{
+				if (startProcessing(inventory))
+				{
+					this.progressMax = 10 + countIngredients(inventory) * 20;
+					YATMDebug.write("Setting progressMax inv=" + inventory);
+				}
+				else
+				{
+					gotoSleep();
+				}
+			}
+		}
+		super.updateAwakeMachine(_state, _energyStorage, inventory);
+	}
+
+	@Override
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		if (progressMax > 0)
+		{
+
+			if (progress >= progressMax)
+			{
+				resetProgress();
+				outputResult(inventory);
+				clearProcessing(inventory);
+			}
+			else
+			{
+				this.progress += 1;
+			}
+		}
 	}
 }

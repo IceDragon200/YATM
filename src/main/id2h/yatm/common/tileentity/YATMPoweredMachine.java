@@ -32,8 +32,10 @@ import id2h.yatm.common.tileentity.feature.IGuiNetworkSync;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
+import id2h.yatm.common.tileentity.machine.MachineUpdateState;
 import id2h.yatm.event.EventHandler;
 import id2h.yatm.util.BlockFlags;
+import id2h.yatm.util.YATMDebug;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -44,18 +46,20 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraft.inventory.IInventory;
 
-
 public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync, IInventoryWatcher
 {
 	protected IYATMInventory inventory;
 	protected IMachineLogic machine;
 	protected boolean lastWorkingState = true;
+	protected boolean dirtyNext = true;
+	protected MachineUpdateState machineState = new MachineUpdateState();
 
 	public YATMPoweredMachine()
 	{
 		super();
 		this.inventory = createInventory();
 		this.machine = createMachine();
+		this.machine.setTileEntity(this);
 	}
 
 	@Override
@@ -111,6 +115,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 				case 1:
 					progMachine.setProgressMax((float)value);
 					break;
+				case 2:
 				default:
 					System.err.println("Invalid DATA class=" + this + " id=" + id);
 			}
@@ -219,55 +224,31 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		return 0.0f;
 	}
 
-	public int getRunningPowerCost()
-	{
-		return machine.getRunningPowerCost(energyStorage, inventory);
-	}
-
-	public int getWorkingPowerCost()
-	{
-		return machine.getWorkingPowerCost(energyStorage, inventory);
-	}
-
-	public boolean canWork()
-	{
-		return machine.canWork(energyStorage, inventory);
-	}
-
-	public int doWork()
-	{
-		return machine.doWork(energyStorage, inventory);
-	}
-
 	public void updateMachine()
 	{
-		int consumed = getRunningPowerCost();
-		boolean didWork = false;
-		final int workingCost = getWorkingPowerCost();
-		if (energyStorage.getEnergyStored() >= workingCost && canWork())
+		machineState.clear();
+		machine.updateMachine(machineState, energyStorage, inventory);
+
+		if (machineState.energyConsumed != 0)
 		{
-			consumed += workingCost;
-			consumed += doWork();
-			didWork = true;
-		}
-		if (consumed != 0)
-		{
-			energyStorage.extractEnergy(consumed, false);
+			energyStorage.extractEnergy(machineState.energyConsumed, false);
 			markForUpdate();
 		}
-		if (lastWorkingState != didWork)
+
+		if (lastWorkingState != machineState.didWork)
 		{
-			lastWorkingState = didWork;
+			lastWorkingState = machineState.didWork;
 			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 3;
 			if (lastWorkingState) meta |= 4;
 
-			System.out.println("Machine changed state:" +
+			YATMDebug.write("Machine changed state:" +
 				" obj=" + this +
 				" state=" + lastWorkingState +
 				" meta=" + meta +
 				" x=" + xCoord +
 				" y=" + yCoord +
 				" z=" + zCoord);
+
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.UPDATE_CLIENT);
 		}
 	}
@@ -277,22 +258,35 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	{
 		super.updateEntity();
 		if (!worldObj.isRemote) updateMachine();
+		if (dirtyNext)
+		{
+			dirtyNext = false;
+			markDirty();
+		}
 	}
 
 	@Override
 	public void markDirty()
 	{
 		super.markDirty();
-		System.out.println("Marked as dirty:" +
+		YATMDebug.write("Marked as dirty:" +
 				" obj=" + this +
 				" x=" + xCoord +
 				" y=" + yCoord +
 				" z=" + zCoord);
 	}
 
+	// This is completely different from markDirty, and is more of a delayed mark
+	// "Mark me as dirty next update"
+	public void markDirtyNext()
+	{
+		this.dirtyNext |= true;
+	}
+
 	@Override
 	public void onInventoryChanged(IInventory inv, int index)
 	{
+		markDirtyNext();
 		if (machine instanceof IInventoryWatcher)
 		{
 			((IInventoryWatcher)machine).onInventoryChanged(inv, index);

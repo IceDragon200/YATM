@@ -41,6 +41,7 @@ public abstract class AbstractProgressiveMachine extends AbstractMachine impleme
 	@Override
 	protected void readFromNBT(NBTTagCompound data)
 	{
+		super.readFromNBT(data);
 		this.progress = (float)data.getDouble("progress");
 		this.progressMax = (float)data.getDouble("progressMax");
 	}
@@ -48,24 +49,25 @@ public abstract class AbstractProgressiveMachine extends AbstractMachine impleme
 	@Override
 	protected void writeToNBT(NBTTagCompound data)
 	{
+		super.writeToNBT(data);
 		data.setDouble("progress", (double)progress);
 		data.setDouble("progressMax", (double)progressMax);
 	}
 
-	@Override
-	public boolean readFromStream(ByteBuf stream)
-	{
-		this.progress = stream.readFloat();
-		this.progressMax = stream.readFloat();
-		return true;
-	}
+	//@Override
+	//public boolean readFromStream(ByteBuf stream)
+	//{
+	//	this.progress = stream.readFloat();
+	//	this.progressMax = stream.readFloat();
+	//	return true;
+	//}
 
-	@Override
-	public void writeToStream(ByteBuf stream)
-	{
-		stream.writeFloat(progress);
-		stream.writeFloat(progressMax);
-	}
+	//@Override
+	//public void writeToStream(ByteBuf stream)
+	//{
+	//	stream.writeFloat(progress);
+	//	stream.writeFloat(progressMax);
+	//}
 
 	@Override
 	public float getProgress()

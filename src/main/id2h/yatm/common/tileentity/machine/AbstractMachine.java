@@ -27,15 +27,68 @@ import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 
+import id2h.yatm.util.YATMDebug;
+
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public abstract class AbstractMachine implements IMachineLogic
 {
 	protected Random rand = new Random();
+	protected TileEntity tileEntity;
+	protected int idleTime;
+	protected boolean sleeping;
 
+	// Serialization
+	protected void readFromNBT(NBTTagCompound data)
+	{
+		idleTime = data.getInteger("idle");
+		sleeping = data.getBoolean("sleeping");
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound data, String name)
+	{
+		final NBTTagCompound invData = data.getCompoundTag(name);
+		if (invData != null)
+		{
+			readFromNBT(invData);
+		}
+		else
+		{
+			// LOG error
+		}
+	}
+
+	protected void writeToNBT(NBTTagCompound data)
+	{
+		data.setInteger("idle", idleTime);
+		data.setBoolean("sleeping", sleeping);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound data, String name)
+	{
+		final NBTTagCompound invData = new NBTTagCompound();
+		writeToNBT(invData);
+		data.setTag(name, invData);
+	}
+
+	public boolean readFromStream(ByteBuf stream)
+	{
+		return false;
+	}
+
+	public void writeToStream(ByteBuf stream)
+	{
+
+	}
+
+	// Machine
 	@Override
 	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
@@ -55,44 +108,75 @@ public abstract class AbstractMachine implements IMachineLogic
 	}
 
 	@Override
-	public int doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return 0;
+		gotoSleep();
 	}
 
-	protected abstract void readFromNBT(NBTTagCompound data);
-
-	@Override
-	public void readFromNBT(NBTTagCompound data, String name)
+	protected void goIdle()
 	{
-		final NBTTagCompound invData = data.getCompoundTag(name);
-		if (invData != null)
+		idleTime = 60;
+	}
+
+	protected void awake()
+	{
+		if (sleeping)
 		{
-			readFromNBT(invData);
+			YATMDebug.writeMachineState("Machine has awoken machine=" + this);
+		}
+		sleeping = false;
+	}
+
+	protected void gotoSleep()
+	{
+		if (!sleeping)
+		{
+			YATMDebug.writeMachineState("Machine has gone to sleep machine=" + this);
+		}
+		sleeping = true;
+	}
+
+	protected void updateMachineForWork(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	{
+		final int workingCost = getWorkingPowerCost(energyStorage, inventory);
+		if (energyStorage.getEnergyStored() >= (state.energyConsumed + workingCost) && canWork(energyStorage, inventory))
+		{
+			state.energyConsumed += workingCost;
+			doWork(energyStorage, inventory);
+			state.didWork |= true;
+		}
+	}
+
+	protected void updateAwakeMachine(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	{
+		if (idleTime <= 0)
+		{
+			updateMachineForWork(state, energyStorage, inventory);
 		}
 		else
 		{
-			// LOG error
+			idleTime--;
 		}
 	}
 
-	protected abstract void writeToNBT(NBTTagCompound data);
+	@Override
+	public void updateMachine(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	{
+		state.energyConsumed += getRunningPowerCost(energyStorage, inventory);
+		if (!sleeping)
+		{
+			updateAwakeMachine(state, energyStorage, inventory);
+		}
+	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound data, String name)
+	public void setTileEntity(TileEntity te)
 	{
-		final NBTTagCompound invData = new NBTTagCompound();
-		writeToNBT(invData);
-		data.setTag(name, invData);
+		this.tileEntity = te;
 	}
 
-	public boolean readFromStream(ByteBuf stream)
+	public void discardItemStack(ItemStack stack)
 	{
-		return false;
-	}
-
-	public void writeToStream(ByteBuf stream)
-	{
-
+		YATMDebug.write("TODO: Discard itemstack stack=" + stack);
 	}
 }

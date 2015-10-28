@@ -68,10 +68,13 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 
 	protected void onSlotChanged(int index)
 	{
-		markDirty();
 		if (parent instanceof IInventoryWatcher)
 		{
 			((IInventoryWatcher)parent).onInventoryChanged(this, index);
+		}
+		else
+		{
+			markDirty();
 		}
 	}
 

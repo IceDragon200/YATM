@@ -23,16 +23,14 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
-
-import net.minecraft.inventory.IInventory;
-//import net.minecraft.nbt.NBTTagCompound;
-
-public class MachineMixer extends AbstractProgressiveMachine
+public class MachineUpdateState
 {
-	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	public int energyConsumed;
+	public boolean didWork;
+
+	public void clear()
 	{
-		return true;
+		energyConsumed = 0;
+		didWork = false;
 	}
 }

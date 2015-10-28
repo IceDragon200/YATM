@@ -55,7 +55,7 @@ public class GuiAutoCrafter extends YATMGuiContainer
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
 
 		final int w = (int)(tileEntity.getMachineProgressRate() * 14);
-		drawTexturedModalRect(x1 + 81, y1 + 18, 176, 0, w, 15);
+		drawTexturedModalRect(x1 + 81, y1 + 72, 176, 0, w, 15);
 
 		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
