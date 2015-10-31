@@ -26,6 +26,7 @@ package id2h.yatm.common.inventory;
 import java.util.Iterator;
 
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import id2h.yatm.util.YATMDebug;
 
 import appeng.util.iterators.InvIterator;
 
@@ -63,7 +64,8 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 	@Override
 	public void markDirty()
 	{
-		parent.markDirty();
+		YATMDebug.write("Inventory marked as dirty inv=" + this);
+		onSlotChanged(-1);
 	}
 
 	protected void onSlotChanged(int index)
@@ -74,7 +76,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 		}
 		else
 		{
-			markDirty();
+			parent.markDirty();
 		}
 	}
 
@@ -196,9 +198,9 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 			{
 				final int discarded = stack.stackSize - getInventoryStackLimit();
 				items[index].stackSize = getInventoryStackLimit();
-				// TODO: do something with the discarded stack
 				if (discarded > 0)
 				{
+					// TODO: do something with the discarded stack
 					System.out.println("Some items have been discarded, item=" + stack.toString() + " discarded=" + discarded);
 				}
 			}

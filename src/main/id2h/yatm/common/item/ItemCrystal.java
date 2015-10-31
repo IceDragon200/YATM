@@ -23,10 +23,39 @@
  */
 package id2h.yatm.common.item;
 
-public class Dusts
-{
-	public static final int UraniumDust = 0;
-	public static final int PurifiedUraniumDust = 1;
+import java.util.List;
 
-	private Dusts() {}
+import id2h.yatm.YATM;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
+
+public class ItemCrystal extends AbstractItemMaterial
+{
+	public ItemCrystal()
+	{
+		super();
+		setUnlocalizedName("yatm.ItemCrystal");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ir)
+	{
+		icons = new IIcon[2];
+		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:ItemMaterial.PureUraniumCrystal");
+		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.PureRedstoneCrystal");
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
+	{
+		itemStacks.add(YATM.items.crystalUranium.asStack());
+		itemStacks.add(YATM.items.crystalRedstone.asStack());
+	}
 }

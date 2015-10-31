@@ -23,17 +23,17 @@
  */
 package id2h.yatm.init;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
-import id2h.yatm.common.item.Dusts;
-import id2h.yatm.common.item.Ingots;
+import id2h.yatm.common.definition.ItemSubtypeDefinition;
+import id2h.yatm.common.item.ItemCrystalSeed;
 import id2h.yatm.common.item.ItemDust;
 import id2h.yatm.common.item.ItemIngot;
-import id2h.yatm.common.item.ItemPurifiedUraniumCrystal;
-import id2h.yatm.common.item.ItemUraniumSeed;
+import id2h.yatm.common.item.ItemCrystal;
+import id2h.yatm.common.item.ItemCapacitor;
+import id2h.yatm.common.item.ItemVacuumTube;
 
-import appeng.api.definitions.IItemDefinition;
+import growthcraft.core.common.definition.ItemDefinition;
+
 import appeng.api.AEApi;
-import appeng.core.api.definitions.DefinitionConstructor;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -41,51 +41,94 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemInstances
 {
-	public IItemDefinition uraniumSeed;
-	public IItemDefinition purifiedUraniumCrystal;
-	public IItemDefinition uraniumDust;
-	public IItemDefinition purifiedUraniumDust;
-	public IItemDefinition uraniumIngot;
-	public IItemDefinition purifiedUraniumIngot;
+	public ItemDefinition crystalSeed;
+	public ItemSubtypeDefinition crystalSeedUranium;
+	public ItemSubtypeDefinition crystalSeedRedstone;
+
+	public ItemDefinition dust;
+	public ItemSubtypeDefinition dustUranium;
+	public ItemSubtypeDefinition dustPureUranium;
+	public ItemSubtypeDefinition dustPureRedstone;
+
+	public ItemDefinition ingot;
+	public ItemSubtypeDefinition ingotUranium;
+	public ItemSubtypeDefinition ingotPureUranium;
+
+	public ItemDefinition crystal;
+	public ItemSubtypeDefinition crystalUranium;
+	public ItemSubtypeDefinition crystalRedstone;
+
+	public ItemDefinition capacitor;
+	public ItemSubtypeDefinition capacitorIron;
+	public ItemSubtypeDefinition capacitorGold;
+	public ItemSubtypeDefinition capacitorDiamond;
+	public ItemSubtypeDefinition capacitorObsidian;
+
+	public ItemDefinition vacuumTube;
+	public ItemSubtypeDefinition vacuumTubeIron;
+	public ItemSubtypeDefinition vacuumTubeGold;
+	public ItemSubtypeDefinition vacuumTubeDiamond;
+	public ItemSubtypeDefinition vacuumTubeObsidian;
 
 	public ItemInstances() {}
 
-	public void preInit(DefinitionConstructor constructor)
+	private void initSubtypes()
 	{
-		uraniumDust = constructor.registerItemDefinition(new ItemDust(Dusts.UraniumDust));
-		uraniumIngot = constructor.registerItemDefinition(new ItemIngot(Ingots.UraniumIngot));
+		crystalSeedUranium = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[0]);
+		crystalSeedRedstone = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[1]);
 
-		uraniumSeed = constructor.registerItemDefinition(new ItemUraniumSeed());
-		purifiedUraniumCrystal = constructor.registerItemDefinition(new ItemPurifiedUraniumCrystal());
-		purifiedUraniumDust = constructor.registerItemDefinition(new ItemDust(Dusts.PurifiedUraniumDust));
-		purifiedUraniumIngot = constructor.registerItemDefinition(new ItemIngot(Ingots.PurifiedUraniumIngot));
+		dustUranium = new ItemSubtypeDefinition(dust, 0);
+		dustPureUranium = new ItemSubtypeDefinition(dust, 1);
+		dustPureRedstone = new ItemSubtypeDefinition(dust, 2);
 
-		uraniumDust.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
-		uraniumIngot.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
+		ingotUranium = new ItemSubtypeDefinition(ingot, 0);
+		ingotPureUranium = new ItemSubtypeDefinition(ingot, 1);
 
-		uraniumSeed.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
-		purifiedUraniumCrystal.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
-		purifiedUraniumDust.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
-		purifiedUraniumIngot.maybeItem().get().setCreativeTab(CreativeTabsYATM.instance());
+		crystalUranium = new ItemSubtypeDefinition(crystal, 0);
+		crystalRedstone = new ItemSubtypeDefinition(crystal, 1);
+
+		capacitorIron = new ItemSubtypeDefinition(capacitor, 0);
+		capacitorGold = new ItemSubtypeDefinition(capacitor, 1);
+		capacitorDiamond = new ItemSubtypeDefinition(capacitor, 2);
+		capacitorObsidian = new ItemSubtypeDefinition(capacitor, 3);
+
+		vacuumTubeIron = new ItemSubtypeDefinition(vacuumTube, 0);
+		vacuumTubeGold = new ItemSubtypeDefinition(vacuumTube, 1);
+		vacuumTubeDiamond = new ItemSubtypeDefinition(vacuumTube, 2);
+		vacuumTubeObsidian = new ItemSubtypeDefinition(vacuumTube, 3);
+	}
+
+	public void preInit()
+	{
+		capacitor = new ItemDefinition(new ItemCapacitor());
+		crystalSeed = new ItemDefinition(new ItemCrystalSeed());
+		dust = new ItemDefinition(new ItemDust());
+		ingot = new ItemDefinition(new ItemIngot());
+		crystal = new ItemDefinition(new ItemCrystal());
+		vacuumTube = new ItemDefinition(new ItemVacuumTube());
+
+		initSubtypes();
 	}
 
 	public void register()
 	{
-		GameRegistry.registerItem(uraniumDust.maybeItem().get(), "uraniumDust");
-		GameRegistry.registerItem(uraniumIngot.maybeItem().get(), "uraniumIngot");
+		GameRegistry.registerItem(capacitor.getItem(), "capacitor");
+		GameRegistry.registerItem(crystalSeed.getItem(), "crystalSeed");
+		GameRegistry.registerItem(dust.getItem(), "pureDust");
+		GameRegistry.registerItem(ingot.getItem(), "pureIngot");
+		GameRegistry.registerItem(crystal.getItem(), "crystal");
+		GameRegistry.registerItem(vacuumTube.getItem(), "vacuumTube");
 
-		GameRegistry.registerItem(uraniumSeed.maybeItem().get(), "uraniumSeed");
-		GameRegistry.registerItem(purifiedUraniumCrystal.maybeItem().get(), "purifiedUraniumCrystal");
-		GameRegistry.registerItem(purifiedUraniumDust.maybeItem().get(), "purifiedUraniumDust");
-		GameRegistry.registerItem(purifiedUraniumIngot.maybeItem().get(), "purifiedUraniumIngot");
+		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), dustPureUranium.asStack(1), 4);
+		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), dustPureRedstone.asStack(1), 4);
 
-		AEApi.instance().registries().grinder().addRecipe(purifiedUraniumCrystal.maybeStack(1).get(), purifiedUraniumDust.maybeStack(2).get(), 4);
-		GameRegistry.addSmelting(uraniumDust.maybeItem().get(), uraniumIngot.maybeStack(1).get(), 0);
-		GameRegistry.addSmelting(purifiedUraniumDust.maybeItem().get(), purifiedUraniumIngot.maybeStack(1).get(), 0);
+		GameRegistry.addSmelting(dustUranium.asStack(), ingotUranium.asStack(), 0);
+		GameRegistry.addSmelting(dustPureUranium.asStack(), ingotPureUranium.asStack(), 0);
 
-		OreDictionary.registerOre("dustUranium", uraniumDust.maybeItem().get());
-		OreDictionary.registerOre("dustPurifiedUranium", purifiedUraniumDust.maybeItem().get());
-		OreDictionary.registerOre("ingotUranium", uraniumIngot.maybeItem().get());
-		OreDictionary.registerOre("ingotPurifiedUranium", purifiedUraniumIngot.maybeItem().get());
+		OreDictionary.registerOre("dustUranium", dustUranium.asStack());
+		OreDictionary.registerOre("dustPureUranium", dustPureUranium.asStack());
+		OreDictionary.registerOre("dustPureRedstone", dustPureRedstone.asStack());
+		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());
+		OreDictionary.registerOre("ingotPureUranium", ingotPureUranium.asStack());
 	}
 }

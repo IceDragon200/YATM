@@ -25,12 +25,21 @@ package id2h.yatm.common.tileentity.machine;
 
 import io.netty.buffer.ByteBuf;
 
+import cofh.api.energy.EnergyStorage;
+
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.inventory.IInventory;
 
 public abstract class AbstractProgressiveMachine extends AbstractMachine implements IProgressiveMachine
 {
 	protected float progress;
 	protected float progressMax;
+
+	@Override
+	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return progressMax > 0;
+	}
 
 	protected void resetProgress()
 	{
@@ -54,20 +63,20 @@ public abstract class AbstractProgressiveMachine extends AbstractMachine impleme
 		data.setDouble("progressMax", (double)progressMax);
 	}
 
-	//@Override
-	//public boolean readFromStream(ByteBuf stream)
-	//{
-	//	this.progress = stream.readFloat();
-	//	this.progressMax = stream.readFloat();
-	//	return true;
-	//}
+	@Override
+	public boolean readFromStream(ByteBuf stream)
+	{
+		this.progress = stream.readFloat();
+		this.progressMax = stream.readFloat();
+		return false;
+	}
 
-	//@Override
-	//public void writeToStream(ByteBuf stream)
-	//{
-	//	stream.writeFloat(progress);
-	//	stream.writeFloat(progressMax);
-	//}
+	@Override
+	public void writeToStream(ByteBuf stream)
+	{
+		stream.writeFloat(progress);
+		stream.writeFloat(progressMax);
+	}
 
 	@Override
 	public float getProgress()

@@ -40,7 +40,7 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine implements II
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
-		if (NumUtils.between(index, 0, 2))
+		if (index < 0 || NumUtils.between(index, 0, 2))
 		{
 			awake();
 		}
@@ -68,13 +68,6 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine implements II
 		return AEApi.instance().registries().grinder().getRecipeForInput(inventory.getStackInSlot(6));
 	}
 
-	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return getGrinderEntryFromInput(inventory) != null ||
-			getGrinderEntryFromProcessing(inventory) != null;
-	}
-
 	protected void addOutputItem(IInventory inventory, ItemStack stack)
 	{
 		final ItemStack srcStack = stack.copy();
@@ -83,11 +76,12 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine implements II
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
 	{
-		if (inventory.getStackInSlot(6) == null)
+		if (progressMax <= 0)
 		{
-			boolean foundRecipe = false;
+			resetProgress();
+
 			for (int i = 0; i < 3; ++i)
 			{
 				final ItemStack stack = inventory.getStackInSlot(i);
@@ -99,37 +93,41 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine implements II
 						inventory.setInventorySlotContents(6, inventory.decrStackSize(i, entry.getInput().stackSize));
 						this.progress = 0.0f;
 						this.progressMax = (float)entry.getEnergyCost() * 5;
-						foundRecipe = true;
 						break;
 					}
 				}
 			}
-			if (!foundRecipe)
-			{
-				gotoSleep();
-				return;
-			}
-		}
 
-		if (inventory.getStackInSlot(6) != null)
+			if (progressMax <= 0) gotoSleep();
+		}
+		super.updateAwakeMachine(_state, _energyStorage, inventory);
+	}
+
+	@Override
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		if (progressMax > 0)
 		{
 			if (progress >= progressMax)
 			{
 				final IGrinderEntry entry = getGrinderEntryFromProcessing(inventory);
 				resetProgress();
 
-				addOutputItem(inventory, entry.getOutput());
-
-				float chance = (rand.nextInt(2001)) / 2000.0f;
-				if (chance <= entry.getOptionalChance())
+				if (entry != null)
 				{
-					addOutputItem(inventory, entry.getOptionalOutput());
-				}
+					addOutputItem(inventory, entry.getOutput());
 
-				chance = (rand.nextInt(2001)) / 2000.0f;
-				if (chance <= entry.getSecondOptionalChance())
-				{
-					addOutputItem(inventory, entry.getSecondOptionalOutput());
+					float chance = (rand.nextInt(2001)) / 2000.0f;
+					if (chance <= entry.getOptionalChance())
+					{
+						addOutputItem(inventory, entry.getOptionalOutput());
+					}
+
+					chance = (rand.nextInt(2001)) / 2000.0f;
+					if (chance <= entry.getSecondOptionalChance())
+					{
+						addOutputItem(inventory, entry.getSecondOptionalOutput());
+					}
 				}
 
 				inventory.setInventorySlotContents(6, null);

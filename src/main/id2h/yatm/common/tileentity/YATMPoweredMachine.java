@@ -62,6 +62,11 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		this.machine.setTileEntity(this);
 	}
 
+	public boolean getWorkingState()
+	{
+		return lastWorkingState;
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{

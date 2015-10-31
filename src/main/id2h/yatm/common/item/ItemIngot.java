@@ -23,29 +23,39 @@
  */
 package id2h.yatm.common.item;
 
-import java.util.EnumSet;
+import java.util.List;
 
-import appeng.core.features.AEFeature;
-import appeng.items.AEBaseItem;
+import id2h.yatm.YATM;
 
-public class ItemIngot extends AEBaseItem
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
+
+public class ItemIngot extends AbstractItemMaterial
 {
-	public ItemIngot(int ingotType)
+	public ItemIngot()
 	{
 		super();
-		switch (ingotType)
-		{
-			case Ingots.UraniumIngot:
-				setUnlocalizedName("yatm.ItemUraniumIngot");
-				setTextureName("yatm:ItemMaterial.UraniumIngot");
-				break;
-			case Ingots.PurifiedUraniumIngot:
-				setUnlocalizedName("yatm.ItemPurifiedUraniumIngot");
-				setTextureName("yatm:ItemMaterial.PurifiedUraniumIngot");
-				break;
-			default:
-				break;
-		}
-		setFeature(EnumSet.of(AEFeature.Core));
+		setUnlocalizedName("yatm.ItemIngot");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ir)
+	{
+		icons = new IIcon[2];
+		icons[YATM.items.ingotUranium.meta] = ir.registerIcon("yatm:ItemMaterial.UraniumIngot");
+		icons[YATM.items.ingotPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.PureUraniumIngot");
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
+	{
+		itemStacks.add(YATM.items.ingotUranium.asStack());
+		itemStacks.add(YATM.items.ingotPureUranium.asStack());
 	}
 }

@@ -40,7 +40,7 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
-		if (index == 0)
+		if (index < 0 || index == 0)
 		{
 			awake();
 		}
@@ -51,16 +51,9 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 		return YATMApi.instance().crushing().getCrushingResult(inventory.getStackInSlot(0));
 	}
 
-	protected CrushingResult getCrushingResultFromtProcessing(IInventory inventory)
+	protected CrushingResult getCurshingResultFromProcessing(IInventory inventory)
 	{
 		return YATMApi.instance().crushing().getCrushingResult(inventory.getStackInSlot(6));
-	}
-
-	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return getCrushingResultFromInput(inventory) != null ||
-			getCrushingResultFromtProcessing(inventory) != null;
 	}
 
 	protected void addOutputItem(IInventory inventory, ItemStack stack)
@@ -70,11 +63,14 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
 	{
-		if (inventory.getStackInSlot(6) == null)
+		if (progressMax <= 0)
 		{
+			resetProgress();
+
 			final CrushingResult result = getCrushingResultFromInput(inventory);
+
 			if (result != null)
 			{
 				final ItemStack inputStack = result.getInput();
@@ -86,43 +82,37 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 					this.progressMax = (float)result.time;
 				}
 			}
-			else
-			{
-				goIdle();
-				return;
-			}
+
+			if (progressMax <= 0) gotoSleep();
 		}
+		super.updateAwakeMachine(_state, _energyStorage, inventory);
+	}
 
-		if (inventory.getStackInSlot(6) != null)
+	@Override
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	{
+		if (progressMax > 0)
 		{
-			final CrushingResult result = getCrushingResultFromtProcessing(inventory);
-
-			if (result == null)
+			if (progress >= progressMax)
 			{
-				// EJECT stack
-				inventory.setInventorySlotContents(6, null);
+				final CrushingResult result = getCurshingResultFromProcessing(inventory);
 				resetProgress();
-			}
-			else
-			{
-				this.progressMax = (float)result.time;
-				if (progress >= progressMax)
-				{
-					resetProgress();
 
+				if (result != null)
+				{
 					for (PossibleItem item : result.items.randomResults(rand))
 					{
 						final ItemStack stack = item.asStack();
 						YATMDebug.write("Finding available slot for stack=" + stack);
 						addOutputItem(inventory, stack);
 					}
+				}
 
-					inventory.setInventorySlotContents(6, null);
-				}
-				else
-				{
-					this.progress += 1;
-				}
+				inventory.setInventorySlotContents(6, null);
+			}
+			else
+			{
+				this.progress += 1;
 			}
 		}
 	}

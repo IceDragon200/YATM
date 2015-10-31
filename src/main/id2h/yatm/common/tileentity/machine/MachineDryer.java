@@ -23,16 +23,12 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
+//import cofh.api.energy.EnergyStorage;
 
-import net.minecraft.inventory.IInventory;
+//import net.minecraft.inventory.IInventory;
 //import net.minecraft.nbt.NBTTagCompound;
 
 public class MachineDryer extends AbstractProgressiveMachine
 {
-	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return true;
-	}
+
 }

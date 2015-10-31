@@ -29,24 +29,28 @@ import cofh.api.energy.IEnergyReceiver;
 
 import id2h.yatm.common.block.YATMBlockBaseTile;
 import id2h.yatm.common.tileentity.TileEntityEnergyCell;
+import id2h.yatm.common.tileentity.YATMPoweredMachine;
 
-import cpw.mods.fml.common.Optional;
-
-import net.minecraftforge.common.util.ForgeDirection;
+import appeng.util.ReadableNumberConverter;
+import appeng.util.ISlimReadableNumberConverter;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 
+import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class WailaIntegration implements IWailaDataProvider
 {
+	private static final ISlimReadableNumberConverter slimConverter = ReadableNumberConverter.INSTANCE;
+
 	@Optional.Method(modid = "Waila")
 	public static void register(IWailaRegistrar reg)
 	{
@@ -76,17 +80,28 @@ public class WailaIntegration implements IWailaDataProvider
 	{
 		final TileEntity te = accessor.getTileEntity();
 		final NBTTagCompound tag = accessor.getNBTData();
+		if (te instanceof YATMPoweredMachine)
+		{
+			tooltip.add("Active: " + tag.getBoolean("WorkingState"));
+		}
+
 		if (te instanceof IEnergyReceiver)
 		{
-			final long energy = tag.getLong("energy");
-			final long maxEnergy = tag.getLong("maxenergy");
-			tooltip.add("Online: " + (energy > 0));
-			tooltip.add("Energy: " + energy + " / " + maxEnergy + " RF");
+			final long energy = tag.getLong("Energy");
+			final long maxEnergy = tag.getLong("EnergyMax");
+
+
+			tooltip.add("Energy: " +
+				slimConverter.toSlimReadableForm(energy) +
+				" / " +
+				slimConverter.toSlimReadableForm(maxEnergy) + " RF"
+			);
 		}
+
 		if (te instanceof TileEntityEnergyCell)
 		{
-			final long maxIN = tag.getLong("maxIN");
-			final long maxOUT = tag.getLong("maxOUT");
+			final long maxIN = tag.getLong("InputRate");
+			final long maxOUT = tag.getLong("OutputRate");
 			tooltip.add("I/O: " + maxIN + " / " + maxOUT + " RF/t");
 		}
 		return tooltip;
@@ -103,17 +118,24 @@ public class WailaIntegration implements IWailaDataProvider
 	@Optional.Method(modid = "Waila")
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z)
 	{
+		if (te instanceof YATMPoweredMachine)
+		{
+			final YATMPoweredMachine pm = (YATMPoweredMachine)te;
+			tag.setBoolean("WorkingState", pm.getWorkingState());
+		}
+
 		if (te instanceof IEnergyReceiver)
 		{
 			final IEnergyReceiver er = (IEnergyReceiver)te;
-			tag.setLong("maxenergy", er.getMaxEnergyStored(ForgeDirection.UNKNOWN));
-			tag.setLong("energy", er.getEnergyStored(ForgeDirection.UNKNOWN));
+			tag.setLong("EnergyMax", er.getMaxEnergyStored(ForgeDirection.UNKNOWN));
+			tag.setLong("Energy", er.getEnergyStored(ForgeDirection.UNKNOWN));
 		}
+
 		if (te instanceof TileEntityEnergyCell)
 		{
 			final TileEntityEnergyCell energyCell = (TileEntityEnergyCell)te;
-			tag.setLong("maxIN", energyCell.getMaxReceive());
-			tag.setLong("maxOUT", energyCell.getMaxExtract());
+			tag.setLong("InputRate", energyCell.getMaxReceive());
+			tag.setLong("OutputRate", energyCell.getMaxExtract());
 		}
 		return tag;
 	}

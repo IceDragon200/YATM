@@ -57,8 +57,6 @@ import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 import growthcraft.core.common.definition.BlockDefinition;
 import id2h.yatm.common.definition.BlockDecorativeDefinition;
 
-import appeng.core.api.definitions.DefinitionConstructor;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
@@ -98,7 +96,7 @@ public class BlockInstances
 
 	public BlockInstances() {}
 
-	public void preInit(DefinitionConstructor constructor)
+	public void preInit()
 	{
 		chassis = new BlockDefinition(new BlockChassis());
 

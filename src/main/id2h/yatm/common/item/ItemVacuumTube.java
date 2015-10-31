@@ -21,34 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.creativetab;
+package id2h.yatm.common.item;
+
+import java.util.List;
 
 import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.item.Item;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 
-public class CreativeTabsYATM extends CreativeTabs
+public class ItemVacuumTube extends AbstractItemMaterial
 {
-	private static final CreativeTabs INSTANCE = new CreativeTabsYATM();
-
-	public CreativeTabsYATM()
+	public ItemVacuumTube()
 	{
-		super("CreativeTabsYATM");
+		super();
+		setUnlocalizedName("yatm.ItemVacuumTube");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Item getTabIconItem()
+	public void registerIcons(IIconRegister ir)
 	{
-		return YATM.blocks.chassis.getItem();
+		icons = new IIcon[4];
+		icons[YATM.items.vacuumTubeIron.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Iron");
+		icons[YATM.items.vacuumTubeGold.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Gold");
+		icons[YATM.items.vacuumTubeDiamond.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Diamond");
+		icons[YATM.items.vacuumTubeObsidian.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Obsidian");
 	}
 
-	public static CreativeTabs instance()
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
-		return INSTANCE;
+		itemStacks.add(YATM.items.vacuumTubeIron.asStack());
+		itemStacks.add(YATM.items.vacuumTubeGold.asStack());
+		itemStacks.add(YATM.items.vacuumTubeDiamond.asStack());
+		itemStacks.add(YATM.items.vacuumTubeObsidian.asStack());
 	}
 }

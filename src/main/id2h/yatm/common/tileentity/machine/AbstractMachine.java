@@ -104,7 +104,7 @@ public abstract class AbstractMachine implements IMachineLogic
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return false;
+		return true;
 	}
 
 	@Override
@@ -116,6 +116,7 @@ public abstract class AbstractMachine implements IMachineLogic
 	protected void goIdle()
 	{
 		idleTime = 60;
+		YATMDebug.writeMachineState("Machine has gone idle machine=" + this);
 	}
 
 	protected void awake()

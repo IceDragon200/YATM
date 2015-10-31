@@ -33,7 +33,12 @@ public class YATMDebug
 
 	public static void write(String str)
 	{
-		//FMLLog.log("YATM", Level.INFO, "DEBUG: " + str);
+		FMLLog.log("YATM", Level.INFO, "DEBUG: " + str);
+	}
+
+	public static void writePacket(String str)
+	{
+		//FMLLog.log("YATM", Level.INFO, "DEBUG/Packet: " + str);
 	}
 
 	public static void writeMachineState(String str)

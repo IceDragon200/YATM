@@ -130,7 +130,7 @@ public abstract class YATMBaseTile extends TileEntity
 			System.err.println(t);
 		}
 
-		YATMDebug.write("Created Description Packet obj=" + this);
+		YATMDebug.writePacket("Created Description Packet obj=" + this);
 		// P, for payload
 		data.setByteArray("P", stream.array());
 
@@ -159,7 +159,7 @@ public abstract class YATMBaseTile extends TileEntity
 	{
 		if (packet.func_148853_f() == 127)
 		{
-			YATMDebug.write("Received Description Packet obj=" + this);
+			YATMDebug.writePacket("Received Description Packet obj=" + this);
 			//System.out.println("Received Description Packet: " + toString());
 			final NBTTagCompound tag = packet.func_148857_g();
 			if (tag != null)

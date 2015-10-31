@@ -28,6 +28,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import id2h.yatm.YATM;
+import id2h.yatm.creativetab.CreativeTabsYATM;
 
 import appeng.api.implementations.items.IGrowableCrystal;
 import appeng.api.recipes.ResolverResult;
@@ -37,6 +38,8 @@ import appeng.entity.EntityGrowingCrystal;
 import appeng.items.AEBaseItem;
 import appeng.util.Platform;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -48,30 +51,34 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-/* Because of some Scala quirks with Raw types, this is written in Java */
-
-public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
+public class ItemCrystalSeed extends AEBaseItem implements IGrowableCrystal
 {
-	static final int LEVEL_OFFSET = 200;
-	static final int MAX_LEVEL_OFFSET = LEVEL_OFFSET * 3;
+	protected static final int LEVEL_OFFSET = 200;
+	protected static final int SINGLE_OFFSET = LEVEL_OFFSET * 3;
+	public static final int[] LEVEL_OFFSETS = { 0, SINGLE_OFFSET };
+	protected static final String[] crystalName = { "Uranium", "Redstone" };
 
-	final IIcon[] icons = new IIcon[3];
+	@SideOnly(Side.CLIENT)
+	protected IIcon[][] iconsTable;
 
-	public ItemUraniumSeed()
+	public ItemCrystalSeed()
 	{
-		this.setHasSubtypes(true);
-		this.setFeature(EnumSet.of(AEFeature.Core));
-		this.setUnlocalizedName("yatm.ItemUraniumSeed");
+		super();
+		setHasSubtypes(true);
+		setFeature(EnumSet.of(AEFeature.Core));
+		setUnlocalizedName("yatm.ItemCrystalSeed");
+		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
 	private static ItemStack newStyle(ItemStack itemStack)
 	{
 		final Item item = itemStack.getItem();
-		if (item instanceof ItemUraniumSeed)
+		if (item instanceof ItemCrystalSeed)
 		{
-			((ItemUraniumSeed)item).getProgress(itemStack);
+			((ItemCrystalSeed)item).getProgress(itemStack);
 		}
 		else
 		{
@@ -83,25 +90,29 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 	@Nullable
 	public static ResolverResult getResolver(int damage)
 	{
-		ResolverResult resolver = null;
-
-		for (ItemStack crystalSeedStack : YATM.items.uraniumSeed.maybeStack(1).asSet())
-		{
-			crystalSeedStack.setItemDamage(damage);
-			crystalSeedStack = newStyle(crystalSeedStack);
-			resolver = new ResolverResult("ItemUraniumSeed", crystalSeedStack.getItemDamage(), crystalSeedStack.getTagCompound());
-		}
-
-		return resolver;
+		ItemStack crystalSeedStack = YATM.items.crystalSeed.asStack(1);
+		crystalSeedStack.setItemDamage(damage);
+		crystalSeedStack = newStyle(crystalSeedStack);
+		return new ResolverResult("ItemCrystalSeed", crystalSeedStack.getItemDamage(), crystalSeedStack.getTagCompound());
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		final String prefix = "yatm:ItemCrystalSeed.Uranium";
-		icons[0] = ir.registerIcon(prefix + "0");
-		icons[1] = ir.registerIcon(prefix + "1");
-		icons[2] = ir.registerIcon(prefix + "2");
+		final String prefix = "yatm:ItemCrystalSeed.";
+
+		iconsTable = new IIcon[2][];
+
+		iconsTable[0] = new IIcon[3];
+		iconsTable[0][0] = ir.registerIcon(prefix + "Uranium0");
+		iconsTable[0][1] = ir.registerIcon(prefix + "Uranium1");
+		iconsTable[0][2] = ir.registerIcon(prefix + "Uranium2");
+
+		iconsTable[1] = new IIcon[3];
+		iconsTable[1][0] = ir.registerIcon(prefix + "Redstone0");
+		iconsTable[1][1] = ir.registerIcon(prefix + "Redstone1");
+		iconsTable[1][2] = ir.registerIcon(prefix + "Redstone2");
 	}
 
 	@Override
@@ -119,9 +130,9 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 	@Override
 	public void addCheckedInformation(ItemStack stack, EntityPlayer player, List<String> lines, boolean displayMoreInfo)
 	{
-		lines.add( ButtonToolTips.DoesntDespawn.getLocal() );
-		final int progress = this.getProgress(stack);
-		lines.add(Math.floor((float) progress / (float)(MAX_LEVEL_OFFSET / 100)) + "%");
+		lines.add(ButtonToolTips.DoesntDespawn.getLocal());
+		final int progress = this.getProgress(stack) % SINGLE_OFFSET;
+		lines.add(Math.floor((float)progress / (float)(SINGLE_OFFSET / 100)) + "%");
 
 		super.addCheckedInformation(stack, player, lines, displayMoreInfo);
 	}
@@ -132,15 +143,49 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 		return Integer.MAX_VALUE;
 	}
 
-	//@Override
-	//public String getUnlocalizedName(ItemStack is) {
-	//	return this.getUnlocalizedName();
-	//}
+	public int[] getCrystalData(ItemStack is)
+	{
+		int progress = getProgress(is);
+		int index = 0;
+
+		while (index < LEVEL_OFFSETS.length)
+		{
+			if (progress < (LEVEL_OFFSETS[index] + SINGLE_OFFSET))
+			{
+				progress -= LEVEL_OFFSETS[index];
+				break;
+			}
+			index++;
+		}
+
+		return new int[] { MathHelper.clamp_int(index, 0, LEVEL_OFFSETS.length - 1), progress };
+	}
+
+	public int getCrystalIndex(ItemStack is)
+	{
+		return getCrystalData(is)[0];
+	}
+
+	public int getCrystalProgress(ItemStack is)
+	{
+		return getCrystalData(is)[1];
+	}
 
 	@Override
+	public String getUnlocalizedName(ItemStack is)
+	{
+		return this.getUnlocalizedName() + "." + crystalName[getCrystalIndex(is)];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIconIndex(ItemStack stack)
 	{
-		final int progress = getProgress(stack);
+		final int[] data = getCrystalData(stack);
+		final int index = data[0];
+		final int progress = data[1];
+		final IIcon[] icons = iconsTable[index];
+
 		if (progress < LEVEL_OFFSET)
 		{
 			return icons[0];
@@ -156,6 +201,7 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(ItemStack stack, int pass)
 	{
 		return getIconIndex(stack);
@@ -202,15 +248,15 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 		final int progress = getProgress(is) + 1;
 		final int size = is.stackSize;
 
-		if (progress >= MAX_LEVEL_OFFSET)
+		for (int i = 0; i < LEVEL_OFFSETS.length; ++i)
 		{
-			for (ItemStack stack : YATM.items.purifiedUraniumCrystal.maybeStack(size).asSet())
+			if (progress == LEVEL_OFFSETS[i] + SINGLE_OFFSET)
 			{
-				return stack;
+				return YATM.items.crystal.asStack(size, i);
 			}
 		}
 
-		this.setProgress(is, progress);
+		setProgress(is, progress);
 		return is;
 	}
 
@@ -223,7 +269,8 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 		egc.motionY = location.motionY;
 		egc.motionZ = location.motionZ;
 
-		if (location instanceof EntityItem) {
+		if (location instanceof EntityItem)
+		{
 			egc.delayBeforeCanPickup = ((EntityItem)location).delayBeforeCanPickup;
 		}
 
@@ -233,8 +280,11 @@ public class ItemUraniumSeed extends AEBaseItem implements IGrowableCrystal
 	@Override
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
-		itemStacks.add(newStyle(new ItemStack(this, 1, 0)));
-		itemStacks.add(newStyle(new ItemStack(this, 1, LEVEL_OFFSET * 1)));
-		itemStacks.add(newStyle(new ItemStack(this, 1, LEVEL_OFFSET * 2)));
+		for (int offset : LEVEL_OFFSETS)
+		{
+			itemStacks.add(newStyle(new ItemStack(this, 1, offset)));
+			itemStacks.add(newStyle(new ItemStack(this, 1, offset + LEVEL_OFFSET * 1)));
+			itemStacks.add(newStyle(new ItemStack(this, 1, offset + LEVEL_OFFSET * 2)));
+		}
 	}
 }

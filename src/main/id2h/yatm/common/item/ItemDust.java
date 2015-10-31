@@ -23,29 +23,41 @@
  */
 package id2h.yatm.common.item;
 
-import java.util.EnumSet;
+import java.util.List;
 
-import appeng.core.features.AEFeature;
-import appeng.items.AEBaseItem;
+import id2h.yatm.YATM;
 
-public class ItemDust extends AEBaseItem
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
+
+public class ItemDust extends AbstractItemMaterial
 {
-	public ItemDust(int dustType)
+	public ItemDust()
 	{
 		super();
-		switch (dustType)
-		{
-			case Dusts.UraniumDust:
-				setUnlocalizedName("yatm.ItemUraniumDust");
-				setTextureName("yatm:ItemMaterial.UraniumDust");
-				break;
-			case Dusts.PurifiedUraniumDust:
-				setUnlocalizedName("yatm.ItemPurifiedUraniumDust");
-				setTextureName("yatm:ItemMaterial.PurifiedUraniumDust");
-				break;
-			default:
-				break;
-		}
-		setFeature(EnumSet.of(AEFeature.Core));
+		setUnlocalizedName("yatm.ItemDust");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ir)
+	{
+		icons = new IIcon[3];
+		icons[YATM.items.dustUranium.meta] = ir.registerIcon("yatm:ItemMaterial.UraniumDust");
+		icons[YATM.items.dustPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.PureUraniumDust");
+		icons[YATM.items.dustPureRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.PureRedstoneDust");
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
+	{
+		itemStacks.add(YATM.items.dustUranium.asStack());
+		itemStacks.add(YATM.items.dustPureUranium.asStack());
+		itemStacks.add(YATM.items.dustPureRedstone.asStack());
 	}
 }

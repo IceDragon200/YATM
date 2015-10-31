@@ -21,34 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.creativetab;
+package id2h.yatm.common.item;
+
+import java.util.List;
 
 import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.item.Item;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 
-public class CreativeTabsYATM extends CreativeTabs
+public class ItemCapacitor extends AbstractItemMaterial
 {
-	private static final CreativeTabs INSTANCE = new CreativeTabsYATM();
-
-	public CreativeTabsYATM()
+	public ItemCapacitor()
 	{
-		super("CreativeTabsYATM");
+		super();
+		setUnlocalizedName("yatm.ItemCapacitor");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Item getTabIconItem()
+	public void registerIcons(IIconRegister ir)
 	{
-		return YATM.blocks.chassis.getItem();
+		icons = new IIcon[4];
+		icons[YATM.items.capacitorIron.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Iron");
+		icons[YATM.items.capacitorGold.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Gold");
+		icons[YATM.items.capacitorDiamond.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Diamond");
+		icons[YATM.items.capacitorObsidian.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Obsidian");
 	}
 
-	public static CreativeTabs instance()
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
-		return INSTANCE;
+		itemStacks.add(YATM.items.capacitorIron.asStack());
+		itemStacks.add(YATM.items.capacitorGold.asStack());
+		itemStacks.add(YATM.items.capacitorDiamond.asStack());
+		itemStacks.add(YATM.items.capacitorObsidian.asStack());
 	}
 }

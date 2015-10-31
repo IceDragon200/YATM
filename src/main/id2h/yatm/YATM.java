@@ -32,9 +32,6 @@ import id2h.yatm.common.CommonProxy;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
 
-import appeng.core.Api;
-import appeng.core.api.definitions.DefinitionConstructor;
-
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -43,6 +40,8 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -74,11 +73,10 @@ public class YATM
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		final DefinitionConstructor constructor = new DefinitionConstructor(Api.INSTANCE.definitions().getFeatureRegistry(), Api.INSTANCE.definitions().getFeatureHandlerRegistry());
 		blocks = new BlockInstances();
 		items = new ItemInstances();
-		blocks.preInit(constructor);
-		items.preInit(constructor);
+		blocks.preInit();
+		items.preInit();
 	}
 
 	private void registerCrushingRecipes()
@@ -160,10 +158,181 @@ public class YATM
 
 	}
 
+	private void registerCraftingRecipes()
+	{
+		// Seed Recipes
+		GameRegistry.addShapelessRecipe(items.crystalSeedUranium.asStack(2),
+			items.dustUranium.asStack(),
+			Blocks.sand
+		);
+
+		GameRegistry.addShapelessRecipe(items.crystalSeedRedstone.asStack(2),
+			Items.redstone,
+			Blocks.sand
+		);
+
+		// Capacitor Recipes
+		GameRegistry.addShapedRecipe(items.capacitorIron.asStack(3),
+			" x ",
+			"xrx",
+			" x ",
+			'r', items.dustPureRedstone.asStack(),
+			'x', Items.iron_ingot
+		);
+
+		GameRegistry.addShapedRecipe(items.capacitorGold.asStack(3),
+			" x ",
+			"xrx",
+			" x ",
+			'r', items.dustPureRedstone.asStack(),
+			'x', Items.gold_ingot
+		);
+
+		GameRegistry.addShapedRecipe(items.capacitorDiamond.asStack(3),
+			" x ",
+			"xrx",
+			"nxn",
+			'r', items.dustPureRedstone.asStack(),
+			'x', Items.diamond,
+			'n', Items.gold_nugget
+		);
+
+		GameRegistry.addShapedRecipe(items.capacitorObsidian.asStack(3),
+			" x ",
+			"xrx",
+			"nxn",
+			'r', items.dustPureRedstone.asStack(),
+			'x', Blocks.obsidian,
+			'n', Items.gold_nugget
+		);
+
+		// Vacuum Tube Recipes
+		GameRegistry.addShapedRecipe(items.vacuumTubeIron.asStack(3),
+			" g ",
+			"grg",
+			" x ",
+			'g', Blocks.glass,
+			'r', items.dustPureRedstone.asStack(),
+			'x', Items.iron_ingot
+		);
+
+		GameRegistry.addShapedRecipe(items.vacuumTubeGold.asStack(3),
+			" g ",
+			"grg",
+			" x ",
+			'g', Blocks.glass,
+			'r', items.dustPureRedstone.asStack(),
+			'x', Items.gold_ingot
+		);
+
+		GameRegistry.addShapedRecipe(items.vacuumTubeDiamond.asStack(3),
+			" g ",
+			"grg",
+			"nxn",
+			'g', Blocks.glass,
+			'r', items.dustPureRedstone.asStack(),
+			'x', Items.diamond,
+			'n', Items.gold_nugget
+		);
+
+		GameRegistry.addShapedRecipe(items.vacuumTubeObsidian.asStack(3),
+			" g ",
+			"grg",
+			"nxn",
+			'g', Blocks.glass,
+			'r', items.dustPureRedstone.asStack(),
+			'x', Blocks.obsidian,
+			'n', Items.gold_nugget
+		);
+
+
+		// Machine Recipes
+		GameRegistry.addShapedRecipe(blocks.chassis.asStack(),
+			"CIC",
+			"ICI",
+			"CIC",
+			'C', Items.iron_ingot,
+			'I', items.dustPureRedstone.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.autoCrafter.asStack(),
+			"IWI",
+			"ICI",
+			"AIA",
+			'A', items.capacitorIron.asStack(),
+			'C', blocks.chassis.asStack(),
+			'W', Blocks.crafting_table,
+			'I', Items.iron_ingot
+		);
+
+		{
+			final Block grindstone = GameRegistry.findBlock("appliedenergistics2", "BlockGrinder");
+			if (grindstone != null)
+			{
+				GameRegistry.addShapedRecipe(blocks.autoGrinder.asStack(),
+					"III",
+					"IWI",
+					"ACA",
+					'A', items.capacitorIron.asStack(),
+					'C', blocks.chassis.asStack(),
+					'W', grindstone,
+					'I', Items.iron_ingot
+				);
+			}
+		}
+
+		GameRegistry.addShapedRecipe(blocks.crusher.asStack(),
+			"III",
+			"WCW",
+			"AIA",
+			'A', items.capacitorIron.asStack(),
+			'C', blocks.chassis.asStack(),
+			'W', Blocks.piston,
+			'I', Items.iron_ingot
+		);
+
+		GameRegistry.addShapedRecipe(blocks.fluxFurnace.asStack(),
+			"IFI",
+			"FCF",
+			"AFA",
+			'A', items.vacuumTubeIron.asStack(),
+			'C', blocks.chassis.asStack(),
+			'F', Blocks.furnace,
+			'I', Items.iron_ingot
+		);
+
+		// Energy Cell Recipes
+		GameRegistry.addShapedRecipe(blocks.energyCellBasic.asStack(),
+			"YIY",
+			"ICI",
+			"YIY",
+			'Y', items.crystalRedstone.asStack(),
+			'C', blocks.chassis.asStack(),
+			'I', Items.iron_ingot
+		);
+
+		GameRegistry.addShapedRecipe(blocks.energyCellNormal.asStack(),
+			"CYC",
+			"YCY",
+			"CYC",
+			'C', blocks.energyCellBasic.asStack(),
+			'Y', items.crystalRedstone.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.energyCellDense.asStack(),
+			"CBC",
+			"BCB",
+			"CBC",
+			'C', blocks.energyCellNormal.asStack(),
+			'B', blocks.energyCellBasic.asStack()
+		);
+	}
+
 	private void registerRecipes()
 	{
 		registerCrushingRecipes();
 		registerMixingRecipes();
+		registerCraftingRecipes();
 	}
 
 	@EventHandler

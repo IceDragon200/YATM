@@ -23,10 +23,42 @@
  */
 package id2h.yatm.common.item;
 
-public class Ingots
-{
-	public static final int UraniumIngot = 0;
-	public static final int PurifiedUraniumIngot = 1;
+import id2h.yatm.creativetab.CreativeTabsYATM;
 
-	private Ingots() {}
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+
+public abstract class AbstractItemMaterial extends Item
+{
+	@SideOnly(Side.CLIENT)
+	protected IIcon[] icons;
+
+	public AbstractItemMaterial()
+	{
+		super();
+		setHasSubtypes(true);
+		setCreativeTab(CreativeTabsYATM.instance());
+	}
+
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return super.getUnlocalizedName() + "." + stack.getItemDamage();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack stack)
+	{
+		return icons[stack.getItemDamage()];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack stack, int pass)
+	{
+		return getIconIndex(stack);
+	}
 }

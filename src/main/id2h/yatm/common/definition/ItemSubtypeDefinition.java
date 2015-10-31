@@ -21,20 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.item;
+package id2h.yatm.common.definition;
 
-import java.util.EnumSet;
+import javax.annotation.Nonnull;
 
-import appeng.core.features.AEFeature;
-import appeng.items.AEBaseItem;
+import growthcraft.core.common.definition.IItemStackFactory;
+import growthcraft.core.common.definition.ISubItemStackFactory;
 
-public class ItemPurifiedUraniumCrystal extends AEBaseItem
+import net.minecraft.item.ItemStack;
+
+public class ItemSubtypeDefinition implements IItemStackFactory
 {
-	public ItemPurifiedUraniumCrystal()
+	public final int meta;
+	private final ISubItemStackFactory itemFactory;
+
+	public ItemSubtypeDefinition(@Nonnull ISubItemStackFactory fact, int met)
 	{
-		super();
-		this.setFeature(EnumSet.of(AEFeature.Core));
-		this.setTextureName("yatm:ItemMaterial.PurifiedUraniumCrystal");
-		this.setUnlocalizedName("yatm.ItemPurifiedUraniumCrystal");
+		this.itemFactory = fact;
+		this.meta = met;
+	}
+
+	public ItemStack asStack(int size)
+	{
+		return itemFactory.asStack(size, meta);
+	}
+
+	public ItemStack asStack()
+	{
+		return asStack(1);
 	}
 }

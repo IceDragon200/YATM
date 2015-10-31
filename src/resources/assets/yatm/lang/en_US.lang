@@ -1,3 +1,6 @@
+// Creative Tabs
+itemGroup.CreativeTabsYATM=Yet Another Tech Mod
+
 // Blocks
 tile.yatm.BlockAutoCrafter.name=Auto Crafter
 tile.yatm.BlockAutoGrinder.name=Auto Grindstone
@@ -11,10 +14,14 @@ tile.yatm.BlockEnergyCellDense.name=Dense Energy Cell
 tile.yatm.BlockEnergyCellDenseCreative.name=Dense Energy Cell (Creative)
 tile.yatm.BlockEnergyCellNormal.name=Normal Energy Cell
 tile.yatm.BlockEnergyCellNormalCreative.name=Normal Energy Cell (Creative)
+tile.yatm.BlockFloorEngraving1.name=Floor Engraving Strips 1
+tile.yatm.BlockFloorEngraving2.name=Floor Engraving Strips 2
+tile.yatm.BlockFloorWarning1.name=Floor Warning Strips 1
+tile.yatm.BlockFloorWarning2.name=Floor Warning Strips 2
+tile.yatm.BlockFluxFurnace.name=RF Furnace
 tile.yatm.BlockLamp.name=Vent Lamp
 tile.yatm.BlockMetalCrate.name=Metal Storage Crate
 tile.yatm.BlockMixer.name=RF Mixer
-tile.yatm.BlockFluxFurnace.name=RF Furnace
 tile.yatm.BlockSolarPanel.name=Photovoltaic Panel
 tile.yatm.BlockVentedMesh.2x.name=Vented Mesh 2x2
 tile.yatm.BlockVentedMesh.4x.name=Vented Mesh 4x4
@@ -23,14 +30,23 @@ tile.yatm.BlockWarningStripes.2x.name=Warning Stripes 2x2
 tile.yatm.BlockWarningStripes.4x.name=Warning Stripes 4x4
 tile.yatm.BlockWarningStripes.8x.name=Warning Stripes 8x8
 tile.yatm.BlockWindow.name=Vented Window
+tile.yatm.BlockReinforcedGlass.name=Reinforced Glass
 
 // Items
-item.yatm.ItemUraniumDust.name=Uranium Dust
-item.yatm.ItemUraniumIngot.name=Uranium Ingot
-item.yatm.ItemUraniumSeed.name=Uranium Seed
-item.yatm.ItemPurifiedUraniumCrystal.name=Pure Uranium Crystal
-item.yatm.ItemPurifiedUraniumDust.name=Pure Uranium Dust
-item.yatm.ItemPurifiedUraniumIngot.name=Pure Uranium Ingot
-
-// Creative Tabs
-itemGroup.yatm=Yet Another Tech Mod
+item.yatm.ItemCapacitor.0.name=Iron Capacitor
+item.yatm.ItemCapacitor.1.name=Gold Capacitor
+item.yatm.ItemCapacitor.2.name=Diamond Capacitor
+item.yatm.ItemCapacitor.3.name=Obsidian Capacitor
+item.yatm.ItemCrystal.0.name=Pure Uranium Crystal
+item.yatm.ItemCrystal.1.name=Pure Redstone Crystal
+item.yatm.ItemCrystalSeed.Redstone.name=Redstone Seed
+item.yatm.ItemCrystalSeed.Uranium.name=Uranium Seed
+item.yatm.ItemDust.0.name=Uranium Dust
+item.yatm.ItemDust.1.name=Pure Uranium Dust
+item.yatm.ItemDust.2.name=Pure Redstone Dust
+item.yatm.ItemIngot.0.name=Uranium Ingot
+item.yatm.ItemIngot.1.name=Pure Uranium Ingot
+item.yatm.ItemVacuumTube.0.name=Iron Vacuum Tube
+item.yatm.ItemVacuumTube.1.name=Gold Vacuum Tube
+item.yatm.ItemVacuumTube.2.name=Diamond Vacuum Tube
+item.yatm.ItemVacuumTube.3.name=Obsidian Vacuum Tube

@@ -125,6 +125,20 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 		return true;
 	}
 
+	private void refreshRecipe(IInventory inventory)
+	{
+		// recipe has changed
+		// DAMN YOU MINECRAFT, WHY THE HELL DO I NEED A CRAFTING INVENTORY D8<
+		final InventoryCrafting crafting = new InventoryCrafting(fakeContainer, 3, 3);
+		writeCraftingSlotsTo(inventory, crafting);
+		final ItemStack result = CraftingManager.getInstance().findMatchingRecipe(crafting, tileEntity.getWorldObj());
+
+		inventory.setInventorySlotContents(9, result);
+		refundProcessing(inventory);
+		resetProgress();
+		YATMDebug.writeMachineState("Recipe has changed machine=" + this + " inv=" + inventory);
+	}
+
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
@@ -133,30 +147,15 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 			// input has changed
 			awake();
 		}
-		else if (NumUtils.between(index, 16, 24))
+		else if (index < 0 || NumUtils.between(index, 16, 24))
 		{
-			// recipe has changed
-			// DAMN YOU MINECRAFT, WHY THE HELL DO I NEED A CRAFTING INVENTORY D8<
-			final InventoryCrafting crafting = new InventoryCrafting(fakeContainer, 3, 3);
-			writeCraftingSlotsTo(inventory, crafting);
-			final ItemStack result = CraftingManager.getInstance().findMatchingRecipe(crafting, tileEntity.getWorldObj());
-
-			inventory.setInventorySlotContents(9, result);
-			refundProcessing(inventory);
-			resetProgress();
-			YATMDebug.write("Recipe has changed inv=" + inventory + " index=" + index);
+			refreshRecipe(inventory);
 			awake();
 		}
 		else
 		{
 			YATMDebug.write("Inventory has changed inv=" + inventory + " index=" + index);
 		}
-	}
-
-	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
-	{
-		return progressMax > 0;
 	}
 
 	protected void outputResult(IInventory inventory)
@@ -170,21 +169,26 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	{
 		if (progressMax <= 0)
 		{
+			resetProgress();
+
 			final ItemStack result = inventory.getStackInSlot(9);
 			if (result != null)
 			{
 				if (startProcessing(inventory))
 				{
 					this.progressMax = 10 + countIngredients(inventory) * 20;
-					YATMDebug.write("Setting progressMax inv=" + inventory);
-				}
-				else
-				{
-					gotoSleep();
 				}
 			}
+
+			if (progressMax <= 0) gotoSleep();
 		}
 		super.updateAwakeMachine(_state, _energyStorage, inventory);
+	}
+
+	@Override
+	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 100;
 	}
 
 	@Override
@@ -192,7 +196,6 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	{
 		if (progressMax > 0)
 		{
-
 			if (progress >= progressMax)
 			{
 				resetProgress();

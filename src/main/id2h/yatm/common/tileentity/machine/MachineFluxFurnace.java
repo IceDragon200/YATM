@@ -37,7 +37,7 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
-		if (NumUtils.between(index, 0, 3))
+		if (index < 0 || NumUtils.between(index, 0, 3))
 		{
 			awake();
 		}
@@ -50,19 +50,7 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 	}
 
 	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
-	{
-		if (progressMax > 0) return true;
-		for (int i = 0; i < 4; ++i)
-		{
-			if (inventory.getStackInSlot(i) != null) return true;
-			if (inventory.getStackInSlot(8 + i) != null) return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
 	{
 		if (progressMax <= 0)
 		{
@@ -82,14 +70,21 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 					}
 				}
 			}
-			this.progressMax *= 0.8f;
 			if (progressMax <= 0)
 			{
 				gotoSleep();
-				return;
+			}
+			else
+			{
+				this.progressMax *= 0.8f;
 			}
 		}
+		super.updateAwakeMachine(_state, _energyStorage, inventory);
+	}
 
+	@Override
+	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	{
 		if (progressMax > 0)
 		{
 			if (progress >= progressMax)

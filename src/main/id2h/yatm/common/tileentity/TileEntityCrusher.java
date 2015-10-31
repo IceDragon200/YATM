@@ -76,13 +76,13 @@ public class TileEntityCrusher extends YATMPoweredMachine
 	{
 		/*
 		 * Slots are reserved as such:
-		 * 0 - primary input
-		 * 1 - output 0
-		 * 2 - output 1
-		 * 3 - output 2
-		 * 4 - output 3
+		 * 0 - :Input
+		 * 1 - :Output 0
+		 * 2 - :Output 1
+		 * 3 - :Output 2
+		 * 4 - :Output 3
 		 * 5 - RESERVED
-		 * 6 - Processing
+		 * 6 - :Processing
 		 */
 		return new YATMInternalInventory(this, 7);
 	}

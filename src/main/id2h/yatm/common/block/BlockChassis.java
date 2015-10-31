@@ -49,4 +49,10 @@ public class BlockChassis extends Block
 	{
 		this.blockIcon = reg.registerIcon("yatm:BlockChassis");
 	}
+
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
 }
