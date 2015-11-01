@@ -37,6 +37,8 @@ import id2h.yatm.integration.growthcraft.HeatSourceHeater;
 
 import growthcraft.api.cellar.CellarRegistry;
 
+import appeng.api.util.AEColor;
+
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -50,6 +52,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 @Mod(
 	modid = YATM.MOD_ID,
@@ -372,6 +375,99 @@ public class YATM
 			'C', blocks.energyCellNormal.asStack(),
 			'B', blocks.energyCellBasic.asStack()
 		);
+
+		// Decorative Blocks
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.mesh.asStack(),
+			"SSS",
+			"SdS",
+			"SSS",
+			'd', "dustIron",
+			'S', Items.string
+		));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.mesh.asStack(),
+			"SSS",
+			"SdS",
+			"SSS",
+			'd', "dustAluminum",
+			'S', Items.string
+		));
+
+		GameRegistry.addShapedRecipe(blocks.warningStripes2x.asStack(8),
+			"BY",
+			"YB",
+			'B', new ItemStack(Blocks.wool, 1, AEColor.Black.ordinal()),
+			'Y', new ItemStack(Blocks.wool, 1, AEColor.Yellow.ordinal())
+		);
+
+		GameRegistry.addShapedRecipe(blocks.warningStripes2x.asStack(8),
+			"YB",
+			"BY",
+			'B', new ItemStack(Blocks.wool, 1, AEColor.Black.ordinal()),
+			'Y', new ItemStack(Blocks.wool, 1, AEColor.Yellow.ordinal())
+		);
+
+		GameRegistry.addShapedRecipe(blocks.warningStripes4x.asStack(4),
+			"xx",
+			"xx",
+			'x', blocks.warningStripes2x.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.warningStripes2x.asStack(4),
+			"x x",
+			"   ",
+			"x x",
+			'x', blocks.warningStripes4x.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.warningStripes8x.asStack(4),
+			"xx",
+			"xx",
+			'x', blocks.warningStripes4x.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.warningStripes4x.asStack(4),
+			"x x",
+			"   ",
+			"x x",
+			'x', blocks.warningStripes8x.asStack()
+		);
+
+		/// Vented Mesh
+		GameRegistry.addShapedRecipe(blocks.ventedMesh8x.asStack(8),
+			" I ",
+			"IMI",
+			" I ",
+			'M', items.mesh.asStack(),
+			'I', Items.iron_ingot
+		);
+
+		GameRegistry.addShapedRecipe(blocks.ventedMesh4x.asStack(4),
+			"xx",
+			"xx",
+			'x', blocks.ventedMesh8x.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.ventedMesh8x.asStack(4),
+			"x x",
+			"   ",
+			"x x",
+			'x', blocks.ventedMesh4x.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.ventedMesh2x.asStack(4),
+			"xx",
+			"xx",
+			'x', blocks.ventedMesh4x.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.ventedMesh4x.asStack(4),
+			"x x",
+			"   ",
+			"x x",
+			'x', blocks.ventedMesh2x.asStack()
+		);
+
 	}
 
 	private void registerCompactingRecipes()

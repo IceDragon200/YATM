@@ -47,6 +47,7 @@ item.yatm.ItemDust.1.name=Pure Uranium Dust
 item.yatm.ItemDust.2.name=Pure Redstone Dust
 item.yatm.ItemIngot.0.name=Uranium Ingot
 item.yatm.ItemIngot.1.name=Pure Uranium Ingot
+item.yatm.ItemMesh.name=Metal Mesh
 item.yatm.ItemVacuumTube.0.name=Iron Vacuum Tube
 item.yatm.ItemVacuumTube.1.name=Gold Vacuum Tube
 item.yatm.ItemVacuumTube.2.name=Diamond Vacuum Tube

@@ -24,11 +24,12 @@
 package id2h.yatm.init;
 
 import id2h.yatm.common.definition.ItemSubtypeDefinition;
+import id2h.yatm.common.item.ItemCapacitor;
+import id2h.yatm.common.item.ItemCrystal;
 import id2h.yatm.common.item.ItemCrystalSeed;
 import id2h.yatm.common.item.ItemDust;
 import id2h.yatm.common.item.ItemIngot;
-import id2h.yatm.common.item.ItemCrystal;
-import id2h.yatm.common.item.ItemCapacitor;
+import id2h.yatm.common.item.ItemMesh;
 import id2h.yatm.common.item.ItemVacuumTube;
 
 import growthcraft.core.common.definition.ItemDefinition;
@@ -70,6 +71,9 @@ public class ItemInstances
 	public ItemSubtypeDefinition vacuumTubeDiamond;
 	public ItemSubtypeDefinition vacuumTubeObsidian;
 
+
+	public ItemDefinition mesh;
+
 	public ItemInstances() {}
 
 	private void initSubtypes()
@@ -106,6 +110,7 @@ public class ItemInstances
 		ingot = new ItemDefinition(new ItemIngot());
 		crystal = new ItemDefinition(new ItemCrystal());
 		vacuumTube = new ItemDefinition(new ItemVacuumTube());
+		mesh = new ItemDefinition(new ItemMesh());
 
 		initSubtypes();
 	}
@@ -118,6 +123,7 @@ public class ItemInstances
 		GameRegistry.registerItem(ingot.getItem(), "pureIngot");
 		GameRegistry.registerItem(crystal.getItem(), "crystal");
 		GameRegistry.registerItem(vacuumTube.getItem(), "vacuumTube");
+		GameRegistry.registerItem(mesh.getItem(), "ironMesh");
 
 		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), dustPureUranium.asStack(1), 4);
 		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), dustPureRedstone.asStack(1), 4);
