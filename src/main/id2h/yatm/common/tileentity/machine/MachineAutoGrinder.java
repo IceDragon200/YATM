@@ -104,6 +104,12 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine implements II
 	}
 
 	@Override
+	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 10;
+	}
+
+	@Override
 	public void doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
 		if (progressMax > 0)

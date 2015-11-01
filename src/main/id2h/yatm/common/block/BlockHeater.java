@@ -21,16 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.block;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.TileEntityHeater;
+import id2h.yatm.util.GuiType;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.world.IBlockAccess;
+
+public class BlockHeater extends YATMBlockBaseMachine
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public BlockHeater()
 	{
-		return new YATMEnergyStorage(4000, 100);
+		super(Material.rock, TileEntityHeater.class);
+		setBlockName("yatm.BlockHeater");
+		setBlockTextureName("yatm:BlockHeater");
+		setGuiType(GuiType.HEATER);
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	{
+		final Block block = world.getBlock(x, y, z);
+		if (block != this)
+		{
+			return block.getLightValue(world, x, y, z);
+		}
+		final int l = world.getBlockMetadata(x, y, z);
+		if ((l & 4) == 4)
+		{
+			return 15;
+		}
+		return getLightValue();
 	}
 }

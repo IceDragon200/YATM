@@ -56,8 +56,8 @@ import net.minecraft.world.World;
 
 public class ItemCrystalSeed extends AEBaseItem implements IGrowableCrystal
 {
-	protected static final int LEVEL_OFFSET = 200;
-	protected static final int SINGLE_OFFSET = LEVEL_OFFSET * 3;
+	public static final int LEVEL_OFFSET = 200;
+	public static final int SINGLE_OFFSET = LEVEL_OFFSET * 3;
 	public static final int[] LEVEL_OFFSETS = { 0, SINGLE_OFFSET };
 	protected static final String[] crystalName = { "Uranium", "Redstone" };
 

@@ -21,31 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.tileentity.feature;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.inventory.IYATMInventory;
-import id2h.yatm.common.inventory.YATMInternalInventory;
-import id2h.yatm.common.tileentity.machine.IMachineLogic;
-import id2h.yatm.common.tileentity.machine.MachineDryer;
+import cofh.api.energy.IEnergyReceiver;
 
-public class TileEntityDryer extends YATMPoweredMachine
+import net.minecraftforge.common.util.ForgeDirection;
+
+// Gives the tile the ability to synchronize its energy with nearby energy cells
+public interface IEnergyGridSync extends IEnergyReceiver
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
-	{
-		return new YATMEnergyStorage(4000, 10);
-	}
-
-	@Override
-	protected IYATMInventory createInventory()
-	{
-		return new YATMInternalInventory(this, 7);
-	}
-
-	@Override
-	protected IMachineLogic createMachine()
-	{
-		return new MachineDryer();
-	}
+	boolean canEnergyGridSync(ForgeDirection dir);
 }

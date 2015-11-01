@@ -21,14 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.machine;
+package id2h.yatm.common.block;
 
-//import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.tileentity.TileEntityCompactor;
+import id2h.yatm.util.GuiType;
 
-//import net.minecraft.inventory.IInventory;
-//import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.material.Material;
 
-public class MachineDryer extends AbstractProgressiveMachine
+public class BlockCompactor extends YATMBlockBaseMachine
 {
-
+	public BlockCompactor()
+	{
+		super(Material.rock, TileEntityCompactor.class);
+		setBlockName("yatm.BlockCompactor");
+		setBlockTextureName("yatm:BlockCompactor");
+		setGuiType(GuiType.COMPACTOR);
+	}
 }

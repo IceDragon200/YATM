@@ -21,16 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.inventory;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.TileEntityCompactor;
+import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotOutput;
+import id2h.yatm.common.inventory.slot.SlotProcessing;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+import net.minecraft.inventory.IInventory;
+
+public class ContainerCompactor extends YATMTileContainer
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public ContainerCompactor(IInventory playerInventory, TileEntityCompactor compactor)
 	{
-		return new YATMEnergyStorage(4000, 100);
+		super(compactor);
+		addSlotToContainer(new SlotInput(compactor, 0, 77, 18));
+		addSlotToContainer(new SlotOutput(compactor, 1, 77, 68));
+		addSlotToContainer(new SlotProcessing(compactor, 2, 77, 43));
+
+		bindPlayerInventory(playerInventory, 8, 94);
 	}
 }

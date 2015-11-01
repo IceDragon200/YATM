@@ -21,16 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.tileentity.machine;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import cofh.api.energy.EnergyStorage;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+import net.minecraft.inventory.IInventory;
+//import net.minecraft.nbt.NBTTagCompound;
+
+// Heaters are blocks which act as a heat source, they do not "work", they
+// simply have a running cost and will deactivate if they have no energy
+public class MachineHeater extends AbstractProgressiveMachine
 {
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return new YATMEnergyStorage(4000, 100);
+		return 20;
+	}
+
+	@Override
+	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 0;
+	}
+
+	@Override
+	public boolean canWork(EnergyStorage en, IInventory _inv)
+	{
+		return en.getEnergyStored() > 0;
+	}
+
+	public void doWork(EnergyStorage _en, IInventory _inv)
+	{
+
 	}
 }

@@ -137,14 +137,26 @@ public abstract class AbstractMachine implements IMachineLogic
 		sleeping = true;
 	}
 
+	protected void updateMachineNotEnoughPower(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	{
+
+	}
+
 	protected void updateMachineForWork(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
 	{
 		final int workingCost = getWorkingPowerCost(energyStorage, inventory);
-		if (energyStorage.getEnergyStored() >= (state.energyConsumed + workingCost) && canWork(energyStorage, inventory))
+		if (energyStorage.getEnergyStored() >= (state.energyConsumed + workingCost))
 		{
-			state.energyConsumed += workingCost;
-			doWork(energyStorage, inventory);
-			state.didWork |= true;
+			if (canWork(energyStorage, inventory))
+			{
+				state.energyConsumed += workingCost;
+				doWork(energyStorage, inventory);
+				state.didWork |= true;
+			}
+		}
+		else
+		{
+			updateMachineNotEnoughPower(state, energyStorage, inventory);
 		}
 	}
 

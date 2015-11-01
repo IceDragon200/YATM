@@ -21,16 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.util;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
-
-public class TileEntitySolarPanel extends YATMPoweredTile
+// Helper class for handling tick calculations
+public class TickUtils
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public static final int TICKS_PER_SECOND = 20;
+
+	private TickUtils() {}
+
+	public static int seconds(int num)
 	{
-		return new YATMEnergyStorage(4000, 100);
+		return TICKS_PER_SECOND * num;
+	}
+
+	public static int minutes(int num)
+	{
+		return seconds(60 * num);
+	}
+
+	public static int hours(int num)
+	{
+		return minutes(60 * num);
+	}
+
+	public static int days(int num)
+	{
+		return hours(24 * num);
 	}
 }

@@ -23,22 +23,24 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.api.compactor.CompactingResult;
+import id2h.yatm.api.YATMApi;
 import id2h.yatm.common.inventory.InventorySlice;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
-import id2h.yatm.util.NumUtils;
+
+import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.ItemStack;
 
-public class MachineFluxFurnace extends AbstractProgressiveMachine implements IInventoryWatcher
+public class MachineCompactor extends AbstractProgressiveMachine implements IInventoryWatcher
 {
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
-		if (index < 0 || NumUtils.between(index, 0, 3))
+		if (index < 0 || index == 0)
 		{
+			// input has changed
 			awake();
 		}
 	}
@@ -46,7 +48,7 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 	@Override
 	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return 10;
+		return 200;
 	}
 
 	@Override
@@ -56,34 +58,21 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 		{
 			resetProgress();
 
-			// set each processing slot
-			for (int i = 0; i < 4; ++i)
+			final ItemStack stack = inventory.getStackInSlot(0);
+			if (stack != null)
 			{
-				// each input slot
-				for (int j = 0; j < 4; ++j)
+				final CompactingResult result = YATMApi.instance().compacting().getCompacting(stack);
+				if (result != null)
 				{
-					final ItemStack inp = inventory.getStackInSlot(j);
-					if (inp != null)
+					if (result.getInput().stackSize <= stack.stackSize)
 					{
-						final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
-
-						if (itemstack != null)
-						{
-							inventory.setInventorySlotContents(8 + i, inventory.decrStackSize(j, 1));
-							this.progressMax += 80;
-							break;
-						}
+						inventory.setInventorySlotContents(2, inventory.decrStackSize(0, result.getInput().stackSize));
+						this.progressMax = result.time;
 					}
 				}
 			}
-			if (progressMax <= 0)
-			{
-				gotoSleep();
-			}
-			else
-			{
-				this.progressMax *= 0.8f;
-			}
+
+			if (progressMax <= 0) gotoSleep();
 		}
 		super.updateAwakeMachine(_state, _energyStorage, inventory);
 	}
@@ -95,25 +84,31 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 		{
 			if (progress >= progressMax)
 			{
-				final InventorySlice outputInv = new InventorySlice(inventory, new int[] { 4, 5, 6, 7 });
-				for (int i = 0; i < 4; ++i)
-				{
-					final ItemStack inp = inventory.getStackInSlot(8 + i);
-					if (inp != null)
-					{
-						final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
-						final ItemStack rem = outputInv.mergeStack(itemstack);
-
-						if (rem != null) discardItemStack(rem);
-					}
-					inventory.setInventorySlotContents(8 + i, null);
-				}
 				resetProgress();
+				final ItemStack stack = inventory.getStackInSlotOnClosing(2);
+				if (stack != null)
+				{
+					final CompactingResult result = YATMApi.instance().compacting().getCompacting(stack);
+					if (result != null)
+					{
+						final ItemStack discarded = new InventorySlice(inventory, new int[] { 1 }).mergeStackBang(result.asStack());
+						if (discarded != null) discardItemStack(discarded);
+					}
+				}
 			}
 			else
 			{
 				this.progress += 1;
 			}
+		}
+	}
+
+	protected void updateMachineNotEnoughPower(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	{
+		// Compactors lose progress if they are unpowered, or have insufficient power
+		if (this.progress > 0)
+		{
+			this.progress--;
 		}
 	}
 }

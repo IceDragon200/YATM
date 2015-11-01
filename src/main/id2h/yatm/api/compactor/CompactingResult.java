@@ -21,16 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.api.compactor;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+import growthcraft.core.common.definition.IItemStackFactory;
+
+import id2h.yatm.api.core.util.PossibleItemList;
+
+import net.minecraft.item.ItemStack;
+
+public class CompactingResult implements IItemStackFactory
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public final int time;
+	private final ItemStack input;
+	private final ItemStack output;
+
+	public CompactingResult(@Nonnull ItemStack inp, @Nonnull ItemStack result, int t)
 	{
-		return new YATMEnergyStorage(4000, 100);
+		this.input = inp;
+		this.output = result;
+		this.time = t;
+	}
+
+	public ItemStack getInput()
+	{
+		return input;
+	}
+
+	public ItemStack getOutput()
+	{
+		return output;
+	}
+
+	public ItemStack asStack(int size)
+	{
+		final ItemStack result = output.copy();
+		result.stackSize = size;
+		return result;
+	}
+
+	public ItemStack asStack()
+	{
+		return output.copy();
 	}
 }

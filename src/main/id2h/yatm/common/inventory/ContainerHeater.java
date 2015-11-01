@@ -21,16 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.inventory;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.TileEntityHeater;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+import net.minecraft.inventory.IInventory;
+
+public class ContainerHeater extends YATMTileContainer
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public ContainerHeater(IInventory playerInventory, TileEntityHeater heater)
 	{
-		return new YATMEnergyStorage(4000, 100);
+		super(heater);
+
+		bindPlayerInventory(playerInventory, 8, 94);
 	}
 }

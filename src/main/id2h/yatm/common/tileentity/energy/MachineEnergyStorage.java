@@ -21,16 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.tileentity.energy;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import cofh.api.energy.EnergyStorage;
 
-public class TileEntitySolarPanel extends YATMPoweredTile
+import net.minecraft.nbt.NBTTagCompound;
+
+public class MachineEnergyStorage extends YATMEnergyStorage
 {
-	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	public MachineEnergyStorage(int capacity, int maxReceive, int maxExtract)
 	{
-		return new YATMEnergyStorage(4000, 100);
+		super(capacity, maxReceive, maxExtract);
+	}
+
+	public MachineEnergyStorage(int capacity, int maxTransfer)
+	{
+		this(capacity, maxTransfer, maxTransfer);
+	}
+
+	public MachineEnergyStorage(int capacity)
+	{
+		this(capacity, capacity, capacity);
 	}
 }

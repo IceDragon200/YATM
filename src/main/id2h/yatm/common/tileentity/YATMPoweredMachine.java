@@ -236,7 +236,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 
 		if (machineState.energyConsumed != 0)
 		{
-			energyStorage.extractEnergy(machineState.energyConsumed, false);
+			energyStorage.modifyEnergyStored(-machineState.energyConsumed);
 			markForUpdate();
 		}
 

@@ -28,84 +28,25 @@ import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
-import id2h.yatm.common.tileentity.machine.MachineFluxFurnace;
-import id2h.yatm.util.NumUtils;
+import id2h.yatm.common.tileentity.machine.MachineHeater;
 
-import net.minecraft.item.ItemStack;
-
-/**
- * The flux furnace is a slow working but batch operation Redstone Flux furnace
- * While it works 4x slower than a regular furnace, it can process 4 items
- * at once, all at the same rate.
- */
-public class TileEntityFluxFurnace extends YATMPoweredMachine
+public class TileEntityHeater extends YATMPoweredMachine
 {
-	protected static final int[][] slotTable = {
-		{ 0, 1, 2, 3 },
-		{ 0, 1, 2, 3 },
-		{ 4, 5, 6, 7 },
-		{ 4, 5, 6, 7 },
-		{ 4, 5, 6, 7 },
-		{ 4, 5, 6, 7 },
-	};
-
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(24000, 100);
+		return new YATMEnergyStorage(8000, 100);
 	}
 
 	@Override
 	protected IYATMInventory createInventory()
 	{
-		/*
-		 * Slots are reserved as such:
-		 * 0..3 - Inputs
-		 * 4..7 - Outputs
-		 * 8..11 - Processing
-		 */
-		return new YATMInternalInventory(this, 12);
+		return new YATMInternalInventory(this, 7);
 	}
 
 	@Override
 	protected IMachineLogic createMachine()
 	{
-		return new MachineFluxFurnace();
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int side)
-	{
-		return slotTable[side];
-	}
-
-	@Override
-	public boolean canInsertItem(int index, ItemStack stack, int side)
-	{
-		if (NumUtils.between(index, 0, 3))
-		{
-			if (side == 0 || side == 1)
-			{
-				final ItemStack existing = inventory.getStackInSlot(index);
-				if (existing == null) return true;
-				return existing.isItemEqual(stack);
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, ItemStack stack, int side)
-	{
-		if (NumUtils.between(index, 4, 7))
-		{
-			if (side > 1)
-			{
-				final ItemStack existing = inventory.getStackInSlot(index);
-				if (existing == null) return false;
-				return true;
-			}
-		}
-		return false;
+		return new MachineHeater();
 	}
 }

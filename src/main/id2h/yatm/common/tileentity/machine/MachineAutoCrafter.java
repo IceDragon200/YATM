@@ -188,7 +188,7 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	@Override
 	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return 100;
+		return 80;
 	}
 
 	@Override

@@ -21,36 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.block;
+package id2h.yatm.client.gui;
 
-import id2h.yatm.common.tileentity.TileEntityDryer;
+import id2h.yatm.common.inventory.ContainerHeater;
+import id2h.yatm.common.tileentity.TileEntityHeater;
+import id2h.yatm.client.util.RenderUtils;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.world.IBlockAccess;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockDryer extends YATMBlockBaseMachine
+@SideOnly(Side.CLIENT)
+public class GuiHeater extends YATMGuiContainer
 {
-	public BlockDryer()
+	protected static final ResourceLocation heaterResource = new ResourceLocation("yatm", "textures/gui/GuiHeater.png");
+	protected TileEntityHeater tileEntity;
+
+	public GuiHeater(IInventory playerInventory, TileEntityHeater heater)
 	{
-		super(Material.rock, TileEntityDryer.class);
-		setBlockName("yatm.BlockDryer");
-		setBlockTextureName("yatm:BlockDryer");
+		super(new ContainerHeater(playerInventory, heater));
+		this.tileEntity = heater;
+		this.ySize = 176;
 	}
 
-	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z)
+	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
-		final Block block = world.getBlock(x, y, z);
-		if (block != this)
-		{
-			return block.getLightValue(world, x, y, z);
-		}
-		final int l = world.getBlockMetadata(x, y, z);
-		if ((l & 4) == 4)
-		{
-			return 15;
-		}
-		return getLightValue();
+		RenderUtils.resetColor();
+		bindTexture(heaterResource);
+		final int x1 = (width - xSize) / 2;
+		final int y1 = (height - ySize) / 2;
+		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+
+		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

@@ -33,6 +33,6 @@ public class MachineMixer extends AbstractProgressiveMachine
 	@Override
 	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
 	{
-		return true;
+		return false;
 	}
 }

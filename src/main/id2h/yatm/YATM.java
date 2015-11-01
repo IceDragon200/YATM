@@ -27,10 +27,12 @@ import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.core.util.PossibleItemList;
 import id2h.yatm.api.crusher.CrushingRegistry;
 import id2h.yatm.api.YATMApi;
-import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.common.CommonProxy;
+import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
+import id2h.yatm.util.TickUtils;
+import id2h.yatm.util.YATMDebug;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -82,6 +84,36 @@ public class YATM
 	private void registerCrushingRecipes()
 	{
 		final CrushingRegistry c = YATMApi.instance().crushing();
+
+		c.addCrushing(new ItemStack(Blocks.sandstone),
+			PossibleItemList.create(
+				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
+			),
+			60
+		);
+
+		c.addCrushing(new ItemStack(Blocks.sandstone, 1, 1),
+			PossibleItemList.create(
+				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
+			),
+			60
+		);
+
+		c.addCrushing(new ItemStack(Blocks.sandstone, 1, 2),
+			PossibleItemList.create(
+				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
+			),
+			60
+		);
+
+		c.addCrushing(new ItemStack(Blocks.sandstone_stairs, 1, 0),
+			PossibleItemList.create(
+				new PossibleItem(new ItemStack(Blocks.sand, 18), 1.0f),
+				new PossibleItem(new ItemStack(Blocks.sand, 4), 0.7f),
+				new PossibleItem(new ItemStack(Blocks.sand, 2), 0.5f)
+			),
+			60
+		);
 
 		c.addCrushing(new ItemStack(Blocks.stone),
 			PossibleItemList.create(
@@ -266,9 +298,10 @@ public class YATM
 		);
 
 		{
-			final Block grindstone = GameRegistry.findBlock("appliedenergistics2", "BlockGrinder");
+			final Block grindstone = GameRegistry.findBlock("appliedenergistics2", "tile.BlockGrinder");
 			if (grindstone != null)
 			{
+				YATMDebug.write("Adding Auto Grindstone recipe");
 				GameRegistry.addShapedRecipe(blocks.autoGrinder.asStack(),
 					"III",
 					"IWI",
@@ -289,6 +322,16 @@ public class YATM
 			'C', blocks.chassis.asStack(),
 			'W', Blocks.piston,
 			'I', Items.iron_ingot
+		);
+
+		GameRegistry.addShapedRecipe(blocks.compactor.asStack(),
+			"IWI",
+			"WCW",
+			"AWA",
+			'A', items.capacitorDiamond.asStack(),
+			'C', blocks.chassis.asStack(),
+			'W', Blocks.piston,
+			'I', Items.diamond
 		);
 
 		GameRegistry.addShapedRecipe(blocks.fluxFurnace.asStack(),
@@ -328,9 +371,20 @@ public class YATM
 		);
 	}
 
+	private void registerCompactingRecipes()
+	{
+		// 1 Stack (64) of Coal == 1 Diamond
+		YATMApi.instance().compacting().addCompacting(new ItemStack(Items.diamond, 1),
+			new ItemStack(Items.coal, 64), TickUtils.minutes(5));
+		// if you're willing to lose a bit of extra coal, the compacting can be faster by using coal blocks
+		YATMApi.instance().compacting().addCompacting(new ItemStack(Items.diamond, 1),
+			new ItemStack(Blocks.coal_block, 8), TickUtils.minutes(2) + TickUtils.seconds(30));
+	}
+
 	private void registerRecipes()
 	{
 		registerCrushingRecipes();
+		registerCompactingRecipes();
 		registerMixingRecipes();
 		registerCraftingRecipes();
 	}

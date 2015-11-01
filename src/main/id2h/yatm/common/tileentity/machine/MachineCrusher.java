@@ -89,6 +89,12 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 	}
 
 	@Override
+	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	{
+		return 10;
+	}
+
+	@Override
 	public void doWork(EnergyStorage energyStorage, IInventory inventory)
 	{
 		if (progressMax > 0)

@@ -24,6 +24,7 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineElectrolyser;
 import id2h.yatm.common.inventory.IYATMInventory;
@@ -34,7 +35,7 @@ public class TileEntityElectrolyser extends YATMPoweredMachine
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(4000, 10);
+		return new YATMEnergyStorage(4000, 400);
 	}
 
 	@Override

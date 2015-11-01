@@ -32,7 +32,7 @@ import id2h.yatm.common.tileentity.TileEntityEnergyCell;
 import id2h.yatm.common.tileentity.YATMPoweredMachine;
 
 import appeng.util.ReadableNumberConverter;
-import appeng.util.ISlimReadableNumberConverter;
+import appeng.util.IWideReadableNumberConverter;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -49,7 +49,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class WailaIntegration implements IWailaDataProvider
 {
-	private static final ISlimReadableNumberConverter slimConverter = ReadableNumberConverter.INSTANCE;
+	private static final IWideReadableNumberConverter wideConverter = ReadableNumberConverter.INSTANCE;
 
 	@Optional.Method(modid = "Waila")
 	public static void register(IWailaRegistrar reg)
@@ -82,7 +82,14 @@ public class WailaIntegration implements IWailaDataProvider
 		final NBTTagCompound tag = accessor.getNBTData();
 		if (te instanceof YATMPoweredMachine)
 		{
-			tooltip.add("Active: " + tag.getBoolean("WorkingState"));
+			if (tag.getBoolean("WorkingState"))
+			{
+				tooltip.add("Machine Active");
+			}
+			else
+			{
+				tooltip.add("Machine Inactive");
+			}
 		}
 
 		if (te instanceof IEnergyReceiver)
@@ -92,9 +99,9 @@ public class WailaIntegration implements IWailaDataProvider
 
 
 			tooltip.add("Energy: " +
-				slimConverter.toSlimReadableForm(energy) +
+				wideConverter.toWideReadableForm(energy) + "RF" +
 				" / " +
-				slimConverter.toSlimReadableForm(maxEnergy) + " RF"
+				wideConverter.toWideReadableForm(maxEnergy) + "RF"
 			);
 		}
 
@@ -102,7 +109,11 @@ public class WailaIntegration implements IWailaDataProvider
 		{
 			final long maxIN = tag.getLong("InputRate");
 			final long maxOUT = tag.getLong("OutputRate");
-			tooltip.add("I/O: " + maxIN + " / " + maxOUT + " RF/t");
+			tooltip.add("I/O: " +
+				wideConverter.toWideReadableForm(maxIN) + "RF/t" +
+				" / " +
+				wideConverter.toWideReadableForm(maxOUT) + "RF/t"
+			);
 		}
 		return tooltip;
 	}

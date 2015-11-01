@@ -24,6 +24,7 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
 import id2h.yatm.util.BlockFlags;
 
 import cofh.api.energy.IEnergyHandler;
@@ -34,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IEnergyHandler
+public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IEnergyHandler, IEnergyGridSync
 {
 	protected boolean needCacheRebuild = true;
 	protected boolean needUpdate = true;
@@ -85,7 +86,13 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 		return stored * 8 / max;
 	}
 
-	private void updateCells()
+	@Override
+	public boolean canEnergyGridSync(ForgeDirection dir)
+	{
+		return true;
+	}
+
+	private void updateEnergyCell()
 	{
 		for (int i = 0; i < tileCache.length; ++i)
 		{
@@ -93,15 +100,18 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 			if (te != null)
 			{
 				final ForgeDirection dir = ForgeDirection.getOrientation(i);
-				if (te instanceof TileEntityEnergyCell)
+				if (te instanceof IEnergyGridSync)
 				{
-					final TileEntityEnergyCell cell = (TileEntityEnergyCell)te;
-					if (cell.getEnergyStored(dir.getOpposite()) < getEnergyStored(dir))
+					final IEnergyGridSync cell = (IEnergyGridSync)te;
+					if (cell.canEnergyGridSync(dir.getOpposite()))
 					{
-						final int diff = cell.receiveEnergy(dir.getOpposite(), extractEnergy(dir, energyStorage.getMaxExtract() / 2, true), false);
-						if (diff > 0)
+						if (cell.getEnergyStored(dir.getOpposite()) < getEnergyStored(dir))
 						{
-							extractEnergy(dir, diff, false);
+							final int diff = cell.receiveEnergy(dir.getOpposite(), extractEnergy(dir, energyStorage.getMaxExtract() / 2, true), false);
+							if (diff > 0)
+							{
+								extractEnergy(dir, diff, false);
+							}
 						}
 					}
 				}
@@ -148,7 +158,7 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 				this.markDirty();
 			}
 
-			updateCells();
+			updateEnergyCell();
 			needUpdate = true;
 		}
 	}

@@ -27,13 +27,17 @@ import javax.annotation.Nonnull;
 
 import id2h.yatm.common.inventory.ContainerAutoCrafter;
 import id2h.yatm.common.inventory.ContainerAutoGrinder;
+import id2h.yatm.common.inventory.ContainerCompactor;
 import id2h.yatm.common.inventory.ContainerCrusher;
 import id2h.yatm.common.inventory.ContainerFluxFurnace;
+import id2h.yatm.common.inventory.ContainerHeater;
 import id2h.yatm.common.inventory.ContainerMixer;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.tileentity.TileEntityCompactor;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
+import id2h.yatm.common.tileentity.TileEntityHeater;
 import id2h.yatm.common.tileentity.TileEntityMixer;
 
 import appeng.util.Platform;
@@ -49,10 +53,11 @@ public enum GuiType
 	//NULL,
 	AUTO_CRAFTER(ContainerAutoCrafter.class, TileEntityAutoCrafter.class),
 	AUTO_GRINDER(ContainerAutoGrinder.class, TileEntityAutoGrinder.class),
+	COMPACTOR(ContainerCompactor.class, TileEntityCompactor.class),
 	CRUSHER(ContainerCrusher.class, TileEntityCrusher.class),
-	FLUX_FURNACE(ContainerFluxFurnace.class, TileEntityFluxFurnace.class),
-	//DRYER,
 	//ELECTROLYSER,
+	FLUX_FURNACE(ContainerFluxFurnace.class, TileEntityFluxFurnace.class),
+	HEATER(ContainerHeater.class, TileEntityHeater.class),
 	MIXER(ContainerMixer.class, TileEntityMixer.class);
 
 	public static final GuiType[] GUIS = values();

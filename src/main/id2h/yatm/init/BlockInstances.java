@@ -26,14 +26,15 @@ package id2h.yatm.init;
 import id2h.yatm.common.block.BlockAutoCrafter;
 import id2h.yatm.common.block.BlockAutoGrinder;
 import id2h.yatm.common.block.BlockChassis;
+import id2h.yatm.common.block.BlockCompactor;
 import id2h.yatm.common.block.BlockCrusher;
 import id2h.yatm.common.block.BlockDecorative8;
 import id2h.yatm.common.block.BlockDecorative;
-import id2h.yatm.common.block.BlockDryer;
 import id2h.yatm.common.block.BlockElectrolyser;
 import id2h.yatm.common.block.BlockEnergyCell;
 import id2h.yatm.common.block.BlockEnergyCellCreative;
 import id2h.yatm.common.block.BlockFluxFurnace;
+import id2h.yatm.common.block.BlockHeater;
 import id2h.yatm.common.block.BlockLamp;
 import id2h.yatm.common.block.BlockMetalCrate;
 import id2h.yatm.common.block.BlockMixer;
@@ -45,7 +46,8 @@ import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
-import id2h.yatm.common.tileentity.TileEntityDryer;
+import id2h.yatm.common.tileentity.TileEntityCompactor;
+import id2h.yatm.common.tileentity.TileEntityHeater;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellDense;
@@ -74,6 +76,7 @@ public class BlockInstances
 	public BlockDefinition energyCellDenseCreative;
 	public BlockDefinition chassis;
 	public BlockDefinition crusher;
+	public BlockDefinition compactor;
 	public BlockDefinition floorEngraving1;
 	public BlockDefinition floorEngraving2;
 	public BlockDefinition floorWarning1;
@@ -111,8 +114,9 @@ public class BlockInstances
 
 		autoCrafter = new BlockDefinition(new BlockAutoCrafter());
 		autoGrinder = new BlockDefinition(new BlockAutoGrinder());
+		compactor = new BlockDefinition(new BlockCompactor());
 		crusher = new BlockDefinition(new BlockCrusher());
-		dryer = new BlockDefinition(new BlockDryer());
+		dryer = new BlockDefinition(new BlockHeater());
 		electrolyser = new BlockDefinition(new BlockElectrolyser());
 		fluxFurnace = new BlockDefinition(new BlockFluxFurnace());
 		mixer = new BlockDefinition(new BlockMixer());
@@ -192,11 +196,12 @@ public class BlockInstances
 
 		GameRegistry.registerBlock(autoCrafter.getBlock(), "yatm.BlockAutoCrafter");
 		GameRegistry.registerBlock(autoGrinder.getBlock(), "yatm.BlockAutoGrinder");
-		GameRegistry.registerBlock(fluxFurnace.getBlock(), "yatm.BlockFluxFurnace");
+		GameRegistry.registerBlock(compactor.getBlock(), "yatm.BlockCompactor");
 		GameRegistry.registerBlock(crusher.getBlock(), "yatm.BlockCrusher");
-		GameRegistry.registerBlock(dryer.getBlock(), "yatm.BlockDryer");
-		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");
+		GameRegistry.registerBlock(dryer.getBlock(), "yatm.BlockHeater");
 		GameRegistry.registerBlock(electrolyser.getBlock(), "yatm.BlockElectrolyser");
+		GameRegistry.registerBlock(fluxFurnace.getBlock(), "yatm.BlockFluxFurnace");
+		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");
 
 		GameRegistry.registerBlock(floorEngraving1.getBlock(), "yatm.BlockFloorEngraving1");
 		GameRegistry.registerBlock(floorEngraving2.getBlock(), "yatm.BlockFloorEngraving2");
@@ -222,7 +227,8 @@ public class BlockInstances
 		GameRegistry.registerTileEntity(TileEntityEnergyCellNormal.class, "yatm.tileentity.TileEntityEnergyCellNormal");
 		GameRegistry.registerTileEntity(TileEntityEnergyCellDense.class, "yatm.tileentity.TileEntityEnergyCellDense");
 		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.TileEntityCrusher");
-		GameRegistry.registerTileEntity(TileEntityDryer.class, "yatm.tileentity.TileEntityDryer");
+		GameRegistry.registerTileEntity(TileEntityCompactor.class, "yatm.tileentity.TileEntityCompactor");
+		GameRegistry.registerTileEntity(TileEntityHeater.class, "yatm.tileentity.TileEntityHeater");
 		GameRegistry.registerTileEntity(TileEntityElectrolyser.class, "yatm.tileentity.TileEntityElectrolyser");
 		GameRegistry.registerTileEntity(TileEntityFluxFurnace.class, "yatm.tileentity.TileEntityFluxFurnace");
 		GameRegistry.registerTileEntity(TileEntityMixer.class, "yatm.tileentity.TileEntityMixer");

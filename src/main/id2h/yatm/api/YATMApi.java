@@ -24,12 +24,14 @@
 package id2h.yatm.api;
 
 import id2h.yatm.api.crusher.CrushingRegistry;
+import id2h.yatm.api.compactor.CompactingRegistry;
 
 public class YATMApi
 {
-	public static final YATMApi inst = new YATMApi();
+	private static final YATMApi inst = new YATMApi();
 
 	private final CrushingRegistry crushingRegistry = new CrushingRegistry();
+	private final CompactingRegistry compactingRegistry = new CompactingRegistry();
 
 	public static YATMApi instance()
 	{
@@ -39,5 +41,10 @@ public class YATMApi
 	public CrushingRegistry crushing()
 	{
 		return crushingRegistry;
+	}
+
+	public CompactingRegistry compacting()
+	{
+		return compactingRegistry;
 	}
 }

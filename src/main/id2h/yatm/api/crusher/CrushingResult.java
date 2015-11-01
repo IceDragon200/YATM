@@ -33,9 +33,9 @@ import net.minecraft.item.ItemStack;
 
 public class CrushingResult
 {
-	private final ItemStack input;
-	public final PossibleItemList items;
 	public final int time;
+	public final PossibleItemList items;
+	private final ItemStack input;
 
 	public CrushingResult(@Nonnull ItemStack inp, @Nonnull PossibleItemList i, int t)
 	{
