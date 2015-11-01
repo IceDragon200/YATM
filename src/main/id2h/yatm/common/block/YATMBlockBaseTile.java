@@ -149,10 +149,10 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 	{
 		icons = new FlippableIcon[12];
 
-		this.blockIcon = optionalIcon(reg, getTextureName(), null);
-		final IIcon sideIconOff = optionalSubIcon(reg, "/Side.Off", optionalSubIcon(reg, "/Side", blockIcon));
-		icons[0] = optionalSubIcon(reg, "/Bottom.Off", optionalSubIcon(reg, "/Bottom", this.blockIcon));
-		icons[1] = optionalSubIcon(reg, "/Top.Off", optionalSubIcon(reg, "/Top", this.blockIcon));
+		final IIcon defaultIcon = optionalIcon(reg, getTextureName(), null);
+		final IIcon sideIconOff = optionalSubIcon(reg, "/Side.Off", optionalSubIcon(reg, "/Side", defaultIcon));
+		icons[0] = optionalSubIcon(reg, "/Bottom.Off", optionalSubIcon(reg, "/Bottom", defaultIcon));
+		icons[1] = optionalSubIcon(reg, "/Top.Off", optionalSubIcon(reg, "/Top", defaultIcon));
 		icons[2] = optionalSubIcon(reg, "/Back.Off", optionalSubIcon(reg, "/Back", sideIconOff));
 		icons[3] = optionalSubIcon(reg, "/Front.Off", optionalSubIcon(reg, "/Front", sideIconOff));
 		icons[4] = optionalSubIcon(reg, "/East.Off", optionalSubIcon(reg, "/East", sideIconOff));
@@ -164,8 +164,6 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		icons[9] = optionalSubIcon(reg, "/Front.On", optionalSubIcon(reg, "/Side.On", icons[3]));
 		icons[10] = optionalSubIcon(reg, "/East.On", optionalSubIcon(reg, "/Side.On", icons[4]));
 		icons[11] = optionalSubIcon(reg, "/West.On", optionalSubIcon(reg, "/Side.On", icons[5]));
-
-		this.blockIcon = null;
 	}
 
 	@Override
