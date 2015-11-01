@@ -23,10 +23,6 @@
  */
 package id2h.yatm.common.tileentity.energy;
 
-import cofh.api.energy.EnergyStorage;
-
-import net.minecraft.nbt.NBTTagCompound;
-
 public class MachineEnergyStorage extends YATMEnergyStorage
 {
 	public MachineEnergyStorage(int capacity, int maxReceive, int maxExtract)

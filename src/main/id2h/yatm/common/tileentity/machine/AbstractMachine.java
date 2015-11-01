@@ -119,7 +119,8 @@ public abstract class AbstractMachine implements IMachineLogic
 		YATMDebug.writeMachineState("Machine has gone idle machine=" + this);
 	}
 
-	protected void awake()
+	@Override
+	public void awake()
 	{
 		if (sleeping)
 		{

@@ -82,7 +82,7 @@ public class BlockInstances
 	public BlockDefinition floorWarning1;
 	public BlockDefinition floorWarning2;
 	public BlockDefinition fluxFurnace;
-	public BlockDefinition dryer;
+	public BlockDefinition heater;
 	public BlockDefinition electrolyser;
 	public BlockDefinition lamp;
 	public BlockDefinition metalCrate;
@@ -116,7 +116,7 @@ public class BlockInstances
 		autoGrinder = new BlockDefinition(new BlockAutoGrinder());
 		compactor = new BlockDefinition(new BlockCompactor());
 		crusher = new BlockDefinition(new BlockCrusher());
-		dryer = new BlockDefinition(new BlockHeater());
+		heater = new BlockDefinition(new BlockHeater());
 		electrolyser = new BlockDefinition(new BlockElectrolyser());
 		fluxFurnace = new BlockDefinition(new BlockFluxFurnace());
 		mixer = new BlockDefinition(new BlockMixer());
@@ -198,7 +198,7 @@ public class BlockInstances
 		GameRegistry.registerBlock(autoGrinder.getBlock(), "yatm.BlockAutoGrinder");
 		GameRegistry.registerBlock(compactor.getBlock(), "yatm.BlockCompactor");
 		GameRegistry.registerBlock(crusher.getBlock(), "yatm.BlockCrusher");
-		GameRegistry.registerBlock(dryer.getBlock(), "yatm.BlockHeater");
+		GameRegistry.registerBlock(heater.getBlock(), "yatm.BlockHeater");
 		GameRegistry.registerBlock(electrolyser.getBlock(), "yatm.BlockElectrolyser");
 		GameRegistry.registerBlock(fluxFurnace.getBlock(), "yatm.BlockFluxFurnace");
 		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");

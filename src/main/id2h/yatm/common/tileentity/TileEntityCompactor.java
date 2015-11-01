@@ -30,8 +30,19 @@ import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineCompactor;
 
+import net.minecraft.item.ItemStack;
+
 public class TileEntityCompactor extends YATMPoweredMachine
 {
+	protected static final int[][] slotTable = {
+		{ 0 },
+		{ 0 },
+		{ 1 },
+		{ 1 },
+		{ 1 },
+		{ 1 },
+	};
+
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
@@ -54,5 +65,41 @@ public class TileEntityCompactor extends YATMPoweredMachine
 	protected IMachineLogic createMachine()
 	{
 		return new MachineCompactor();
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		return slotTable[side];
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, int side)
+	{
+		if (index == 0)
+		{
+			if (side == 0 || side == 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return true;
+				return existing.isItemEqual(stack);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, int side)
+	{
+		if (index == 1)
+		{
+			if (side > 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return false;
+				return true;
+			}
+		}
+		return false;
 	}
 }

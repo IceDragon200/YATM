@@ -52,7 +52,7 @@ public class TileEntityFluxFurnace extends YATMPoweredMachine
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(24000, 100);
+		return new MachineEnergyStorage(24000, 100);
 	}
 
 	@Override

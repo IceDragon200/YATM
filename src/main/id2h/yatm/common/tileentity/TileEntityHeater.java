@@ -35,7 +35,7 @@ public class TileEntityHeater extends YATMPoweredMachine
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(8000, 100);
+		return new MachineEnergyStorage(8000, 100);
 	}
 
 	@Override
@@ -48,5 +48,10 @@ public class TileEntityHeater extends YATMPoweredMachine
 	protected IMachineLogic createMachine()
 	{
 		return new MachineHeater();
+	}
+
+	public float getHeatValue()
+	{
+		return ((MachineHeater)machine).getHeatValue(energyStorage, inventory);
 	}
 }

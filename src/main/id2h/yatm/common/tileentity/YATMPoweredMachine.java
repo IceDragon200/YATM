@@ -122,7 +122,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 					break;
 				case 2:
 				default:
-					System.err.println("Invalid DATA class=" + this + " id=" + id);
+					System.err.println("Invalid Network DATA class=" + this + " id=" + id);
 			}
 		}
 	}
@@ -263,6 +263,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	{
 		super.updateEntity();
 		if (!worldObj.isRemote) updateMachine();
+
 		if (dirtyNext)
 		{
 			dirtyNext = false;
@@ -270,10 +271,19 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		}
 	}
 
+	protected void triggerInventoryChanged(IInventory inv, int index)
+	{
+		if (machine instanceof IInventoryWatcher)
+		{
+			((IInventoryWatcher)machine).onInventoryChanged(inv, index);
+		}
+	}
+
 	@Override
 	public void markDirty()
 	{
 		super.markDirty();
+		machine.awake();
 		YATMDebug.write("Marked as dirty:" +
 				" obj=" + this +
 				" x=" + xCoord +
@@ -292,9 +302,6 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	public void onInventoryChanged(IInventory inv, int index)
 	{
 		markDirtyNext();
-		if (machine instanceof IInventoryWatcher)
-		{
-			((IInventoryWatcher)machine).onInventoryChanged(inv, index);
-		}
+		triggerInventoryChanged(inv, index);
 	}
 }

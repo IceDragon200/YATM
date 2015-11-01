@@ -61,13 +61,6 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 		return maxSize;
 	}
 
-	@Override
-	public void markDirty()
-	{
-		YATMDebug.write("Inventory marked as dirty inv=" + this);
-		onSlotChanged(-1);
-	}
-
 	protected void onSlotChanged(int index)
 	{
 		if (parent instanceof IInventoryWatcher)
@@ -78,6 +71,13 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 		{
 			parent.markDirty();
 		}
+	}
+
+	@Override
+	public void markDirty()
+	{
+		YATMDebug.write("Inventory marked as dirty inv=" + this);
+		onSlotChanged(-1);
 	}
 
 	public void clearInventory()
@@ -191,6 +191,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack)
 	{
+		final ItemStack oldStack = items[index];
 		items[index] = stack;
 		if (stack != null)
 		{
@@ -205,7 +206,10 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 				}
 			}
 		}
-		onSlotChanged(index);
+		if (oldStack != stack)
+		{
+			onSlotChanged(index);
+		}
 	}
 
 	@Override
@@ -213,7 +217,7 @@ public class YATMInternalInventory implements IYATMInventory, Iterable<ItemStack
 	{
 		final ItemStack stack = items[index];
 		items[index] = null;
-		onSlotChanged(index);
+		if (stack != null) onSlotChanged(index);
 		return stack;
 	}
 

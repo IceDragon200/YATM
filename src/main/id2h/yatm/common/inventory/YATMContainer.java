@@ -55,17 +55,24 @@ public abstract class YATMContainer extends Container
 
 	public boolean mergeWithPlayer(ItemStack stack)
 	{
-		boolean wasMerged = false;
+		int start = -1;
+		int end = -1;
+
 		for (Object sub : inventorySlots)
 		{
 			if (sub instanceof SlotPlayer)
 			{
 				final SlotPlayer subSlot = (SlotPlayer)sub;
-				wasMerged |= mergeWithSlot(subSlot, stack);
+				if (start < 0)
+				{
+					start = subSlot.slotNumber;
+				}
+				end = subSlot.slotNumber;
 			}
-			if (stack.stackSize <= 0) break;
 		}
-		return wasMerged;
+		if (start <= -1 || end <= -1) return false;
+
+		return mergeItemStack(stack, start, end + 1, false);
 	}
 
 	public boolean mergeWithInput(ItemStack stack)

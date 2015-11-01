@@ -24,7 +24,6 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
 
 public class TileEntitySolarPanel extends YATMPoweredTile
 {

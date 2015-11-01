@@ -21,47 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.machine;
+package id2h.yatm.integration.growthcraft;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.common.block.BlockHeater;
+import id2h.yatm.common.tileentity.TileEntityHeater;
+import id2h.yatm.YATM;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.MathHelper;
-//import net.minecraft.nbt.NBTTagCompound;
+import growthcraft.api.cellar.heatsource.IHeatSourceBlock;
 
-// Heaters are blocks which act as a heat source, they do not "work", they
-// simply have a running cost and will deactivate if they have no energy
-public class MachineHeater extends AbstractProgressiveMachine
+import net.minecraft.world.World;
+
+public class HeatSourceHeater implements IHeatSourceBlock
 {
-	@Override
-	public int getRunningPowerCost(EnergyStorage _en, IInventory _inv)
+	public float getHeat(World world, int x, int y, int z)
 	{
-		return 20;
-	}
-
-	@Override
-	public int getWorkingPowerCost(EnergyStorage _en, IInventory _inv)
-	{
-		return 0;
-	}
-
-	@Override
-	public boolean canWork(EnergyStorage en, IInventory _inv)
-	{
-		return en.getEnergyStored() > 0;
-	}
-
-	public void doWork(EnergyStorage _en, IInventory _inv)
-	{
-
-	}
-
-	public float getHeatValue(EnergyStorage en, IInventory _inv)
-	{
-		final int enStored = en.getEnergyStored();
-		if (enStored > 0)
+		final BlockHeater heaterBlock = (BlockHeater)YATM.blocks.heater.getBlock();
+		final TileEntityHeater te = heaterBlock.getTileEntity(world, x, y, z);
+		if (te != null)
 		{
-			return MathHelper.clamp_float((float)enStored / ((float)en.getMaxEnergyStored() * 0.5f), 0.0f, 1.0f);
+			return te.getHeatValue();
 		}
 		return 0.0f;
 	}

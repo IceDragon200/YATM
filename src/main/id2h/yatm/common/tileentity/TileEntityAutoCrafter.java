@@ -29,6 +29,9 @@ import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
+import id2h.yatm.util.NumUtils;
+
+import net.minecraft.item.ItemStack;
 
 /*
  * An RF powered Crafting bench which autocrafts from a 8 slot input to a
@@ -36,10 +39,19 @@ import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
  */
 public class TileEntityAutoCrafter extends YATMPoweredMachine
 {
+	protected static final int[][] slotTable = {
+		{ 0, 1, 2, 3, 4, 5, 6, 7 },
+		{ 0, 1, 2, 3, 4, 5, 6, 7 },
+		{ 8 },
+		{ 8 },
+		{ 8 },
+		{ 8 },
+	};
+
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(40000, 200);
+		return new MachineEnergyStorage(40000, 200);
 	}
 
 	@Override
@@ -61,5 +73,41 @@ public class TileEntityAutoCrafter extends YATMPoweredMachine
 	protected IMachineLogic createMachine()
 	{
 		return new MachineAutoCrafter();
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		return slotTable[side];
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, int side)
+	{
+		if (NumUtils.between(index, 0, 7))
+		{
+			if (side == 0 || side == 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return true;
+				return existing.isItemEqual(stack);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, int side)
+	{
+		if (index == 8)
+		{
+			if (side > 1)
+			{
+				final ItemStack existing = inventory.getStackInSlot(index);
+				if (existing == null) return false;
+				return true;
+			}
+		}
+		return false;
 	}
 }

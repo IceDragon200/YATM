@@ -50,6 +50,7 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	}
 
 	protected static Container fakeContainer = new FakeContainer();
+	protected boolean recipeNeedsRefresh = true;
 
 	protected void clearProcessing(IInventory inventory)
 	{
@@ -65,8 +66,11 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 		for (int i = 0; i < 9; ++i)
 		{
 			ItemStack stack = inventory.getStackInSlotOnClosing(25 + i);
-			stack = slice.mergeStackBang(stack);
-			if (stack != null) discardItemStack(stack);
+			if (stack != null)
+			{
+				stack = slice.mergeStackBang(stack);
+				if (stack != null) discardItemStack(stack);
+			}
 		}
 	}
 
@@ -134,8 +138,11 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 		final ItemStack result = CraftingManager.getInstance().findMatchingRecipe(crafting, tileEntity.getWorldObj());
 
 		inventory.setInventorySlotContents(9, result);
-		refundProcessing(inventory);
-		resetProgress();
+		if (progressMax <= 0)
+		{
+			refundProcessing(inventory);
+			resetProgress();
+		}
 		YATMDebug.writeMachineState("Recipe has changed machine=" + this + " inv=" + inventory);
 	}
 
@@ -149,7 +156,7 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 		}
 		else if (index < 0 || NumUtils.between(index, 16, 24))
 		{
-			refreshRecipe(inventory);
+			this.recipeNeedsRefresh = true;
 			awake();
 		}
 		else
@@ -167,6 +174,11 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	@Override
 	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
 	{
+		if (recipeNeedsRefresh)
+		{
+			this.recipeNeedsRefresh = false;
+			refreshRecipe(inventory);
+		}
 		if (progressMax <= 0)
 		{
 			resetProgress();

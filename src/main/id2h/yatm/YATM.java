@@ -33,6 +33,9 @@ import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
 import id2h.yatm.util.TickUtils;
 import id2h.yatm.util.YATMDebug;
+import id2h.yatm.integration.growthcraft.HeatSourceHeater;
+
+import growthcraft.api.cellar.CellarRegistry;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -389,12 +392,18 @@ public class YATM
 		registerCraftingRecipes();
 	}
 
+	private void registerHeatSources()
+	{
+		CellarRegistry.instance().heatSource().addHeatSource(blocks.heater.getBlock(), 4, new HeatSourceHeater());
+	}
+
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
 		blocks.register();
 		items.register();
 		registerRecipes();
+		registerHeatSources();
 
 		FMLInterModComms.sendMessage("Waila", "register", "id2h.yatm.integration.WailaIntegration.register");
 

@@ -35,7 +35,7 @@ public class TileEntityElectrolyser extends YATMPoweredMachine
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new YATMEnergyStorage(4000, 400);
+		return new MachineEnergyStorage(4000, 400);
 	}
 
 	@Override

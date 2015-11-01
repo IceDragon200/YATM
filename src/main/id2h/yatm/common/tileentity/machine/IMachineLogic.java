@@ -83,4 +83,6 @@ public interface IMachineLogic
 	// The only exception is the AutoCrafter, which requires a world for
 	// the crafting recipes.
 	void setTileEntity(TileEntity te);
+
+	void awake();
 }

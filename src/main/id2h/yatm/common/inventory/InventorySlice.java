@@ -111,6 +111,7 @@ public class InventorySlice implements IInventory
 	public ItemStack mergeStackBang(ItemStack stack)
 	{
 		if (stack == null) return null;
+
 		for (int i = 0; i < getSizeInventory(); ++i)
 		{
 			if (stack.stackSize <= 0) break;

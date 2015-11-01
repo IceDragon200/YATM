@@ -100,6 +100,7 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 			if (te != null)
 			{
 				final ForgeDirection dir = ForgeDirection.getOrientation(i);
+
 				if (te instanceof IEnergyGridSync)
 				{
 					final IEnergyGridSync cell = (IEnergyGridSync)te;
@@ -110,7 +111,10 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 							final int diff = cell.receiveEnergy(dir.getOpposite(), extractEnergy(dir, energyStorage.getMaxExtract() / 2, true), false);
 							if (diff > 0)
 							{
-								extractEnergy(dir, diff, false);
+								if (extractEnergy(dir, diff, false) != 0)
+								{
+									needUpdate = true;
+								}
 							}
 						}
 					}
@@ -121,7 +125,10 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 					final int diff = receiver.receiveEnergy(dir.getOpposite(), extractEnergy(dir, energyStorage.getMaxExtract(), true), false);
 					if (diff > 0)
 					{
-						extractEnergy(dir, diff, false);
+						if (extractEnergy(dir, diff, false) != 0)
+						{
+							needUpdate = true;
+						}
 					}
 				}
 			}
@@ -141,8 +148,6 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 	@Override
 	public void updateEntity()
 	{
-		super.updateEntity();
-
 		if (!worldObj.isRemote)
 		{
 			if (needCacheRebuild)
@@ -155,11 +160,12 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 			{
 				needUpdate = false;
 				updateBlockMeta();
-				this.markDirty();
+				markForUpdate();
 			}
 
 			updateEnergyCell();
-			needUpdate = true;
 		}
+
+		super.updateEntity();
 	}
 }
