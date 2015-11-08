@@ -23,59 +23,26 @@
  */
 package id2h.yatm.common.tileentity;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
 import id2h.yatm.util.BlockFlags;
 
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.energy.IEnergyReceiver;
-
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IEnergyHandler, IEnergyGridSync
+public abstract class TileEntityEnergyCell extends YATMEnergyProviderTile
 {
-	protected boolean needCacheRebuild = true;
-	protected boolean needUpdate = true;
 	protected int lastMeta = -1;
-	protected TileEntity[] tileCache = new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
 
-	@Override
-	protected abstract YATMEnergyStorage createEnergyStorage();
-
-	public int getMaxReceive()
+	public TileEntityEnergyCell()
 	{
-		return energyStorage.getMaxReceive();
-	}
-
-	public int getMaxExtract()
-	{
-		return energyStorage.getMaxExtract();
-	}
-
-	private void rebuildTileCache()
-	{
-		for (int i = 0; i < tileCache.length; ++i)
-		{
-			final ForgeDirection dir = ForgeDirection.getOrientation(i);
-			final int fx = xCoord + dir.offsetX;
-			final int fy = yCoord + dir.offsetY;
-			final int fz = zCoord + dir.offsetZ;
-			tileCache[i] = worldObj.getTileEntity(fx, fy, fz);
-		}
-	}
-
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-	{
-		needCacheRebuild = true;
+		super();
+		setEnergySyncPriority(100);
 	}
 
 	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate)
+	public int getEnergySyncAmount(ForgeDirection _dir, IEnergyGridSync _other)
 	{
-		return energyStorage.extractEnergy(maxExtract, simulate);
+		// Energy cells sync at twice their rate
+		return energyStorage.getMaxExtract() * 2;
 	}
 
 	public int calculateEnergyMeta()
@@ -87,55 +54,7 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 	}
 
 	@Override
-	public boolean canEnergyGridSync(ForgeDirection dir)
-	{
-		return true;
-	}
-
-	private void updateEnergyCell()
-	{
-		for (int i = 0; i < tileCache.length; ++i)
-		{
-			final TileEntity te = tileCache[i];
-			if (te != null)
-			{
-				final ForgeDirection dir = ForgeDirection.getOrientation(i);
-
-				if (te instanceof IEnergyGridSync)
-				{
-					final IEnergyGridSync cell = (IEnergyGridSync)te;
-					if (cell.canEnergyGridSync(dir.getOpposite()))
-					{
-						if (cell.getEnergyStored(dir.getOpposite()) < getEnergyStored(dir))
-						{
-							final int diff = cell.receiveEnergy(dir.getOpposite(), extractEnergy(dir, energyStorage.getMaxExtract() / 2, true), false);
-							if (diff > 0)
-							{
-								if (extractEnergy(dir, diff, false) != 0)
-								{
-									needUpdate = true;
-								}
-							}
-						}
-					}
-				}
-				else if (te instanceof IEnergyReceiver)
-				{
-					final IEnergyReceiver receiver = (IEnergyReceiver)te;
-					final int diff = receiver.receiveEnergy(dir.getOpposite(), extractEnergy(dir, energyStorage.getMaxExtract(), true), false);
-					if (diff > 0)
-					{
-						if (extractEnergy(dir, diff, false) != 0)
-						{
-							needUpdate = true;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void updateBlockMeta()
+	protected boolean updateBlockMeta()
 	{
 		final int newMeta = calculateEnergyMeta();
 		if (lastMeta != newMeta)
@@ -143,29 +62,6 @@ public abstract class TileEntityEnergyCell extends YATMPoweredTile implements IE
 			lastMeta = newMeta;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.UPDATE_CLIENT);
 		}
-	}
-
-	@Override
-	public void updateEntity()
-	{
-		if (!worldObj.isRemote)
-		{
-			if (needCacheRebuild)
-			{
-				needCacheRebuild = false;
-				rebuildTileCache();
-			}
-
-			if (needUpdate)
-			{
-				needUpdate = false;
-				updateBlockMeta();
-				markForUpdate();
-			}
-
-			updateEnergyCell();
-		}
-
-		super.updateEntity();
+		return true;
 	}
 }

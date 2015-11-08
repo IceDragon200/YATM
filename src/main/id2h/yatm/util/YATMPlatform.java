@@ -38,6 +38,7 @@ public class YATMPlatform
 {
 	private YATMPlatform() {}
 
+	// Copied from Applied Energistics 2
 	public static void openGui(@Nonnull EntityPlayer player, @Nullable TileEntity tile, @Nullable ForgeDirection dir, @Nonnull GuiType guiID)
 	{
 		if (Platform.isClient()) return;

@@ -55,7 +55,7 @@ public enum GuiType
 	AUTO_GRINDER(ContainerAutoGrinder.class, TileEntityAutoGrinder.class),
 	COMPACTOR(ContainerCompactor.class, TileEntityCompactor.class),
 	CRUSHER(ContainerCrusher.class, TileEntityCrusher.class),
-	//ELECTROLYSER,
+	//ELECTROLYSER(ContainerElectrolyser.class, TileEntityElectrolyser.class),
 	FLUX_FURNACE(ContainerFluxFurnace.class, TileEntityFluxFurnace.class),
 	HEATER(ContainerHeater.class, TileEntityHeater.class),
 	MIXER(ContainerMixer.class, TileEntityMixer.class);

@@ -23,21 +23,58 @@
  */
 package id2h.yatm.common.block;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
+import id2h.yatm.common.tileentity.TileEntitySolarPanel;
+import id2h.yatm.util.BoundUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockSolarPanel extends Block
+public class BlockSolarPanel extends YATMBlockBaseTile
 {
 	public BlockSolarPanel()
 	{
-		super(Material.rock);
-		setStepSound(Block.soundTypeStone);
+		super(Material.rock, TileEntitySolarPanel.class);
+		this.useNeighborBrightness = true;
+		setStepSound(Block.soundTypeGlass);
 		setHardness(2.0F);
 		setResistance(5.0F);
 		setBlockName("yatm.BlockSolarPanel");
-		setBlockTextureName("yatm:BlockSolarPanel/Top");
-		setCreativeTab(CreativeTabsYATM.instance());
+		setBlockTextureName("yatm:BlockSolarPanel");
+
+		float[] bounds = BoundUtils.newCubeToBounds(0f, 0f, 0f, 16f, 2f, 16f);
+		bounds = BoundUtils.scaleBounds(bounds, 1f / 16f, bounds);
+		setBlockBounds(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
+	}
+
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+	{
+		if (world.isRemote) return;
+
+		final TileEntitySolarPanel te = getTileEntity(world, x, y, z);
+		if (te != null)
+		{
+			te.onNeighborBlockChange(world, x, y, z, block);
+		}
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side)
+	{
+		if (side != ForgeDirection.DOWN) return false;
+		return true;
 	}
 }

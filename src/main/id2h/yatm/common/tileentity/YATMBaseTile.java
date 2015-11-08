@@ -62,9 +62,34 @@ public abstract class YATMBaseTile extends TileEntity
 
 	protected static Map<Class<? extends YATMBaseTile>, HandlerMap> HANDLERS = new HashMap<Class<? extends YATMBaseTile>, HandlerMap>();
 
+	protected boolean needBlockUpdate = true;
+
+	public void markForBlockUpdate()
+	{
+		needBlockUpdate = true;
+	}
+
 	public void markForUpdate()
 	{
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+	}
+
+	protected void preMarkForUpdate()
+	{
+
+	}
+
+	@Override
+	public void updateEntity()
+	{
+		if (needBlockUpdate)
+		{
+			needBlockUpdate = false;
+			preMarkForUpdate();
+			markForUpdate();
+		}
+
+		super.updateEntity();
 	}
 
 	protected void addHandler(@Nonnull HandlerMap handlerMap, @Nonnull EventHandler.EventType type, @Nonnull Method method)

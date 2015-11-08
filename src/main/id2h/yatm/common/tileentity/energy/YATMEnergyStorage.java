@@ -26,6 +26,7 @@ package id2h.yatm.common.tileentity.energy;
 import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 
 public class YATMEnergyStorage extends EnergyStorage
 {
@@ -42,6 +43,25 @@ public class YATMEnergyStorage extends EnergyStorage
 	public YATMEnergyStorage(int capacity)
 	{
 		this(capacity, capacity, capacity);
+	}
+
+	public int modifyEnergyStoredDiff(int en)
+	{
+		this.energy += en;
+
+		if (this.energy > capacity)
+		{
+			final int newEnergy = MathHelper.clamp_int(energy, 0, capacity);
+			final int diff = newEnergy - energy;
+			this.energy = newEnergy;
+			return diff;
+		}
+		else if (this.energy < 0)
+		{
+			this.energy = 0;
+			return 0;
+		}
+		return en;
 	}
 
 	public void readFromNBT(NBTTagCompound data, String name)

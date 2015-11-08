@@ -61,7 +61,7 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 		final int result = energyStorage.receiveEnergy(maxReceive, simulated);
 		if (!simulated && result != 0)
 		{
-			markForUpdate();
+			markForBlockUpdate();
 		}
 		return result;
 	}

@@ -28,8 +28,9 @@ import java.util.List;
 import cofh.api.energy.IEnergyReceiver;
 
 import id2h.yatm.common.block.YATMBlockBaseTile;
-import id2h.yatm.common.tileentity.TileEntityEnergyCell;
+import id2h.yatm.common.tileentity.YATMEnergyProviderTile;
 import id2h.yatm.common.tileentity.YATMPoweredMachine;
+import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 
 import appeng.util.ReadableNumberConverter;
 import appeng.util.IWideReadableNumberConverter;
@@ -105,15 +106,22 @@ public class WailaIntegration implements IWailaDataProvider
 			);
 		}
 
-		if (te instanceof TileEntityEnergyCell)
+		if (te instanceof YATMEnergyProviderTile)
 		{
+			final int prio = tag.getInteger("EnergySyncPriority");
 			final long maxIN = tag.getLong("InputRate");
 			final long maxOUT = tag.getLong("OutputRate");
-			tooltip.add("I/O: " +
+			tooltip.add("Sync Priority: " + prio);
+			tooltip.add("Max I/O: " +
 				wideConverter.toWideReadableForm(maxIN) + "RF/t" +
 				" / " +
 				wideConverter.toWideReadableForm(maxOUT) + "RF/t"
 			);
+		}
+
+		if (te instanceof TileEntitySolarPanel)
+		{
+			tooltip.add("Last Gain: " + tag.getInteger("LastEnergyGain") + "RF/t");
 		}
 		return tooltip;
 	}
@@ -142,11 +150,18 @@ public class WailaIntegration implements IWailaDataProvider
 			tag.setLong("Energy", er.getEnergyStored(ForgeDirection.UNKNOWN));
 		}
 
-		if (te instanceof TileEntityEnergyCell)
+		if (te instanceof YATMEnergyProviderTile)
 		{
-			final TileEntityEnergyCell energyCell = (TileEntityEnergyCell)te;
-			tag.setLong("InputRate", energyCell.getMaxReceive());
-			tag.setLong("OutputRate", energyCell.getMaxExtract());
+			final YATMEnergyProviderTile prov = (YATMEnergyProviderTile)te;
+			tag.setInteger("EnergySyncPriority", prov.getEnergySyncPriority(ForgeDirection.UNKNOWN));
+			tag.setLong("InputRate", prov.getMaxReceive());
+			tag.setLong("OutputRate", prov.getMaxExtract());
+		}
+
+		if (te instanceof TileEntitySolarPanel)
+		{
+			final TileEntitySolarPanel sp = (TileEntitySolarPanel)te;
+			tag.setInteger("LastEnergyGain", sp.lastEnergyGain);
 		}
 		return tag;
 	}

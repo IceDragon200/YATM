@@ -30,5 +30,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 // Gives the tile the ability to synchronize its energy with nearby energy cells
 public interface IEnergyGridSync extends IEnergyReceiver
 {
-	boolean canEnergyGridSync(ForgeDirection dir);
+	int getEnergySyncPriority(ForgeDirection dir);
+	boolean canEnergyGridSync(ForgeDirection dir, IEnergyGridSync other);
+	int syncEnergy(ForgeDirection dir, int value);
 }
