@@ -28,7 +28,6 @@ import javax.annotation.Nonnull;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 
 public class InventorySlice implements IInventory
 {
@@ -111,32 +110,7 @@ public class InventorySlice implements IInventory
 	public ItemStack mergeStackBang(ItemStack stack)
 	{
 		if (stack == null) return null;
-
-		for (int i = 0; i < getSizeInventory(); ++i)
-		{
-			if (stack.stackSize <= 0) break;
-
-			final ItemStack target = getStackInSlot(i);
-			if (target == null)
-			{
-				setInventorySlotContents(i, stack.copy());
-				stack.stackSize = 0;
-			}
-			else
-			{
-				if (target.isItemEqual(stack))
-				{
-					final int newSize = MathHelper.clamp_int(target.stackSize + stack.stackSize, 0, target.getMaxStackSize());
-					if (newSize != target.stackSize)
-					{
-						final int consumed = newSize - target.stackSize;
-						stack.stackSize -= consumed;
-						target.stackSize = newSize;
-						setInventorySlotContents(i, target);
-					}
-				}
-			}
-		}
+		InventoryProcessor.instance().mergeWithSlots(this, stack);
 		return stack.stackSize <= 0 ? null : stack;
 	}
 

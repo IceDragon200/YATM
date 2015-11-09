@@ -31,14 +31,18 @@ import id2h.yatm.common.inventory.ContainerCompactor;
 import id2h.yatm.common.inventory.ContainerCrusher;
 import id2h.yatm.common.inventory.ContainerFluxFurnace;
 import id2h.yatm.common.inventory.ContainerHeater;
+import id2h.yatm.common.inventory.ContainerMiniBlastFurnace;
 import id2h.yatm.common.inventory.ContainerMixer;
+import id2h.yatm.common.inventory.ContainerRoller;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
 import id2h.yatm.common.tileentity.TileEntityHeater;
+import id2h.yatm.common.tileentity.TileEntityMiniBlastFurnace;
 import id2h.yatm.common.tileentity.TileEntityMixer;
+import id2h.yatm.common.tileentity.TileEntityRoller;
 
 import appeng.util.Platform;
 
@@ -58,6 +62,8 @@ public enum GuiType
 	//ELECTROLYSER(ContainerElectrolyser.class, TileEntityElectrolyser.class),
 	FLUX_FURNACE(ContainerFluxFurnace.class, TileEntityFluxFurnace.class),
 	HEATER(ContainerHeater.class, TileEntityHeater.class),
+	MINI_BLAST_FURNACE(ContainerMiniBlastFurnace.class, TileEntityMiniBlastFurnace.class),
+	ROLLER(ContainerRoller.class, TileEntityRoller.class),
 	MIXER(ContainerMixer.class, TileEntityMixer.class);
 
 	public static final GuiType[] GUIS = values();

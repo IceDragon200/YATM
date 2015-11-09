@@ -24,7 +24,7 @@
 package id2h.yatm.common.inventory;
 
 import id2h.yatm.common.tileentity.TileEntityCrusher;
-import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotInputCrusher;
 import id2h.yatm.common.inventory.slot.SlotOutput;
 import id2h.yatm.common.inventory.slot.SlotProcessing;
 
@@ -35,7 +35,7 @@ public class ContainerCrusher extends YATMTileContainer
 	public ContainerCrusher(IInventory playerInventory, TileEntityCrusher crusher)
 	{
 		super(crusher);
-		addSlotToContainer(new SlotInput(crusher, 0, 80, 15));
+		addSlotToContainer(new SlotInputCrusher(crusher, 0, 80, 15));
 		for (int i = 0; i < 4; ++i)
 		{
 			addSlotToContainer(new SlotOutput(crusher, 1 + i, 53 + i * SLOT_W, 65));

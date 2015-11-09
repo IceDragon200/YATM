@@ -23,7 +23,6 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
 import id2h.yatm.common.inventory.InventorySlice;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 import id2h.yatm.util.NumUtils;
@@ -44,13 +43,13 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 	}
 
 	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	public int getWorkingPowerCost(MachineUpdateState state)
 	{
 		return 10;
 	}
 
 	@Override
-	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState state)
 	{
 		if (progressMax <= 0)
 		{
@@ -62,14 +61,14 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 				// each input slot
 				for (int j = 0; j < 4; ++j)
 				{
-					final ItemStack inp = inventory.getStackInSlot(j);
+					final ItemStack inp = state.inventory.getStackInSlot(j);
 					if (inp != null)
 					{
 						final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
 
 						if (itemstack != null)
 						{
-							inventory.setInventorySlotContents(8 + i, inventory.decrStackSize(j, 1));
+							state.inventory.setInventorySlotContents(8 + i, state.inventory.decrStackSize(j, 1));
 							this.progressMax += 80;
 							break;
 						}
@@ -85,20 +84,21 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 				this.progressMax *= 0.8f;
 			}
 		}
-		super.updateAwakeMachine(_state, _energyStorage, inventory);
+		super.updateAwakeMachine(state);
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(MachineUpdateState state)
 	{
 		if (progressMax > 0)
 		{
 			if (progress >= progressMax)
 			{
-				final InventorySlice outputInv = new InventorySlice(inventory, new int[] { 4, 5, 6, 7 });
+				resetProgress();
+				final InventorySlice outputInv = new InventorySlice(state.inventory, new int[] { 4, 5, 6, 7 });
 				for (int i = 0; i < 4; ++i)
 				{
-					final ItemStack inp = inventory.getStackInSlot(8 + i);
+					final ItemStack inp = state.inventory.getStackInSlot(8 + i);
 					if (inp != null)
 					{
 						final ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(inp);
@@ -106,9 +106,8 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 
 						if (rem != null) discardItemStack(rem);
 					}
-					inventory.setInventorySlotContents(8 + i, null);
+					state.inventory.setInventorySlotContents(8 + i, null);
 				}
-				resetProgress();
 			}
 			else
 			{

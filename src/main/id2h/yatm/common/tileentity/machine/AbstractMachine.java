@@ -27,11 +27,9 @@ import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 
+import id2h.yatm.common.inventory.InventoryProcessor;
 import id2h.yatm.util.YATMDebug;
 
-import cofh.api.energy.EnergyStorage;
-
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -42,6 +40,7 @@ public abstract class AbstractMachine implements IMachineLogic
 	protected TileEntity tileEntity;
 	protected int idleTime;
 	protected boolean sleeping;
+	protected InventoryProcessor inventoryProcessor = InventoryProcessor.instance();
 
 	// Serialization
 	protected void readFromNBT(NBTTagCompound data)
@@ -90,32 +89,32 @@ public abstract class AbstractMachine implements IMachineLogic
 
 	// Machine
 	@Override
-	public int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	public int getRunningPowerCost(MachineUpdateState state)
 	{
 		return 0;
 	}
 
 	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	public int getWorkingPowerCost(MachineUpdateState state)
 	{
 		return 30;
 	}
 
 	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	public boolean canWork(MachineUpdateState state)
 	{
 		return true;
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(MachineUpdateState state)
 	{
 		gotoSleep();
 	}
 
-	protected void goIdle()
+	protected void goIdle(int duration)
 	{
-		idleTime = 60;
+		idleTime = duration;
 		YATMDebug.writeMachineState("Machine has gone idle machine=" + this);
 	}
 
@@ -138,34 +137,34 @@ public abstract class AbstractMachine implements IMachineLogic
 		sleeping = true;
 	}
 
-	protected void updateMachineNotEnoughPower(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	protected void updateMachineNotEnoughPower(MachineUpdateState state)
 	{
 
 	}
 
-	protected void updateMachineForWork(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	protected void updateMachineForWork(MachineUpdateState state)
 	{
-		final int workingCost = getWorkingPowerCost(energyStorage, inventory);
-		if (energyStorage.getEnergyStored() >= (state.energyConsumed + workingCost))
+		final int workingCost = getWorkingPowerCost(state);
+		if (state.energyStorage.getEnergyStored() >= (state.energyConsumed + workingCost))
 		{
-			if (canWork(energyStorage, inventory))
+			if (canWork(state))
 			{
 				state.energyConsumed += workingCost;
-				doWork(energyStorage, inventory);
+				doWork(state);
 				state.didWork |= true;
 			}
 		}
 		else
 		{
-			updateMachineNotEnoughPower(state, energyStorage, inventory);
+			updateMachineNotEnoughPower(state);
 		}
 	}
 
-	protected void updateAwakeMachine(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	protected void updateAwakeMachine(MachineUpdateState state)
 	{
 		if (idleTime <= 0)
 		{
-			updateMachineForWork(state, energyStorage, inventory);
+			updateMachineForWork(state);
 		}
 		else
 		{
@@ -174,12 +173,12 @@ public abstract class AbstractMachine implements IMachineLogic
 	}
 
 	@Override
-	public void updateMachine(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	public void updateMachine(MachineUpdateState state)
 	{
-		state.energyConsumed += getRunningPowerCost(energyStorage, inventory);
+		state.energyConsumed += getRunningPowerCost(state);
 		if (!sleeping)
 		{
-			updateAwakeMachine(state, energyStorage, inventory);
+			updateAwakeMachine(state);
 		}
 	}
 
@@ -192,5 +191,17 @@ public abstract class AbstractMachine implements IMachineLogic
 	public void discardItemStack(ItemStack stack)
 	{
 		YATMDebug.write("TODO: Discard itemstack stack=" + stack);
+	}
+
+	public void discardInventorySlots(MachineUpdateState state, int[] slots)
+	{
+		for (int slot : slots)
+		{
+			final ItemStack result = state.inventory.getStackInSlotOnClosing(slot);
+			if (result != null)
+			{
+				discardItemStack(result);
+			}
+		}
 	}
 }

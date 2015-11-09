@@ -95,21 +95,21 @@ public class YATM
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
 			),
-			60
+			TickUtils.seconds(1)
 		);
 
 		c.addCrushing(new ItemStack(Blocks.sandstone, 1, 1),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
 			),
-			60
+			TickUtils.seconds(1)
 		);
 
 		c.addCrushing(new ItemStack(Blocks.sandstone, 1, 2),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
 			),
-			60
+			TickUtils.seconds(1)
 		);
 
 		c.addCrushing(new ItemStack(Blocks.sandstone_stairs, 1, 0),
@@ -118,7 +118,7 @@ public class YATM
 				new PossibleItem(new ItemStack(Blocks.sand, 4), 0.7f),
 				new PossibleItem(new ItemStack(Blocks.sand, 2), 0.5f)
 			),
-			60
+			TickUtils.seconds(1)
 		);
 
 		c.addCrushing(new ItemStack(Blocks.stone),
@@ -126,7 +126,7 @@ public class YATM
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.gravel), 0.1f)
 			),
-			60
+			TickUtils.seconds(2)
 		);
 
 		// stone brick > cracked stone brick
@@ -135,7 +135,7 @@ public class YATM
 				new PossibleItem(new ItemStack(Blocks.stonebrick, 1, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 0.1f)
 			),
-			60
+			TickUtils.seconds(2)
 		);
 
 		// mossy stonebrick > 2 mossy cobblestone (100%) + 1 cobblestone (20%) + 1 vine (10%)
@@ -145,7 +145,7 @@ public class YATM
 				new PossibleItem(new ItemStack(Blocks.cobblestone, 1), 0.2f),
 				new PossibleItem(new ItemStack(Blocks.vine, 1), 0.1f)
 			),
-			60
+			TickUtils.seconds(2)
 		);
 
 		c.addCrushing(new ItemStack(Blocks.cobblestone),
@@ -153,14 +153,14 @@ public class YATM
 				new PossibleItem(new ItemStack(Blocks.gravel), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.sand), 0.1f)
 			),
-			90
+			TickUtils.seconds(1)
 		);
 
 		c.addCrushing(new ItemStack(Blocks.gravel),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand), 1.0f)
 			),
-			120
+			TickUtils.seconds(1)
 		);
 
 		for (int i = 0; i < 3; ++i)
@@ -171,7 +171,7 @@ public class YATM
 					new PossibleItem(new ItemStack(Items.quartz, 1), 0.3f),
 					new PossibleItem(new ItemStack(Items.quartz, 1), 0.1f)
 				),
-				60
+				TickUtils.seconds(2)
 			);
 		}
 
@@ -182,7 +182,7 @@ public class YATM
 				new PossibleItem(new ItemStack(Items.quartz, 1), 0.1f),
 				new PossibleItem(new ItemStack(Items.quartz, 1), 0.07f)
 			),
-			60
+			TickUtils.seconds(2)
 		);
 
 		//c.addCrushing(new ItemStack(Blocks.sand),
@@ -191,9 +191,113 @@ public class YATM
 		//);
 	}
 
+	private void registerBlastingRecipes()
+	{
+		YATMApi.instance().blasting().addBlasting(
+			items.ingotCarbonSteel.asStack(1),
+			new ItemStack(Items.coal, 1, 0),
+			new ItemStack(Items.iron_ingot),
+			TickUtils.minutes(1),
+			600
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			items.ingotCarbonSteel.asStack(1),
+			new ItemStack(Items.coal, 4, 1),
+			new ItemStack(Items.iron_ingot),
+			TickUtils.minutes(1),
+			600
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			items.ingotCrystalSteel.asStack(1),
+			new ItemStack(Items.diamond),
+			new ItemStack(Items.iron_ingot),
+			TickUtils.minutes(3),
+			600
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			items.plateEnergized.asStack(1),
+			items.dustPureRedstone.asStack(4),
+			items.plateIron.asStack(1),
+			TickUtils.seconds(10),
+			400
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			items.platePhotovoltaic.asStack(1),
+			new ItemStack(Items.dye, 4, 4),
+			items.plateEnergized.asStack(1),
+			TickUtils.seconds(10),
+			400
+		);
+
+		// Reinforced Glass
+		YATMApi.instance().blasting().addBlasting(
+			blocks.reinforcedGlass.asStack(1),
+			new ItemStack(Blocks.sand, 1, 0),
+			new ItemStack(Blocks.sand, 1, 0),
+			TickUtils.seconds(5),
+			400
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			blocks.reinforcedGlass.asStack(1),
+			new ItemStack(Blocks.sand, 1, 1),
+			new ItemStack(Blocks.sand, 1, 0),
+			TickUtils.seconds(5),
+			400
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			blocks.reinforcedGlass.asStack(1),
+			new ItemStack(Blocks.sand, 1, 1),
+			new ItemStack(Blocks.sand, 1, 1),
+			TickUtils.seconds(5),
+			400
+		);
+
+		YATMApi.instance().blasting().addBlasting(
+			blocks.reinforcedGlass.asStack(1),
+			new ItemStack(Blocks.sand, 1, 1),
+			new ItemStack(Blocks.sand, 1, 1),
+			TickUtils.seconds(5),
+			400
+		);
+	}
+
 	private void registerMixingRecipes()
 	{
 
+	}
+
+	private void registerRollingRecipes()
+	{
+		YATMApi.instance().rolling().addPressing(
+			items.plateCarbonSteel.asStack(1),
+			items.ingotCarbonSteel.asStack(2),
+			TickUtils.seconds(10)
+		);
+
+		YATMApi.instance().rolling().addPressing(
+			items.plateCrystalSteel.asStack(1),
+			items.ingotCrystalSteel.asStack(2),
+			TickUtils.seconds(20)
+		);
+
+		YATMApi.instance().rolling().addPressing(
+			items.plateIron.asStack(1),
+			new ItemStack(Items.iron_ingot, 2),
+			TickUtils.seconds(5)
+		);
+
+		// gold is softer than iron
+		YATMApi.instance().rolling().addPressing(
+			items.plateGold.asStack(1),
+			new ItemStack(Items.gold_ingot, 2),
+			TickUtils.seconds(2)
+		);
 	}
 
 	private void registerCraftingRecipes()
@@ -286,12 +390,31 @@ public class YATM
 
 		// Machine Recipes
 		GameRegistry.addShapedRecipe(blocks.chassis.asStack(),
-			"CIC",
-			"ICI",
-			"CIC",
-			'C', Items.iron_ingot,
-			'I', items.dustPureRedstone.asStack()
+			" I ",
+			"IRI",
+			" I ",
+			'I', items.plateIron.asStack(),
+			'R', items.dustPureRedstone.asStack()
 		);
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.roller.asStack(),
+			"III",
+			"G G",
+			"IAI",
+			'A', items.capacitorIron.asStack(),
+			'G', "gearStone",
+			'I', Items.iron_ingot
+		));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.mixer.asStack(),
+			"IGI",
+			"ICI",
+			"IAI",
+			'A', items.vacuumTubeIron.asStack(),
+			'C', blocks.chassis.asStack(),
+			'G', "gearIron",
+			'I', items.plateIron.asStack()
+		));
 
 		GameRegistry.addShapedRecipe(blocks.autoCrafter.asStack(),
 			"IWI",
@@ -300,7 +423,7 @@ public class YATM
 			'A', items.capacitorIron.asStack(),
 			'C', blocks.chassis.asStack(),
 			'W', Blocks.crafting_table,
-			'I', Items.iron_ingot
+			'I', items.plateIron.asStack()
 		);
 
 		{
@@ -309,48 +432,72 @@ public class YATM
 			{
 				YATMDebug.write("Adding Auto Grindstone recipe");
 				GameRegistry.addShapedRecipe(blocks.autoGrinder.asStack(),
-					"III",
-					"IWI",
-					"ACA",
+					"IPI",
+					"PWP",
+					"IAI",
 					'A', items.capacitorIron.asStack(),
-					'C', blocks.chassis.asStack(),
 					'W', grindstone,
-					'I', Items.iron_ingot
+					'I', Items.iron_ingot,
+					'P', items.plateIron.asStack()
 				);
 			}
 		}
 
 		GameRegistry.addShapedRecipe(blocks.crusher.asStack(),
-			"III",
+			"   ",
 			"WCW",
-			"AIA",
+			" A ",
 			'A', items.capacitorIron.asStack(),
 			'C', blocks.chassis.asStack(),
-			'W', Blocks.piston,
-			'I', Items.iron_ingot
+			'W', Blocks.piston
 		);
 
 		GameRegistry.addShapedRecipe(blocks.compactor.asStack(),
-			"IWI",
+			"III",
 			"WCW",
-			"AWA",
+			"IAI",
 			'A', items.capacitorDiamond.asStack(),
 			'C', blocks.chassis.asStack(),
 			'W', Blocks.piston,
-			'I', Items.diamond
+			'I', items.plateCarbonSteel.asStack()
+		);
+
+		GameRegistry.addShapedRecipe(blocks.heater.asStack(),
+			" I ",
+			"IFI",
+			" A ",
+			'A', items.vacuumTubeIron.asStack(),
+			'F', Blocks.furnace,
+			'I', items.plateIron.asStack()
 		);
 
 		GameRegistry.addShapedRecipe(blocks.fluxFurnace.asStack(),
-			"IFI",
-			"FCF",
-			"AFA",
+			"FIF",
+			"I I",
+			"FAF",
 			'A', items.vacuumTubeIron.asStack(),
-			'C', blocks.chassis.asStack(),
 			'F', Blocks.furnace,
 			'I', Items.iron_ingot
 		);
 
+		GameRegistry.addShapedRecipe(blocks.miniBlastFurnace.asStack(),
+			"BBB",
+			"BFB",
+			"PAP",
+			'A', items.vacuumTubeIron.asStack(),
+			'F', Blocks.furnace,
+			'P', items.plateIron.asStack(),
+			'B', Blocks.brick_block
+		);
+
 		// Energy Cell Recipes
+		GameRegistry.addShapedRecipe(blocks.solarPanel.asStack(),
+			"YYY",
+			"III",
+			'Y', items.platePhotovoltaic.asStack(),
+			'I', items.plateIron.asStack()
+		);
+
 		GameRegistry.addShapedRecipe(blocks.energyCellBasic.asStack(),
 			"YIY",
 			"ICI",
@@ -467,7 +614,6 @@ public class YATM
 			"x x",
 			'x', blocks.ventedMesh2x.asStack()
 		);
-
 	}
 
 	private void registerCompactingRecipes()
@@ -475,6 +621,7 @@ public class YATM
 		// 1 Stack (64) of Coal == 1 Diamond
 		YATMApi.instance().compacting().addCompacting(new ItemStack(Items.diamond, 1),
 			new ItemStack(Items.coal, 64), TickUtils.minutes(5));
+
 		// if you're willing to lose a bit of extra coal, the compacting can be faster by using coal blocks
 		YATMApi.instance().compacting().addCompacting(new ItemStack(Items.diamond, 1),
 			new ItemStack(Blocks.coal_block, 8), TickUtils.minutes(2) + TickUtils.seconds(30));
@@ -486,6 +633,10 @@ public class YATM
 		registerCompactingRecipes();
 		registerMixingRecipes();
 		registerCraftingRecipes();
+		registerBlastingRecipes();
+		registerRollingRecipes();
+		//YATMApi.instance().rolling().displayDebug();
+		//YATMApi.instance().blasting().displayDebug();
 	}
 
 	private void registerHeatSources()

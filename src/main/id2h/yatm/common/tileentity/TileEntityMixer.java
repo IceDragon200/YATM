@@ -47,7 +47,7 @@ public class TileEntityMixer extends YATMPoweredMachine
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
-		return new MachineEnergyStorage(4000, 100);
+		return new MachineEnergyStorage(16000, 100);
 	}
 
 	@Override

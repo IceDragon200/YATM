@@ -37,23 +37,27 @@ import id2h.yatm.common.block.BlockFluxFurnace;
 import id2h.yatm.common.block.BlockHeater;
 import id2h.yatm.common.block.BlockLamp;
 import id2h.yatm.common.block.BlockMetalCrate;
+import id2h.yatm.common.block.BlockMiniBlastFurnace;
 import id2h.yatm.common.block.BlockMixer;
+import id2h.yatm.common.block.BlockRoller;
 import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.tileentity.TileEntityCompactor;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
-import id2h.yatm.common.tileentity.TileEntityCompactor;
-import id2h.yatm.common.tileentity.TileEntityHeater;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellDense;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellNormal;
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
+import id2h.yatm.common.tileentity.TileEntityHeater;
+import id2h.yatm.common.tileentity.TileEntityMiniBlastFurnace;
 import id2h.yatm.common.tileentity.TileEntityMixer;
+import id2h.yatm.common.tileentity.TileEntityRoller;
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 
 import growthcraft.core.common.definition.BlockDefinition;
@@ -66,35 +70,37 @@ import net.minecraft.block.material.Material;
 
 public class BlockInstances
 {
-	public BlockDefinition autoCrafter;
-	public BlockDefinition autoGrinder;
-	public BlockDefinition energyCellBasic;
-	public BlockDefinition energyCellBasicCreative;
-	public BlockDefinition energyCellNormal;
-	public BlockDefinition energyCellNormalCreative;
-	public BlockDefinition energyCellDense;
-	public BlockDefinition energyCellDenseCreative;
-	public BlockDefinition chassis;
-	public BlockDefinition crusher;
-	public BlockDefinition compactor;
-	public BlockDefinition floorEngraving1;
-	public BlockDefinition floorEngraving2;
-	public BlockDefinition floorWarning1;
-	public BlockDefinition floorWarning2;
-	public BlockDefinition fluxFurnace;
-	public BlockDefinition heater;
-	public BlockDefinition electrolyser;
-	public BlockDefinition lamp;
-	public BlockDefinition metalCrate;
-	public BlockDefinition mixer;
 	public BlockDecorativeDefinition reinforcedGlass;
-	public BlockDefinition solarPanel;
 	public BlockDecorativeDefinition ventedMesh2x;
 	public BlockDecorativeDefinition ventedMesh4x;
 	public BlockDecorativeDefinition ventedMesh8x;
 	public BlockDecorativeDefinition warningStripes2x;
 	public BlockDecorativeDefinition warningStripes4x;
 	public BlockDecorativeDefinition warningStripes8x;
+	public BlockDefinition autoCrafter;
+	public BlockDefinition autoGrinder;
+	public BlockDefinition chassis;
+	public BlockDefinition compactor;
+	public BlockDefinition crusher;
+	public BlockDefinition electrolyser;
+	public BlockDefinition energyCellBasic;
+	public BlockDefinition energyCellBasicCreative;
+	public BlockDefinition energyCellDense;
+	public BlockDefinition energyCellDenseCreative;
+	public BlockDefinition energyCellNormal;
+	public BlockDefinition energyCellNormalCreative;
+	public BlockDefinition floorEngraving1;
+	public BlockDefinition floorEngraving2;
+	public BlockDefinition floorWarning1;
+	public BlockDefinition floorWarning2;
+	public BlockDefinition fluxFurnace;
+	public BlockDefinition heater;
+	public BlockDefinition lamp;
+	public BlockDefinition metalCrate;
+	public BlockDefinition miniBlastFurnace;
+	public BlockDefinition mixer;
+	public BlockDefinition roller;
+	public BlockDefinition solarPanel;
 	public BlockDefinition window;
 
 	public BlockInstances() {}
@@ -116,10 +122,12 @@ public class BlockInstances
 		autoGrinder = new BlockDefinition(new BlockAutoGrinder());
 		compactor = new BlockDefinition(new BlockCompactor());
 		crusher = new BlockDefinition(new BlockCrusher());
-		heater = new BlockDefinition(new BlockHeater());
 		electrolyser = new BlockDefinition(new BlockElectrolyser());
 		fluxFurnace = new BlockDefinition(new BlockFluxFurnace());
+		heater = new BlockDefinition(new BlockHeater());
+		miniBlastFurnace = new BlockDefinition(new BlockMiniBlastFurnace());
 		mixer = new BlockDefinition(new BlockMixer());
+		roller = new BlockDefinition(new BlockRoller());
 
 		metalCrate = new BlockDefinition(new BlockMetalCrate());
 
@@ -198,10 +206,12 @@ public class BlockInstances
 		GameRegistry.registerBlock(autoGrinder.getBlock(), "yatm.BlockAutoGrinder");
 		GameRegistry.registerBlock(compactor.getBlock(), "yatm.BlockCompactor");
 		GameRegistry.registerBlock(crusher.getBlock(), "yatm.BlockCrusher");
-		GameRegistry.registerBlock(heater.getBlock(), "yatm.BlockHeater");
 		GameRegistry.registerBlock(electrolyser.getBlock(), "yatm.BlockElectrolyser");
 		GameRegistry.registerBlock(fluxFurnace.getBlock(), "yatm.BlockFluxFurnace");
+		GameRegistry.registerBlock(heater.getBlock(), "yatm.BlockHeater");
+		GameRegistry.registerBlock(miniBlastFurnace.getBlock(), "yatm.BlockMiniBlastFurnace");
 		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");
+		GameRegistry.registerBlock(roller.getBlock(), "yatm.BlockRoller");
 
 		GameRegistry.registerBlock(floorEngraving1.getBlock(), "yatm.BlockFloorEngraving1");
 		GameRegistry.registerBlock(floorEngraving2.getBlock(), "yatm.BlockFloorEngraving2");
@@ -220,18 +230,20 @@ public class BlockInstances
 
 		GameRegistry.registerTileEntity(TileEntityAutoCrafter.class, "yatm.tileentity.TileEntityAutoCrafter");
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");
-		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellBasic.class, "yatm.tileentity.TileEntityCreativeEnergyCellBasic");
-		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellNormal.class, "yatm.tileentity.TileEntityCreativeEnergyCellNormal");
-		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellDense.class, "yatm.tileentity.TileEntityCreativeEnergyCellDense");
-		GameRegistry.registerTileEntity(TileEntityEnergyCellBasic.class, "yatm.tileentity.TileEntityEnergyCellBasic");
-		GameRegistry.registerTileEntity(TileEntityEnergyCellNormal.class, "yatm.tileentity.TileEntityEnergyCellNormal");
-		GameRegistry.registerTileEntity(TileEntityEnergyCellDense.class, "yatm.tileentity.TileEntityEnergyCellDense");
-		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.TileEntityCrusher");
 		GameRegistry.registerTileEntity(TileEntityCompactor.class, "yatm.tileentity.TileEntityCompactor");
-		GameRegistry.registerTileEntity(TileEntityHeater.class, "yatm.tileentity.TileEntityHeater");
+		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellBasic.class, "yatm.tileentity.TileEntityCreativeEnergyCellBasic");
+		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellDense.class, "yatm.tileentity.TileEntityCreativeEnergyCellDense");
+		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellNormal.class, "yatm.tileentity.TileEntityCreativeEnergyCellNormal");
+		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.TileEntityCrusher");
 		GameRegistry.registerTileEntity(TileEntityElectrolyser.class, "yatm.tileentity.TileEntityElectrolyser");
+		GameRegistry.registerTileEntity(TileEntityEnergyCellBasic.class, "yatm.tileentity.TileEntityEnergyCellBasic");
+		GameRegistry.registerTileEntity(TileEntityEnergyCellDense.class, "yatm.tileentity.TileEntityEnergyCellDense");
+		GameRegistry.registerTileEntity(TileEntityEnergyCellNormal.class, "yatm.tileentity.TileEntityEnergyCellNormal");
 		GameRegistry.registerTileEntity(TileEntityFluxFurnace.class, "yatm.tileentity.TileEntityFluxFurnace");
+		GameRegistry.registerTileEntity(TileEntityHeater.class, "yatm.tileentity.TileEntityHeater");
+		GameRegistry.registerTileEntity(TileEntityMiniBlastFurnace.class, "yatm.tileentity.TileEntityMiniBlastFurnace");
 		GameRegistry.registerTileEntity(TileEntityMixer.class, "yatm.tileentity.TileEntityMixer");
+		GameRegistry.registerTileEntity(TileEntityRoller.class, "yatm.tileentity.TileEntityRoller");
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "yatm.tileentity.TileEntitySolarPanel");
 	}
 }

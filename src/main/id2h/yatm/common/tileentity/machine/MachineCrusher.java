@@ -30,8 +30,6 @@ import id2h.yatm.common.inventory.InventorySlice;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 import id2h.yatm.util.YATMDebug;
 
-import cofh.api.energy.EnergyStorage;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
@@ -63,21 +61,21 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 	}
 
 	@Override
-	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState state)
 	{
 		if (progressMax <= 0)
 		{
 			resetProgress();
 
-			final CrushingResult result = getCrushingResultFromInput(inventory);
+			final CrushingResult result = getCrushingResultFromInput(state.inventory);
 
 			if (result != null)
 			{
 				final ItemStack inputStack = result.getInput();
-				final ItemStack srcStack = inventory.getStackInSlot(0);
+				final ItemStack srcStack = state.inventory.getStackInSlot(0);
 				if (inputStack.stackSize <= srcStack.stackSize)
 				{
-					inventory.setInventorySlotContents(6, inventory.decrStackSize(0, inputStack.stackSize));
+					state.inventory.setInventorySlotContents(6, state.inventory.decrStackSize(0, inputStack.stackSize));
 					this.progress = 0.0f;
 					this.progressMax = (float)result.time;
 				}
@@ -85,23 +83,23 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 
 			if (progressMax <= 0) gotoSleep();
 		}
-		super.updateAwakeMachine(_state, _energyStorage, inventory);
+		super.updateAwakeMachine(state);
 	}
 
 	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	public int getWorkingPowerCost(MachineUpdateState state)
 	{
 		return 10;
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(MachineUpdateState state)
 	{
 		if (progressMax > 0)
 		{
 			if (progress >= progressMax)
 			{
-				final CrushingResult result = getCurshingResultFromProcessing(inventory);
+				final CrushingResult result = getCurshingResultFromProcessing(state.inventory);
 				resetProgress();
 
 				if (result != null)
@@ -110,11 +108,11 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 					{
 						final ItemStack stack = item.asStack();
 						YATMDebug.write("Finding available slot for stack=" + stack);
-						addOutputItem(inventory, stack);
+						addOutputItem(state.inventory, stack);
 					}
 				}
 
-				inventory.setInventorySlotContents(6, null);
+				state.inventory.setInventorySlotContents(6, null);
 			}
 			else
 			{

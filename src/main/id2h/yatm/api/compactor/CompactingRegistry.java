@@ -25,6 +25,7 @@ package id2h.yatm.api.compactor;
 
 import java.util.Map;
 import java.util.HashMap;
+import javax.annotation.Nonnull;
 
 import growthcraft.api.core.util.ItemKey;
 
@@ -34,7 +35,7 @@ public class CompactingRegistry
 {
 	private final Map<ItemKey, CompactingResult> compactingEntries = new HashMap<ItemKey, CompactingResult>();
 
-	public void addCompacting(ItemStack result, ItemStack input, int time)
+	public void addCompacting(@Nonnull ItemStack result, @Nonnull ItemStack input, int time)
 	{
 		compactingEntries.put(new ItemKey(input), new CompactingResult(input, result, time));
 	}

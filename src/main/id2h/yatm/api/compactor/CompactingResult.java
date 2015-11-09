@@ -29,19 +29,19 @@ import javax.annotation.Nonnull;
 
 import growthcraft.core.common.definition.IItemStackFactory;
 
-import id2h.yatm.api.core.util.PossibleItemList;
-
 import net.minecraft.item.ItemStack;
 
 public class CompactingResult implements IItemStackFactory
 {
 	public final int time;
 	private final ItemStack input;
+	private final ItemStack[] inputs;
 	private final ItemStack output;
 
 	public CompactingResult(@Nonnull ItemStack inp, @Nonnull ItemStack result, int t)
 	{
 		this.input = inp;
+		this.inputs = new ItemStack[] { input };
 		this.output = result;
 		this.time = t;
 	}
@@ -49,6 +49,11 @@ public class CompactingResult implements IItemStackFactory
 	public ItemStack getInput()
 	{
 		return input;
+	}
+
+	public ItemStack[] getInputs()
+	{
+		return inputs;
 	}
 
 	public ItemStack getOutput()

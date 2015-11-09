@@ -30,7 +30,7 @@ checkstyle {
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
-version = yatm_version
+version = "${minecraft_version}-${yatm_version}"
 group = "id2h"
 archivesBaseName = "yatm"
 

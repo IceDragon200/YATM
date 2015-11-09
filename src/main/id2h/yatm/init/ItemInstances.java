@@ -30,6 +30,7 @@ import id2h.yatm.common.item.ItemCrystalSeed;
 import id2h.yatm.common.item.ItemDust;
 import id2h.yatm.common.item.ItemIngot;
 import id2h.yatm.common.item.ItemMesh;
+import id2h.yatm.common.item.ItemPlate;
 import id2h.yatm.common.item.ItemVacuumTube;
 
 import growthcraft.core.common.definition.ItemDefinition;
@@ -50,10 +51,14 @@ public class ItemInstances
 	public ItemSubtypeDefinition dustUranium;
 	public ItemSubtypeDefinition dustPureUranium;
 	public ItemSubtypeDefinition dustPureRedstone;
+	public ItemSubtypeDefinition dustCarbonSteel;
+	public ItemSubtypeDefinition dustCrystalSteel;
 
 	public ItemDefinition ingot;
 	public ItemSubtypeDefinition ingotUranium;
 	public ItemSubtypeDefinition ingotPureUranium;
+	public ItemSubtypeDefinition ingotCarbonSteel;
+	public ItemSubtypeDefinition ingotCrystalSteel;
 
 	public ItemDefinition crystal;
 	public ItemSubtypeDefinition crystalUranium;
@@ -71,6 +76,13 @@ public class ItemInstances
 	public ItemSubtypeDefinition vacuumTubeDiamond;
 	public ItemSubtypeDefinition vacuumTubeObsidian;
 
+	public ItemDefinition plate;
+	public ItemSubtypeDefinition plateIron;
+	public ItemSubtypeDefinition plateGold;
+	public ItemSubtypeDefinition plateCarbonSteel;
+	public ItemSubtypeDefinition plateCrystalSteel;
+	public ItemSubtypeDefinition plateEnergized;
+	public ItemSubtypeDefinition platePhotovoltaic;
 
 	public ItemDefinition mesh;
 
@@ -84,9 +96,13 @@ public class ItemInstances
 		dustUranium = new ItemSubtypeDefinition(dust, 0);
 		dustPureUranium = new ItemSubtypeDefinition(dust, 1);
 		dustPureRedstone = new ItemSubtypeDefinition(dust, 2);
+		dustCarbonSteel = new ItemSubtypeDefinition(dust, 3);
+		dustCrystalSteel = new ItemSubtypeDefinition(dust, 4);
 
 		ingotUranium = new ItemSubtypeDefinition(ingot, 0);
 		ingotPureUranium = new ItemSubtypeDefinition(ingot, 1);
+		ingotCarbonSteel = new ItemSubtypeDefinition(ingot, 2);
+		ingotCrystalSteel = new ItemSubtypeDefinition(ingot, 3);
 
 		crystalUranium = new ItemSubtypeDefinition(crystal, 0);
 		crystalRedstone = new ItemSubtypeDefinition(crystal, 1);
@@ -100,6 +116,13 @@ public class ItemInstances
 		vacuumTubeGold = new ItemSubtypeDefinition(vacuumTube, 1);
 		vacuumTubeDiamond = new ItemSubtypeDefinition(vacuumTube, 2);
 		vacuumTubeObsidian = new ItemSubtypeDefinition(vacuumTube, 3);
+
+		plateIron = new ItemSubtypeDefinition(plate, 0);
+		plateGold = new ItemSubtypeDefinition(plate, 1);
+		plateCarbonSteel = new ItemSubtypeDefinition(plate, 2);
+		plateCrystalSteel = new ItemSubtypeDefinition(plate, 3);
+		plateEnergized = new ItemSubtypeDefinition(plate, 4);
+		platePhotovoltaic = new ItemSubtypeDefinition(plate, 5);
 	}
 
 	public void preInit()
@@ -111,19 +134,21 @@ public class ItemInstances
 		crystal = new ItemDefinition(new ItemCrystal());
 		vacuumTube = new ItemDefinition(new ItemVacuumTube());
 		mesh = new ItemDefinition(new ItemMesh());
+		plate = new ItemDefinition(new ItemPlate());
 
 		initSubtypes();
 	}
 
 	public void register()
 	{
-		GameRegistry.registerItem(capacitor.getItem(), "capacitor");
-		GameRegistry.registerItem(crystalSeed.getItem(), "crystalSeed");
-		GameRegistry.registerItem(dust.getItem(), "pureDust");
-		GameRegistry.registerItem(ingot.getItem(), "pureIngot");
-		GameRegistry.registerItem(crystal.getItem(), "crystal");
-		GameRegistry.registerItem(vacuumTube.getItem(), "vacuumTube");
-		GameRegistry.registerItem(mesh.getItem(), "ironMesh");
+		GameRegistry.registerItem(capacitor.getItem(), "yatm.ItemCapacitor");
+		GameRegistry.registerItem(crystalSeed.getItem(), "yatm.ItemCrystalSeed");
+		GameRegistry.registerItem(dust.getItem(), "yatm.ItemDust");
+		GameRegistry.registerItem(ingot.getItem(), "yatm.ItemIngot");
+		GameRegistry.registerItem(crystal.getItem(), "yatm.ItemCrystal");
+		GameRegistry.registerItem(vacuumTube.getItem(), "yatm.ItemVacuumTube");
+		GameRegistry.registerItem(mesh.getItem(), "yatm.ItemMesh");
+		GameRegistry.registerItem(plate.getItem(), "yatm.ItemPlate");
 
 		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), dustPureUranium.asStack(1), 4);
 		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), dustPureRedstone.asStack(1), 4);
@@ -134,7 +159,13 @@ public class ItemInstances
 		OreDictionary.registerOre("dustUranium", dustUranium.asStack());
 		OreDictionary.registerOre("dustPureUranium", dustPureUranium.asStack());
 		OreDictionary.registerOre("dustPureRedstone", dustPureRedstone.asStack());
+		OreDictionary.registerOre("dustSteel", dustCarbonSteel.asStack());
+		OreDictionary.registerOre("dustCarbonSteel", dustCarbonSteel.asStack());
+		OreDictionary.registerOre("dustCrystalSteel", dustCrystalSteel.asStack());
 		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());
 		OreDictionary.registerOre("ingotPureUranium", ingotPureUranium.asStack());
+		OreDictionary.registerOre("ingotSteel", ingotCarbonSteel.asStack());
+		OreDictionary.registerOre("ingotCarbonSteel", ingotCarbonSteel.asStack());
+		OreDictionary.registerOre("ingotCrystalSteel", ingotCrystalSteel.asStack());
 	}
 }

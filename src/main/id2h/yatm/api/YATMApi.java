@@ -23,19 +23,30 @@
  */
 package id2h.yatm.api;
 
-import id2h.yatm.api.crusher.CrushingRegistry;
+import id2h.yatm.api.blastfurnace.BlastingRegistry;
 import id2h.yatm.api.compactor.CompactingRegistry;
+import id2h.yatm.api.crusher.CrushingRegistry;
+import id2h.yatm.api.mixer.MixingRegistry;
+import id2h.yatm.api.roller.RollingRegistry;
 
 public class YATMApi
 {
 	private static final YATMApi inst = new YATMApi();
 
+	private final BlastingRegistry blastingRegistry = new BlastingRegistry();
 	private final CrushingRegistry crushingRegistry = new CrushingRegistry();
 	private final CompactingRegistry compactingRegistry = new CompactingRegistry();
+	private final MixingRegistry mixingRegistry = new MixingRegistry();
+	private final RollingRegistry rollingRegistry = new RollingRegistry();
 
 	public static YATMApi instance()
 	{
 		return inst;
+	}
+
+	public BlastingRegistry blasting()
+	{
+		return blastingRegistry;
 	}
 
 	public CrushingRegistry crushing()
@@ -46,5 +57,15 @@ public class YATMApi
 	public CompactingRegistry compacting()
 	{
 		return compactingRegistry;
+	}
+
+	public MixingRegistry mixing()
+	{
+		return mixingRegistry;
+	}
+
+	public RollingRegistry rolling()
+	{
+		return rollingRegistry;
 	}
 }

@@ -23,16 +23,133 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
+import id2h.yatm.api.YATMApi;
+import id2h.yatm.api.mixer.MixingResult;
+import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import id2h.yatm.util.NumUtils;
+import id2h.yatm.util.TickUtils;
 
 import net.minecraft.inventory.IInventory;
-//import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.ItemStack;
 
-public class MachineMixer extends AbstractProgressiveMachine
+public class MachineMixer extends AbstractProgressiveMachine implements IInventoryWatcher
 {
+	protected static int[] outputSlotIds = new int[] { 0 };
+	protected static int[] inputSlotIds = new int[] { 1, 2, 3, 4 };
+	protected static int[] processingSlotIds = new int[] { 5, 6, 7, 8 };
+
 	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	public boolean canWork(MachineUpdateState state)
 	{
 		return false;
+	}
+
+	@Override
+	public void onInventoryChanged(IInventory inventory, int index)
+	{
+		if (index <= 0 || NumUtils.between(index, 1, 4))
+		{
+			awake();
+		}
+	}
+
+	public ItemStack[] getMixingRecipe(MachineUpdateState state, int[] slots)
+	{
+		int count = 0;
+		for (int slot : slots)
+		{
+			if (state.inventory.getStackInSlot(slot) != null) count += 1;
+		}
+		if (count == 0) return null;
+
+		final ItemStack[] result = new ItemStack[count];
+		int i = 0;
+		for (int slot : slots)
+		{
+			final ItemStack stack = state.inventory.getStackInSlot(slot);
+			if (stack != null)
+			{
+				result[i] = stack;
+				i++;
+			}
+		}
+		return result;
+	}
+
+	public MixingResult getSlotResult(MachineUpdateState state, int[] slots)
+	{
+		final ItemStack[] ary = getMixingRecipe(state, slots);
+		if (ary == null) return null;
+
+		return YATMApi.instance().mixing().getMix(ary);
+	}
+
+	public MixingResult getInputResult(MachineUpdateState state)
+	{
+		return getSlotResult(state, inputSlotIds);
+	}
+
+	public MixingResult getProcessingResult(MachineUpdateState state)
+	{
+		return getSlotResult(state, processingSlotIds);
+	}
+
+	@Override
+	public void updateAwakeMachine(MachineUpdateState state)
+	{
+		if (progressMax <= 0)
+		{
+			resetProgress();
+
+			final MixingResult result = getInputResult(state);
+
+			if (result != null)
+			{
+				if (inventoryProcessor.moveToSlots(state.inventory, result.getInputs(), inputSlotIds, processingSlotIds))
+				{
+					progressMax = result.time;
+				}
+			}
+
+			if (progressMax <= 0) gotoSleep();
+		}
+		super.updateAwakeMachine(state);
+	}
+
+	@Override
+	public void doWork(MachineUpdateState state)
+	{
+		if (progressMax > 0)
+		{
+			if (progress >= progressMax)
+			{
+				final MixingResult result = getProcessingResult(state);
+
+				if (result != null)
+				{
+					final ItemStack resultStack = result.asStack();
+
+					if (inventoryProcessor.mergeWithSlots(state.inventory, resultStack, outputSlotIds))
+					{
+						inventoryProcessor.clearSlots(state.inventory, processingSlotIds);
+						resetProgress();
+					}
+					else
+					{
+						// output slot is possibly jammed, we'll wait 2 seconds before trying again
+						goIdle(TickUtils.seconds(2));
+					}
+				}
+				else
+				{
+					discardInventorySlots(state, processingSlotIds);
+					resetProgress();
+				}
+			}
+			else
+			{
+				this.progress += 1;
+			}
+		}
 	}
 }

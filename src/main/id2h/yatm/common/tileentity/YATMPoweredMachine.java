@@ -232,7 +232,9 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	public void updateMachine()
 	{
 		machineState.clear();
-		machine.updateMachine(machineState, energyStorage, inventory);
+		machineState.inventory = inventory;
+		machineState.energyStorage = energyStorage;
+		machine.updateMachine(machineState);
 
 		if (machineState.energyConsumed != 0)
 		{

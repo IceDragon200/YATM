@@ -47,8 +47,8 @@ public class ItemCrystal extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[2];
-		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:ItemMaterial.PureUraniumCrystal");
-		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.PureRedstoneCrystal");
+		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Crystal.PureUranium");
+		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.Crystal.PureRedstone");
 	}
 
 	@SuppressWarnings("rawtypes")

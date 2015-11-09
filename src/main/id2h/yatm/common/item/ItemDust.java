@@ -47,9 +47,9 @@ public class ItemDust extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[3];
-		icons[YATM.items.dustUranium.meta] = ir.registerIcon("yatm:ItemMaterial.UraniumDust");
-		icons[YATM.items.dustPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.PureUraniumDust");
-		icons[YATM.items.dustPureRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.PureRedstoneDust");
+		icons[YATM.items.dustUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Dust.Uranium");
+		icons[YATM.items.dustPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Dust.PureUranium");
+		icons[YATM.items.dustPureRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.Dust.PureRedstone");
 	}
 
 	@SuppressWarnings("rawtypes")

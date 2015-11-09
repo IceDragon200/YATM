@@ -24,7 +24,7 @@
 package id2h.yatm.common.inventory;
 
 import id2h.yatm.common.tileentity.TileEntityCompactor;
-import id2h.yatm.common.inventory.slot.SlotInput;
+import id2h.yatm.common.inventory.slot.SlotInputCompactor;
 import id2h.yatm.common.inventory.slot.SlotOutput;
 import id2h.yatm.common.inventory.slot.SlotProcessing;
 
@@ -35,7 +35,7 @@ public class ContainerCompactor extends YATMTileContainer
 	public ContainerCompactor(IInventory playerInventory, TileEntityCompactor compactor)
 	{
 		super(compactor);
-		addSlotToContainer(new SlotInput(compactor, 0, 77, 18));
+		addSlotToContainer(new SlotInputCompactor(compactor, 0, 77, 18));
 		addSlotToContainer(new SlotOutput(compactor, 1, 77, 68));
 		addSlotToContainer(new SlotProcessing(compactor, 2, 77, 43));
 

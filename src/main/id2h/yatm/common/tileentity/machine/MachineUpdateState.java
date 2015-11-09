@@ -23,10 +23,16 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
+import cofh.api.energy.EnergyStorage;
+
+import net.minecraft.inventory.IInventory;
+
 public class MachineUpdateState
 {
 	public int energyConsumed;
 	public boolean didWork;
+	public EnergyStorage energyStorage;
+	public IInventory inventory;
 
 	public void clear()
 	{

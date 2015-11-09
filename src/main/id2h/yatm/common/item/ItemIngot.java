@@ -46,9 +46,11 @@ public class ItemIngot extends AbstractItemMaterial
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		icons = new IIcon[2];
-		icons[YATM.items.ingotUranium.meta] = ir.registerIcon("yatm:ItemMaterial.UraniumIngot");
-		icons[YATM.items.ingotPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.PureUraniumIngot");
+		icons = new IIcon[4];
+		icons[YATM.items.ingotUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Ingot.Uranium");
+		icons[YATM.items.ingotPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Ingot.PureUranium");
+		icons[YATM.items.ingotCarbonSteel.meta] = ir.registerIcon("yatm:ItemMaterial.Ingot.CarbonSteel");
+		icons[YATM.items.ingotCrystalSteel.meta] = ir.registerIcon("yatm:ItemMaterial.Ingot.CrystalSteel");
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -57,5 +59,7 @@ public class ItemIngot extends AbstractItemMaterial
 	{
 		itemStacks.add(YATM.items.ingotUranium.asStack());
 		itemStacks.add(YATM.items.ingotPureUranium.asStack());
+		itemStacks.add(YATM.items.ingotCarbonSteel.asStack());
+		itemStacks.add(YATM.items.ingotCrystalSteel.asStack());
 	}
 }

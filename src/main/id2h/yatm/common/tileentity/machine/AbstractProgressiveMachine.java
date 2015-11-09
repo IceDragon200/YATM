@@ -25,10 +25,7 @@ package id2h.yatm.common.tileentity.machine;
 
 import io.netty.buffer.ByteBuf;
 
-import cofh.api.energy.EnergyStorage;
-
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.inventory.IInventory;
 
 public abstract class AbstractProgressiveMachine extends AbstractMachine implements IProgressiveMachine
 {
@@ -36,7 +33,7 @@ public abstract class AbstractProgressiveMachine extends AbstractMachine impleme
 	protected float progressMax;
 
 	@Override
-	public boolean canWork(EnergyStorage energyStorage, IInventory inventory)
+	public boolean canWork(MachineUpdateState state)
 	{
 		return progressMax > 0;
 	}

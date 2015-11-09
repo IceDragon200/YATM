@@ -28,13 +28,15 @@ import id2h.yatm.api.YATMApi;
 import id2h.yatm.common.inventory.InventorySlice;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 
-import cofh.api.energy.EnergyStorage;
-
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 public class MachineCompactor extends AbstractProgressiveMachine implements IInventoryWatcher
 {
+	protected static int[] inputSlotIds = new int[] { 0 };
+	protected static int[] outputSlotIds = new int[] { 1 };
+	protected static int[] processingSlotIds = new int[] { 2 };
+
 	@Override
 	public void onInventoryChanged(IInventory inventory, int index)
 	{
@@ -46,27 +48,26 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 	}
 
 	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	public int getWorkingPowerCost(MachineUpdateState state)
 	{
 		return 200;
 	}
 
 	@Override
-	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState state)
 	{
 		if (progressMax <= 0)
 		{
 			resetProgress();
 
-			final ItemStack stack = inventory.getStackInSlot(0);
+			final ItemStack stack = state.inventory.getStackInSlot(0);
 			if (stack != null)
 			{
 				final CompactingResult result = YATMApi.instance().compacting().getCompacting(stack);
 				if (result != null)
 				{
-					if (result.getInput().stackSize <= stack.stackSize)
+					if (inventoryProcessor.moveToSlots(state.inventory, result.getInputs(), inputSlotIds, processingSlotIds))
 					{
-						inventory.setInventorySlotContents(2, inventory.decrStackSize(0, result.getInput().stackSize));
 						this.progressMax = result.time;
 					}
 				}
@@ -74,24 +75,24 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 
 			if (progressMax <= 0) gotoSleep();
 		}
-		super.updateAwakeMachine(_state, _energyStorage, inventory);
+		super.updateAwakeMachine(state);
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(MachineUpdateState state)
 	{
 		if (progressMax > 0)
 		{
 			if (progress >= progressMax)
 			{
 				resetProgress();
-				final ItemStack stack = inventory.getStackInSlotOnClosing(2);
+				final ItemStack stack = state.inventory.getStackInSlotOnClosing(2);
 				if (stack != null)
 				{
 					final CompactingResult result = YATMApi.instance().compacting().getCompacting(stack);
 					if (result != null)
 					{
-						final ItemStack discarded = new InventorySlice(inventory, new int[] { 1 }).mergeStackBang(result.asStack());
+						final ItemStack discarded = new InventorySlice(state.inventory, new int[] { 1 }).mergeStackBang(result.asStack());
 						if (discarded != null) discardItemStack(discarded);
 					}
 				}
@@ -103,7 +104,8 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 		}
 	}
 
-	protected void updateMachineNotEnoughPower(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory)
+	@Override
+	protected void updateMachineNotEnoughPower(MachineUpdateState state)
 	{
 		// Compactors lose progress if they are unpowered, or have insufficient power
 		if (this.progress > 0)

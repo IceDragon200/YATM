@@ -30,8 +30,6 @@ import id2h.yatm.util.YATMDebug;
 
 import growthcraft.core.util.ItemUtils;
 
-import cofh.api.energy.EnergyStorage;
-
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,22 +48,23 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	}
 
 	protected static Container fakeContainer = new FakeContainer();
+	protected static int[] inputSlotIds = NumUtils.newIntRangeArray(0, 8);
+	protected static int[] processingSlotIds = NumUtils.newIntRangeArray(25, 9);
+	protected static int[] craftingSlotIds = NumUtils.newIntRangeArray(16, 9);
+
 	protected boolean recipeNeedsRefresh = true;
 
 	protected void clearProcessing(IInventory inventory)
 	{
-		for (int i = 0; i < 9; ++i)
-		{
-			inventory.setInventorySlotContents(25 + i, null);
-		}
+		inventoryProcessor.clearSlots(inventory, processingSlotIds);
 	}
 
 	protected void refundProcessing(IInventory inventory)
 	{
-		final InventorySlice slice = new InventorySlice(inventory, NumUtils.newIntRangeArray(0, 8));
-		for (int i = 0; i < 9; ++i)
+		final InventorySlice slice = new InventorySlice(inventory, inputSlotIds);
+		for (int slot : processingSlotIds)
 		{
-			ItemStack stack = inventory.getStackInSlotOnClosing(25 + i);
+			ItemStack stack = inventory.getStackInSlotOnClosing(slot);
 			if (stack != null)
 			{
 				stack = slice.mergeStackBang(stack);
@@ -76,7 +75,7 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 
 	protected void writeCraftingSlotsTo(IInventory src, IInventory dest)
 	{
-		final InventorySlice slice = new InventorySlice(src, NumUtils.newIntRangeArray(16, 9));
+		final InventorySlice slice = new InventorySlice(src, craftingSlotIds);
 		for (int i = 0; i < 9; ++i)
 		{
 			dest.setInventorySlotContents(i, slice.getStackInSlot(i));
@@ -86,9 +85,9 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	protected int countIngredients(IInventory inventory)
 	{
 		int result = 0;
-		for (int i = 0; i < 9; ++i)
+		for (int slot : craftingSlotIds)
 		{
-			final ItemStack ind = inventory.getStackInSlot(16 + i);
+			final ItemStack ind = inventory.getStackInSlot(slot);
 			if (ind != null) result += 1;
 		}
 		return result;
@@ -96,12 +95,12 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 
 	protected int whereIsIngredient(IInventory inventory, ItemStack ind)
 	{
-		for (int i = 0; i < 8; ++i)
+		for (int slot : inputSlotIds)
 		{
-			final ItemStack slotItem = inventory.getStackInSlot(i);
+			final ItemStack slotItem = inventory.getStackInSlot(slot);
 			if (slotItem != null)
 			{
-				if (slotItem.isItemEqual(ind)) return i;
+				if (slotItem.isItemEqual(ind)) return slot;
 			}
 		}
 		return -1;
@@ -172,47 +171,49 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	}
 
 	@Override
-	public void updateAwakeMachine(MachineUpdateState _state, EnergyStorage _energyStorage, IInventory inventory)
+	public void updateAwakeMachine(MachineUpdateState state)
 	{
 		if (recipeNeedsRefresh)
 		{
 			this.recipeNeedsRefresh = false;
-			refreshRecipe(inventory);
+			refreshRecipe(state.inventory);
 		}
+
 		if (progressMax <= 0)
 		{
 			resetProgress();
 
-			final ItemStack result = inventory.getStackInSlot(9);
+			final ItemStack result = state.inventory.getStackInSlot(9);
 			if (result != null)
 			{
-				if (startProcessing(inventory))
+				if (startProcessing(state.inventory))
 				{
-					this.progressMax = 10 + countIngredients(inventory) * 20;
+					this.progressMax = 10 + countIngredients(state.inventory) * 20;
 				}
 			}
 
 			if (progressMax <= 0) gotoSleep();
 		}
-		super.updateAwakeMachine(_state, _energyStorage, inventory);
+
+		super.updateAwakeMachine(state);
 	}
 
 	@Override
-	public int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory)
+	public int getWorkingPowerCost(MachineUpdateState state)
 	{
 		return 80;
 	}
 
 	@Override
-	public void doWork(EnergyStorage energyStorage, IInventory inventory)
+	public void doWork(MachineUpdateState state)
 	{
 		if (progressMax > 0)
 		{
 			if (progress >= progressMax)
 			{
 				resetProgress();
-				outputResult(inventory);
-				clearProcessing(inventory);
+				outputResult(state.inventory);
+				clearProcessing(state.inventory);
 			}
 			else
 			{

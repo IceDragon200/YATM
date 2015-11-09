@@ -27,31 +27,30 @@ import cofh.api.energy.EnergyStorage;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.MathHelper;
-//import net.minecraft.nbt.NBTTagCompound;
 
 // Heaters are blocks which act as a heat source, they do not "work", they
 // simply have a running cost and will deactivate if they have no energy
-public class MachineHeater extends AbstractProgressiveMachine
+public class MachineHeater extends AbstractMachine
 {
 	@Override
-	public int getRunningPowerCost(EnergyStorage _en, IInventory _inv)
+	public int getRunningPowerCost(MachineUpdateState state)
 	{
 		return 20;
 	}
 
 	@Override
-	public int getWorkingPowerCost(EnergyStorage _en, IInventory _inv)
+	public int getWorkingPowerCost(MachineUpdateState state)
 	{
 		return 0;
 	}
 
 	@Override
-	public boolean canWork(EnergyStorage en, IInventory _inv)
+	public boolean canWork(MachineUpdateState state)
 	{
-		return en.getEnergyStored() > 0;
+		return state.energyStorage.getEnergyStored() > 0;
 	}
 
-	public void doWork(EnergyStorage _en, IInventory _inv)
+	public void doWork(MachineUpdateState state)
 	{
 
 	}

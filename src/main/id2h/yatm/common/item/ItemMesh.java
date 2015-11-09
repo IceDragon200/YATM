@@ -32,7 +32,7 @@ public class ItemMesh extends Item
 	public ItemMesh()
 	{
 		super();
-		setTextureName("yatm:ItemMaterial.MetalMesh");
+		setTextureName("yatm:ItemMaterial.Mesh.Iron");
 		setUnlocalizedName("yatm.ItemMesh");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}

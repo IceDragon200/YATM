@@ -25,52 +25,45 @@ package id2h.yatm.common.tileentity.machine;
 
 import io.netty.buffer.ByteBuf;
 
-import cofh.api.energy.EnergyStorage;
-
-import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public interface IMachineLogic
 {
-	void updateMachine(MachineUpdateState state, EnergyStorage energyStorage, IInventory inventory);
+	void updateMachine(MachineUpdateState state);
 
 	/**
 	 * Power cost regardless of machine state, by simply being connected to a
 	 * power source, the machine should drain this amount.
 	 *
-	 * @param energyStorage - energy storage cell, just for reference
-	 * @param inventory - an inventory object
+	 * @param state - machine state
 	 * @return worked power cost
 	 */
-	int getRunningPowerCost(EnergyStorage energyStorage, IInventory inventory);
+	int getRunningPowerCost(MachineUpdateState state);
 
 	/**
 	 * Can this machine work?
 	 *
-	 * @param energyStorage - energy storage cell, just for reference
-	 * @param inventory - an inventory object
+	 * @param state - machine state
 	 * @return true, if the machine can work, false otherwise
 	 */
-	boolean canWork(EnergyStorage energyStorage, IInventory inventory);
+	boolean canWork(MachineUpdateState state);
 
 	/**
 	 * Power cost if the machine "canWork", even if it doesn't actually do
 	 * anything.
 	 *
-	 * @param energyStorage - energy storage cell, just for reference
-	 * @param inventory - an inventory object
+	 * @param state - machine state
 	 * @return worked power cost
 	 */
-	int getWorkingPowerCost(EnergyStorage energyStorage, IInventory inventory);
+	int getWorkingPowerCost(MachineUpdateState state);
 
 	/**
 	 * Called when the machine actually needs to do some work.
 	 *
-	 * @param energyStorage - energy storage cell, just for reference
-	 * @param inventory - an inventory object
+	 * @param state - machine state
 	 */
-	void doWork(EnergyStorage energyStorage, IInventory inventory);
+	void doWork(MachineUpdateState state);
 
 	void readFromNBT(NBTTagCompound data, String name);
 	void writeToNBT(NBTTagCompound data, String name);
