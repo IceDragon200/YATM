@@ -27,8 +27,8 @@ checkstyle {
     configFile = new File(rootDir, "checkstyle/checkstyle.xml")
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_6
-targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 version = "${minecraft_version}-${yatm_version}"
 group = "id2h"
