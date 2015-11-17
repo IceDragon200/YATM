@@ -23,7 +23,7 @@
  */
 package id2h.yatm.client.renderer;
 
-import id2h.yatm.client.util.RenderUtils;
+import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -42,7 +42,7 @@ public class RenderEnergyCell implements ISimpleBlockRenderingHandler
 		if (id == modelID)
 		{
 			final Tessellator tess = Tessellator.instance;
-			RenderUtils.beginInventoryRender();
+			RenderUtils.startInventoryRender();
 			{
 				tess.setColorOpaque_F(1.0f, 1.0f, 1.0f);
 

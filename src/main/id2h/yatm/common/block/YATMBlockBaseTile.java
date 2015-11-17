@@ -244,7 +244,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 			for (int i1 = 0; i1 < inv.getSizeInventory(); ++i1)
 			{
 				final ItemStack itemstack = inv.getStackInSlot(i1);
-				ItemUtils.spawnItemFromStack(world, x, y, z, itemstack, rand);
+				ItemUtils.spawnBrokenItemStack(world, x, y, z, itemstack, rand);
 			}
 		}
 

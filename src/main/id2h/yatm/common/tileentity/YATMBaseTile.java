@@ -96,11 +96,12 @@ public abstract class YATMBaseTile extends TileEntity
 	{
 		if (!handlerMap.containsKey(type))
 		{
-			handlerMap.put(type, new ArrayList());
+			handlerMap.put(type, new ArrayList<EventFunction>());
 		}
 		handlerMap.get(type).add(new EventFunction(method));
 	}
 
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	@Nonnull
 	protected HandlerMap getHandlersMap()
 	{

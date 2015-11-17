@@ -25,7 +25,7 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerMixer;
 import id2h.yatm.common.tileentity.TileEntityMixer;
-import id2h.yatm.client.util.RenderUtils;
+import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
