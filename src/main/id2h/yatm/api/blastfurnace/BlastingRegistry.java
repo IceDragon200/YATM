@@ -23,7 +23,6 @@
  */
 package id2h.yatm.api.blastfurnace;
 
-import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Nonnull;
 

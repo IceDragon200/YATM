@@ -24,8 +24,8 @@
 package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
-import id2h.yatm.common.inventory.InventorySlice;
-import id2h.yatm.util.NumUtils;
+import growthcraft.core.common.inventory.InventorySlice;
+import growthcraft.api.core.util.NumUtils;
 import id2h.yatm.util.YATMDebug;
 
 import growthcraft.core.util.ItemUtils;

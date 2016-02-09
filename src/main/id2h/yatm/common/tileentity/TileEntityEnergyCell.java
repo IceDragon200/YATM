@@ -24,7 +24,7 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
-import id2h.yatm.util.BlockFlags;
+import growthcraft.api.core.util.BlockFlags;
 
 import net.minecraftforge.common.util.ForgeDirection;
 

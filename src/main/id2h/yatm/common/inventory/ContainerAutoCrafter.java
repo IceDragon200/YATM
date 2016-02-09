@@ -27,7 +27,9 @@ import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.inventory.slot.SlotInput;
 import id2h.yatm.common.inventory.slot.SlotOutput;
 import id2h.yatm.common.inventory.slot.SlotProcessing;
-import id2h.yatm.util.NumUtils;
+
+import growthcraft.api.core.util.NumUtils;
+import growthcraft.core.common.inventory.InventorySlice;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;

@@ -31,11 +31,11 @@ import id2h.yatm.common.CommonProxy;
 import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
-import id2h.yatm.util.TickUtils;
 import id2h.yatm.util.YATMDebug;
 import id2h.yatm.integration.growthcraft.HeatSourceHeater;
 
 import growthcraft.api.cellar.CellarRegistry;
+import growthcraft.api.core.util.TickUtils;
 
 import appeng.api.util.AEColor;
 

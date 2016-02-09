@@ -29,7 +29,7 @@ import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
-import id2h.yatm.util.NumUtils;
+import growthcraft.api.core.util.NumUtils;
 
 import net.minecraft.item.ItemStack;
 

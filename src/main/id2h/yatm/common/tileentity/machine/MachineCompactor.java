@@ -25,7 +25,7 @@ package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.api.compactor.CompactingResult;
 import id2h.yatm.api.YATMApi;
-import id2h.yatm.common.inventory.InventorySlice;
+import growthcraft.core.common.inventory.InventorySlice;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 
 import net.minecraft.inventory.IInventory;

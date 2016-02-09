@@ -26,7 +26,7 @@ package id2h.yatm.common.tileentity.machine;
 import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.crusher.CrushingResult;
 import id2h.yatm.api.YATMApi;
-import id2h.yatm.common.inventory.InventorySlice;
+import growthcraft.core.common.inventory.InventorySlice;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 import id2h.yatm.util.YATMDebug;
 

@@ -23,7 +23,6 @@
  */
 package id2h.yatm.init;
 
-import id2h.yatm.common.definition.ItemSubtypeDefinition;
 import id2h.yatm.common.item.ItemCapacitor;
 import id2h.yatm.common.item.ItemCrystal;
 import id2h.yatm.common.item.ItemCrystalSeed;
@@ -34,6 +33,7 @@ import id2h.yatm.common.item.ItemPlate;
 import id2h.yatm.common.item.ItemVacuumTube;
 
 import growthcraft.core.common.definition.ItemDefinition;
+import growthcraft.core.common.definition.ItemSubtypeDefinition;
 
 import appeng.api.AEApi;
 

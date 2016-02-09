@@ -26,7 +26,7 @@ package id2h.yatm.common.tileentity.machine;
 import id2h.yatm.api.blastfurnace.BlastingResult;
 import id2h.yatm.api.YATMApi;
 import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
-import id2h.yatm.util.TickUtils;
+import growthcraft.api.core.util.TickUtils;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

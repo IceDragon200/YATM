@@ -23,8 +23,6 @@
  */
 package id2h.yatm.api.crusher;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.Nonnull;
 
 import id2h.yatm.api.core.util.PossibleItemList;

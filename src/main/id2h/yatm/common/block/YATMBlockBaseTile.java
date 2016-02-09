@@ -27,7 +27,7 @@ import java.util.Random;
 
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.GuiType;
-import id2h.yatm.util.BlockFlags;
+import growthcraft.api.core.util.BlockFlags;
 import id2h.yatm.util.BlockSides;
 import id2h.yatm.util.YATMPlatform;
 

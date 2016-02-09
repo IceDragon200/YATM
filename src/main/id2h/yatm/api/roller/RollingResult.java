@@ -23,8 +23,6 @@
  */
 package id2h.yatm.api.roller;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.Nonnull;
 
 import growthcraft.core.common.definition.IItemStackFactory;

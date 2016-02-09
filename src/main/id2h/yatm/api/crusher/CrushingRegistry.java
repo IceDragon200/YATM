@@ -25,7 +25,6 @@ package id2h.yatm.api.crusher;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 import javax.annotation.Nonnull;
 
 import growthcraft.api.core.util.ItemKey;

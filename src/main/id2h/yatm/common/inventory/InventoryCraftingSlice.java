@@ -25,6 +25,8 @@ package id2h.yatm.common.inventory;
 
 import javax.annotation.Nonnull;
 
+import growthcraft.core.common.inventory.InventorySlice;
+
 import net.minecraft.inventory.IInventory;
 
 public class InventoryCraftingSlice extends InventorySlice

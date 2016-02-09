@@ -34,8 +34,9 @@ import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
 import id2h.yatm.common.tileentity.machine.MachineUpdateState;
 import id2h.yatm.event.EventHandler;
-import id2h.yatm.util.BlockFlags;
 import id2h.yatm.util.YATMDebug;
+
+import growthcraft.api.core.util.BlockFlags;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

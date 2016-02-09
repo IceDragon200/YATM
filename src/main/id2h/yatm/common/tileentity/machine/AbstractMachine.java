@@ -27,7 +27,7 @@ import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 
-import id2h.yatm.common.inventory.InventoryProcessor;
+import growthcraft.core.common.inventory.InventoryProcessor;
 import id2h.yatm.util.YATMDebug;
 
 import net.minecraft.item.ItemStack;
