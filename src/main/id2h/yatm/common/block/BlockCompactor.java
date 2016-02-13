@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,12 @@
  */
 package id2h.yatm.common.block;
 
+import id2h.yatm.client.renderer.RenderCompactor;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
 import id2h.yatm.util.GuiType;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 
 public class BlockCompactor extends YATMBlockBaseMachine
@@ -36,5 +39,19 @@ public class BlockCompactor extends YATMBlockBaseMachine
 		setBlockName("yatm.BlockCompactor");
 		setBlockTextureName("yatm:BlockCompactor");
 		setGuiType(GuiType.COMPACTOR);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderType()
+	{
+		return RenderCompactor.id;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+	{
+		return true;
 	}
 }

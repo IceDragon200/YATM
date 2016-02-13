@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
  */
 package id2h.yatm.client;
 
+import id2h.yatm.client.renderer.RenderCagedMachine;
+import id2h.yatm.client.renderer.RenderCompactor;
 import id2h.yatm.client.renderer.RenderEnergyCell;
 import id2h.yatm.common.CommonProxy;
 
@@ -33,6 +35,8 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void initRenders()
 	{
+		RenderingRegistry.registerBlockHandler(new RenderCagedMachine());
+		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());
 	}
 }
