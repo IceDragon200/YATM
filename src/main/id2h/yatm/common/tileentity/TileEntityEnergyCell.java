@@ -60,7 +60,7 @@ public abstract class TileEntityEnergyCell extends YATMEnergyProviderTile
 		if (lastMeta != newMeta)
 		{
 			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.UPDATE_CLIENT);
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
 		}
 		return true;
 	}

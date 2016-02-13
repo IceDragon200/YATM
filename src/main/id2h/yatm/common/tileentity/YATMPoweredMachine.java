@@ -257,7 +257,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 				" y=" + yCoord +
 				" z=" + zCoord);
 
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.UPDATE_CLIENT);
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.SYNC);
 		}
 	}
 

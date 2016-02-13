@@ -89,7 +89,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		final int extflag = meta & 12;
 		// first normalize the orientation and then get its clockwise direction
 		final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
-		world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.UPDATE_CLIENT);
+		world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.SYNC);
 		return true;
 	}
 
@@ -103,7 +103,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		else if (l == 1) meta = 2;
 		else if (l == 2) meta = 0;
 		else if (l == 3) meta = 3;
-		world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.UPDATE_CLIENT);
+		world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.SYNC);
 	}
 
 	@SideOnly(Side.CLIENT)
