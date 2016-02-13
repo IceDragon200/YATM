@@ -77,8 +77,5 @@
 		<module name="HiddenField">
 			<property name="severity" value="error"/>
 		</module>
-		<module name="InnerAssignment">
-			<property name="severity" value="error"/>
-		</module>
 	</module>
 </module>
