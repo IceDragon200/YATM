@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package id2h.yatm.api.mixer;
 
 import javax.annotation.Nonnull;
 
-import growthcraft.core.common.definition.IItemStackFactory;
+import growthcraft.api.core.definition.IItemStackFactory;
 
 import net.minecraft.item.ItemStack;
 
