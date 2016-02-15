@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.client.renderer;
+package id2h.yatm.client.boxmodels;
 
 import com.google.common.collect.ObjectArrays;
 
@@ -79,4 +79,6 @@ public class BoxModels
 		BBox.newCube(0, 0, 0, 4, 1, 4).translate(11, 14, 1).scale(SCALE),
 		BBox.newCube(0, 0, 0, 4, 1, 4).translate(11, 14, 11).scale(SCALE)
 	}, BBox.class);
+
+	private BoxModels() {}
 }

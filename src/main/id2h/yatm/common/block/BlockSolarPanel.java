@@ -24,7 +24,7 @@
 package id2h.yatm.common.block;
 
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
-import growthcraft.core.util.BoundUtils;
+import growthcraft.api.core.util.BoundUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
