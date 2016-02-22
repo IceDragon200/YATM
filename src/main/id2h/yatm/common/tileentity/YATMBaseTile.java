@@ -69,6 +69,11 @@ public abstract class YATMBaseTile extends TileEntity
 		needBlockUpdate = true;
 	}
 
+	public boolean shouldMarkForBlockUpdate()
+	{
+		return true;
+	}
+
 	public void markForUpdate()
 	{
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -86,7 +91,10 @@ public abstract class YATMBaseTile extends TileEntity
 		{
 			needBlockUpdate = false;
 			preMarkForUpdate();
-			markForUpdate();
+			if (shouldMarkForBlockUpdate())
+			{
+				markForUpdate();
+			}
 		}
 
 		super.updateEntity();

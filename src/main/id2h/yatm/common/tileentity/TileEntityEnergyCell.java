@@ -64,4 +64,10 @@ public abstract class TileEntityEnergyCell extends YATMEnergyProviderTile
 		}
 		return true;
 	}
+
+	@Override
+	public boolean shouldMarkForBlockUpdate()
+	{
+		return false;
+	}
 }
