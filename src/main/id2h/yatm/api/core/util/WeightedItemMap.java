@@ -26,7 +26,7 @@ package id2h.yatm.api.core.util;
 import java.util.HashMap;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.util.ItemKey;
+import growthcraft.api.core.item.ItemKey;
 
 public class WeightedItemMap extends HashMap<ItemKey, WeightedItemList>
 {

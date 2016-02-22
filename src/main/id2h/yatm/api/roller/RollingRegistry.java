@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.HashMap;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.util.ItemKey;
+import growthcraft.api.core.item.ItemKey;
 
 import net.minecraft.item.ItemStack;
 

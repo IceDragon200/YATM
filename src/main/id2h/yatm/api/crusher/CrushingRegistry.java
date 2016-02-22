@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.util.ItemKey;
+import growthcraft.api.core.item.ItemKey;
 
 import id2h.yatm.api.core.util.PossibleItemList;
 
