@@ -1,3 +1,11 @@
 [submodule "sub/Growthcraft"]
   path = sub/Growthcraft
-  url = https://github.com/Alatyami/Growthcraft-1.7.git
+  url = https://github.com/GrowthcraftCE/Growthcraft-1.7.git
+
+[submodule "api/thaumcraft/api"]
+  path = api/thaumcraft/api
+  url = https://github.com/Azanor/thaumcraft-api.git
+
+[submodule "api/ForestryAPI"]
+  path = api/ForestryAPI
+  url = https://github.com/ForestryMC/ForestryAPI.git
