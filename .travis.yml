@@ -20,5 +20,4 @@ install: ./gradlew setupCIWorkspace -S
 
 script: |
   ./gradlew build &&
-  ls -la build/libs &&
-  ls -la build/packages
+  ls -la build/libs
