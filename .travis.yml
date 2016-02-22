@@ -13,6 +13,7 @@ cache:
 before_install:
 # fetch 3rd party apis and such
 - git submodule update --init
+- cd sub/Growthcraft && git submodule update --init
 - chmod +x gradlew
 
 install: ./gradlew setupCIWorkspace -S
