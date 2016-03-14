@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.core.common.inventory.InventorySlice;
 import growthcraft.api.core.util.NumUtils;
 import id2h.yatm.util.YATMDebug;
@@ -162,6 +162,11 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 		{
 			YATMDebug.write("Inventory has changed inv=" + inventory + " index=" + index);
 		}
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
 	}
 
 	protected void outputResult(IInventory inventory)

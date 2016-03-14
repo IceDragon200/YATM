@@ -24,7 +24,7 @@
 package id2h.yatm.common.tileentity.machine;
 
 import growthcraft.core.common.inventory.InventorySlice;
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.api.core.util.NumUtils;
 
 import appeng.api.AEApi;
@@ -42,6 +42,11 @@ public class MachineAutoGrinder extends AbstractProgressiveMachine implements II
 		{
 			awake();
 		}
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
 	}
 
 	protected IGrinderEntry getGrinderEntryFromInput(IInventory inventory)

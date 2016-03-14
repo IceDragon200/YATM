@@ -25,7 +25,7 @@ package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.api.blastfurnace.BlastingResult;
 import id2h.yatm.api.YATMApi;
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.api.core.util.TickUtils;
 
 import net.minecraft.inventory.IInventory;
@@ -43,6 +43,11 @@ public class MachineMiniBlastFurnace extends AbstractProgressiveMachine implemen
 		{
 			awake();
 		}
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
 	}
 
 	@Override

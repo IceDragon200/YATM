@@ -27,7 +27,7 @@ import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.crusher.CrushingResult;
 import id2h.yatm.api.YATMApi;
 import growthcraft.core.common.inventory.InventorySlice;
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import id2h.yatm.util.YATMDebug;
 
 import net.minecraft.inventory.IInventory;
@@ -42,6 +42,11 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 		{
 			awake();
 		}
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
 	}
 
 	protected CrushingResult getCrushingResultFromInput(IInventory inventory)

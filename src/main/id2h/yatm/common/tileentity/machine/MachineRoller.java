@@ -25,7 +25,7 @@ package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.api.roller.RollingResult;
 import id2h.yatm.api.YATMApi;
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.api.core.util.TickUtils;
 
 import net.minecraft.inventory.IInventory;
@@ -44,6 +44,11 @@ public class MachineRoller extends AbstractProgressiveMachine implements IInvent
 		{
 			awake();
 		}
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
 	}
 
 	public RollingResult getSlotResult(MachineUpdateState state, int slot)

@@ -25,7 +25,7 @@ package id2h.yatm.common.inventory;
 
 import java.util.Iterator;
 
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import id2h.yatm.util.YATMDebug;
 import growthcraft.core.common.inventory.GrcInternalInventory;
 

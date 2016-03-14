@@ -27,9 +27,10 @@ import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 
+import growthcraft.core.common.inventory.IInventoryWatcher;
+import growthcraft.core.common.tileentity.IGuiNetworkSync;
+import growthcraft.core.util.ItemUtils;
 import id2h.yatm.common.inventory.IYATMInventory;
-import id2h.yatm.common.tileentity.feature.IGuiNetworkSync;
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
 import id2h.yatm.common.tileentity.machine.MachineUpdateState;
@@ -273,14 +274,6 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		}
 	}
 
-	protected void triggerInventoryChanged(IInventory inv, int index)
-	{
-		if (machine instanceof IInventoryWatcher)
-		{
-			((IInventoryWatcher)machine).onInventoryChanged(inv, index);
-		}
-	}
-
 	@Override
 	public void markDirty()
 	{
@@ -300,10 +293,30 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		this.dirtyNext |= true;
 	}
 
+	protected void triggerInventoryChanged(IInventory inv, int index)
+	{
+		if (machine instanceof IInventoryWatcher)
+		{
+			((IInventoryWatcher)machine).onInventoryChanged(inv, index);
+		}
+	}
+
 	@Override
 	public void onInventoryChanged(IInventory inv, int index)
 	{
 		markDirtyNext();
 		triggerInventoryChanged(inv, index);
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
+		if (machine instanceof IInventoryWatcher)
+		{
+			((IInventoryWatcher)machine).onItemDiscarded(inv, stack, index, discardedAmount);
+		}
+		final ItemStack discarded = stack.copy();
+		discarded.stackSize = discardedAmount;
+		ItemUtils.spawnItemStack(worldObj, xCoord, yCoord, zCoord, discarded, worldObj.rand);
 	}
 }

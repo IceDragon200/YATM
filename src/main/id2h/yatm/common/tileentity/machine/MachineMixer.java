@@ -25,7 +25,7 @@ package id2h.yatm.common.tileentity.machine;
 
 import id2h.yatm.api.YATMApi;
 import id2h.yatm.api.mixer.MixingResult;
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.api.core.util.NumUtils;
 import growthcraft.api.core.util.TickUtils;
 
@@ -51,6 +51,11 @@ public class MachineMixer extends AbstractProgressiveMachine implements IInvento
 		{
 			awake();
 		}
+	}
+
+	@Override
+	public void onItemDiscarded(IInventory inv, ItemStack stack, int index, int discardedAmount)
+	{
 	}
 
 	public ItemStack[] getMixingRecipe(MachineUpdateState state, int[] slots)
