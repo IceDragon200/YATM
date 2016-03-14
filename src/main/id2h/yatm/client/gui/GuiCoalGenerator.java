@@ -21,21 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.inventory;
+package id2h.yatm.client.gui;
 
-import id2h.yatm.common.inventory.slot.SlotInputFuel;
+import id2h.yatm.common.inventory.ContainerCoalGenerator;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
+import growthcraft.core.util.RenderUtils;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class ContainerCoalGenerator extends YATMTileContainer
+@SideOnly(Side.CLIENT)
+public class GuiCoalGenerator extends YATMGuiContainer
 {
-	public ContainerCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator gen)
+	protected static final ResourceLocation crusherResource = new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png");
+	protected TileEntityCoalGenerator tileEntity;
+
+	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator crusher)
 	{
-		super(gen);
+		super(new ContainerCoalGenerator(playerInventory, crusher));
+		this.tileEntity = crusher;
+		this.ySize = 176;
+	}
 
-		addSlotToContainer(new SlotInputFuel(gen, 0, 80, 56));
+	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	{
+		RenderUtils.resetColor();
+		bindTexture(crusherResource);
+		final int x1 = (width - xSize) / 2;
+		final int y1 = (height - ySize) / 2;
+		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
 
-		bindPlayerInventory(playerInventory, 8, 94);
+		final int h = (int)(tileEntity.getBurnTimeRate() * 14);
+		drawTexturedModalRect(x1 + 81, y1 + 41, 176, 14 - h, 14, h);
+
+		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

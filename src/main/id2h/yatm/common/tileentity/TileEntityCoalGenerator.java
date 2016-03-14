@@ -23,30 +23,34 @@
  */
 package id2h.yatm.common.tileentity;
 
-import growthcraft.core.util.ItemUtils;
+import java.io.IOException;
+import io.netty.buffer.ByteBuf;
+
+import growthcraft.core.common.tileentity.IGuiNetworkSync;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import growthcraft.core.common.inventory.IInventoryWatcher;
+import id2h.yatm.event.EventHandler;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISidedInventory
+public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISidedInventory, IGuiNetworkSync
 {
 	protected IYATMInventory inventory;
 	protected int burnTime;
+	protected int burnTimeMax;
 	protected int idleTime;
 
 	public TileEntityCoalGenerator()
 	{
 		super();
-		this.inventory = new YATMInternalInventory(this,1);
+		this.inventory = new YATMInternalInventory(this, 1);
 		setEnergySyncPriority(200);
 	}
 
@@ -54,6 +58,15 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	protected YATMEnergyStorage createEnergyStorage()
 	{
 		return new YATMEnergyStorage(16000, 50);
+	}
+
+	public float getBurnTimeRate()
+	{
+		if (burnTimeMax > 0)
+		{
+			return (float)burnTime / (float)burnTimeMax;
+		}
+		return 0.0f;
 	}
 
 	private void updateEnergyProduction()
@@ -82,6 +95,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 					this.burnTime = GameRegistry.getFuelValue(fuel);
 					if (burnTime > 0)
 					{
+						this.burnTimeMax = burnTime;
 						decrStackSize(0, 1);
 					}
 				}
@@ -177,6 +191,10 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	@Override
 	public boolean canInsertItem(int index, ItemStack stack, int side)
 	{
+		if (index == 0)
+		{
+			return GameRegistry.getFuelValue(stack) > 0;
+		}
 		return false;
 	}
 
@@ -193,6 +211,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		inventory.readFromNBT(nbt, "inventory");
 		this.idleTime = nbt.getInteger("idle_time");
 		this.burnTime = nbt.getInteger("burn_time");
+		this.burnTimeMax = nbt.getInteger("burn_time_max");
 	}
 
 	@Override
@@ -202,5 +221,46 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		inventory.writeToNBT(nbt, "inventory");
 		nbt.setInteger("idle_time", idleTime);
 		nbt.setInteger("burn_time", burnTime);
+		nbt.setInteger("burn_time_max", burnTimeMax);
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	public boolean readFromStream_CoalGenerator(ByteBuf stream) throws IOException
+	{
+		this.idleTime = stream.readInt();
+		this.burnTime = stream.readInt();
+		this.burnTimeMax = stream.readInt();
+		return false;
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	public void writeToStream_CoalGenerator(ByteBuf stream) throws IOException
+	{
+		stream.writeInt(idleTime);
+		stream.writeInt(burnTime);
+		stream.writeInt(burnTimeMax);
+	}
+
+	@Override
+	public void sendGUINetworkData(Container container, ICrafting icrafting)
+	{
+		icrafting.sendProgressBarUpdate(container, 0, burnTime);
+		icrafting.sendProgressBarUpdate(container, 1, burnTimeMax);
+	}
+
+	@Override
+	public void receiveGUINetworkData(int id, int value)
+	{
+		switch (id)
+		{
+			case 0:
+				this.burnTime = value;
+				break;
+			case 1:
+				this.burnTimeMax = value;
+				break;
+			default:
+				System.err.println("Invalid Network DATA class=" + this + " id=" + id);
+		}
 	}
 }

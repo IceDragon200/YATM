@@ -21,21 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.inventory;
+package id2h.yatm.common.inventory.slot;
 
-import id2h.yatm.common.inventory.slot.SlotInputFuel;
-import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
-
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 
-public class ContainerCoalGenerator extends YATMTileContainer
+public class SlotInputFuel extends SlotInput
 {
-	public ContainerCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator gen)
+	public SlotInputFuel(IInventory inv, int index, int x, int y)
 	{
-		super(gen);
+		super(inv, index, x, y);
+	}
 
-		addSlotToContainer(new SlotInputFuel(gen, 0, 80, 56));
-
-		bindPlayerInventory(playerInventory, 8, 94);
+	public boolean isItemValid(ItemStack item)
+	{
+		return GameRegistry.getFuelValue(item) > 0;
 	}
 }

@@ -26,6 +26,7 @@ package id2h.yatm.init;
 import id2h.yatm.common.block.BlockAutoCrafter;
 import id2h.yatm.common.block.BlockAutoGrinder;
 import id2h.yatm.common.block.BlockChassis;
+import id2h.yatm.common.block.BlockCoalGenerator;
 import id2h.yatm.common.block.BlockCompactor;
 import id2h.yatm.common.block.BlockCrusher;
 import id2h.yatm.common.block.BlockDecorative8;
@@ -45,6 +46,7 @@ import id2h.yatm.common.block.BlockWindow;
 import id2h.yatm.common.item.ItemBlockEnergyCell;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
+import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
@@ -55,6 +57,7 @@ import id2h.yatm.common.tileentity.TileEntityEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellDense;
 import id2h.yatm.common.tileentity.TileEntityEnergyCellNormal;
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
+import id2h.yatm.common.tileentity.TileEntityFuelGenerator;
 import id2h.yatm.common.tileentity.TileEntityHeater;
 import id2h.yatm.common.tileentity.TileEntityMiniBlastFurnace;
 import id2h.yatm.common.tileentity.TileEntityMixer;
@@ -81,6 +84,7 @@ public class BlockInstances
 	public BlockDefinition autoCrafter;
 	public BlockDefinition autoGrinder;
 	public BlockDefinition chassis;
+	public BlockDefinition coalGenerator;
 	public BlockDefinition compactor;
 	public BlockDefinition crusher;
 	public BlockDefinition electrolyser;
@@ -121,6 +125,7 @@ public class BlockInstances
 
 		autoCrafter = new BlockDefinition(new BlockAutoCrafter());
 		autoGrinder = new BlockDefinition(new BlockAutoGrinder());
+		coalGenerator = new BlockDefinition(new BlockCoalGenerator());
 		compactor = new BlockDefinition(new BlockCompactor());
 		crusher = new BlockDefinition(new BlockCrusher());
 		electrolyser = new BlockDefinition(new BlockElectrolyser());
@@ -205,6 +210,7 @@ public class BlockInstances
 
 		autoCrafter.register("yatm.BlockAutoCrafter");
 		autoGrinder.register("yatm.BlockAutoGrinder");
+		coalGenerator.register("yatm.BlockCoalGenerator");
 		compactor.register("yatm.BlockCompactor");
 		crusher.register("yatm.BlockCrusher");
 		electrolyser.register("yatm.BlockElectrolyser");
@@ -231,6 +237,7 @@ public class BlockInstances
 
 		GameRegistry.registerTileEntity(TileEntityAutoCrafter.class, "yatm.tileentity.TileEntityAutoCrafter");
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");
+		GameRegistry.registerTileEntity(TileEntityCoalGenerator.class, "yatm.tileentity.TileEntityCoalGenerator");
 		GameRegistry.registerTileEntity(TileEntityCompactor.class, "yatm.tileentity.TileEntityCompactor");
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellBasic.class, "yatm.tileentity.TileEntityCreativeEnergyCellBasic");
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellDense.class, "yatm.tileentity.TileEntityCreativeEnergyCellDense");
@@ -241,6 +248,7 @@ public class BlockInstances
 		GameRegistry.registerTileEntity(TileEntityEnergyCellDense.class, "yatm.tileentity.TileEntityEnergyCellDense");
 		GameRegistry.registerTileEntity(TileEntityEnergyCellNormal.class, "yatm.tileentity.TileEntityEnergyCellNormal");
 		GameRegistry.registerTileEntity(TileEntityFluxFurnace.class, "yatm.tileentity.TileEntityFluxFurnace");
+		GameRegistry.registerTileEntity(TileEntityFuelGenerator.class, "yatm.tileentity.TileEntityFuelGenerator");
 		GameRegistry.registerTileEntity(TileEntityHeater.class, "yatm.tileentity.TileEntityHeater");
 		GameRegistry.registerTileEntity(TileEntityMiniBlastFurnace.class, "yatm.tileentity.TileEntityMiniBlastFurnace");
 		GameRegistry.registerTileEntity(TileEntityMixer.class, "yatm.tileentity.TileEntityMixer");
