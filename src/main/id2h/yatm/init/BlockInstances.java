@@ -42,6 +42,7 @@ import id2h.yatm.common.block.BlockMixer;
 import id2h.yatm.common.block.BlockRoller;
 import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
+import id2h.yatm.common.item.ItemBlockEnergyCell;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
@@ -191,42 +192,42 @@ public class BlockInstances
 
 	public void register()
 	{
-		GameRegistry.registerBlock(chassis.getBlock(), "yatm.BlockChassis");
+		chassis.register("yatm.BlockChassis");
 
-		GameRegistry.registerBlock(solarPanel.getBlock(), "yatm.BlockSolarPanel");
+		solarPanel.register("yatm.BlockSolarPanel");
 
-		GameRegistry.registerBlock(energyCellBasic.getBlock(), "yatm.BlockEnergyCellBasic");
-		GameRegistry.registerBlock(energyCellBasicCreative.getBlock(), "yatm.BlockEnergyCellBasicCreative");
-		GameRegistry.registerBlock(energyCellNormal.getBlock(), "yatm.BlockEnergyCellNormal");
-		GameRegistry.registerBlock(energyCellNormalCreative.getBlock(), "yatm.BlockEnergyCellNormalCreative");
-		GameRegistry.registerBlock(energyCellDense.getBlock(), "yatm.BlockEnergyCellDense");
-		GameRegistry.registerBlock(energyCellDenseCreative.getBlock(), "yatm.BlockEnergyCellDenseCreative");
+		energyCellBasic.register("yatm.BlockEnergyCellBasic", ItemBlockEnergyCell.class);
+		energyCellBasicCreative.register("yatm.BlockEnergyCellBasicCreative");
+		energyCellNormal.register("yatm.BlockEnergyCellNormal", ItemBlockEnergyCell.class);
+		energyCellNormalCreative.register("yatm.BlockEnergyCellNormalCreative");
+		energyCellDense.register("yatm.BlockEnergyCellDense", ItemBlockEnergyCell.class);
+		energyCellDenseCreative.register("yatm.BlockEnergyCellDenseCreative");
 
-		GameRegistry.registerBlock(autoCrafter.getBlock(), "yatm.BlockAutoCrafter");
-		GameRegistry.registerBlock(autoGrinder.getBlock(), "yatm.BlockAutoGrinder");
-		GameRegistry.registerBlock(compactor.getBlock(), "yatm.BlockCompactor");
-		GameRegistry.registerBlock(crusher.getBlock(), "yatm.BlockCrusher");
-		GameRegistry.registerBlock(electrolyser.getBlock(), "yatm.BlockElectrolyser");
-		GameRegistry.registerBlock(fluxFurnace.getBlock(), "yatm.BlockFluxFurnace");
-		GameRegistry.registerBlock(heater.getBlock(), "yatm.BlockHeater");
-		GameRegistry.registerBlock(miniBlastFurnace.getBlock(), "yatm.BlockMiniBlastFurnace");
-		GameRegistry.registerBlock(mixer.getBlock(), "yatm.BlockMixer");
-		GameRegistry.registerBlock(roller.getBlock(), "yatm.BlockRoller");
+		autoCrafter.register("yatm.BlockAutoCrafter");
+		autoGrinder.register("yatm.BlockAutoGrinder");
+		compactor.register("yatm.BlockCompactor");
+		crusher.register("yatm.BlockCrusher");
+		electrolyser.register("yatm.BlockElectrolyser");
+		fluxFurnace.register("yatm.BlockFluxFurnace");
+		heater.register("yatm.BlockHeater");
+		miniBlastFurnace.register("yatm.BlockMiniBlastFurnace");
+		mixer.register("yatm.BlockMixer");
+		roller.register("yatm.BlockRoller");
 
-		GameRegistry.registerBlock(floorEngraving1.getBlock(), "yatm.BlockFloorEngraving1");
-		GameRegistry.registerBlock(floorEngraving2.getBlock(), "yatm.BlockFloorEngraving2");
-		GameRegistry.registerBlock(floorWarning1.getBlock(), "yatm.BlockFloorWarning1");
-		GameRegistry.registerBlock(floorWarning2.getBlock(), "yatm.BlockFloorWarning2");
-		GameRegistry.registerBlock(lamp.getBlock(), "yatm.BlockLamp");
-		GameRegistry.registerBlock(metalCrate.getBlock(), "yatm.BlockMetalCrate");
-		GameRegistry.registerBlock(reinforcedGlass.getBlock(), "yatm.BlockReinforcedGlass");
-		GameRegistry.registerBlock(ventedMesh2x.getBlock(), "yatm.BlockVentedMesh.2x.tiled");
-		GameRegistry.registerBlock(ventedMesh4x.getBlock(), "yatm.BlockVentedMesh.4x.tiled");
-		GameRegistry.registerBlock(ventedMesh8x.getBlock(), "yatm.BlockVentedMesh.8x.tiled");
-		GameRegistry.registerBlock(warningStripes2x.getBlock(), "yatm.BlockWarningStripes.2x.tiled");
-		GameRegistry.registerBlock(warningStripes4x.getBlock(), "yatm.BlockWarningStripes.4x.tiled");
-		GameRegistry.registerBlock(warningStripes8x.getBlock(), "yatm.BlockWarningStripes.8x.tiled");
-		GameRegistry.registerBlock(window.getBlock(), "yatm.BlockWindow");
+		floorEngraving1.register("yatm.BlockFloorEngraving1");
+		floorEngraving2.register("yatm.BlockFloorEngraving2");
+		floorWarning1.register("yatm.BlockFloorWarning1");
+		floorWarning2.register("yatm.BlockFloorWarning2");
+		lamp.register("yatm.BlockLamp");
+		metalCrate.register("yatm.BlockMetalCrate");
+		reinforcedGlass.register("yatm.BlockReinforcedGlass");
+		ventedMesh2x.register("yatm.BlockVentedMesh.2x.tiled");
+		ventedMesh4x.register("yatm.BlockVentedMesh.4x.tiled");
+		ventedMesh8x.register("yatm.BlockVentedMesh.8x.tiled");
+		warningStripes2x.register("yatm.BlockWarningStripes.2x.tiled");
+		warningStripes4x.register("yatm.BlockWarningStripes.4x.tiled");
+		warningStripes8x.register("yatm.BlockWarningStripes.8x.tiled");
+		window.register("yatm.BlockWindow");
 
 		GameRegistry.registerTileEntity(TileEntityAutoCrafter.class, "yatm.tileentity.TileEntityAutoCrafter");
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");

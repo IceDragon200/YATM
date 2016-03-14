@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,37 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.block;
+package id2h.yatm.common.item;
 
-import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCell;
-
-import appeng.client.texture.FlippableIcon;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class BlockEnergyCellCreative extends BlockEnergyCell
+public class ItemBlockEnergyCell extends ItemBlock
 {
-	public BlockEnergyCellCreative(String basename, Class<? extends TileEntityCreativeEnergyCell> tileentity)
+	public ItemBlockEnergyCell(Block block)
 	{
-		super(basename, tileentity);
-		setBlockName("yatm.BlockEnergyCell" + basename + "Creative");
+		super(block);
+		this.maxStackSize = 1;
 	}
 
-	@Override
-	protected void restoreBlockStateFromItemStack(World world, int x, int y, int z, ItemStack stack)
-	{
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister reg)
+	@Override
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
-		icons = new FlippableIcon[1];
-		icons[0] = optionalIcon(reg, getTextureName() + "/Creative", null);
+		super.addInformation(stack, player, list, bool);
+		final NBTTagCompound tag = stack.getTagCompound();
+		if (tag != null)
+		{
+			final int en = tag.getInteger("energy");
+			final int enMax = tag.getInteger("energy_max");
+			list.add("Energy Stored: " + en + "RF / " + enMax + "RF");
+		}
 	}
 }

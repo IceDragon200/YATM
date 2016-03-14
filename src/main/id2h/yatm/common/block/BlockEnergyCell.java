@@ -23,6 +23,8 @@
  */
 package id2h.yatm.common.block;
 
+import java.util.ArrayList;
+
 import id2h.yatm.client.renderer.RenderEnergyCell;
 import id2h.yatm.common.tileentity.TileEntityEnergyCell;
 
@@ -34,9 +36,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockEnergyCell extends YATMBlockBaseTile
 {
@@ -47,6 +53,45 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 		setBlockTextureName("yatm:BlockEnergyCell." + basename);
 	}
 
+	protected void restoreBlockStateFromItemStack(World world, int x, int y, int z, ItemStack stack)
+	{
+		final TileEntityEnergyCell te = getTileEntity(world, x, y, z);
+		if (te != null)
+		{
+			final NBTTagCompound tag = stack.getTagCompound();
+			if (tag != null)
+				te.readFromNBT(tag.getCompoundTag("tiledata"));
+		}
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
+	{
+		restoreBlockStateFromItemStack(world, x, y, z, stack);
+	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+	{
+		final ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+		final TileEntityEnergyCell te = getTileEntity(world, x, y, z);
+		if (te != null)
+		{
+			final ItemStack result = new ItemStack(this, 1);
+			final NBTTagCompound teTag = new NBTTagCompound();
+			final NBTTagCompound itemTag = new NBTTagCompound();
+			te.writeToNBT(teTag);
+			itemTag.setTag("tiledata", teTag);
+			itemTag.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
+			itemTag.setInteger("energy_max", te.getMaxEnergyStored(ForgeDirection.UNKNOWN));
+			result.setTagCompound(itemTag);
+			ret.add(result);
+		}
+		return ret;
+	}
+
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
 		if (world.isRemote) return;
