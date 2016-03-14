@@ -30,7 +30,7 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySolarPanel extends YATMEnergyProviderTile
+public class TileEntitySolarPanel extends YATMGeneratorBase
 {
 	public int lastEnergyGain;
 

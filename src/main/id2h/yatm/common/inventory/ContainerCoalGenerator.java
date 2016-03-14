@@ -23,34 +23,16 @@
  */
 package id2h.yatm.common.inventory;
 
-import java.util.Iterator;
+import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
 
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
-import id2h.yatm.util.YATMDebug;
-import growthcraft.core.common.inventory.GrcInternalInventory;
-
-import appeng.util.iterators.InvIterator;
-
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
-public class YATMInternalInventory extends GrcInternalInventory implements IYATMInventory, Iterable<ItemStack>
+public class ContainerCoalGenerator extends YATMTileContainer
 {
-	public YATMInternalInventory(Object parent, int size, int stackSize)
+	public ContainerCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator heater)
 	{
-		super(parent, size, stackSize);
-	}
+		super(heater);
 
-	public YATMInternalInventory(Object parent, int size)
-	{
-		super(parent, size);
-	}
-
-	@Override
-	public Iterator<ItemStack> iterator()
-	{
-		return new InvIterator(this);
+		bindPlayerInventory(playerInventory, 8, 94);
 	}
 }

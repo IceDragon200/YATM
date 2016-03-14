@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.inventory;
+package id2h.yatm.common.block;
 
-import java.util.Iterator;
+import net.minecraft.block.material.Material;
+import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
+import id2h.yatm.util.GuiType;
 
-import id2h.yatm.common.tileentity.feature.IInventoryWatcher;
-import id2h.yatm.util.YATMDebug;
-import growthcraft.core.common.inventory.GrcInternalInventory;
-
-import appeng.util.iterators.InvIterator;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
-public class YATMInternalInventory extends GrcInternalInventory implements IYATMInventory, Iterable<ItemStack>
+public class BlockCoalGenerator extends YATMBlockBaseGenerator
 {
-	public YATMInternalInventory(Object parent, int size, int stackSize)
+	public BlockCoalGenerator()
 	{
-		super(parent, size, stackSize);
-	}
-
-	public YATMInternalInventory(Object parent, int size)
-	{
-		super(parent, size);
-	}
-
-	@Override
-	public Iterator<ItemStack> iterator()
-	{
-		return new InvIterator(this);
+		super(Material.rock, TileEntityCoalGenerator.class);
+		setBlockName("yatm.BlockCoalGenerator");
+		setBlockTextureName("yatm:BlockCoalGenerator");
+		setGuiType(GuiType.COAL_GENERATOR);
 	}
 }
