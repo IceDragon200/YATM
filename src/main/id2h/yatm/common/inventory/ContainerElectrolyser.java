@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2015 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,14 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.inventory.slot;
+package id2h.yatm.common.inventory;
+
+import id2h.yatm.common.tileentity.TileEntityElectrolyser;
 
 import net.minecraft.inventory.IInventory;
 
-public class SlotPlayerBackpack extends SlotPlayer
+public class ContainerElectrolyser extends YATMTileContainer
 {
-	public SlotPlayerBackpack(IInventory inv, int index, int x, int y)
+	public ContainerElectrolyser(IInventory playerInventory, TileEntityElectrolyser gen)
 	{
-		super(inv, index, x, y);
+		super(gen);
+
+		bindPlayerInventory(playerInventory, 8, 94);
 	}
 }

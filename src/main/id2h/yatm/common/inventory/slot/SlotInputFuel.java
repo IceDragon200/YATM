@@ -23,9 +23,9 @@
  */
 package id2h.yatm.common.inventory.slot;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotInputFuel extends SlotInput
 {
@@ -34,8 +34,9 @@ public class SlotInputFuel extends SlotInput
 		super(inv, index, x, y);
 	}
 
+	@Override
 	public boolean isItemValid(ItemStack item)
 	{
-		return GameRegistry.getFuelValue(item) > 0;
+		return TileEntityFurnace.getItemBurnTime(item) > 0;
 	}
 }

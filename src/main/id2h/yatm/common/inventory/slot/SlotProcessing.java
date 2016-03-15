@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,11 +34,13 @@ public class SlotProcessing extends YATMSlot
 		super(inv, index, x, y);
 	}
 
+	@Override
 	public boolean canTakeStack(EntityPlayer player)
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isItemValid(ItemStack p_75214_1_)
 	{
 		return false;
