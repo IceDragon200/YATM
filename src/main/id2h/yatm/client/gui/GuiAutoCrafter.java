@@ -31,23 +31,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiAutoCrafter extends YATMGuiContainer
+public class GuiAutoCrafter extends YATMMachineGuiContainer
 {
 	protected static final ResourceLocation crafterResource = new ResourceLocation("yatm", "textures/gui/GuiAutoCrafter.png");
 	protected TileEntityAutoCrafter tileEntity;
 
 	public GuiAutoCrafter(InventoryPlayer playerInventory, TileEntityAutoCrafter crafter)
 	{
-		super(new ContainerAutoCrafter(playerInventory, crafter));
+		super(new ContainerAutoCrafter(playerInventory, crafter), crafter);
 		this.tileEntity = crafter;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(crafterResource);
 		final int x1 = (width - xSize) / 2;
@@ -56,7 +57,5 @@ public class GuiAutoCrafter extends YATMGuiContainer
 
 		final int w = (int)(tileEntity.getMachineProgressRate() * 14);
 		drawTexturedModalRect(x1 + 81, y1 + 72, 176, 0, w, 15);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

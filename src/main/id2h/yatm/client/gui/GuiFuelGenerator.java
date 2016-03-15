@@ -31,29 +31,28 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiFuelGenerator extends YATMGuiContainer
+public class GuiFuelGenerator extends YATMPoweredGuiContainer
 {
 	protected static final ResourceLocation heaterResource = new ResourceLocation("yatm", "textures/gui/GuiFuelGenerator.png");
 	protected TileEntityFuelGenerator tileEntity;
 
-	public GuiFuelGenerator(IInventory playerInventory, TileEntityFuelGenerator heater)
+	public GuiFuelGenerator(IInventory playerInventory, TileEntityFuelGenerator generator)
 	{
-		super(new ContainerFuelGenerator(playerInventory, heater));
-		this.tileEntity = heater;
+		super(new ContainerFuelGenerator(playerInventory, generator), generator);
+		this.tileEntity = generator;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(heaterResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

@@ -31,23 +31,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiCoalGenerator extends YATMGuiContainer
+public class GuiCoalGenerator extends YATMPoweredGuiContainer
 {
 	protected static final ResourceLocation crusherResource = new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png");
 	protected TileEntityCoalGenerator tileEntity;
 
-	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator crusher)
+	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator generator)
 	{
-		super(new ContainerCoalGenerator(playerInventory, crusher));
-		this.tileEntity = crusher;
+		super(new ContainerCoalGenerator(playerInventory, generator), generator);
+		this.tileEntity = generator;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(crusherResource);
 		final int x1 = (width - xSize) / 2;
@@ -57,7 +58,5 @@ public class GuiCoalGenerator extends YATMGuiContainer
 		final int mh = 14;
 		final int h = (int)(tileEntity.getBurnTimeRate() * mh);
 		drawTexturedModalRect(x1 + 81, y1 + 41 + mh - h, 176, mh - h, 14, h);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

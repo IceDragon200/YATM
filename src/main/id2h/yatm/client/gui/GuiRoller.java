@@ -31,23 +31,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiRoller extends YATMGuiContainer
+public class GuiRoller extends YATMMachineGuiContainer
 {
 	protected static final ResourceLocation rollerResource = new ResourceLocation("yatm", "textures/gui/GuiRoller.png");
 	protected TileEntityRoller tileEntity;
 
 	public GuiRoller(IInventory playerInventory, TileEntityRoller roller)
 	{
-		super(new ContainerRoller(playerInventory, roller));
+		super(new ContainerRoller(playerInventory, roller), roller);
 		this.tileEntity = roller;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(rollerResource);
 		final int x1 = (width - xSize) / 2;
@@ -57,7 +58,5 @@ public class GuiRoller extends YATMGuiContainer
 		final int h = (int)(tileEntity.getMachineProgressRate() * 19);
 		final int gaugeY = 19 - h;
 		drawTexturedModalRect(x1 + 97, y1 + 40 + gaugeY, 176, gaugeY, 18, h);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

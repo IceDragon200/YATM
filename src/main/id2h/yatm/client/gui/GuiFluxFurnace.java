@@ -31,23 +31,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiFluxFurnace extends YATMGuiContainer
+public class GuiFluxFurnace extends YATMMachineGuiContainer
 {
 	protected static final ResourceLocation fluxFurnaceResource = new ResourceLocation("yatm", "textures/gui/GuiFluxFurnace.png");
 	protected TileEntityFluxFurnace tileEntity;
 
 	public GuiFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
 	{
-		super(new ContainerFluxFurnace(playerInventory, fluxFurnace));
+		super(new ContainerFluxFurnace(playerInventory, fluxFurnace), fluxFurnace);
 		this.tileEntity = fluxFurnace;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(fluxFurnaceResource);
 		final int x1 = (width - xSize) / 2;
@@ -57,7 +58,5 @@ public class GuiFluxFurnace extends YATMGuiContainer
 		// progress bar
 		final int w = (int)(tileEntity.getMachineProgressRate() * 21);
 		drawTexturedModalRect(x1 + 76, y1 + 70, 176, 0, w, 14);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,33 @@
  */
 package id2h.yatm.client.gui;
 
-import id2h.yatm.common.inventory.ContainerCrusher;
-import id2h.yatm.common.tileentity.TileEntityCrusher;
+import java.util.List;
+
+import id2h.yatm.common.tileentity.YATMPoweredTile;
 import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.inventory.Container;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiCrusher extends YATMMachineGuiContainer
+public abstract class YATMPoweredGuiContainer extends YATMGuiContainer
 {
-	protected static final ResourceLocation crusherResource = new ResourceLocation("yatm", "textures/gui/GuiCrusher.png");
-	protected TileEntityCrusher tileEntity;
+	protected YATMPoweredTile poweredTile;
 
-	public GuiCrusher(IInventory playerInventory, TileEntityCrusher crusher)
+	public YATMPoweredGuiContainer(Container container, YATMPoweredTile te)
 	{
-		super(new ContainerCrusher(playerInventory, crusher), crusher);
-		this.tileEntity = crusher;
-		this.ySize = 176;
+		super(container, te);
+		this.poweredTile = te;
+	}
+
+	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	public void initGui()
+	{
+		super.initGui();
+		addTooltipIndex("energy_storage", 164, 16, 4, 72);
 	}
 
 	@Override
@@ -50,12 +57,24 @@ public class GuiCrusher extends YATMMachineGuiContainer
 	{
 		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(crusherResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+		drawRFBar(x1 + 164, y1 + 16, poweredTile.getPowerStorageRate(ForgeDirection.UNKNOWN));
+	}
 
-		final int w = (int)(tileEntity.getMachineProgressRate() * 15);
-		drawTexturedModalRect(x1 + 104, y1 + 41, 176, 0, w, 16);
+	@Override
+	protected void addTooltips(String handle, List<String> tooltip)
+	{
+		super.addTooltips(handle, tooltip);
+		switch (handle)
+		{
+			case "energy_storage":
+				tooltip.add(String.format("Energy Stored: %dRF / %dRF",
+					poweredTile.getEnergyStored(ForgeDirection.UNKNOWN),
+					poweredTile.getMaxEnergyStored(ForgeDirection.UNKNOWN)));
+				break;
+			default:
+				break;
+		}
 	}
 }

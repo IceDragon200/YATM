@@ -31,23 +31,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiAutoGrinder extends YATMGuiContainer
+public class GuiAutoGrinder extends YATMMachineGuiContainer
 {
 	protected static final ResourceLocation grinderResource = new ResourceLocation("yatm", "textures/gui/GuiAutoGrinder.png");
 	protected TileEntityAutoGrinder tileEntity;
 
 	public GuiAutoGrinder(IInventory playerInventory, TileEntityAutoGrinder grinder)
 	{
-		super(new ContainerAutoGrinder(playerInventory, grinder));
+		super(new ContainerAutoGrinder(playerInventory, grinder), grinder);
 		this.tileEntity = grinder;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(grinderResource);
 		final int x1 = (width - xSize) / 2;
@@ -56,7 +57,5 @@ public class GuiAutoGrinder extends YATMGuiContainer
 
 		final int w = (int)(tileEntity.getMachineProgressRate() * 31);
 		drawTexturedModalRect(x1 + 104, y1 + 41, 176, 0, w, 12);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

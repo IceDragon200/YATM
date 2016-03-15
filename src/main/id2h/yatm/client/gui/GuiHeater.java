@@ -31,29 +31,28 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiHeater extends YATMGuiContainer
+public class GuiHeater extends YATMMachineGuiContainer
 {
 	protected static final ResourceLocation heaterResource = new ResourceLocation("yatm", "textures/gui/GuiHeater.png");
 	protected TileEntityHeater tileEntity;
 
 	public GuiHeater(IInventory playerInventory, TileEntityHeater heater)
 	{
-		super(new ContainerHeater(playerInventory, heater));
+		super(new ContainerHeater(playerInventory, heater), heater);
 		this.tileEntity = heater;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(heaterResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }

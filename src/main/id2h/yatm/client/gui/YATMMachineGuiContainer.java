@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,39 +23,20 @@
  */
 package id2h.yatm.client.gui;
 
-import id2h.yatm.common.inventory.ContainerCrusher;
-import id2h.yatm.common.tileentity.TileEntityCrusher;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.common.tileentity.YATMPoweredMachine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.inventory.Container;
 
 @SideOnly(Side.CLIENT)
-public class GuiCrusher extends YATMMachineGuiContainer
+public abstract class YATMMachineGuiContainer extends YATMPoweredGuiContainer
 {
-	protected static final ResourceLocation crusherResource = new ResourceLocation("yatm", "textures/gui/GuiCrusher.png");
-	protected TileEntityCrusher tileEntity;
+	protected YATMPoweredMachine machineTile;
 
-	public GuiCrusher(IInventory playerInventory, TileEntityCrusher crusher)
+	public YATMMachineGuiContainer(Container container, YATMPoweredMachine pMachine)
 	{
-		super(new ContainerCrusher(playerInventory, crusher), crusher);
-		this.tileEntity = crusher;
-		this.ySize = 176;
-	}
-
-	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
-	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
-		RenderUtils.resetColor();
-		bindTexture(crusherResource);
-		final int x1 = (width - xSize) / 2;
-		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
-		final int w = (int)(tileEntity.getMachineProgressRate() * 15);
-		drawTexturedModalRect(x1 + 104, y1 + 41, 176, 0, w, 16);
+		super(container, pMachine);
+		this.machineTile = pMachine;
 	}
 }

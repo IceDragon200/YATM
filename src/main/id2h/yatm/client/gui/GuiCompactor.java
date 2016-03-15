@@ -31,23 +31,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public class GuiCompactor extends YATMGuiContainer
+public class GuiCompactor extends YATMMachineGuiContainer
 {
 	protected static final ResourceLocation compactorResource = new ResourceLocation("yatm", "textures/gui/GuiCompactor.png");
 	protected TileEntityCompactor tileEntity;
 
 	public GuiCompactor(IInventory playerInventory, TileEntityCompactor compactor)
 	{
-		super(new ContainerCompactor(playerInventory, compactor));
+		super(new ContainerCompactor(playerInventory, compactor), compactor);
 		this.tileEntity = compactor;
 		this.ySize = 176;
 	}
 
+	@Override
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
 		RenderUtils.resetColor();
 		bindTexture(compactorResource);
 		final int x1 = (width - xSize) / 2;
@@ -56,7 +57,5 @@ public class GuiCompactor extends YATMGuiContainer
 
 		final int w = (int)(tileEntity.getMachineProgressRate() * 14);
 		drawTexturedModalRect(x1 + 106, y1 + 43, 176, 0, w, 15);
-
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 }
