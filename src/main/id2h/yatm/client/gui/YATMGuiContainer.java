@@ -24,6 +24,7 @@
 package id2h.yatm.client.gui;
 
 import growthcraft.core.client.gui.GrcGuiContainer;
+import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +35,7 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public abstract class YATMGuiContainer extends GrcGuiContainer
 {
-	protected static final ResourceLocation commonResource = new ResourceLocation("yatm", "textures/gui/Gui_Common.png");
+	protected static final ResourceLocation yatmCommonResource = new ResourceLocation("yatm", "textures/gui/Gui_Common.png");
 
 	public YATMGuiContainer(Container container, TileEntity te)
 	{
@@ -43,13 +44,11 @@ public abstract class YATMGuiContainer extends GrcGuiContainer
 
 	protected void drawRFBar(int x, int y, float rate)
 	{
-		final ResourceLocation old = bindedResource;
-		bindTexture(commonResource);
-
+		bindTexture(yatmCommonResource);
+		final int w = 4;
 		final int h = (int)(72 * rate);
 		final int gaugeY = 72 - h;
-		drawTexturedModalRect(x, y + gaugeY, 0, gaugeY, 4, h);
-
-		bindTexture(old);
+		RenderUtils.resetColor();
+		drawTexturedModalRect(x, y + gaugeY, 0, gaugeY, w, h);
 	}
 }

@@ -26,7 +26,6 @@ package id2h.yatm.client.gui;
 import java.util.List;
 
 import id2h.yatm.common.tileentity.YATMPoweredTile;
-import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,7 +55,6 @@ public abstract class YATMPoweredGuiContainer extends YATMGuiContainer
 	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
 	{
 		super.drawGuiContainerBackgroundLayer(_f, x, y);
-		RenderUtils.resetColor();
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawRFBar(x1 + 164, y1 + 16, poweredTile.getPowerStorageRate(ForgeDirection.UNKNOWN));
