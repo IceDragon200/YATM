@@ -68,20 +68,58 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		return lastWorkingState;
 	}
 
+	private void readInventoryFromNBT(NBTTagCompound nbt)
+	{
+		if (nbt.hasKey("inventory"))
+			inventory.readFromNBT(nbt, "inventory");
+	}
+
+	private void readMachineFromNBT(NBTTagCompound nbt)
+	{
+		if (nbt.hasKey("machine"))
+			machine.readFromNBT(nbt, "machine");
+	}
+
+	@Override
+	public void readFromNBTForItem(NBTTagCompound nbt)
+	{
+		super.readFromNBTForItem(nbt);
+		readInventoryFromNBT(nbt);
+		readMachineFromNBT(nbt);
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		inventory.readFromNBT(nbt, "inventory");
-		machine.readFromNBT(nbt, "machine");
+		readInventoryFromNBT(nbt);
+		readMachineFromNBT(nbt);
+	}
+
+	private void writeInventoryToNBT(NBTTagCompound nbt)
+	{
+		inventory.writeToNBT(nbt, "inventory");
+	}
+
+	private void writeMachineToNBT(NBTTagCompound nbt)
+	{
+		machine.writeToNBT(nbt, "machine");
+	}
+
+	@Override
+	public void writeToNBTForItem(NBTTagCompound nbt)
+	{
+		super.writeToNBTForItem(nbt);
+		writeInventoryToNBT(nbt);
+		writeMachineToNBT(nbt);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		inventory.writeToNBT(nbt, "inventory");
-		machine.writeToNBT(nbt, "machine");
+		writeInventoryToNBT(nbt);
+		writeMachineToNBT(nbt);
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_READ)

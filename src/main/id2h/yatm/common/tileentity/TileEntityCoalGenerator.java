@@ -236,26 +236,6 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		return false;
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		super.readFromNBT(nbt);
-		inventory.readFromNBT(nbt, "inventory");
-		this.idleTime = nbt.getInteger("idle_time");
-		this.burnTime = nbt.getInteger("burn_time");
-		this.burnTimeMax = nbt.getInteger("burn_time_max");
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
-		super.writeToNBT(nbt);
-		inventory.writeToNBT(nbt, "inventory");
-		nbt.setInteger("idle_time", idleTime);
-		nbt.setInteger("burn_time", burnTime);
-		nbt.setInteger("burn_time_max", burnTimeMax);
-	}
-
 	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_CoalGenerator(ByteBuf stream) throws IOException
 	{
@@ -271,6 +251,62 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		stream.writeInt(idleTime);
 		stream.writeInt(burnTime);
 		stream.writeInt(burnTimeMax);
+	}
+
+	private void readInventoryFromNBT(NBTTagCompound nbt)
+	{
+		inventory.readFromNBT(nbt, "inventory");
+	}
+
+	private void readTimeFromNBT(NBTTagCompound nbt)
+	{
+		this.idleTime = nbt.getInteger("idle_time");
+		this.burnTime = nbt.getInteger("burn_time");
+		this.burnTimeMax = nbt.getInteger("burn_time_max");
+	}
+
+	@Override
+	public void readFromNBTForItem(NBTTagCompound nbt)
+	{
+		super.readFromNBTForItem(nbt);
+		readInventoryFromNBT(nbt);
+		readTimeFromNBT(nbt);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		readInventoryFromNBT(nbt);
+		readTimeFromNBT(nbt);
+	}
+
+	private void writeInventoryToNBT(NBTTagCompound nbt)
+	{
+		inventory.writeToNBT(nbt, "inventory");
+	}
+
+	private void writeTimesToNBT(NBTTagCompound nbt)
+	{
+		nbt.setInteger("idle_time", idleTime);
+		nbt.setInteger("burn_time", burnTime);
+		nbt.setInteger("burn_time_max", burnTimeMax);
+	}
+
+	@Override
+	public void writeToNBTForItem(NBTTagCompound nbt)
+	{
+		super.writeToNBTForItem(nbt);
+		writeInventoryToNBT(nbt);
+		writeTimesToNBT(nbt);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		writeInventoryToNBT(nbt);
+		writeTimesToNBT(nbt);
 	}
 
 	@Override

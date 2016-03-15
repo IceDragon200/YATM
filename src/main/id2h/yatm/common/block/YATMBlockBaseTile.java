@@ -27,6 +27,7 @@ import java.util.Random;
 
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.util.ItemUtils;
+import id2h.yatm.common.tileentity.YATMBaseTile;
 import id2h.yatm.common.tileentity.YATMEnergyProviderTile;
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.BlockSides;
@@ -48,6 +49,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -120,11 +122,27 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		}
 	}
 
+	protected void restoreBlockStateFromItemStack(World world, int x, int y, int z, ItemStack stack)
+	{
+		if (world.isRemote) return;
+		if (stack == null) return;
+		final TileEntity te = getTileEntity(world, x, y, z);
+		if (te != null && te instanceof YATMBaseTile)
+		{
+			final NBTTagCompound tag = stack.getTagCompound();
+			if (tag != null && tag.hasKey("tiledata"))
+			{
+				((YATMBaseTile)te).readFromNBTForItem(tag.getCompoundTag("tiledata"));
+			}
+		}
+	}
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
 		super.onBlockPlacedBy(world, x, y, z, entity, stack);
 		placeBlockByDirection(world, x, y, z, entity, stack);
+		restoreBlockStateFromItemStack(world, x, y, z, stack);
 	}
 
 	@Override

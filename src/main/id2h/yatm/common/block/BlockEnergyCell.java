@@ -51,32 +51,10 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 		setBlockTextureName("yatm:BlockEnergyCell." + basename);
 	}
 
-	protected void restoreBlockStateFromItemStack(World world, int x, int y, int z, ItemStack stack)
-	{
-		final TileEntityEnergyCell te = getTileEntity(world, x, y, z);
-		if (te != null)
-		{
-			final NBTTagCompound tag = stack.getTagCompound();
-			if (tag != null)
-			{
-				if (tag.hasKey("tiledata"))
-				{
-					te.readFromNBT(tag.getCompoundTag("tiledata"));
-				}
-			}
-		}
-	}
-
 	@Override
 	public boolean canRotateBlock(World world, int x, int y, int z, ForgeDirection side)
 	{
 		return false;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack)
-	{
-		restoreBlockStateFromItemStack(world, x, y, z, stack);
 	}
 
 	@Override
@@ -90,7 +68,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 			final ItemStack itemStack = new ItemStack(this);
 			final NBTTagCompound teTag = new NBTTagCompound();
 			final NBTTagCompound itemTag = new NBTTagCompound();
-			te.writeToNBT(teTag);
+			te.writeToNBTForItem(teTag);
 			itemTag.setTag("tiledata", teTag);
 			itemTag.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
 			itemTag.setInteger("energy_max", te.getMaxEnergyStored(ForgeDirection.UNKNOWN));

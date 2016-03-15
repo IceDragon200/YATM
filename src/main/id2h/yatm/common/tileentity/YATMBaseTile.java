@@ -206,4 +206,12 @@ public abstract class YATMBaseTile extends TileEntity
 			}
 		}
 	}
+
+	public void readFromNBTForItem(NBTTagCompound tag)
+	{
+	}
+
+	public void writeToNBTForItem(NBTTagCompound tag)
+	{
+	}
 }

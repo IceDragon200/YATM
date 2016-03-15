@@ -100,17 +100,42 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 		stream.writeInt(energy);
 	}
 
+	private void readEnergyFromNBT(NBTTagCompound nbt)
+	{
+		if (nbt.hasKey("energy"))
+			energyStorage.readFromNBT(nbt, "energy");
+	}
+
+	@Override
+	public void readFromNBTForItem(NBTTagCompound nbt)
+	{
+		super.readFromNBTForItem(nbt);
+		readEnergyFromNBT(nbt);
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		energyStorage.readFromNBT(nbt, "energy");
+		readEnergyFromNBT(nbt);
+	}
+
+	private void writeEnergyToNBT(NBTTagCompound nbt)
+	{
+		energyStorage.writeToNBT(nbt, "energy");
+	}
+
+	@Override
+	public void writeToNBTForItem(NBTTagCompound nbt)
+	{
+		super.writeToNBTForItem(nbt);
+		writeEnergyToNBT(nbt);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		energyStorage.writeToNBT(nbt, "energy");
+		writeEnergyToNBT(nbt);
 	}
 }
