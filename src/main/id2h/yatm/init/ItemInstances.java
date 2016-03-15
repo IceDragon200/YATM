@@ -156,12 +156,44 @@ public class ItemInstances
 		GameRegistry.addSmelting(dustUranium.asStack(), ingotUranium.asStack(), 0);
 		GameRegistry.addSmelting(dustPureUranium.asStack(), ingotPureUranium.asStack(), 0);
 
+		OreDictionary.registerOre("materialCapacitor", capacitorIron.asStack());
+		OreDictionary.registerOre("materialCapacitor", capacitorGold.asStack());
+		OreDictionary.registerOre("materialCapacitor", capacitorDiamond.asStack());
+		OreDictionary.registerOre("materialCapacitor", capacitorObsidian.asStack());
+
+		OreDictionary.registerOre("materialCapacitorIron", capacitorIron.asStack());
+		OreDictionary.registerOre("materialCapacitorGold", capacitorGold.asStack());
+		OreDictionary.registerOre("materialCapacitorDiamond", capacitorDiamond.asStack());
+		OreDictionary.registerOre("materialCapacitorObsidian", capacitorObsidian.asStack());
+
+		OreDictionary.registerOre("materialVacuumTube", vacuumTubeIron.asStack());
+		OreDictionary.registerOre("materialVacuumTube", vacuumTubeGold.asStack());
+		OreDictionary.registerOre("materialVacuumTube", vacuumTubeDiamond.asStack());
+		OreDictionary.registerOre("materialVacuumTube", vacuumTubeObsidian.asStack());
+
+		OreDictionary.registerOre("materialVacuumTubeIron", vacuumTubeIron.asStack());
+		OreDictionary.registerOre("materialVacuumTubeGold", vacuumTubeGold.asStack());
+		OreDictionary.registerOre("materialVacuumTubeDiamond", vacuumTubeDiamond.asStack());
+		OreDictionary.registerOre("materialVacuumTubeObsidian", vacuumTubeObsidian.asStack());
+
+		OreDictionary.registerOre("materialPlate", plateIron.asStack());
+		OreDictionary.registerOre("materialPlate", plateGold.asStack());
+		OreDictionary.registerOre("materialPlate", plateCarbonSteel.asStack());
+		OreDictionary.registerOre("materialPlate", plateCrystalSteel.asStack());
+
+		OreDictionary.registerOre("materialPlateIron", plateIron.asStack());
+		OreDictionary.registerOre("materialPlateGold", plateGold.asStack());
+		OreDictionary.registerOre("materialPlateCarbonSteel", plateCarbonSteel.asStack());
+		OreDictionary.registerOre("materialPlateCrystalSteel", plateCrystalSteel.asStack());
+		OreDictionary.registerOre("materialPlateEnergized", plateEnergized.asStack());
+
 		OreDictionary.registerOre("dustUranium", dustUranium.asStack());
 		OreDictionary.registerOre("dustPureUranium", dustPureUranium.asStack());
 		OreDictionary.registerOre("dustPureRedstone", dustPureRedstone.asStack());
 		OreDictionary.registerOre("dustSteel", dustCarbonSteel.asStack());
 		OreDictionary.registerOre("dustCarbonSteel", dustCarbonSteel.asStack());
 		OreDictionary.registerOre("dustCrystalSteel", dustCrystalSteel.asStack());
+
 		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());
 		OreDictionary.registerOre("ingotPureUranium", ingotPureUranium.asStack());
 		OreDictionary.registerOre("ingotSteel", ingotCarbonSteel.asStack());

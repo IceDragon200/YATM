@@ -314,96 +314,105 @@ public class YATM
 		);
 
 		// Capacitor Recipes
-		GameRegistry.addShapedRecipe(items.capacitorIron.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorIron.asStack(3),
 			" x ",
 			"xrx",
 			" x ",
-			'r', items.dustPureRedstone.asStack(),
-			'x', Items.iron_ingot
-		);
+			'r', "dustPureRedstone",
+			'x', "ingotIron"
+		));
 
-		GameRegistry.addShapedRecipe(items.capacitorGold.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorGold.asStack(3),
 			" x ",
 			"xrx",
 			" x ",
-			'r', items.dustPureRedstone.asStack(),
-			'x', Items.gold_ingot
-		);
+			'r', "dustPureRedstone",
+			'x', "ingotGold"
+		));
 
-		GameRegistry.addShapedRecipe(items.capacitorDiamond.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorDiamond.asStack(3),
 			" x ",
 			"xrx",
 			"nxn",
-			'r', items.dustPureRedstone.asStack(),
+			'r', "dustPureRedstone",
 			'x', Items.diamond,
 			'n', Items.gold_nugget
-		);
+		));
 
-		GameRegistry.addShapedRecipe(items.capacitorObsidian.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorObsidian.asStack(3),
 			" x ",
 			"xrx",
 			"nxn",
-			'r', items.dustPureRedstone.asStack(),
+			'r', "dustPureRedstone",
 			'x', Blocks.obsidian,
 			'n', Items.gold_nugget
-		);
+		));
 
 		// Vacuum Tube Recipes
-		GameRegistry.addShapedRecipe(items.vacuumTubeIron.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.vacuumTubeIron.asStack(3),
 			" g ",
 			"grg",
 			" x ",
 			'g', Blocks.glass,
-			'r', items.dustPureRedstone.asStack(),
-			'x', Items.iron_ingot
-		);
+			'r', "dustPureRedstone",
+			'x', "ingotIron"
+		));
 
-		GameRegistry.addShapedRecipe(items.vacuumTubeGold.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.vacuumTubeGold.asStack(3),
 			" g ",
 			"grg",
 			" x ",
 			'g', Blocks.glass,
-			'r', items.dustPureRedstone.asStack(),
-			'x', Items.gold_ingot
-		);
+			'r', "dustPureRedstone",
+			'x', "ingotGold"
+		));
 
-		GameRegistry.addShapedRecipe(items.vacuumTubeDiamond.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.vacuumTubeDiamond.asStack(3),
 			" g ",
 			"grg",
 			"nxn",
 			'g', Blocks.glass,
-			'r', items.dustPureRedstone.asStack(),
+			'r', "dustPureRedstone",
 			'x', Items.diamond,
 			'n', Items.gold_nugget
-		);
+		));
 
-		GameRegistry.addShapedRecipe(items.vacuumTubeObsidian.asStack(3),
+		GameRegistry.addRecipe(new ShapedOreRecipe(items.vacuumTubeObsidian.asStack(3),
 			" g ",
 			"grg",
 			"nxn",
 			'g', Blocks.glass,
-			'r', items.dustPureRedstone.asStack(),
+			'r', "dustPureRedstone",
 			'x', Blocks.obsidian,
 			'n', Items.gold_nugget
-		);
+		));
 
 
 		// Machine Recipes
-		GameRegistry.addShapedRecipe(blocks.chassis.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.chassis.asStack(),
 			" I ",
 			"IRI",
 			" I ",
-			'I', items.plateIron.asStack(),
-			'R', items.dustPureRedstone.asStack()
-		);
+			'I', "materialPlateIron",
+			'R', "dustPureRedstone"
+		));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.coalGenerator.asStack(),
+			" I ",
+			"IFI",
+			" R ",
+			'R', "dustPureRedstone",
+			'I', "ingotIron",
+			'F', Blocks.furnace
+		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.roller.asStack(),
 			"III",
 			"G G",
 			"IAI",
-			'A', items.capacitorIron.asStack(),
+			'A', "materialCapacitorIron",
 			'G', "gearStone",
-			'I', Items.iron_ingot
+			'I', "ingotIron"
 		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.mixer.asStack(),
@@ -413,99 +422,99 @@ public class YATM
 			'A', items.vacuumTubeIron.asStack(),
 			'C', blocks.chassis.asStack(),
 			'G', "gearIron",
-			'I', items.plateIron.asStack()
+			'I', "materialPlateIron"
 		));
 
-		GameRegistry.addShapedRecipe(blocks.autoCrafter.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.autoCrafter.asStack(),
 			"IWI",
 			"ICI",
 			"AIA",
-			'A', items.capacitorIron.asStack(),
+			'A', "materialCapacitorIron",
 			'C', blocks.chassis.asStack(),
 			'W', Blocks.crafting_table,
-			'I', items.plateIron.asStack()
-		);
+			'I', "materialPlateIron"
+		));
 
 		{
 			final Block grindstone = GameRegistry.findBlock("appliedenergistics2", "tile.BlockGrinder");
 			if (grindstone != null)
 			{
 				YATMDebug.write("Adding Auto Grindstone recipe");
-				GameRegistry.addShapedRecipe(blocks.autoGrinder.asStack(),
+				GameRegistry.addRecipe(new ShapedOreRecipe(blocks.autoGrinder.asStack(),
 					"IPI",
 					"PWP",
 					"IAI",
-					'A', items.capacitorIron.asStack(),
+					'A', "materialCapacitorIron",
 					'W', grindstone,
 					'I', Items.iron_ingot,
-					'P', items.plateIron.asStack()
-				);
+					'P', "materialPlateIron"
+				));
 			}
 		}
 
-		GameRegistry.addShapedRecipe(blocks.crusher.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.crusher.asStack(),
 			"   ",
 			"WCW",
 			" A ",
-			'A', items.capacitorIron.asStack(),
+			'A', "materialCapacitorIron",
 			'C', blocks.chassis.asStack(),
 			'W', Blocks.piston
-		);
+		));
 
-		GameRegistry.addShapedRecipe(blocks.compactor.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.compactor.asStack(),
 			"III",
 			"WCW",
 			"IAI",
-			'A', items.capacitorDiamond.asStack(),
+			'A', "materialCapacitorDiamond",
 			'C', blocks.chassis.asStack(),
 			'W', Blocks.piston,
-			'I', items.plateCarbonSteel.asStack()
-		);
+			'I', "materialPlateCarbonSteel"
+		));
 
-		GameRegistry.addShapedRecipe(blocks.heater.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.heater.asStack(),
 			" I ",
 			"IFI",
 			" A ",
 			'A', items.vacuumTubeIron.asStack(),
 			'F', Blocks.furnace,
-			'I', items.plateIron.asStack()
-		);
+			'I', "materialPlateIron"
+		));
 
-		GameRegistry.addShapedRecipe(blocks.fluxFurnace.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.fluxFurnace.asStack(),
 			"FIF",
 			"I I",
 			"FAF",
 			'A', items.vacuumTubeIron.asStack(),
 			'F', Blocks.furnace,
-			'I', Items.iron_ingot
-		);
+			'I', "ingotIron"
+		));
 
-		GameRegistry.addShapedRecipe(blocks.miniBlastFurnace.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.miniBlastFurnace.asStack(),
 			"BBB",
 			"BFB",
 			"PAP",
 			'A', items.vacuumTubeIron.asStack(),
 			'F', Blocks.furnace,
-			'P', items.plateIron.asStack(),
+			'P', "materialPlateIron",
 			'B', Blocks.brick_block
-		);
+		));
 
 		// Energy Cell Recipes
-		GameRegistry.addShapedRecipe(blocks.solarPanel.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.solarPanel.asStack(),
 			"YYY",
 			"III",
 			'Y', items.platePhotovoltaic.asStack(),
-			'I', items.plateIron.asStack()
-		);
+			'I', "materialPlateIron"
+		));
 
-		GameRegistry.addShapedRecipe(blocks.energyCellBasic.asStack(),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.energyCellBasic.asStack(),
 			"YIY",
 			"ICI",
 			"YIY",
 			'Y', items.crystalRedstone.asStack(),
 			'C', blocks.chassis.asStack(),
-			'I', Items.iron_ingot
-		);
+			'I', "ingotIron"
+		));
 
 		GameRegistry.addShapedRecipe(blocks.energyCellNormal.asStack(),
 			"CYC",
@@ -581,13 +590,13 @@ public class YATM
 		);
 
 		/// Vented Mesh
-		GameRegistry.addShapedRecipe(blocks.ventedMesh8x.asStack(8),
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.ventedMesh8x.asStack(8),
 			" I ",
 			"IMI",
 			" I ",
 			'M', items.mesh.asStack(),
-			'I', Items.iron_ingot
-		);
+			'I', "ingotIron"
+		));
 
 		GameRegistry.addShapedRecipe(blocks.ventedMesh4x.asStack(4),
 			"xx",
