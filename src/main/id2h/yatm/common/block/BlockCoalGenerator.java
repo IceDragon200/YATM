@@ -23,9 +23,15 @@
  */
 package id2h.yatm.common.block;
 
+import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
 import id2h.yatm.util.GuiType;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.world.World;
 
 public class BlockCoalGenerator extends YATMBlockBaseGenerator
 {
@@ -35,5 +41,20 @@ public class BlockCoalGenerator extends YATMBlockBaseGenerator
 		setBlockName("yatm.BlockCoalGenerator");
 		setBlockTextureName("yatm:BlockCoalGenerator");
 		setGuiType(GuiType.COAL_GENERATOR);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random random)
+	{
+		final int l = world.getBlockMetadata(x, y, z);
+		if ((l & 4) == 4)
+		{
+			final float px = (float)x + 0.2f + 0.6f * random.nextFloat();
+			final float py = (float)y + 1.0F;
+			final float pz = (float)z + 0.2f + 0.6f * random.nextFloat();
+
+			world.spawnParticle("smoke", (double)px, (double)py, (double)pz, 0.0D, 0.0D, 0.0D);
+			world.spawnParticle("flame", (double)px, (double)py, (double)pz, 0.0D, 0.0D, 0.0D);
+		}
 	}
 }
