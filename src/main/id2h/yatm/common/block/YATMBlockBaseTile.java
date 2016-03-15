@@ -348,4 +348,12 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 
 		super.breakBlock(world, x, y, z, block, par6);
 	}
+
+	@Override
+	public boolean onBlockEventReceived(World world, int x, int y, int z, int a, int b)
+	{
+		super.onBlockEventReceived(world, x, y, z, a, b);
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		return tileentity != null ? tileentity.receiveClientEvent(a, b) : false;
+	}
 }
