@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,14 +25,15 @@ package id2h.yatm.common.block;
 
 import java.util.Random;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
-import id2h.yatm.util.GuiType;
 import growthcraft.api.core.util.BlockFlags;
+import growthcraft.core.util.ItemUtils;
+import id2h.yatm.common.tileentity.YATMEnergyProviderTile;
+import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.BlockSides;
+import id2h.yatm.util.GuiType;
 import id2h.yatm.util.YATMPlatform;
 
 import appeng.client.texture.FlippableIcon;
-import growthcraft.core.util.ItemUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -82,28 +83,63 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return guiType;
 	}
 
-	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	public boolean canRotateBlock(World world, int x, int y, int z, ForgeDirection side)
 	{
-		final int meta = world.getBlockMetadata(x, y, z);
-		final int orn = meta & 3;
-		final int extflag = meta & 12;
-		// first normalize the orientation and then get its clockwise direction
-		final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
-		world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.SYNC);
 		return true;
 	}
 
+	@Override
+	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	{
+		if (canRotateBlock(world, x, y, z, side))
+		{
+			final int meta = world.getBlockMetadata(x, y, z);
+			final int orn = meta & 3;
+			final int extflag = meta & 12;
+			// first normalize the orientation and then get its clockwise direction
+			final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
+			world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.SYNC);
+			return true;
+		}
+		return false;
+	}
+
+	protected void placeBlockByDirection(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
+	{
+		if (canRotateBlock(world, x, y, z, ForgeDirection.UNKNOWN))
+		{
+			final int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+
+			int meta = 2;
+
+			if (l == 0) meta = 1;
+			else if (l == 1) meta = 2;
+			else if (l == 2) meta = 0;
+			else if (l == 3) meta = 3;
+			world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.SYNC);
+		}
+	}
+
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
-		final int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		super.onBlockPlacedBy(world, x, y, z, entity, stack);
+		placeBlockByDirection(world, x, y, z, entity, stack);
+	}
 
-		int meta = 2;
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+	{
+		if (world.isRemote) return;
 
-		if (l == 0) meta = 1;
-		else if (l == 1) meta = 2;
-		else if (l == 2) meta = 0;
-		else if (l == 3) meta = 3;
-		world.setBlockMetadataWithNotify(x, y, z, meta, BlockFlags.SYNC);
+		final TileEntity te = getTileEntity(world, x, y, z);
+		if (te != null)
+		{
+			if (te instanceof YATMEnergyProviderTile)
+			{
+				((YATMEnergyProviderTile)te).onNeighborBlockChange(world, x, y, z, block);
+			}
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -201,8 +237,50 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return null;
 	}
 
+	/**
+	 * Drops the block as an item and replaces it with air
+	 *
+	 * @param world - world to drop in
+	 * @param x - x Coord
+	 * @param y - y Coord
+	 * @param z - z Coord
+	 */
+	public void fellBlockAsItem(World world, int x, int y, int z)
+	{
+		dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+		world.setBlockToAir(x, y, z);
+	}
+
+	public boolean wrenchBlock(World world, int x, int y, int z, EntityPlayer player, ItemStack wrench)
+	{
+		if (player != null)
+		{
+			if (ItemUtils.canWrench(wrench, player, x, y, z))
+			{
+				if (player.isSneaking())
+				{
+					if (!world.isRemote)
+					{
+						fellBlockAsItem(world, x, y, z);
+						ItemUtils.wrenchUsed(wrench, player, x, y, z);
+					}
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean tryWrenchItem(EntityPlayer player, World world, int x, int y, int z)
+	{
+		if (player == null) return false;
+		final ItemStack is = player.inventory.getCurrentItem();
+		return wrenchBlock(world, x, y, z, player, is);
+	}
+
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer p, int side, float hitX, float hitY, float hitZ)
 	{
+		if (tryWrenchItem(p, world, x, y, z)) return true;
 		if (getGuiType() != null)
 		{
 			final TileEntity te = this.getTileEntity(world, x, y, z);
@@ -215,6 +293,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return false;
 	}
 
+	@Override
 	public TileEntity createNewTileEntity(World world, int unused)
 	{
 		if (tileEntityType != null)
@@ -235,6 +314,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return null;
 	}
 
+	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int par6)
 	{
 		final TileEntity te = getTileEntity(world, x, y, z);

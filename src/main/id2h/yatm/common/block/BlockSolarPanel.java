@@ -49,17 +49,6 @@ public class BlockSolarPanel extends YATMBlockBaseTile
 		setBlockBounds(bounds[0], bounds[1], bounds[2], bounds[3], bounds[4], bounds[5]);
 	}
 
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-	{
-		if (world.isRemote) return;
-
-		final TileEntitySolarPanel te = getTileEntity(world, x, y, z);
-		if (te != null)
-		{
-			te.onNeighborBlockChange(world, x, y, z, block);
-		}
-	}
-
 	@Override
 	public boolean renderAsNormalBlock()
 	{

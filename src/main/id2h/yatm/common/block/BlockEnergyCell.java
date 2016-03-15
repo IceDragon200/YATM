@@ -32,7 +32,6 @@ import appeng.client.texture.FlippableIcon;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -60,8 +59,19 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 		{
 			final NBTTagCompound tag = stack.getTagCompound();
 			if (tag != null)
-				te.readFromNBT(tag.getCompoundTag("tiledata"));
+			{
+				if (tag.hasKey("tiledata"))
+				{
+					te.readFromNBT(tag.getCompoundTag("tiledata"));
+				}
+			}
 		}
+	}
+
+	@Override
+	public boolean canRotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	{
+		return false;
 	}
 
 	@Override
@@ -73,34 +83,26 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
 	{
-		final ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		final ArrayList<ItemStack> result = new ArrayList<ItemStack>();
 
 		final TileEntityEnergyCell te = getTileEntity(world, x, y, z);
 		if (te != null)
 		{
-			final ItemStack result = new ItemStack(this, 1);
+			final ItemStack itemStack = new ItemStack(this);
 			final NBTTagCompound teTag = new NBTTagCompound();
 			final NBTTagCompound itemTag = new NBTTagCompound();
 			te.writeToNBT(teTag);
 			itemTag.setTag("tiledata", teTag);
 			itemTag.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
 			itemTag.setInteger("energy_max", te.getMaxEnergyStored(ForgeDirection.UNKNOWN));
-			result.setTagCompound(itemTag);
-			ret.add(result);
+			itemStack.setTagCompound(itemTag);
+			result.add(itemStack);
 		}
-		return ret;
-	}
-
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
-	{
-		if (world.isRemote) return;
-
-		final TileEntityEnergyCell te = getTileEntity(world, x, y, z);
-		if (te != null)
+		else
 		{
-			te.onNeighborBlockChange(world, x, y, z, block);
+			result.add(new ItemStack(this));
 		}
+		return result;
 	}
 
 	@Override
