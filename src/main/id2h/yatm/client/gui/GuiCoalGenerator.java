@@ -54,8 +54,9 @@ public class GuiCoalGenerator extends YATMGuiContainer
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
 
-		final int h = (int)(tileEntity.getBurnTimeRate() * 14);
-		drawTexturedModalRect(x1 + 81, y1 + 41, 176, 14 - h, 14, h);
+		final int mh = 14;
+		final int h = (int)(tileEntity.getBurnTimeRate() * mh);
+		drawTexturedModalRect(x1 + 81, y1 + 41 + mh - h, 176, mh - h, 14, h);
 
 		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
