@@ -26,19 +26,22 @@ package id2h.yatm.common.tileentity;
 import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
+import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
 import id2h.yatm.event.EventHandler;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISidedInventory, IGuiNetworkSync
 {
@@ -46,6 +49,8 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	protected int burnTime;
 	protected int burnTimeMax;
 	protected int idleTime;
+	protected boolean online;
+	protected boolean lastOnline;
 
 	public TileEntityCoalGenerator()
 	{
@@ -69,6 +74,16 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		return 0.0f;
 	}
 
+	@Override
+	public boolean checkEnergySyncLevels(ForgeDirection dir, IEnergyGridSync other)
+	{
+		if (getEnergyStored(dir) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private void updateEnergyProduction()
 	{
 		if (idleTime > 0)
@@ -89,24 +104,41 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 			}
 			else
 			{
-				final ItemStack fuel = getStackInSlot(0);
-				if (fuel != null)
+				if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored())
 				{
-					this.burnTime = GameRegistry.getFuelValue(fuel);
-					if (burnTime > 0)
+					final ItemStack fuel = getStackInSlot(0);
+					if (fuel != null)
 					{
-						this.burnTimeMax = burnTime;
-						decrStackSize(0, 1);
+						this.burnTime = TileEntityFurnace.getItemBurnTime(fuel);
+						if (burnTime > 0)
+						{
+							this.burnTimeMax = burnTime;
+							decrStackSize(0, 1);
+							this.online = true;
+						}
+						else
+						{
+							this.online = false;
+						}
 					}
 				}
 			}
 			this.idleTime = 5;
+		}
+
+		if (lastOnline != online)
+		{
+			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 3;
+			if (online) meta |= 4;
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.UPDATE_AND_SYNC);
+			this.lastOnline = online;
 		}
 	}
 
 	@Override
 	protected void updateEnergyProvider()
 	{
+		updateEnergyProduction();
 		super.updateEnergyProvider();
 	}
 
@@ -193,7 +225,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	{
 		if (index == 0)
 		{
-			return GameRegistry.getFuelValue(stack) > 0;
+			return TileEntityFurnace.getItemBurnTime(stack) > 0;
 		}
 		return false;
 	}
