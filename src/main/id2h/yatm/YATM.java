@@ -58,6 +58,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 @Mod(
 	modid = YATM.MOD_ID,
@@ -300,22 +301,22 @@ public class YATM
 	private void registerCraftingRecipes()
 	{
 		// Seed Recipes
-		GameRegistry.addShapelessRecipe(items.crystalSeedUranium.asStack(2),
-			items.dustUranium.asStack(),
+		GameRegistry.addRecipe(new ShapelessOreRecipe(items.crystalSeedUranium.asStack(2),
+			"dustUranium",
 			Blocks.sand
-		);
+		));
 
-		GameRegistry.addShapelessRecipe(items.crystalSeedRedstone.asStack(2),
-			Items.redstone,
+		GameRegistry.addRecipe(new ShapelessOreRecipe(items.crystalSeedRedstone.asStack(2),
+			"dustRedstone",
 			Blocks.sand
-		);
+		));
 
 		// Capacitor Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorIron.asStack(3),
 			" x ",
 			"xrx",
 			" x ",
-			'r', "dustPureRedstone",
+			'r', "dustRedstone",
 			'x', "ingotIron"
 		));
 
@@ -332,8 +333,8 @@ public class YATM
 			"xrx",
 			"nxn",
 			'r', "dustPureRedstone",
-			'x', Items.diamond,
-			'n', Items.gold_nugget
+			'x', "gemDiamond",
+			'n', "nuggetGold"
 		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorObsidian.asStack(3),
@@ -342,7 +343,7 @@ public class YATM
 			"nxn",
 			'r', "dustPureRedstone",
 			'x', Blocks.obsidian,
-			'n', Items.gold_nugget
+			'n', "nuggetGold"
 		));
 
 		// Vacuum Tube Recipes
@@ -351,7 +352,7 @@ public class YATM
 			"grg",
 			" x ",
 			'g', Blocks.glass,
-			'r', "dustPureRedstone",
+			'r', "dustRedstone",
 			'x', "ingotIron"
 		));
 
@@ -370,8 +371,8 @@ public class YATM
 			"nxn",
 			'g', Blocks.glass,
 			'r', "dustPureRedstone",
-			'x', Items.diamond,
-			'n', Items.gold_nugget
+			'x', "gemDiamond",
+			'n', "nuggetGold"
 		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.vacuumTubeObsidian.asStack(3),
@@ -381,7 +382,7 @@ public class YATM
 			'g', Blocks.glass,
 			'r', "dustPureRedstone",
 			'x', Blocks.obsidian,
-			'n', Items.gold_nugget
+			'n', "nuggetGold"
 		));
 
 
@@ -391,14 +392,14 @@ public class YATM
 			"IRI",
 			" I ",
 			'I', "materialPlateIron",
-			'R', "dustPureRedstone"
+			'R', "dustRedstone"
 		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.coalGenerator.asStack(),
 			" I ",
 			"IFI",
 			" R ",
-			'R', "dustPureRedstone",
+			'R', "dustRedstone",
 			'I', "ingotIron",
 			'F', Blocks.furnace
 		));

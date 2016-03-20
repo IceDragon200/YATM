@@ -112,6 +112,7 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 	@Override
 	protected void updateMachineNotEnoughPower(MachineUpdateState state)
 	{
+		super.updateMachineNotEnoughPower(state);
 		// Compactors lose progress if they are unpowered, or have insufficient power
 		if (this.progress > 0)
 		{
