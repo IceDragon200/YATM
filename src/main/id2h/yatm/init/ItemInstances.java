@@ -23,6 +23,9 @@
  */
 package id2h.yatm.init;
 
+import growthcraft.core.common.definition.ItemDefinition;
+import growthcraft.core.common.definition.ItemSubtypeDefinition;
+import growthcraft.core.common.GrcModuleBase;
 import id2h.yatm.common.item.ItemCapacitor;
 import id2h.yatm.common.item.ItemCrystal;
 import id2h.yatm.common.item.ItemCrystalSeed;
@@ -32,16 +35,13 @@ import id2h.yatm.common.item.ItemMesh;
 import id2h.yatm.common.item.ItemPlate;
 import id2h.yatm.common.item.ItemVacuumTube;
 
-import growthcraft.core.common.definition.ItemDefinition;
-import growthcraft.core.common.definition.ItemSubtypeDefinition;
-
 import appeng.api.AEApi;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ItemInstances
+public class ItemInstances extends GrcModuleBase
 {
 	public ItemDefinition crystalSeed;
 	public ItemSubtypeDefinition crystalSeedUranium;
@@ -125,6 +125,7 @@ public class ItemInstances
 		platePhotovoltaic = new ItemSubtypeDefinition(plate, 5);
 	}
 
+	@Override
 	public void preInit()
 	{
 		capacitor = new ItemDefinition(new ItemCapacitor());
@@ -139,6 +140,7 @@ public class ItemInstances
 		initSubtypes();
 	}
 
+	@Override
 	public void register()
 	{
 		GameRegistry.registerItem(capacitor.getItem(), "yatm.ItemCapacitor");

@@ -77,14 +77,16 @@ public abstract class AbstractMachine implements IMachineLogic
 		data.setTag(name, invData);
 	}
 
+	@Override
 	public boolean readFromStream(ByteBuf stream)
 	{
 		return false;
 	}
 
-	public void writeToStream(ByteBuf stream)
+	@Override
+	public boolean writeToStream(ByteBuf stream)
 	{
-
+		return false;
 	}
 
 	// Machine

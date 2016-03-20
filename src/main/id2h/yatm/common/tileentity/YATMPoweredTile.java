@@ -28,8 +28,8 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
 import cofh.api.energy.IEnergyReceiver;
+import growthcraft.core.common.tileentity.event.EventHandler;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.event.EventHandler;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -94,10 +94,11 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
-	public void writeToStream_Energy(ByteBuf stream) throws IOException
+	public boolean writeToStream_Energy(ByteBuf stream) throws IOException
 	{
 		final int energy = getEnergyStored(ForgeDirection.UNKNOWN);
 		stream.writeInt(energy);
+		return false;
 	}
 
 	private void readEnergyFromNBT(NBTTagCompound nbt)

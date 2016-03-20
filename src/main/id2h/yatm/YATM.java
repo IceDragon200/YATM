@@ -36,6 +36,7 @@ import id2h.yatm.integration.growthcraft.HeatSourceHeater;
 
 import growthcraft.api.cellar.CellarRegistry;
 import growthcraft.api.core.util.TickUtils;
+import growthcraft.api.core.module.ModuleContainer;
 
 import appeng.api.util.AEColor;
 
@@ -73,6 +74,8 @@ public class YATM
 	@Instance(MOD_ID)
 	private static YATM INSTANCE;
 
+	private final ModuleContainer modules = new ModuleContainer();
+
 	public static YATM instance()
 	{
 		return INSTANCE;
@@ -83,8 +86,11 @@ public class YATM
 	{
 		blocks = new BlockInstances();
 		items = new ItemInstances();
-		blocks.preInit();
-		items.preInit();
+		modules.add(blocks);
+		modules.add(items);
+		modules.add(new id2h.yatm.integration.ThaumcraftModule());
+		modules.preInit();
+		modules.register();
 	}
 
 	private void registerCrushingRecipes()
@@ -656,8 +662,7 @@ public class YATM
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		blocks.register();
-		items.register();
+		modules.register();
 		registerRecipes();
 		registerHeatSources();
 
@@ -670,6 +675,6 @@ public class YATM
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		//
+		modules.postInit();
 	}
 }

@@ -69,7 +69,7 @@ public interface IMachineLogic
 	void writeToNBT(NBTTagCompound data, String name);
 
 	boolean readFromStream(ByteBuf stream);
-	void writeToStream(ByteBuf stream);
+	boolean writeToStream(ByteBuf stream);
 
 	// Machines do not REQUIRE a TileEntity if they don't need access to the
 	// world around them, most machines can do without it.

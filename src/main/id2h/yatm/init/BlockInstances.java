@@ -23,6 +23,8 @@
  */
 package id2h.yatm.init;
 
+import growthcraft.core.common.definition.BlockDefinition;
+import growthcraft.core.common.GrcModuleBase;
 import id2h.yatm.common.block.BlockAutoCrafter;
 import id2h.yatm.common.block.BlockAutoGrinder;
 import id2h.yatm.common.block.BlockChassis;
@@ -43,6 +45,7 @@ import id2h.yatm.common.block.BlockMixer;
 import id2h.yatm.common.block.BlockRoller;
 import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
+import id2h.yatm.common.definition.BlockDecorativeDefinition;
 import id2h.yatm.common.item.ItemBlockEnergyCell;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
@@ -64,15 +67,12 @@ import id2h.yatm.common.tileentity.TileEntityMixer;
 import id2h.yatm.common.tileentity.TileEntityRoller;
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
 
-import growthcraft.core.common.definition.BlockDefinition;
-import id2h.yatm.common.definition.BlockDecorativeDefinition;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
-public class BlockInstances
+public class BlockInstances extends GrcModuleBase
 {
 	public BlockDecorativeDefinition reinforcedGlass;
 	public BlockDecorativeDefinition ventedMesh2x;
@@ -110,6 +110,7 @@ public class BlockInstances
 
 	public BlockInstances() {}
 
+	@Override
 	public void preInit()
 	{
 		chassis = new BlockDefinition(new BlockChassis());
@@ -195,6 +196,7 @@ public class BlockInstances
 		window = new BlockDefinition(new BlockWindow());
 	}
 
+	@Override
 	public void register()
 	{
 		chassis.register("yatm.BlockChassis");

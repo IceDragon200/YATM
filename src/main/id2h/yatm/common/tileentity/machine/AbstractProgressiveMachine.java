@@ -69,10 +69,11 @@ public abstract class AbstractProgressiveMachine extends AbstractMachine impleme
 	}
 
 	@Override
-	public void writeToStream(ByteBuf stream)
+	public boolean writeToStream(ByteBuf stream)
 	{
 		stream.writeFloat(progress);
 		stream.writeFloat(progressMax);
+		return false;
 	}
 
 	@Override

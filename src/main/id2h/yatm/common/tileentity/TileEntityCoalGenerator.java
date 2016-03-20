@@ -27,12 +27,12 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
 import growthcraft.api.core.util.BlockFlags;
+import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
-import id2h.yatm.event.EventHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -246,11 +246,12 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
-	public void writeToStream_CoalGenerator(ByteBuf stream) throws IOException
+	public boolean writeToStream_CoalGenerator(ByteBuf stream) throws IOException
 	{
 		stream.writeInt(idleTime);
 		stream.writeInt(burnTime);
 		stream.writeInt(burnTimeMax);
+		return false;
 	}
 
 	private void readInventoryFromNBT(NBTTagCompound nbt)

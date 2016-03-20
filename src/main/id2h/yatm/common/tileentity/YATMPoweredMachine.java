@@ -28,13 +28,13 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
 import growthcraft.core.common.inventory.IInventoryWatcher;
+import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
 import growthcraft.core.util.ItemUtils;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
 import id2h.yatm.common.tileentity.machine.MachineUpdateState;
-import id2h.yatm.event.EventHandler;
 import id2h.yatm.util.YATMDebug;
 
 import growthcraft.api.core.util.BlockFlags;
@@ -129,9 +129,9 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
-	public void writeToStream_Machine(ByteBuf stream) throws IOException
+	public boolean writeToStream_Machine(ByteBuf stream) throws IOException
 	{
-		machine.writeToStream(stream);
+		return machine.writeToStream(stream);
 	}
 
 	@Override
