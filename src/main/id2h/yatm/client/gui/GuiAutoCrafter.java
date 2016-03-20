@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiAutoCrafter extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation crafterResource = new ResourceLocation("yatm", "textures/gui/GuiAutoCrafter.png");
 	protected TileEntityAutoCrafter tileEntity;
 
 	public GuiAutoCrafter(InventoryPlayer playerInventory, TileEntityAutoCrafter crafter)
@@ -43,18 +42,17 @@ public class GuiAutoCrafter extends YATMMachineGuiContainer
 		super(new ContainerAutoCrafter(playerInventory, crafter), crafter);
 		this.tileEntity = crafter;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiAutoCrafter.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	public void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(crafterResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
 		final int w = (int)(tileEntity.getMachineProgressRate() * 14);
 		drawTexturedModalRect(x1 + 81, y1 + 72, 176, 0, w, 15);
 	}

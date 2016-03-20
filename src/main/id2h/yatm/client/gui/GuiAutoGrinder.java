@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiAutoGrinder extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation grinderResource = new ResourceLocation("yatm", "textures/gui/GuiAutoGrinder.png");
 	protected TileEntityAutoGrinder tileEntity;
 
 	public GuiAutoGrinder(IInventory playerInventory, TileEntityAutoGrinder grinder)
@@ -43,18 +42,17 @@ public class GuiAutoGrinder extends YATMMachineGuiContainer
 		super(new ContainerAutoGrinder(playerInventory, grinder), grinder);
 		this.tileEntity = grinder;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiAutoGrinder.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	public void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(grinderResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
 		final int w = (int)(tileEntity.getMachineProgressRate() * 31);
 		drawTexturedModalRect(x1 + 104, y1 + 41, 176, 0, w, 12);
 	}

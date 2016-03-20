@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiElectrolyser extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation heaterResource = new ResourceLocation("yatm", "textures/gui/GuiElectrolyser.png");
 	protected TileEntityElectrolyser tileEntity;
 
 	public GuiElectrolyser(IInventory playerInventory, TileEntityElectrolyser electrolyser)
@@ -43,14 +42,15 @@ public class GuiElectrolyser extends YATMMachineGuiContainer
 		super(new ContainerElectrolyser(playerInventory, electrolyser), electrolyser);
 		this.tileEntity = electrolyser;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiElectrolyser.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	public void drawGuiContainerBackgroundPanel(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundPanel(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(heaterResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);

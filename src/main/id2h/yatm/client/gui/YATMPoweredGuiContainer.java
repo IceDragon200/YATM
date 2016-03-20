@@ -52,9 +52,9 @@ public abstract class YATMPoweredGuiContainer extends YATMGuiContainer
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
 		drawRFBar(x1 + 164, y1 + 16, poweredTile.getPowerStorageRate(ForgeDirection.UNKNOWN));

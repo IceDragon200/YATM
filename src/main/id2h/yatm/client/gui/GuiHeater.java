@@ -25,7 +25,6 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerHeater;
 import id2h.yatm.common.tileentity.TileEntityHeater;
-import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +34,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiHeater extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation heaterResource = new ResourceLocation("yatm", "textures/gui/GuiHeater.png");
 	protected TileEntityHeater tileEntity;
 
 	public GuiHeater(IInventory playerInventory, TileEntityHeater heater)
@@ -43,16 +41,6 @@ public class GuiHeater extends YATMMachineGuiContainer
 		super(new ContainerHeater(playerInventory, heater), heater);
 		this.tileEntity = heater;
 		this.ySize = 176;
-	}
-
-	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
-	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
-		RenderUtils.resetColor();
-		bindTexture(heaterResource);
-		final int x1 = (width - xSize) / 2;
-		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiHeater.png");
 	}
 }

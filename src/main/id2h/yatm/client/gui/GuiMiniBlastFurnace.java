@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiMiniBlastFurnace extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation miniBlastFurnaceResource = new ResourceLocation("yatm", "textures/gui/GuiMiniBlastFurnace.png");
 	protected TileEntityMiniBlastFurnace tileEntity;
 
 	public GuiMiniBlastFurnace(IInventory playerInventory, TileEntityMiniBlastFurnace miniBlastFurnace)
@@ -43,18 +42,17 @@ public class GuiMiniBlastFurnace extends YATMMachineGuiContainer
 		super(new ContainerMiniBlastFurnace(playerInventory, miniBlastFurnace), miniBlastFurnace);
 		this.tileEntity = miniBlastFurnace;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiMiniBlastFurnace.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(miniBlastFurnaceResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
 		final int w = (int)(tileEntity.getMachineProgressRate() * 23);
 		drawTexturedModalRect(x1 + 93, y1 + 42, 176, 0, w, 18);
 	}

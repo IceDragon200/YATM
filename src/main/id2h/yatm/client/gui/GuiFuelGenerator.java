@@ -25,7 +25,6 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerFuelGenerator;
 import id2h.yatm.common.tileentity.TileEntityFuelGenerator;
-import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +34,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiFuelGenerator extends YATMPoweredGuiContainer
 {
-	protected static final ResourceLocation heaterResource = new ResourceLocation("yatm", "textures/gui/GuiFuelGenerator.png");
 	protected TileEntityFuelGenerator tileEntity;
 
 	public GuiFuelGenerator(IInventory playerInventory, TileEntityFuelGenerator generator)
@@ -43,16 +41,6 @@ public class GuiFuelGenerator extends YATMPoweredGuiContainer
 		super(new ContainerFuelGenerator(playerInventory, generator), generator);
 		this.tileEntity = generator;
 		this.ySize = 176;
-	}
-
-	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
-	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
-		RenderUtils.resetColor();
-		bindTexture(heaterResource);
-		final int x1 = (width - xSize) / 2;
-		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiFuelGenerator.png");
 	}
 }

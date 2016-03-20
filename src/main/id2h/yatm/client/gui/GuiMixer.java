@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiMixer extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation mixerResource = new ResourceLocation("yatm", "textures/gui/GuiMixer.png");
 	protected TileEntityMixer tileEntity;
 
 	public GuiMixer(IInventory playerInventory, TileEntityMixer mixer)
@@ -43,18 +42,16 @@ public class GuiMixer extends YATMMachineGuiContainer
 		super(new ContainerMixer(playerInventory, mixer), mixer);
 		this.tileEntity = mixer;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiMixer.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
-		RenderUtils.resetColor();
-		bindTexture(mixerResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
+		RenderUtils.resetColor();
+		bindTexture(guiResource);
 		final int h = (int)(tileEntity.getMachineProgressRate() * 23);
 		final int gaugeY = 23 - h;
 		drawTexturedModalRect(x1 + 100, y1 + 39 + gaugeY, 176, gaugeY, 11, h);

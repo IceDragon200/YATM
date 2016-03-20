@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiFluxFurnace extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation fluxFurnaceResource = new ResourceLocation("yatm", "textures/gui/GuiFluxFurnace.png");
 	protected TileEntityFluxFurnace tileEntity;
 
 	public GuiFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
@@ -43,18 +42,17 @@ public class GuiFluxFurnace extends YATMMachineGuiContainer
 		super(new ContainerFluxFurnace(playerInventory, fluxFurnace), fluxFurnace);
 		this.tileEntity = fluxFurnace;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiFluxFurnace.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(fluxFurnaceResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
 		// progress bar
 		final int w = (int)(tileEntity.getMachineProgressRate() * 21);
 		drawTexturedModalRect(x1 + 76, y1 + 70, 176, 0, w, 14);

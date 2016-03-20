@@ -36,6 +36,7 @@ import net.minecraft.util.ResourceLocation;
 public abstract class YATMGuiContainer extends GrcGuiContainer
 {
 	protected static final ResourceLocation yatmCommonResource = new ResourceLocation("yatm", "textures/gui/Gui_Common.png");
+	protected ResourceLocation guiResource;
 
 	public YATMGuiContainer(Container container, TileEntity te)
 	{
@@ -44,11 +45,32 @@ public abstract class YATMGuiContainer extends GrcGuiContainer
 
 	protected void drawRFBar(int x, int y, float rate)
 	{
-		bindTexture(yatmCommonResource);
 		final int w = 4;
 		final int h = (int)(72 * rate);
 		final int gaugeY = 72 - h;
 		RenderUtils.resetColor();
+		bindTexture(yatmCommonResource);
 		drawTexturedModalRect(x, y + gaugeY, 0, gaugeY, w, h);
+	}
+
+	protected void drawGuiContainerBackgroundPanel(float _f, int x, int y)
+	{
+		RenderUtils.resetColor();
+		bindTexture(guiResource);
+		final int x1 = (width - xSize) / 2;
+		final int y1 = (height - ySize) / 2;
+		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
+	}
+
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
+	{
+	}
+
+	@Override
+	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	{
+		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		drawGuiContainerBackgroundPanel(_f, x, y);
+		drawGuiContainerBackgroundElements(_f, x, y);
 	}
 }

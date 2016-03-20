@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiCoalGenerator extends YATMPoweredGuiContainer
 {
-	protected static final ResourceLocation crusherResource = new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png");
 	protected TileEntityCoalGenerator tileEntity;
 
 	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator generator)
@@ -43,18 +42,17 @@ public class GuiCoalGenerator extends YATMPoweredGuiContainer
 		super(new ContainerCoalGenerator(playerInventory, generator), generator);
 		this.tileEntity = generator;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(crusherResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
 		final int mh = 14;
 		final int h = (int)(tileEntity.getBurnTimeRate() * mh);
 		drawTexturedModalRect(x1 + 81, y1 + 41 + mh - h, 176, mh - h, 14, h);

@@ -35,7 +35,6 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiRoller extends YATMMachineGuiContainer
 {
-	protected static final ResourceLocation rollerResource = new ResourceLocation("yatm", "textures/gui/GuiRoller.png");
 	protected TileEntityRoller tileEntity;
 
 	public GuiRoller(IInventory playerInventory, TileEntityRoller roller)
@@ -43,18 +42,17 @@ public class GuiRoller extends YATMMachineGuiContainer
 		super(new ContainerRoller(playerInventory, roller), roller);
 		this.tileEntity = roller;
 		this.ySize = 176;
+		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiRoller.png");
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
+		super.drawGuiContainerBackgroundElements(_f, x, y);
 		RenderUtils.resetColor();
-		bindTexture(rollerResource);
+		bindTexture(guiResource);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
-
 		final int h = (int)(tileEntity.getMachineProgressRate() * 19);
 		final int gaugeY = 19 - h;
 		drawTexturedModalRect(x1 + 97, y1 + 40 + gaugeY, 176, gaugeY, 18, h);
