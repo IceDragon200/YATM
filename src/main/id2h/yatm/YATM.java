@@ -23,20 +23,24 @@
  */
 package id2h.yatm;
 
+import growthcraft.api.cellar.CellarRegistry;
+import growthcraft.api.core.item.EnumDye;
+import growthcraft.api.core.item.OreItemStacks;
+import growthcraft.api.core.log.GrcLogger;
+import growthcraft.api.core.log.ILogger;
+import growthcraft.api.core.module.ModuleContainer;
+import growthcraft.api.core.util.TickUtils;
 import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.core.util.PossibleItemList;
 import id2h.yatm.api.crusher.CrushingRegistry;
 import id2h.yatm.api.YATMApi;
 import id2h.yatm.common.CommonProxy;
+import id2h.yatm.common.item.EnumPlate;
 import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
-import id2h.yatm.util.YATMDebug;
 import id2h.yatm.integration.growthcraft.HeatSourceHeater;
-
-import growthcraft.api.cellar.CellarRegistry;
-import growthcraft.api.core.util.TickUtils;
-import growthcraft.api.core.module.ModuleContainer;
+import id2h.yatm.util.YATMDebug;
 
 import appeng.api.util.AEColor;
 
@@ -74,6 +78,7 @@ public class YATM
 	@Instance(MOD_ID)
 	private static YATM INSTANCE;
 
+	private final ILogger logger = new GrcLogger(MOD_ID);
 	private final ModuleContainer modules = new ModuleContainer();
 
 	public static YATM instance()
@@ -89,6 +94,8 @@ public class YATM
 		modules.add(blocks);
 		modules.add(items);
 		modules.add(new id2h.yatm.integration.ThaumcraftModule());
+		modules.setLogger(logger);
+		modules.freeze();
 		modules.preInit();
 		modules.register();
 	}
@@ -202,7 +209,7 @@ public class YATM
 		YATMApi.instance().blasting().addBlasting(
 			items.ingotCarbonSteel.asStack(1),
 			new ItemStack(Items.coal, 1, 0),
-			new ItemStack(Items.iron_ingot),
+			new OreItemStacks("ingotIron", 1),
 			TickUtils.minutes(1),
 			600
 		);
@@ -210,7 +217,7 @@ public class YATM
 		YATMApi.instance().blasting().addBlasting(
 			items.ingotCarbonSteel.asStack(1),
 			new ItemStack(Items.coal, 4, 1),
-			new ItemStack(Items.iron_ingot),
+			new OreItemStacks("ingotIron", 1),
 			TickUtils.minutes(1),
 			600
 		);
@@ -218,23 +225,23 @@ public class YATM
 		YATMApi.instance().blasting().addBlasting(
 			items.ingotCrystalSteel.asStack(1),
 			new ItemStack(Items.diamond),
-			new ItemStack(Items.iron_ingot),
+			new OreItemStacks("ingotIron", 1),
 			TickUtils.minutes(3),
 			600
 		);
 
 		YATMApi.instance().blasting().addBlasting(
-			items.plateEnergized.asStack(1),
-			items.dustPureRedstone.asStack(4),
-			items.plateIron.asStack(1),
+			EnumPlate.ENERGIZED.asStack(1),
+			new OreItemStacks("dustPureRedstone", 4),
+			new OreItemStacks("plateIron", 1),
 			TickUtils.seconds(10),
 			400
 		);
 
 		YATMApi.instance().blasting().addBlasting(
-			items.platePhotovoltaic.asStack(1),
-			new ItemStack(Items.dye, 4, 4),
-			items.plateEnergized.asStack(1),
+			EnumPlate.PHOTOVOLTAIC.asStack(1),
+			new OreItemStacks(EnumDye.BLUE.getOreName(), 4),
+			new OreItemStacks("plateEnergized", 1),
 			TickUtils.seconds(10),
 			400
 		);
@@ -280,30 +287,14 @@ public class YATM
 
 	private void registerRollingRecipes()
 	{
-		YATMApi.instance().rolling().addPressing(
-			items.plateCarbonSteel.asStack(1),
-			items.ingotCarbonSteel.asStack(2),
-			TickUtils.seconds(10)
-		);
-
-		YATMApi.instance().rolling().addPressing(
-			items.plateCrystalSteel.asStack(1),
-			items.ingotCrystalSteel.asStack(2),
-			TickUtils.seconds(20)
-		);
-
-		YATMApi.instance().rolling().addPressing(
-			items.plateIron.asStack(1),
-			new ItemStack(Items.iron_ingot, 2),
-			TickUtils.seconds(5)
-		);
-
-		// gold is softer than iron
-		YATMApi.instance().rolling().addPressing(
-			items.plateGold.asStack(1),
-			new ItemStack(Items.gold_ingot, 2),
-			TickUtils.seconds(2)
-		);
+		for (EnumPlate plate : EnumPlate.VALUES)
+		{
+			YATMApi.instance().rolling().addPressing(
+				plate.asStack(1),
+				new OreItemStacks(String.format("ingot%s", plate.getCamelName()), 2),
+				TickUtils.seconds(10)
+			);
+		}
 	}
 
 	private void registerCraftingRecipes()
@@ -452,7 +443,7 @@ public class YATM
 					"IAI",
 					'A', "materialCapacitorIron",
 					'W', grindstone,
-					'I', Items.iron_ingot,
+					'I', "ingotIron",
 					'P', "materialPlateIron"
 				));
 			}
@@ -509,7 +500,7 @@ public class YATM
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.solarPanel.asStack(),
 			"YYY",
 			"III",
-			'Y', items.platePhotovoltaic.asStack(),
+			'Y', "platePhotovoltaic",
 			'I', "materialPlateIron"
 		));
 
@@ -662,7 +653,6 @@ public class YATM
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		modules.register();
 		registerRecipes();
 		registerHeatSources();
 

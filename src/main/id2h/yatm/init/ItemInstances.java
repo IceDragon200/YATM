@@ -23,9 +23,11 @@
  */
 package id2h.yatm.init;
 
+import growthcraft.api.core.item.ItemKey;
 import growthcraft.core.common.definition.ItemDefinition;
 import growthcraft.core.common.definition.ItemSubtypeDefinition;
 import growthcraft.core.common.GrcModuleBase;
+import id2h.yatm.common.item.EnumPlate;
 import id2h.yatm.common.item.ItemCapacitor;
 import id2h.yatm.common.item.ItemCrystal;
 import id2h.yatm.common.item.ItemCrystalSeed;
@@ -77,12 +79,6 @@ public class ItemInstances extends GrcModuleBase
 	public ItemSubtypeDefinition vacuumTubeObsidian;
 
 	public ItemDefinition plate;
-	public ItemSubtypeDefinition plateIron;
-	public ItemSubtypeDefinition plateGold;
-	public ItemSubtypeDefinition plateCarbonSteel;
-	public ItemSubtypeDefinition plateCrystalSteel;
-	public ItemSubtypeDefinition plateEnergized;
-	public ItemSubtypeDefinition platePhotovoltaic;
 
 	public ItemDefinition mesh;
 
@@ -116,13 +112,6 @@ public class ItemInstances extends GrcModuleBase
 		vacuumTubeGold = new ItemSubtypeDefinition(vacuumTube, 1);
 		vacuumTubeDiamond = new ItemSubtypeDefinition(vacuumTube, 2);
 		vacuumTubeObsidian = new ItemSubtypeDefinition(vacuumTube, 3);
-
-		plateIron = new ItemSubtypeDefinition(plate, 0);
-		plateGold = new ItemSubtypeDefinition(plate, 1);
-		plateCarbonSteel = new ItemSubtypeDefinition(plate, 2);
-		plateCrystalSteel = new ItemSubtypeDefinition(plate, 3);
-		plateEnergized = new ItemSubtypeDefinition(plate, 4);
-		platePhotovoltaic = new ItemSubtypeDefinition(plate, 5);
 	}
 
 	@Override
@@ -178,16 +167,12 @@ public class ItemInstances extends GrcModuleBase
 		OreDictionary.registerOre("materialVacuumTubeDiamond", vacuumTubeDiamond.asStack());
 		OreDictionary.registerOre("materialVacuumTubeObsidian", vacuumTubeObsidian.asStack());
 
-		OreDictionary.registerOre("materialPlate", plateIron.asStack());
-		OreDictionary.registerOre("materialPlate", plateGold.asStack());
-		OreDictionary.registerOre("materialPlate", plateCarbonSteel.asStack());
-		OreDictionary.registerOre("materialPlate", plateCrystalSteel.asStack());
+		OreDictionary.registerOre("materialPlate", plate.asStack(1, ItemKey.WILDCARD_VALUE));
 
-		OreDictionary.registerOre("materialPlateIron", plateIron.asStack());
-		OreDictionary.registerOre("materialPlateGold", plateGold.asStack());
-		OreDictionary.registerOre("materialPlateCarbonSteel", plateCarbonSteel.asStack());
-		OreDictionary.registerOre("materialPlateCrystalSteel", plateCrystalSteel.asStack());
-		OreDictionary.registerOre("materialPlateEnergized", plateEnergized.asStack());
+		for (EnumPlate eplate : EnumPlate.VALUES)
+		{
+			OreDictionary.registerOre(String.format("materialPlate%s", eplate.getCamelName()), eplate.asStack());
+		}
 
 		OreDictionary.registerOre("dustUranium", dustUranium.asStack());
 		OreDictionary.registerOre("dustPureUranium", dustPureUranium.asStack());

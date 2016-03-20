@@ -25,13 +25,12 @@ package id2h.yatm.common.item;
 
 import java.util.List;
 
-import id2h.yatm.YATM;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class ItemPlate extends AbstractItemMaterial
@@ -42,28 +41,34 @@ public class ItemPlate extends AbstractItemMaterial
 		setUnlocalizedName("yatm.ItemPlate");
 	}
 
+	public EnumPlate getPlate(ItemStack stack)
+	{
+		return EnumPlate.get(stack.getItemDamage());
+	}
+
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return super.getUnlocalizedName() + "." + getPlate(stack).getCamelName();
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		icons = new IIcon[6];
-		icons[YATM.items.plateIron.meta] = ir.registerIcon("yatm:ItemMaterial.Plate.Iron");
-		icons[YATM.items.plateGold.meta] = ir.registerIcon("yatm:ItemMaterial.Plate.Gold");
-		icons[YATM.items.plateCarbonSteel.meta] = ir.registerIcon("yatm:ItemMaterial.Plate.CarbonSteel");
-		icons[YATM.items.plateCrystalSteel.meta] = ir.registerIcon("yatm:ItemMaterial.Plate.CrystalSteel");
-		icons[YATM.items.plateEnergized.meta] = ir.registerIcon("yatm:ItemMaterial.Plate.Energized");
-		icons[YATM.items.platePhotovoltaic.meta] = ir.registerIcon("yatm:ItemMaterial.Plate.Photovoltaic");
+		icons = new IIcon[EnumPlate.VALUES.length];
+		for (EnumPlate plate : EnumPlate.VALUES)
+		{
+			icons[plate.meta] = ir.registerIcon(String.format("yatm:ItemMaterial.%s", plate.getPlateName()));
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
-		itemStacks.add(YATM.items.plateIron.asStack());
-		itemStacks.add(YATM.items.plateGold.asStack());
-		itemStacks.add(YATM.items.plateCarbonSteel.asStack());
-		itemStacks.add(YATM.items.plateCrystalSteel.asStack());
-		itemStacks.add(YATM.items.plateEnergized.asStack());
-		itemStacks.add(YATM.items.platePhotovoltaic.asStack());
+		for (EnumPlate plate : EnumPlate.VALUES)
+		{
+			itemStacks.add(plate.asStack());
+		}
 	}
 }
