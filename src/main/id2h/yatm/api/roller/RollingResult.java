@@ -26,30 +26,31 @@ package id2h.yatm.api.roller;
 import javax.annotation.Nonnull;
 
 import growthcraft.api.core.definition.IItemStackFactory;
+import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
 public class RollingResult implements IItemStackFactory
 {
 	public final int time;
-	private final ItemStack input;
-	private final ItemStack[] inputs;
+	private final IMultiItemStacks input;
+	private final IMultiItemStacks[] inputs;
 	private final ItemStack output;
 
-	public RollingResult(@Nonnull ItemStack inp, @Nonnull ItemStack result, int t)
+	public RollingResult(@Nonnull IMultiItemStacks inp, @Nonnull ItemStack result, int t)
 	{
 		this.input = inp;
 		this.output = result;
-		this.inputs = new ItemStack[] { input };
+		this.inputs = new IMultiItemStacks[] { input };
 		this.time = t;
 	}
 
-	public ItemStack getInput()
+	public IMultiItemStacks getInput()
 	{
 		return input;
 	}
 
-	public ItemStack[] getInputs()
+	public IMultiItemStacks[] getInputs()
 	{
 		return inputs;
 	}
@@ -69,5 +70,10 @@ public class RollingResult implements IItemStackFactory
 	public ItemStack asStack()
 	{
 		return output.copy();
+	}
+
+	public boolean matchesRecipe(@Nonnull ItemStack stack)
+	{
+		return input.containsItemStack(stack);
 	}
 }

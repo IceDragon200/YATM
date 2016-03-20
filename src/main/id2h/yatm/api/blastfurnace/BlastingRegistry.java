@@ -23,35 +23,21 @@
  */
 package id2h.yatm.api.blastfurnace;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.item.ItemKey;
+import growthcraft.api.core.util.MultiStacksUtil;
 
 import net.minecraft.item.ItemStack;
 
 public class BlastingRegistry
 {
-	static class BlastingEntries extends HashMap<ItemKey, BlastingResult>
-	{
-		public static final long serialVersionUID = 1L;
-	}
+	private final List<BlastingResult> recipes = new ArrayList<BlastingResult>();
 
-	static class BlastingTree extends HashMap<ItemKey, BlastingEntries>
+	public void addBlasting(@Nonnull ItemStack result, @Nonnull Object i1, @Nonnull Object i2, int time, int heatRequirement)
 	{
-		public static final long serialVersionUID = 1L;
-	}
-
-	private final BlastingTree blastingTree = new BlastingTree();
-
-	public void addBlasting(@Nonnull ItemStack result, @Nonnull ItemStack i1, @Nonnull ItemStack i2, int time, int heatRequirement)
-	{
-		final ItemKey primaryKey = new ItemKey(i1);
-		if (!blastingTree.containsKey(primaryKey))
-		{
-			blastingTree.put(primaryKey, new BlastingEntries());
-		}
-		blastingTree.get(primaryKey).put(new ItemKey(i2), new BlastingResult(result, i1, i2, time, heatRequirement));
+		recipes.add(new BlastingResult(result, MultiStacksUtil.toMultiItemStacks(i1), MultiStacksUtil.toMultiItemStacks(i2), time, heatRequirement));
 	}
 
 	public BlastingResult getBlasting(ItemStack i1, ItemStack i2)
@@ -59,8 +45,10 @@ public class BlastingRegistry
 		if (i1 == null) return null;
 		if (i2 == null) return null;
 
-		final BlastingEntries be = blastingTree.get(new ItemKey(i1));
-		if (be != null) return be.get(new ItemKey(i2));
+		for (BlastingResult recipe : recipes)
+		{
+			if (recipe.matchesRecipe(i1, i2)) return recipe;
+		}
 		return null;
 	}
 
@@ -72,22 +60,14 @@ public class BlastingRegistry
 	public void displayDebug()
 	{
 		System.out.println("BlastingRegistry");
-		for (ItemKey key : blastingTree.keySet())
+		for (BlastingResult recipe : recipes)
 		{
-			System.out.println("	" + key + " item=" + key.item + " meta=" + key.meta);
-			final BlastingEntries entries = blastingTree.get(key);
-			for (ItemKey subkey : entries.keySet())
-			{
-				final BlastingResult result = entries.get(subkey);
-				System.out.println("		" + subkey +
-					" item=" + subkey.item +
-					" meta=" + subkey.meta +
-					" blasting.input1=" + result.getInput1() +
-					" blasting.input2=" + result.getInput2() +
-					" blasting.output=" + result.getOutput() +
-					" blasting.time=" + result.time
-				);
-			}
+			System.out.println("		" +
+				" blasting.input1=" + recipe.getInput1() +
+				" blasting.input2=" + recipe.getInput2() +
+				" blasting.output=" + recipe.getOutput() +
+				" blasting.time=" + recipe.time
+			);
 		}
 	}
 }

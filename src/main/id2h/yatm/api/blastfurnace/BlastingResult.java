@@ -26,6 +26,7 @@ package id2h.yatm.api.blastfurnace;
 import javax.annotation.Nonnull;
 
 import growthcraft.api.core.definition.IItemStackFactory;
+import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
@@ -33,32 +34,32 @@ public class BlastingResult implements IItemStackFactory
 {
 	public final int time;
 	public final int heatRequirement;
-	private final ItemStack input1;
-	private final ItemStack input2;
-	private final ItemStack[] inputs;
+	private final IMultiItemStacks input1;
+	private final IMultiItemStacks input2;
+	private final IMultiItemStacks[] inputs;
 	private final ItemStack output;
 
-	public BlastingResult(@Nonnull ItemStack result, @Nonnull ItemStack i1, @Nonnull ItemStack i2, int t, int h)
+	public BlastingResult(@Nonnull ItemStack result, @Nonnull IMultiItemStacks i1, @Nonnull IMultiItemStacks i2, int t, int h)
 	{
 		this.output = result;
 		this.input1 = i1;
 		this.input2 = i2;
 		this.time = t;
 		this.heatRequirement = h;
-		this.inputs = new ItemStack[] { input1, input2 };
+		this.inputs = new IMultiItemStacks[] { input1, input2 };
 	}
 
-	public ItemStack getInput1()
+	public IMultiItemStacks getInput1()
 	{
 		return input1;
 	}
 
-	public ItemStack getInput2()
+	public IMultiItemStacks getInput2()
 	{
 		return input2;
 	}
 
-	public ItemStack[] getInputs()
+	public IMultiItemStacks[] getInputs()
 	{
 		return inputs;
 	}
@@ -78,5 +79,10 @@ public class BlastingResult implements IItemStackFactory
 	public ItemStack asStack()
 	{
 		return output.copy();
+	}
+
+	public boolean matchesRecipe(ItemStack i1, ItemStack i2)
+	{
+		return input1.containsItemStack(i1) && input2.containsItemStack(i2);
 	}
 }

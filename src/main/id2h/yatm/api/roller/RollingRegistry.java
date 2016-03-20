@@ -23,25 +23,25 @@
  */
 package id2h.yatm.api.roller;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.item.ItemKey;
+import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
 public class RollingRegistry
 {
-	private final Map<ItemKey, RollingResult> rollingEntries = new HashMap<ItemKey, RollingResult>();
-	private final Map<ItemKey, RollingResult> pressingEntries = new HashMap<ItemKey, RollingResult>();
+	private final List<RollingResult> rollingEntries = new ArrayList<RollingResult>();
+	private final List<RollingResult> pressingEntries = new ArrayList<RollingResult>();
 
-	public void addRolling(@Nonnull ItemStack result, @Nonnull ItemStack input, int time)
+	public void addRolling(@Nonnull ItemStack result, @Nonnull IMultiItemStacks input, int time)
 	{
-		rollingEntries.put(new ItemKey(input), new RollingResult(input, result, time));
+		rollingEntries.add(new RollingResult(input, result, time));
 	}
 
-	public void addPressing(@Nonnull ItemStack result, @Nonnull ItemStack input, int time)
+	public void addPressing(@Nonnull ItemStack result, @Nonnull IMultiItemStacks input, int time)
 	{
 		// TODO: implement different roller modes
 		addRolling(result, input, time);
@@ -51,7 +51,11 @@ public class RollingRegistry
 	public RollingResult getRolling(ItemStack input)
 	{
 		if (input == null) return null;
-		return rollingEntries.get(new ItemKey(input));
+		for (RollingResult recipe : rollingEntries)
+		{
+			if (recipe.matchesRecipe(input)) return recipe;
+		}
+		return null;
 	}
 
 	public RollingResult getPressing(ItemStack input)
@@ -75,13 +79,9 @@ public class RollingRegistry
 	public void displayDebug()
 	{
 		System.out.println("RollingRegistry");
-		for (ItemKey key : rollingEntries.keySet())
+		for (RollingResult result : rollingEntries)
 		{
-			final RollingResult result = rollingEntries.get(key);
-
-			System.out.println("		" + key +
-				" item=" + key.item +
-				" meta=" + key.meta +
+			System.out.println("		" +
 				" blasting.input=" + result.getInput() +
 				" blasting.output=" + result.getOutput() +
 				" blasting.time=" + result.time
