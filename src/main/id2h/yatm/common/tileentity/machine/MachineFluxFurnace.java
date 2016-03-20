@@ -50,7 +50,7 @@ public class MachineFluxFurnace extends AbstractProgressiveMachine implements II
 	@Override
 	public int getWorkingPowerCost(MachineUpdateState state)
 	{
-		return 10;
+		return 70;
 	}
 
 	@Override

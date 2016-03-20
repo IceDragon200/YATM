@@ -206,7 +206,7 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 	@Override
 	public int getWorkingPowerCost(MachineUpdateState state)
 	{
-		return 80;
+		return 160;
 	}
 
 	@Override

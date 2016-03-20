@@ -35,7 +35,7 @@ public class MachineHeater extends AbstractMachine
 	@Override
 	public int getRunningPowerCost(MachineUpdateState state)
 	{
-		return 20;
+		return 50;
 	}
 
 	@Override

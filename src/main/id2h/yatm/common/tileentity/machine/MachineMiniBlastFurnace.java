@@ -53,7 +53,7 @@ public class MachineMiniBlastFurnace extends AbstractProgressiveMachine implemen
 	@Override
 	public int getWorkingPowerCost(MachineUpdateState state)
 	{
-		return 50;
+		return 100;
 	}
 
 	private BlastingResult getSlotResult(MachineUpdateState state, int[] slotIds)

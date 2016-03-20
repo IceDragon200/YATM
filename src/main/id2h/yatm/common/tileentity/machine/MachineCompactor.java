@@ -55,7 +55,7 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 	@Override
 	public int getWorkingPowerCost(MachineUpdateState state)
 	{
-		return 200;
+		return 400;
 	}
 
 	@Override

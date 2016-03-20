@@ -94,7 +94,7 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 	@Override
 	public int getWorkingPowerCost(MachineUpdateState state)
 	{
-		return 10;
+		return 40;
 	}
 
 	@Override

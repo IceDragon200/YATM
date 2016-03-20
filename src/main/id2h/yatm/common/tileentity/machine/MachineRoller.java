@@ -69,7 +69,7 @@ public class MachineRoller extends AbstractProgressiveMachine implements IInvent
 	@Override
 	public int getWorkingPowerCost(MachineUpdateState state)
 	{
-		return 10;
+		return 30;
 	}
 
 	@Override
