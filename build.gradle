@@ -229,4 +229,4 @@ jar {
 }
 
 // make sure all of these happen when we run build
-build.dependsOn sourceJar, javadocJar, deobfJar
+build.dependsOn sourceJar, javadocJar, deobfJar, apiJar
