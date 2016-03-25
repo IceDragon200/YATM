@@ -315,23 +315,25 @@ public class YATM
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorIron.asStack(3),
 			" x ",
 			"xrx",
-			" x ",
+			" n ",
 			'r', "dustRedstone",
-			'x', "ingotIron"
+			'x', "ingotIron",
+			'n', "nuggetIron"
 		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorGold.asStack(3),
 			" x ",
 			"xrx",
-			" x ",
+			" n ",
 			'r', "dustPureRedstone",
-			'x', "ingotGold"
+			'x', "ingotGold",
+			'n', "nuggetGold"
 		));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorDiamond.asStack(3),
 			" x ",
 			"xrx",
-			"nxn",
+			" n ",
 			'r', "dustPureRedstone",
 			'x', "gemDiamond",
 			'n', "nuggetGold"
@@ -340,7 +342,7 @@ public class YATM
 		GameRegistry.addRecipe(new ShapedOreRecipe(items.capacitorObsidian.asStack(3),
 			" x ",
 			"xrx",
-			"nxn",
+			" n ",
 			'r', "dustPureRedstone",
 			'x', Blocks.obsidian,
 			'n', "nuggetGold"
