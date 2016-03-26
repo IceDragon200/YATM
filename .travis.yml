@@ -10,7 +10,7 @@ cache:
   - "$HOME/.gradle/wrapper/"
 before_install:
 - git submodule update --init
-- cd sub/Growthcraft && git submodule update --init
+- cd sub/Growthcraft && git submodule update --init && cd ../../
 - chmod +x ./gradlew
 install: "./gradlew setupCIWorkspace -S"
 script: |
@@ -19,14 +19,14 @@ script: |
 deploy:
   provider: releases
   api_key:
-    secure: $RELEASE_SECURE_API_KEY
+    secure: Ym38xBBBa0O2JkPr89DDsu2H2acDLoZmU9YOpiWySlfgLTBKRAw+a4LXlw47/Hd6CjMZ9KHxlIXBNrl3cFPeqCy2hluxxKexHG8iJTczstvs7KGxf59epCNoMchydS4zpN2aqFbdyLJrgLydoLfe4NYL7LhqNz/HWzgig6JEkhISut4Pop8na6llDoxa9VodQ0IxBy1+yRWMWJky1g5T4Qj1nU2//3fwnIy7I5XB1jtrUD1lFvN3/6j+81V0QxqY9vSChfSrzQVQIcuPqnom6mEROA0chn4RW0eQD1ce2kjwtCqHKcuNN1YEaxjLBgPeRZs8DD3V/VucN3aBtpCKb79/OjslTtC8laTrnbQ5iV0UDLI3g7Fsb1ByKy5bHiOj1OEIxUzf/SkNuPPG15Nr1e7mZ/keeKGa3yxhiDNhw91ou+E65buGv/vsvanLWfSQQ5mVNshOay2UJc7jiic0MduuDWycjWZPuaywaWEb7B77tPGRL5G+2oP3+22L0/DXVXee/SPDHYPknmLMfukJ4LefAL38KXOqrIjyPHHDsp2Aq7hWAT0z2i1L/haZT2H38RViHpSmleztWJ6F4A5qvPehw1psYo0yc6P4I7MgLAQ2U02dd4/zkLt80Dfqk5wRupSgxZOILujC1AUUqTeB5TacEVChcD/etIULoegHKDA=
   file_glob: true
   file:
-    build/libs/yatm-*-api.jar
-    build/libs/yatm-*-dev.jar
-    build/libs/yatm-*-javadoc.jar
-    build/libs/yatm-*-release.jar
-    build/libs/yatm-*-sources.jar
-  skip_cleanup: true
+    - build/libs/yatm-*-api.jar
+    - build/libs/yatm-*-dev.jar
+    - build/libs/yatm-*-javadoc.jar
+    - build/libs/yatm-*-release.jar
+    - build/libs/yatm-*-sources.jar
   on:
+    repo: IceDragon200/YATM
     tags: true
