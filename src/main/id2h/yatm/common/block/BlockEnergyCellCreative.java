@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,8 +43,15 @@ public class BlockEnergyCellCreative extends BlockEnergyCell
 	}
 
 	@Override
-	protected void restoreBlockStateFromItemStack(World world, int x, int y, int z, ItemStack stack)
+	protected boolean shouldRestoreBlockState(World world, int x, int y, int z, ItemStack stack)
 	{
+		return false;
+	}
+
+	@Override
+	protected boolean dropsTileStack(World world, int x, int y, int z, int metadata, int fortune)
+	{
+		return false;
 	}
 
 	@Override

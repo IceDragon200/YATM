@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.block;
+package id2h.yatm.common.item;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.block.Block;
 
-public abstract class YATMBlockBaseMachine extends YATMBlockBaseTile
+public class ItemBlockMachine extends ItemBlockTileBase
 {
-	public YATMBlockBaseMachine(Material mat, Class<? extends TileEntity> klass)
+	public ItemBlockMachine(Block block)
 	{
-		super(mat, klass);
-	}
-
-	@Override
-	protected boolean shouldRestoreBlockState(World world, int x, int y, int z, ItemStack stack)
-	{
-		return true;
-	}
-
-	@Override
-	protected boolean dropsTileStack(World world, int x, int y, int z, int metadata, int fortune)
-	{
-		return true;
+		super(block);
 	}
 }

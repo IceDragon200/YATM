@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.block;
+package id2h.yatm.common.item;
 
-import net.minecraft.block.material.Material;
+import growthcraft.api.core.nbt.NBTHelper;
+import growthcraft.core.common.item.IItemTileBlock;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class YATMBlockBaseMachine extends YATMBlockBaseTile
+public class ItemBlockTileBase extends ItemBlock implements IItemTileBlock
 {
-	public YATMBlockBaseMachine(Material mat, Class<? extends TileEntity> klass)
+	public ItemBlockTileBase(Block block)
 	{
-		super(mat, klass);
+		super(block);
 	}
 
 	@Override
-	protected boolean shouldRestoreBlockState(World world, int x, int y, int z, ItemStack stack)
+	public NBTTagCompound getTileTagCompound(ItemStack stack)
 	{
-		return true;
+		final NBTTagCompound tag = NBTHelper.openItemStackTag(stack);
+		if (tag.hasKey("tiledata"))
+		{
+			return tag.getCompoundTag("tiledata");
+		}
+		return null;
 	}
 
 	@Override
-	protected boolean dropsTileStack(World world, int x, int y, int z, int metadata, int fortune)
+	public void setTileTagCompound(ItemStack stack, NBTTagCompound tileTag)
 	{
-		return true;
+		final NBTTagCompound tag = NBTHelper.openItemStackTag(stack);
+		tag.setTag("tiledata", tileTag);
 	}
 }

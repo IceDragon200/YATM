@@ -24,12 +24,26 @@
 package id2h.yatm.common.block;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public abstract class YATMBlockBaseGenerator extends YATMBlockBaseTile
 {
 	public YATMBlockBaseGenerator(Material mat, Class<? extends TileEntity> klass)
 	{
 		super(mat, klass);
+	}
+
+	@Override
+	protected boolean shouldRestoreBlockState(World world, int x, int y, int z, ItemStack stack)
+	{
+		return true;
+	}
+
+	@Override
+	protected boolean dropsTileStack(World world, int x, int y, int z, int metadata, int fortune)
+	{
+		return true;
 	}
 }

@@ -51,7 +51,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 	}
 
 	@Override
-	public boolean canRotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	public boolean isRotatable(IBlockAccess world, int x, int y, int z, ForgeDirection side)
 	{
 		return false;
 	}

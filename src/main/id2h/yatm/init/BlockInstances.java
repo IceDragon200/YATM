@@ -47,6 +47,7 @@ import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
 import id2h.yatm.common.definition.BlockDecorativeDefinition;
 import id2h.yatm.common.item.ItemBlockEnergyCell;
+import id2h.yatm.common.item.ItemBlockMachine;
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
@@ -201,8 +202,6 @@ public class BlockInstances extends GrcModuleBase
 	{
 		chassis.register("yatm.BlockChassis");
 
-		solarPanel.register("yatm.BlockSolarPanel");
-
 		energyCellBasic.register("yatm.BlockEnergyCellBasic", ItemBlockEnergyCell.class);
 		energyCellBasicCreative.register("yatm.BlockEnergyCellBasicCreative");
 		energyCellNormal.register("yatm.BlockEnergyCellNormal", ItemBlockEnergyCell.class);
@@ -210,17 +209,18 @@ public class BlockInstances extends GrcModuleBase
 		energyCellDense.register("yatm.BlockEnergyCellDense", ItemBlockEnergyCell.class);
 		energyCellDenseCreative.register("yatm.BlockEnergyCellDenseCreative");
 
-		autoCrafter.register("yatm.BlockAutoCrafter");
-		autoGrinder.register("yatm.BlockAutoGrinder");
-		coalGenerator.register("yatm.BlockCoalGenerator");
-		compactor.register("yatm.BlockCompactor");
-		crusher.register("yatm.BlockCrusher");
-		electrolyser.register("yatm.BlockElectrolyser");
-		fluxFurnace.register("yatm.BlockFluxFurnace");
-		heater.register("yatm.BlockHeater");
-		miniBlastFurnace.register("yatm.BlockMiniBlastFurnace");
-		mixer.register("yatm.BlockMixer");
-		roller.register("yatm.BlockRoller");
+		autoCrafter.register("yatm.BlockAutoCrafter", ItemBlockMachine.class);
+		autoGrinder.register("yatm.BlockAutoGrinder", ItemBlockMachine.class);
+		coalGenerator.register("yatm.BlockCoalGenerator", ItemBlockMachine.class);
+		compactor.register("yatm.BlockCompactor", ItemBlockMachine.class);
+		crusher.register("yatm.BlockCrusher", ItemBlockMachine.class);
+		electrolyser.register("yatm.BlockElectrolyser", ItemBlockMachine.class);
+		fluxFurnace.register("yatm.BlockFluxFurnace", ItemBlockMachine.class);
+		heater.register("yatm.BlockHeater", ItemBlockMachine.class);
+		miniBlastFurnace.register("yatm.BlockMiniBlastFurnace", ItemBlockMachine.class);
+		mixer.register("yatm.BlockMixer", ItemBlockMachine.class);
+		roller.register("yatm.BlockRoller", ItemBlockMachine.class);
+		solarPanel.register("yatm.BlockSolarPanel", ItemBlockMachine.class);
 
 		floorEngraving1.register("yatm.BlockFloorEngraving1");
 		floorEngraving2.register("yatm.BlockFloorEngraving2");

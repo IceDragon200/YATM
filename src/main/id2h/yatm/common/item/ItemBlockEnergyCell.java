@@ -29,11 +29,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemBlockEnergyCell extends ItemBlock
+public class ItemBlockEnergyCell extends ItemBlockTileBase
 {
 	public ItemBlockEnergyCell(Block block)
 	{

@@ -23,11 +23,9 @@
  */
 package id2h.yatm.common.block;
 
-import java.util.Random;
-
+import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.api.core.util.BlockFlags;
-import growthcraft.core.util.ItemUtils;
-import id2h.yatm.common.tileentity.YATMBaseTile;
+import growthcraft.core.common.block.GrcBlockContainer;
 import id2h.yatm.common.tileentity.YATMEnergyProviderTile;
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.BlockSides;
@@ -40,29 +38,28 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class YATMBlockBaseTile extends Block implements ITileEntityProvider
+public abstract class YATMBlockBaseTile extends GrcBlockContainer
 {
 	@SideOnly(Side.CLIENT)
 	protected FlippableIcon[] icons;
 
-	protected Random rand = new Random();
 	protected GuiType guiType;
 	protected Class<? extends TileEntity> tileEntityType;
 
@@ -72,7 +69,7 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		setStepSound(Block.soundTypeStone);
 		setHardness(4.0F);
 		setCreativeTab(CreativeTabsYATM.instance());
-		this.tileEntityType = klass;
+		setTileEntityType(klass);
 	}
 
 	protected void setGuiType(GuiType type)
@@ -85,30 +82,47 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		return guiType;
 	}
 
-	public boolean canRotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	@Override
+	protected ItemStack createStackedBlock(int metadata)
+	{
+		final Item item = Item.getItemFromBlock(this);
+		return new ItemStack(item, 1, 0);
+	}
+
+	@Override
+	protected ItemStack createHarvestedBlockItemStack(World world, EntityPlayer player, int x, int y, int z, int meta)
+	{
+		final ItemStack stack = this.createStackedBlock(meta);
+		final TileEntity te = getTileEntity(world, x, y, z);
+		if (te instanceof INBTItemSerializable)
+		{
+			final NBTTagCompound tag = new NBTTagCompound();
+			((INBTItemSerializable)te).writeToNBTForItem(tag);
+			setTileTagCompound(world, x, y, z, stack, tag);
+		}
+		return stack;
+	}
+
+	@Override
+	public boolean isRotatable(IBlockAccess world, int x, int y, int z, ForgeDirection side)
 	{
 		return true;
 	}
 
 	@Override
-	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side)
+	public void doRotateBlock(World world, int x, int y, int z, ForgeDirection side)
 	{
-		if (canRotateBlock(world, x, y, z, side))
-		{
-			final int meta = world.getBlockMetadata(x, y, z);
-			final int orn = meta & 3;
-			final int extflag = meta & 12;
-			// first normalize the orientation and then get its clockwise direction
-			final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
-			world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.SYNC);
-			return true;
-		}
-		return false;
+		final int meta = world.getBlockMetadata(x, y, z);
+		final int orn = meta & 3;
+		final int extflag = meta & 12;
+		// first normalize the orientation and then get its clockwise direction
+		final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
+		world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.SYNC);
 	}
 
 	protected void placeBlockByDirection(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
-		if (canRotateBlock(world, x, y, z, ForgeDirection.UNKNOWN))
+		if (isRotatable(world, x, y, z, ForgeDirection.UNKNOWN))
 		{
 			final int l = MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 
@@ -122,32 +136,17 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		}
 	}
 
-	protected void restoreBlockStateFromItemStack(World world, int x, int y, int z, ItemStack stack)
-	{
-		if (world.isRemote) return;
-		if (stack == null) return;
-		final TileEntity te = getTileEntity(world, x, y, z);
-		if (te != null && te instanceof YATMBaseTile)
-		{
-			final NBTTagCompound tag = stack.getTagCompound();
-			if (tag != null && tag.hasKey("tiledata"))
-			{
-				((YATMBaseTile)te).readFromNBTForItem(tag.getCompoundTag("tiledata"));
-			}
-		}
-	}
-
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
 		super.onBlockPlacedBy(world, x, y, z, entity, stack);
 		placeBlockByDirection(world, x, y, z, entity, stack);
-		restoreBlockStateFromItemStack(world, x, y, z, stack);
 	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
+		super.onNeighborBlockChange(world, x, y, z, block);
 		if (world.isRemote) return;
 
 		final TileEntity te = getTileEntity(world, x, y, z);
@@ -238,67 +237,8 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 		}
 	}
 
-	public <T extends TileEntity> T getTileEntity(World world, int x, int y, int z)
+	protected boolean tryOpenGui(World world, int x, int y, int z, EntityPlayer p, int side)
 	{
-		final TileEntity te = world.getTileEntity(x, y, z);
-		if (te != null)
-		{
-			if (tileEntityType.isInstance(te))
-			{
-				return (T)te;
-			}
-			else
-			{
-				// warn
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Drops the block as an item and replaces it with air
-	 *
-	 * @param world - world to drop in
-	 * @param x - x Coord
-	 * @param y - y Coord
-	 * @param z - z Coord
-	 */
-	public void fellBlockAsItem(World world, int x, int y, int z)
-	{
-		dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-		world.setBlockToAir(x, y, z);
-	}
-
-	public boolean wrenchBlock(World world, int x, int y, int z, EntityPlayer player, ItemStack wrench)
-	{
-		if (player != null)
-		{
-			if (ItemUtils.canWrench(wrench, player, x, y, z))
-			{
-				if (player.isSneaking())
-				{
-					if (!world.isRemote)
-					{
-						fellBlockAsItem(world, x, y, z);
-						ItemUtils.wrenchUsed(wrench, player, x, y, z);
-					}
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean tryWrenchItem(EntityPlayer player, World world, int x, int y, int z)
-	{
-		if (player == null) return false;
-		final ItemStack is = player.inventory.getCurrentItem();
-		return wrenchBlock(world, x, y, z, player, is);
-	}
-
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer p, int side, float hitX, float hitY, float hitZ)
-	{
-		if (tryWrenchItem(p, world, x, y, z)) return true;
 		if (getGuiType() != null)
 		{
 			final TileEntity te = this.getTileEntity(world, x, y, z);
@@ -312,48 +252,10 @@ public abstract class YATMBlockBaseTile extends Block implements ITileEntityProv
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int unused)
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer p, int side, float hitX, float hitY, float hitZ)
 	{
-		if (tileEntityType != null)
-		{
-			try
-			{
-				return tileEntityType.newInstance();
-			}
-			catch (InstantiationException e)
-			{
-				throw new IllegalStateException("Failed to create a new instance of an illegal class " + this.tileEntityType, e);
-			}
-			catch (IllegalAccessException e)
-			{
-				throw new IllegalStateException("Failed to create a new instance of " + this.tileEntityType + ", because lack of permissions", e);
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int par6)
-	{
-		final TileEntity te = getTileEntity(world, x, y, z);
-		if (te instanceof IInventory)
-		{
-			final IInventory inv = (IInventory)te;
-			for (int i1 = 0; i1 < inv.getSizeInventory(); ++i1)
-			{
-				final ItemStack itemstack = inv.getStackInSlot(i1);
-				ItemUtils.spawnBrokenItemStack(world, x, y, z, itemstack, rand);
-			}
-		}
-
-		super.breakBlock(world, x, y, z, block, par6);
-	}
-
-	@Override
-	public boolean onBlockEventReceived(World world, int x, int y, int z, int a, int b)
-	{
-		super.onBlockEventReceived(world, x, y, z, a, b);
-		final TileEntity tileentity = world.getTileEntity(x, y, z);
-		return tileentity != null ? tileentity.receiveClientEvent(a, b) : false;
+		if (super.onBlockActivated(world, x, y, z, p, side, hitX, hitY, hitZ)) return true;
+		if (tryOpenGui(world, x, y, z, p, side)) return true;
+		return false;
 	}
 }
