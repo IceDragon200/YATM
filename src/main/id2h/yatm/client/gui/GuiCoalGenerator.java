@@ -33,16 +33,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiCoalGenerator extends YATMPoweredGuiContainer
+public class GuiCoalGenerator extends YATMPoweredGuiContainer<ContainerCoalGenerator, TileEntityCoalGenerator>
 {
 	protected TileEntityCoalGenerator tileEntity;
 
 	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator generator)
 	{
-		super(new ContainerCoalGenerator(playerInventory, generator), generator);
+		super(new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png"), new ContainerCoalGenerator(playerInventory, generator), generator);
 		this.tileEntity = generator;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png");
 	}
 
 	@Override

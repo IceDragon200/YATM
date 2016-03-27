@@ -33,16 +33,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiMiniBlastFurnace extends YATMMachineGuiContainer
+public class GuiMiniBlastFurnace extends YATMMachineGuiContainer<ContainerMiniBlastFurnace, TileEntityMiniBlastFurnace>
 {
 	protected TileEntityMiniBlastFurnace tileEntity;
 
 	public GuiMiniBlastFurnace(IInventory playerInventory, TileEntityMiniBlastFurnace miniBlastFurnace)
 	{
-		super(new ContainerMiniBlastFurnace(playerInventory, miniBlastFurnace), miniBlastFurnace);
+		super(new ResourceLocation("yatm", "textures/gui/GuiMiniBlastFurnace.png"), new ContainerMiniBlastFurnace(playerInventory, miniBlastFurnace), miniBlastFurnace);
 		this.tileEntity = miniBlastFurnace;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiMiniBlastFurnace.png");
 	}
 
 	@Override

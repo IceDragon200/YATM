@@ -33,16 +33,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiCompactor extends YATMMachineGuiContainer
+public class GuiCompactor extends YATMMachineGuiContainer<ContainerCompactor, TileEntityCompactor>
 {
 	protected TileEntityCompactor tileEntity;
 
 	public GuiCompactor(IInventory playerInventory, TileEntityCompactor compactor)
 	{
-		super(new ContainerCompactor(playerInventory, compactor), compactor);
+		super(new ResourceLocation("yatm", "textures/gui/GuiCompactor.png"), new ContainerCompactor(playerInventory, compactor), compactor);
 		this.tileEntity = compactor;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiCompactor.png");
 	}
 
 	@Override

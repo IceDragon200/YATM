@@ -30,16 +30,17 @@ import id2h.yatm.common.tileentity.YATMPoweredTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public abstract class YATMPoweredGuiContainer extends YATMGuiContainer
+public abstract class YATMPoweredGuiContainer<C extends Container, T extends YATMPoweredTile> extends YATMGuiContainer<C, T>
 {
-	protected YATMPoweredTile poweredTile;
+	protected T poweredTile;
 
-	public YATMPoweredGuiContainer(Container container, YATMPoweredTile te)
+	public YATMPoweredGuiContainer(ResourceLocation res, C container, T te)
 	{
-		super(container, te);
+		super(res, container, te);
 		this.poweredTile = te;
 	}
 
@@ -61,7 +62,7 @@ public abstract class YATMPoweredGuiContainer extends YATMGuiContainer
 	}
 
 	@Override
-	protected void addTooltips(String handle, List<String> tooltip)
+	public void addTooltips(String handle, List<String> tooltip)
 	{
 		super.addTooltips(handle, tooltip);
 		switch (handle)

@@ -33,16 +33,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiAutoCrafter extends YATMMachineGuiContainer
+public class GuiAutoCrafter extends YATMMachineGuiContainer<ContainerAutoCrafter, TileEntityAutoCrafter>
 {
 	protected TileEntityAutoCrafter tileEntity;
 
 	public GuiAutoCrafter(InventoryPlayer playerInventory, TileEntityAutoCrafter crafter)
 	{
-		super(new ContainerAutoCrafter(playerInventory, crafter), crafter);
+		super(new ResourceLocation("yatm", "textures/gui/GuiAutoCrafter.png"), new ContainerAutoCrafter(playerInventory, crafter), crafter);
 		this.tileEntity = crafter;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiAutoCrafter.png");
 	}
 
 	@Override

@@ -28,15 +28,16 @@ import id2h.yatm.common.tileentity.YATMPoweredMachine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public abstract class YATMMachineGuiContainer extends YATMPoweredGuiContainer
+public abstract class YATMMachineGuiContainer<C extends Container, T extends YATMPoweredMachine> extends YATMPoweredGuiContainer<C, T>
 {
-	protected YATMPoweredMachine machineTile;
+	protected T machineTile;
 
-	public YATMMachineGuiContainer(Container container, YATMPoweredMachine pMachine)
+	public YATMMachineGuiContainer(ResourceLocation res, C container, T pMachine)
 	{
-		super(container, pMachine);
+		super(res, container, pMachine);
 		this.machineTile = pMachine;
 	}
 }

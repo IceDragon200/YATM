@@ -33,16 +33,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiMixer extends YATMMachineGuiContainer
+public class GuiMixer extends YATMMachineGuiContainer<ContainerMixer, TileEntityMixer>
 {
 	protected TileEntityMixer tileEntity;
 
 	public GuiMixer(IInventory playerInventory, TileEntityMixer mixer)
 	{
-		super(new ContainerMixer(playerInventory, mixer), mixer);
+		super(new ResourceLocation("yatm", "textures/gui/GuiMixer.png"), new ContainerMixer(playerInventory, mixer), mixer);
 		this.tileEntity = mixer;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiMixer.png");
 	}
 
 	@Override

@@ -33,16 +33,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiCrusher extends YATMMachineGuiContainer
+public class GuiCrusher extends YATMMachineGuiContainer<ContainerCrusher, TileEntityCrusher>
 {
 	protected TileEntityCrusher tileEntity;
 
 	public GuiCrusher(IInventory playerInventory, TileEntityCrusher crusher)
 	{
-		super(new ContainerCrusher(playerInventory, crusher), crusher);
+		super(new ResourceLocation("yatm", "textures/gui/GuiCrusher.png"), new ContainerCrusher(playerInventory, crusher), crusher);
 		this.tileEntity = crusher;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiCrusher.png");
 	}
 
 	@Override

@@ -25,7 +25,6 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerElectrolyser;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
-import growthcraft.core.util.RenderUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,26 +32,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiElectrolyser extends YATMMachineGuiContainer
+public class GuiElectrolyser extends YATMMachineGuiContainer<ContainerElectrolyser, TileEntityElectrolyser>
 {
 	protected TileEntityElectrolyser tileEntity;
 
 	public GuiElectrolyser(IInventory playerInventory, TileEntityElectrolyser electrolyser)
 	{
-		super(new ContainerElectrolyser(playerInventory, electrolyser), electrolyser);
+		super(new ResourceLocation("yatm", "textures/gui/GuiElectrolyser.png"), new ContainerElectrolyser(playerInventory, electrolyser), electrolyser);
 		this.tileEntity = electrolyser;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiElectrolyser.png");
-	}
-
-	@Override
-	public void drawGuiContainerBackgroundPanel(float _f, int x, int y)
-	{
-		super.drawGuiContainerBackgroundPanel(_f, x, y);
-		RenderUtils.resetColor();
-		bindTexture(guiResource);
-		final int x1 = (width - xSize) / 2;
-		final int y1 = (height - ySize) / 2;
-		drawTexturedModalRect(x1, y1, 0, 0, xSize, ySize);
 	}
 }

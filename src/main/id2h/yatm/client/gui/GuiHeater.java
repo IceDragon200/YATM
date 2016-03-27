@@ -32,15 +32,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiHeater extends YATMMachineGuiContainer
+public class GuiHeater extends YATMMachineGuiContainer<ContainerHeater, TileEntityHeater>
 {
 	protected TileEntityHeater tileEntity;
 
 	public GuiHeater(IInventory playerInventory, TileEntityHeater heater)
 	{
-		super(new ContainerHeater(playerInventory, heater), heater);
+		super(new ResourceLocation("yatm", "textures/gui/GuiHeater.png"), new ContainerHeater(playerInventory, heater), heater);
 		this.tileEntity = heater;
 		this.ySize = 176;
-		this.guiResource = new ResourceLocation("yatm", "textures/gui/GuiHeater.png");
 	}
 }
