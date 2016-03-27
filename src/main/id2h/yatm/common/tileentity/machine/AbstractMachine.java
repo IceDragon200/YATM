@@ -103,6 +103,12 @@ public abstract class AbstractMachine implements IMachineLogic
 	}
 
 	@Override
+	public int getWorkingThreshold(MachineUpdateState state)
+	{
+		return getWorkingPowerCost(state);
+	}
+
+	@Override
 	public boolean canWork(MachineUpdateState state)
 	{
 		return true;
@@ -127,7 +133,7 @@ public abstract class AbstractMachine implements IMachineLogic
 		{
 			YATMDebug.writeMachineState("Machine has awoken machine=" + this);
 		}
-		sleeping = false;
+		this.sleeping = false;
 	}
 
 	protected void gotoSleep()
@@ -136,7 +142,7 @@ public abstract class AbstractMachine implements IMachineLogic
 		{
 			YATMDebug.writeMachineState("Machine has gone to sleep machine=" + this);
 		}
-		sleeping = true;
+		this.sleeping = true;
 	}
 
 	protected void updateMachineNotEnoughPower(MachineUpdateState state)
@@ -147,7 +153,8 @@ public abstract class AbstractMachine implements IMachineLogic
 	protected void updateMachineForWork(MachineUpdateState state)
 	{
 		final int workingCost = getWorkingPowerCost(state);
-		if (state.energyStorage.getEnergyStored() >= (state.energyConsumed + workingCost))
+		final int workingThreshold = getWorkingThreshold(state);
+		if (state.energyStorage.getEnergyStored() >= (state.energyConsumed + workingThreshold))
 		{
 			if (canWork(state))
 			{

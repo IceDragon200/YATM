@@ -28,13 +28,14 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
 import cofh.api.energy.IEnergyReceiver;
+import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyReceiver
+public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyReceiver, INBTItemSerializable
 {
 	protected YATMEnergyStorage energyStorage;
 

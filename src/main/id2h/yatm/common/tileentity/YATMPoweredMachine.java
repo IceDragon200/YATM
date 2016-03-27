@@ -140,9 +140,11 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		if (machine instanceof IProgressiveMachine)
 		{
 			final IProgressiveMachine progMachine = (IProgressiveMachine)machine;
-			icrafting.sendProgressBarUpdate(container, 0, (int)progMachine.getProgress());
-			icrafting.sendProgressBarUpdate(container, 1, (int)progMachine.getProgressMax());
+			icrafting.sendProgressBarUpdate(container, 100, (int)progMachine.getProgress());
+			icrafting.sendProgressBarUpdate(container, 101, (int)progMachine.getProgressMax());
 		}
+		icrafting.sendProgressBarUpdate(container, 200, energyStorage.getMaxEnergyStored());
+		icrafting.sendProgressBarUpdate(container, 201, energyStorage.getEnergyStored());
 	}
 
 	@Override
@@ -153,16 +155,24 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 			final IProgressiveMachine progMachine = (IProgressiveMachine)machine;
 			switch (id)
 			{
-				case 0:
+				case 100:
 					progMachine.setProgress((float)value);
 					break;
-				case 1:
+				case 101:
 					progMachine.setProgressMax((float)value);
 					break;
-				case 2:
 				default:
-					System.err.println("Invalid Network DATA class=" + this + " id=" + id);
 			}
+		}
+		switch (id)
+		{
+			case 200:
+				energyStorage.setCapacity(value);
+				break;
+			case 201:
+				energyStorage.setEnergyStored(value);
+				break;
+			default:
 		}
 	}
 

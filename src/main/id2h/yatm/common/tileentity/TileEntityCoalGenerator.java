@@ -29,6 +29,7 @@ import io.netty.buffer.ByteBuf;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
+import growthcraft.core.util.ItemUtils;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
@@ -96,7 +97,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 			{
 				--burnTime;
 				final int stored = energyStorage.getEnergyStored();
-				energyStorage.modifyEnergyStored(10);
+				energyStorage.modifyEnergyStored(5);
 				if (stored != energyStorage.getEnergyStored())
 				{
 					markForBlockUpdate();
@@ -113,7 +114,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 						if (burnTime > 0)
 						{
 							this.burnTimeMax = burnTime;
-							decrStackSize(0, 1);
+							setInventorySlotContents(0, ItemUtils.consumeStack(getStackInSlot(0)));
 							this.online = true;
 						}
 						else
@@ -122,16 +123,16 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 						}
 					}
 				}
+				this.idleTime = 5;
 			}
-			this.idleTime = 5;
 		}
 
 		if (lastOnline != online)
 		{
+			this.lastOnline = online;
 			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 3;
 			if (online) meta |= 4;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.UPDATE_AND_SYNC);
-			this.lastOnline = online;
 		}
 	}
 

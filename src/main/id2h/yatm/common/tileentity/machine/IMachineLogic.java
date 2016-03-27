@@ -23,12 +23,12 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import io.netty.buffer.ByteBuf;
+import growthcraft.api.core.nbt.INBTSerializableContext;
+import growthcraft.api.core.stream.IStreamable;
 
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public interface IMachineLogic
+public interface IMachineLogic extends INBTSerializableContext, IStreamable
 {
 	void updateMachine(MachineUpdateState state);
 
@@ -59,17 +59,19 @@ public interface IMachineLogic
 	int getWorkingPowerCost(MachineUpdateState state);
 
 	/**
+	 * How much power is required before the machine can work?
+	 *
+	 * @param state - machine state
+	 * @return power threshold
+	 */
+	int getWorkingThreshold(MachineUpdateState state);
+
+	/**
 	 * Called when the machine actually needs to do some work.
 	 *
 	 * @param state - machine state
 	 */
 	void doWork(MachineUpdateState state);
-
-	void readFromNBT(NBTTagCompound data, String name);
-	void writeToNBT(NBTTagCompound data, String name);
-
-	boolean readFromStream(ByteBuf stream);
-	boolean writeToStream(ByteBuf stream);
 
 	// Machines do not REQUIRE a TileEntity if they don't need access to the
 	// world around them, most machines can do without it.
