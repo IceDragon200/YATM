@@ -25,13 +25,12 @@ package id2h.yatm.common.item;
 
 import java.util.List;
 
-import id2h.yatm.YATM;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class ItemDust extends AbstractItemMaterial
@@ -42,22 +41,34 @@ public class ItemDust extends AbstractItemMaterial
 		setUnlocalizedName("yatm.ItemDust");
 	}
 
+	public EnumDust getDust(ItemStack stack)
+	{
+		return EnumDust.get(stack.getItemDamage());
+	}
+
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return super.getUnlocalizedName() + "." + getDust(stack).getCamelName();
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		icons = new IIcon[3];
-		icons[YATM.items.dustUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Dust.Uranium");
-		icons[YATM.items.dustPureUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Dust.PureUranium");
-		icons[YATM.items.dustPureRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.Dust.PureRedstone");
+		icons = new IIcon[EnumDust.VALUES.length];
+		for (EnumDust dust : EnumDust.VALUES)
+		{
+			icons[dust.meta] = ir.registerIcon(String.format("yatm:ItemMaterial.%s", dust.getDustName()));
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
-		itemStacks.add(YATM.items.dustUranium.asStack());
-		itemStacks.add(YATM.items.dustPureUranium.asStack());
-		itemStacks.add(YATM.items.dustPureRedstone.asStack());
+		for (EnumDust dust : EnumDust.VALUES)
+		{
+			itemStacks.add(dust.asStack());
+		}
 	}
 }

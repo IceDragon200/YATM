@@ -27,6 +27,7 @@ import growthcraft.api.core.item.ItemKey;
 import growthcraft.core.common.definition.ItemDefinition;
 import growthcraft.core.common.definition.ItemSubtypeDefinition;
 import growthcraft.core.common.GrcModuleBase;
+import id2h.yatm.common.item.EnumDust;
 import id2h.yatm.common.item.EnumPlate;
 import id2h.yatm.common.item.ItemCapacitor;
 import id2h.yatm.common.item.ItemCrystal;
@@ -50,11 +51,6 @@ public class ItemInstances extends GrcModuleBase
 	public ItemSubtypeDefinition crystalSeedRedstone;
 
 	public ItemDefinition dust;
-	public ItemSubtypeDefinition dustUranium;
-	public ItemSubtypeDefinition dustPureUranium;
-	public ItemSubtypeDefinition dustPureRedstone;
-	public ItemSubtypeDefinition dustCarbonSteel;
-	public ItemSubtypeDefinition dustCrystalSteel;
 
 	public ItemDefinition ingot;
 	public ItemSubtypeDefinition ingotUranium;
@@ -88,12 +84,6 @@ public class ItemInstances extends GrcModuleBase
 	{
 		crystalSeedUranium = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[0]);
 		crystalSeedRedstone = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[1]);
-
-		dustUranium = new ItemSubtypeDefinition(dust, 0);
-		dustPureUranium = new ItemSubtypeDefinition(dust, 1);
-		dustPureRedstone = new ItemSubtypeDefinition(dust, 2);
-		dustCarbonSteel = new ItemSubtypeDefinition(dust, 3);
-		dustCrystalSteel = new ItemSubtypeDefinition(dust, 4);
 
 		ingotUranium = new ItemSubtypeDefinition(ingot, 0);
 		ingotPureUranium = new ItemSubtypeDefinition(ingot, 1);
@@ -141,11 +131,11 @@ public class ItemInstances extends GrcModuleBase
 		GameRegistry.registerItem(mesh.getItem(), "yatm.ItemMesh");
 		GameRegistry.registerItem(plate.getItem(), "yatm.ItemPlate");
 
-		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), dustPureUranium.asStack(1), 4);
-		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), dustPureRedstone.asStack(1), 4);
+		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), EnumDust.URANIUM.asStack(1), 4);
+		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), EnumDust.PURE_REDSTONE.asStack(1), 4);
 
-		GameRegistry.addSmelting(dustUranium.asStack(), ingotUranium.asStack(), 0);
-		GameRegistry.addSmelting(dustPureUranium.asStack(), ingotPureUranium.asStack(), 0);
+		GameRegistry.addSmelting(EnumDust.URANIUM.asStack(), ingotUranium.asStack(), 0);
+		GameRegistry.addSmelting(EnumDust.PURE_URANIUM.asStack(), ingotPureUranium.asStack(), 0);
 
 		OreDictionary.registerOre("materialCapacitor", capacitorIron.asStack());
 		OreDictionary.registerOre("materialCapacitor", capacitorGold.asStack());
@@ -174,12 +164,10 @@ public class ItemInstances extends GrcModuleBase
 			OreDictionary.registerOre(String.format("materialPlate%s", eplate.getCamelName()), eplate.asStack());
 		}
 
-		OreDictionary.registerOre("dustUranium", dustUranium.asStack());
-		OreDictionary.registerOre("dustPureUranium", dustPureUranium.asStack());
-		OreDictionary.registerOre("dustPureRedstone", dustPureRedstone.asStack());
-		OreDictionary.registerOre("dustSteel", dustCarbonSteel.asStack());
-		OreDictionary.registerOre("dustCarbonSteel", dustCarbonSteel.asStack());
-		OreDictionary.registerOre("dustCrystalSteel", dustCrystalSteel.asStack());
+		for (EnumDust edust : EnumDust.VALUES)
+		{
+			OreDictionary.registerOre(String.format("dust%s", edust.getCamelName()), edust.asStack());
+		}
 
 		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());
 		OreDictionary.registerOre("ingotPureUranium", ingotPureUranium.asStack());
