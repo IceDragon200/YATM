@@ -40,6 +40,7 @@ public abstract class AbstractItemMaterial extends Item
 	{
 		super();
 		setHasSubtypes(true);
+		setMaxDamage(0);
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
