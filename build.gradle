@@ -37,11 +37,14 @@ archivesBaseName = "yatm"
 // 3rd party APIs
 ext.cofhApiExclusionPattern = "**/api/cofh/**"
 
-ext.thaumcraftApi = "api/thaumcraft/api"
+ext.mfrApi = "sub/Growthcraft/api/powercrystals/minefactoryreloaded/api"
+ext.mfrApiExclusionPattern = "**/powercrystals/minefactoryreloaded/api/**"
+
+ext.thaumcraftApi = "sub/Growthcraft/api/thaumcraft/api"
 ext.thaumcraftApiExclusionPattern = "**/thaumcraft/api/**"
 
-ext.forestryApiRoot = "api/ForestryAPI"
-ext.forestryApi = "api/ForestryAPI/forestry/api"
+ext.forestryApiRoot = "sub/Growthcraft/api/ForestryAPI"
+ext.forestryApi = "sub/Growthcraft/api/ForestryAPI/forestry/api"
 ext.forestryApiExclusionPattern = "**/forestry/api/**"
 
 minecraft {
@@ -127,6 +130,7 @@ sourceSets {
             srcDir 'api'
             srcDir project.forestryApi
             srcDir project.thaumcraftApi
+            srcDir project.mfrApi
         }
     }
 }
@@ -162,6 +166,7 @@ task sourceJar(type: Jar) {
     from(sourceSets.api.allSource) {
         exclude project.forestryApiExclusionPattern
         exclude project.thaumcraftApiExclusionPattern
+        exclude project.mfrApiExclusionPattern
     }
     classifier = 'sources'
 }
@@ -173,6 +178,7 @@ javadoc {
     exclude project.cofhApiExclusionPattern
     exclude project.thaumcraftApiExclusionPattern
     exclude project.forestryApiExclusionPattern
+    exclude project.mfrApiExclusionPattern
 
     failOnError = false
 }
@@ -192,6 +198,7 @@ task deobfJar(type: Jar) {
     from(sourceSets.api.output) {
         exclude project.forestryApiExclusionPattern
         exclude project.thaumcraftApiExclusionPattern
+        exclude project.mfrApiExclusionPattern
     }
     // Only include the thaumcraft LICENSE
     into("thaumcraft/api") {
@@ -206,6 +213,7 @@ task apiJar(type: Jar) {
     from(sourceSets.api.output) {
         exclude project.forestryApiExclusionPattern
         exclude project.thaumcraftApiExclusionPattern
+        exclude project.mfrApiExclusionPattern
     }
     classifier = "api"
 }
@@ -217,6 +225,7 @@ jar {
     from(sourceSets.api.output) {
         exclude project.forestryApiExclusionPattern
         exclude project.thaumcraftApiExclusionPattern
+        exclude project.mfrApiExclusionPattern
     }
 
     // Only include the thaumcraft LICENSE
