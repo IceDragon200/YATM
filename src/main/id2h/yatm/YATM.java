@@ -234,7 +234,7 @@ public class YATM
 		YATMApi.instance().blasting().addBlasting(
 			EnumPlate.ENERGIZED.asStack(1),
 			new OreItemStacks("dustPureRedstone", 4),
-			new OreItemStacks("plateIron", 1),
+			new OreItemStacks("materialPlateIron", 1),
 			TickUtils.seconds(10),
 			400
 		);
@@ -242,7 +242,7 @@ public class YATM
 		YATMApi.instance().blasting().addBlasting(
 			EnumPlate.PHOTOVOLTAIC.asStack(1),
 			new OreItemStacks(EnumDye.BLUE.getOreName(), 4),
-			new OreItemStacks("plateEnergized", 1),
+			new OreItemStacks("materialPlateEnergized", 1),
 			TickUtils.seconds(10),
 			400
 		);
@@ -503,7 +503,7 @@ public class YATM
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.solarPanel.asStack(),
 			"YYY",
 			"III",
-			'Y', "platePhotovoltaic",
+			'Y', "materialPlatePhotovoltaic",
 			'I', "materialPlateIron"
 		));
 
