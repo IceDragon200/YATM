@@ -23,12 +23,40 @@
  */
 package id2h.yatm.common.item;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemBlockMachine extends ItemBlockTileBase
 {
 	public ItemBlockMachine(Block block)
 	{
 		super(block);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		super.addInformation(stack, player, list, bool);
+		final NBTTagCompound tag = stack.getTagCompound();
+		if (tag != null)
+		{
+			if (tag.hasKey("tiledata"))
+			{
+				final NBTTagCompound tdTag = tag.getCompoundTag("tiledata");
+				if (tag.hasKey("energy"))
+				{
+					final NBTTagCompound energyTag = tdTag.getCompoundTag("energy");
+					list.add("Energy Stored: " + energyTag.getInteger("Energy") + "RF");
+				}
+			}
+		}
 	}
 }
