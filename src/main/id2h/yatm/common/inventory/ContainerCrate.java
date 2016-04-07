@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.block;
+package id2h.yatm.common.inventory;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
+import id2h.yatm.common.inventory.slot.SlotInputFuel;
 import id2h.yatm.common.tileentity.TileEntityCrate;
-import id2h.yatm.util.GuiType;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.inventory.IInventory;
 
-public class BlockMetalCrate extends YATMBlockBaseMachine
+public class ContainerCrate extends YATMTileContainer
 {
-	public BlockMetalCrate()
+	public ContainerCrate(IInventory playerInventory, TileEntityCrate gen)
 	{
-		super(Material.iron, TileEntityCrate.class);
-		setStepSound(Block.soundTypeStone);
-		setHardness(2.0F);
-		setResistance(5.0F);
-		setBlockName("yatm.BlockMetalCrate");
-		setBlockTextureName("yatm:BlockMetalCrate");
-		setGuiType(GuiType.CRATE);
+		super(gen);
+
+		addSlotToContainer(new SlotInputFuel(gen, 0, 80, 56));
+
+		bindPlayerInventory(playerInventory, 8, 94);
 	}
 }

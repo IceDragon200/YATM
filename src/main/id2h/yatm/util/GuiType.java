@@ -29,6 +29,7 @@ import id2h.yatm.common.inventory.ContainerAutoCrafter;
 import id2h.yatm.common.inventory.ContainerAutoGrinder;
 import id2h.yatm.common.inventory.ContainerCoalGenerator;
 import id2h.yatm.common.inventory.ContainerCompactor;
+import id2h.yatm.common.inventory.ContainerCrate;
 import id2h.yatm.common.inventory.ContainerCrusher;
 import id2h.yatm.common.inventory.ContainerElectrolyser;
 import id2h.yatm.common.inventory.ContainerFluxFurnace;
@@ -41,6 +42,7 @@ import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
+import id2h.yatm.common.tileentity.TileEntityCrate;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
@@ -63,6 +65,7 @@ public enum GuiType
 	//NULL,
 	AUTO_CRAFTER(ContainerAutoCrafter.class, TileEntityAutoCrafter.class),
 	AUTO_GRINDER(ContainerAutoGrinder.class, TileEntityAutoGrinder.class),
+	CRATE(ContainerCrate.class, TileEntityCrate.class),
 	COMPACTOR(ContainerCompactor.class, TileEntityCompactor.class),
 	CRUSHER(ContainerCrusher.class, TileEntityCrusher.class),
 	ELECTROLYSER(ContainerElectrolyser.class, TileEntityElectrolyser.class),
