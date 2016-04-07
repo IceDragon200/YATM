@@ -499,7 +499,7 @@ public class YATM
 			'B', Blocks.brick_block
 		));
 
-		// Energy Cell Recipes
+		// Solar Panels
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.solarPanel.asStack(),
 			"YYY",
 			"III",
@@ -507,6 +507,14 @@ public class YATM
 			'I', "materialPlateIron"
 		));
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.solarPanel.asStack(),
+			"YYY",
+			"III",
+			'Y', "materialPlatePhotovoltaic",
+			'I', "materialPlateAluminum"
+		));
+
+		// Energy Cell Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.energyCellBasic.asStack(),
 			"YIY",
 			"ICI",
