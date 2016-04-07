@@ -36,6 +36,11 @@ public abstract class YATMBlockBaseMachine extends YATMBlockBaseTile
 	}
 
 	@Override
+	protected void scatterInventory(World world, int x, int y, int z, Block block)
+	{
+	}
+
+	@Override
 	protected boolean shouldRestoreBlockState(World world, int x, int y, int z, ItemStack stack)
 	{
 		return true;
