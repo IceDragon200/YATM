@@ -34,6 +34,7 @@ import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
+import id2h.yatm.util.YATMDebug;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -105,6 +106,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 			}
 			else
 			{
+				this.online = false;
 				if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored())
 				{
 					final ItemStack fuel = getStackInSlot(0);
@@ -119,7 +121,6 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 						}
 						else
 						{
-							this.online = false;
 						}
 					}
 				}
@@ -243,6 +244,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		this.idleTime = stream.readInt();
 		this.burnTime = stream.readInt();
 		this.burnTimeMax = stream.readInt();
+		this.online = stream.readBoolean();
 		return false;
 	}
 
@@ -252,6 +254,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		stream.writeInt(idleTime);
 		stream.writeInt(burnTime);
 		stream.writeInt(burnTimeMax);
+		stream.writeBoolean(online);
 		return false;
 	}
 
@@ -265,6 +268,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		this.idleTime = nbt.getInteger("idle_time");
 		this.burnTime = nbt.getInteger("burn_time");
 		this.burnTimeMax = nbt.getInteger("burn_time_max");
+		this.online = nbt.getBoolean("online");
 	}
 
 	@Override
@@ -293,6 +297,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		nbt.setInteger("idle_time", idleTime);
 		nbt.setInteger("burn_time", burnTime);
 		nbt.setInteger("burn_time_max", burnTimeMax);
+		nbt.setBoolean("online", online);
 	}
 
 	@Override
