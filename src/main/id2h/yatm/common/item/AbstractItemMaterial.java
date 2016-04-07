@@ -23,15 +23,15 @@
  */
 package id2h.yatm.common.item;
 
+import growthcraft.core.common.item.GrcItemBase;
 import id2h.yatm.creativetab.CreativeTabsYATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public abstract class AbstractItemMaterial extends Item
+public abstract class AbstractItemMaterial extends GrcItemBase
 {
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] icons;

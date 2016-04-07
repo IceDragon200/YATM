@@ -25,13 +25,13 @@ package id2h.yatm.common.item;
 
 import growthcraft.api.core.nbt.NBTHelper;
 import growthcraft.core.common.item.IItemTileBlock;
+import growthcraft.core.common.item.GrcItemBlockBase;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemBlockTileBase extends ItemBlock implements IItemTileBlock
+public class ItemBlockTileBase extends GrcItemBlockBase implements IItemTileBlock
 {
 	public ItemBlockTileBase(Block block)
 	{

@@ -24,10 +24,9 @@
 package id2h.yatm.common.item;
 
 import id2h.yatm.creativetab.CreativeTabsYATM;
+import growthcraft.core.common.item.GrcItemBase;
 
-import net.minecraft.item.Item;
-
-public class ItemMesh extends Item
+public class ItemMesh extends GrcItemBase
 {
 	public ItemMesh()
 	{
