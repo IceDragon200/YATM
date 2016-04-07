@@ -35,7 +35,7 @@ public class BlockChassis extends Block
 {
 	public BlockChassis()
 	{
-		super(Material.rock);
+		super(Material.iron);
 		setStepSound(Block.soundTypeStone);
 		setHardness(2.0F);
 		setResistance(5.0F);

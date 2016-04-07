@@ -31,7 +31,7 @@ public class BlockElectrolyser extends YATMBlockBaseMachine
 {
 	public BlockElectrolyser()
 	{
-		super(Material.rock, TileEntityElectrolyser.class);
+		super(Material.iron, TileEntityElectrolyser.class);
 		setBlockName("yatm.BlockElectrolyser");
 		setBlockTextureName("yatm:BlockElectrolyser");
 	}

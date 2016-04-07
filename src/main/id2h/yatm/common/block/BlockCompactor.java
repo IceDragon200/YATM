@@ -36,7 +36,7 @@ public class BlockCompactor extends YATMBlockBaseMachine
 {
 	public BlockCompactor()
 	{
-		super(Material.rock, TileEntityCompactor.class);
+		super(Material.iron, TileEntityCompactor.class);
 		setBlockName("yatm.BlockCompactor");
 		setBlockTextureName("yatm:BlockCompactor");
 		setGuiType(GuiType.COMPACTOR);

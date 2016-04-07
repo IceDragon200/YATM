@@ -37,7 +37,7 @@ public class BlockCoalGenerator extends YATMBlockBaseGenerator
 {
 	public BlockCoalGenerator()
 	{
-		super(Material.rock, TileEntityCoalGenerator.class);
+		super(Material.iron, TileEntityCoalGenerator.class);
 		setBlockName("yatm.BlockCoalGenerator");
 		setBlockTextureName("yatm:BlockCoalGenerator");
 		setGuiType(GuiType.COAL_GENERATOR);

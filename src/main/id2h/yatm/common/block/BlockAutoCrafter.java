@@ -32,7 +32,7 @@ public class BlockAutoCrafter extends YATMBlockBaseMachine
 {
 	public BlockAutoCrafter()
 	{
-		super(Material.rock, TileEntityAutoCrafter.class);
+		super(Material.iron, TileEntityAutoCrafter.class);
 		setBlockName("yatm.BlockAutoCrafter");
 		setBlockTextureName("yatm:BlockAutoCrafter");
 		setGuiType(GuiType.AUTO_CRAFTER);

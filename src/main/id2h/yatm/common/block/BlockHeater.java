@@ -34,7 +34,7 @@ public class BlockHeater extends YATMBlockBaseMachine
 {
 	public BlockHeater()
 	{
-		super(Material.rock, TileEntityHeater.class);
+		super(Material.iron, TileEntityHeater.class);
 		setBlockName("yatm.BlockHeater");
 		setBlockTextureName("yatm:BlockHeater");
 		setGuiType(GuiType.HEATER);

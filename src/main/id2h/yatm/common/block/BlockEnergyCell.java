@@ -45,7 +45,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 {
 	public BlockEnergyCell(String basename, Class<? extends TileEntityEnergyCell> tileentity)
 	{
-		super(Material.rock, tileentity);
+		super(Material.iron, tileentity);
 		setBlockName("yatm.BlockEnergyCell" + basename);
 		setBlockTextureName("yatm:BlockEnergyCell." + basename);
 	}
