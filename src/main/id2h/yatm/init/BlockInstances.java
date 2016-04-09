@@ -52,6 +52,7 @@ import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
+import id2h.yatm.common.tileentity.TileEntityCrate;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
 import id2h.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
@@ -241,6 +242,7 @@ public class BlockInstances extends GrcModuleBase
 		GameRegistry.registerTileEntity(TileEntityAutoGrinder.class, "yatm.tileentity.TileEntityAutoGrinder");
 		GameRegistry.registerTileEntity(TileEntityCoalGenerator.class, "yatm.tileentity.TileEntityCoalGenerator");
 		GameRegistry.registerTileEntity(TileEntityCompactor.class, "yatm.tileentity.TileEntityCompactor");
+		GameRegistry.registerTileEntity(TileEntityCrate.class, "yatm.tileentity.TileEntityCrate");
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellBasic.class, "yatm.tileentity.TileEntityCreativeEnergyCellBasic");
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellDense.class, "yatm.tileentity.TileEntityCreativeEnergyCellDense");
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellNormal.class, "yatm.tileentity.TileEntityCreativeEnergyCellNormal");
