@@ -388,6 +388,14 @@ public class YATM
 		));
 
 
+		// Metal Crate
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.metalCrate.asStack(),
+			" I ",
+			"I I",
+			" I ",
+			'I', "materialPlateIron"
+		));
+
 		// Machine Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.chassis.asStack(),
 			" I ",

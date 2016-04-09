@@ -23,34 +23,19 @@
  */
 package id2h.yatm.client.gui;
 
-import id2h.yatm.common.inventory.ContainerCoalGenerator;
-import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
-import growthcraft.core.util.RenderUtils;
-
+import id2h.yatm.common.inventory.ContainerCrate;
+import id2h.yatm.common.tileentity.TileEntityCrate;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class GuiCoalGenerator extends YATMPoweredGuiContainer<ContainerCoalGenerator, TileEntityCoalGenerator>
+public class GuiCrate extends YATMGuiContainer<ContainerCrate, TileEntityCrate>
 {
-	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator generator)
+	public GuiCrate(IInventory playerInventory, TileEntityCrate compactor)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png"), new ContainerCoalGenerator(playerInventory, generator), generator);
+		super(new ResourceLocation("yatm", "textures/gui/GuiCrate.png"), new ContainerCrate(playerInventory, compactor), compactor);
 		this.ySize = 176;
-	}
-
-	@Override
-	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
-	{
-		super.drawGuiContainerBackgroundElements(_f, x, y);
-		RenderUtils.resetColor();
-		bindTexture(guiResource);
-		final int x1 = (width - xSize) / 2;
-		final int y1 = (height - ySize) / 2;
-		final int mh = 14;
-		final int h = (int)(tileEntity.getBurnTimeRate() * mh);
-		drawTexturedModalRect(x1 + 81, y1 + 41 + mh - h, 176, mh - h, 14, h);
 	}
 }

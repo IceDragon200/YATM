@@ -35,12 +35,9 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiAutoGrinder extends YATMMachineGuiContainer<ContainerAutoGrinder, TileEntityAutoGrinder>
 {
-	protected TileEntityAutoGrinder tileEntity;
-
 	public GuiAutoGrinder(IInventory playerInventory, TileEntityAutoGrinder grinder)
 	{
 		super(new ResourceLocation("yatm", "textures/gui/GuiAutoGrinder.png"), new ContainerAutoGrinder(playerInventory, grinder), grinder);
-		this.tileEntity = grinder;
 		this.ySize = 176;
 	}
 

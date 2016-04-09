@@ -23,8 +23,49 @@
  */
 package id2h.yatm.common.tileentity;
 
+import growthcraft.core.common.inventory.GrcInternalInventory;
+import growthcraft.core.common.inventory.InventoryProcessor;
 import growthcraft.core.common.tileentity.GrcTileEntityInventoryBase;
+import id2h.yatm.common.inventory.YATMInternalInventory;
+
+import net.minecraft.item.ItemStack;
 
 public class TileEntityCrate extends GrcTileEntityInventoryBase
 {
+	private static final int[] primarySlots = new int[] { 0 };
+
+	@Override
+	protected GrcInternalInventory createInventory()
+	{
+		/**
+		 * Crates hold 2 chests worth of 1 item type
+		 */
+		return new YATMInternalInventory(this, 1, 54 * 64).setInventoryName("yatm.inventory.crate");
+	}
+
+	@Override
+	public String getDefaultInventoryName()
+	{
+		return inventory.getInventoryName();
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		return primarySlots;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, int side)
+	{
+		if (index != 0) return false;
+		return InventoryProcessor.instance().canInsertItem(this, stack, index);
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, int side)
+	{
+		if (index != 0) return false;
+		return InventoryProcessor.instance().canExtractItem(this, stack, index);
+	}
 }

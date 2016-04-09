@@ -35,12 +35,9 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiRoller extends YATMMachineGuiContainer<ContainerRoller, TileEntityRoller>
 {
-	protected TileEntityRoller tileEntity;
-
 	public GuiRoller(IInventory playerInventory, TileEntityRoller roller)
 	{
 		super(new ResourceLocation("yatm", "textures/gui/GuiRoller.png"), new ContainerRoller(playerInventory, roller), roller);
-		this.tileEntity = roller;
 		this.ySize = 176;
 	}
 

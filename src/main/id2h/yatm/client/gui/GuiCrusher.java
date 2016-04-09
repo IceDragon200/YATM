@@ -40,7 +40,6 @@ public class GuiCrusher extends YATMMachineGuiContainer<ContainerCrusher, TileEn
 	public GuiCrusher(IInventory playerInventory, TileEntityCrusher crusher)
 	{
 		super(new ResourceLocation("yatm", "textures/gui/GuiCrusher.png"), new ContainerCrusher(playerInventory, crusher), crusher);
-		this.tileEntity = crusher;
 		this.ySize = 176;
 	}
 

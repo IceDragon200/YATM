@@ -39,7 +39,6 @@ public class GuiElectrolyser extends YATMMachineGuiContainer<ContainerElectrolys
 	public GuiElectrolyser(IInventory playerInventory, TileEntityElectrolyser electrolyser)
 	{
 		super(new ResourceLocation("yatm", "textures/gui/GuiElectrolyser.png"), new ContainerElectrolyser(playerInventory, electrolyser), electrolyser);
-		this.tileEntity = electrolyser;
 		this.ySize = 176;
 	}
 }

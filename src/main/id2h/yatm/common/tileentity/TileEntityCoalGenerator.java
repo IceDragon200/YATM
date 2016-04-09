@@ -34,7 +34,7 @@ import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
-import id2h.yatm.util.YATMDebug;
+//import id2h.yatm.util.YATMDebug;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

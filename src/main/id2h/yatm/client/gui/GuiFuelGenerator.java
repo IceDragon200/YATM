@@ -34,12 +34,9 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiFuelGenerator extends YATMPoweredGuiContainer<ContainerFuelGenerator, TileEntityFuelGenerator>
 {
-	protected TileEntityFuelGenerator tileEntity;
-
 	public GuiFuelGenerator(IInventory playerInventory, TileEntityFuelGenerator generator)
 	{
 		super(new ResourceLocation("yatm", "textures/gui/GuiFuelGenerator.png"), new ContainerFuelGenerator(playerInventory, generator), generator);
-		this.tileEntity = generator;
 		this.ySize = 176;
 	}
 }

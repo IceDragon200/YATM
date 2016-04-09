@@ -29,6 +29,8 @@ import id2h.yatm.util.GuiType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockMetalCrate extends YATMBlockBaseMachine
 {
@@ -41,5 +43,12 @@ public class BlockMetalCrate extends YATMBlockBaseMachine
 		setBlockName("yatm.BlockMetalCrate");
 		setBlockTextureName("yatm:BlockMetalCrate");
 		setGuiType(GuiType.CRATE);
+		setCreativeTab(CreativeTabsYATM.instance());
+	}
+
+	@Override
+	public boolean isRotatable(IBlockAccess world, int x, int y, int z, ForgeDirection side)
+	{
+		return false;
 	}
 }

@@ -35,12 +35,9 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiFluxFurnace extends YATMMachineGuiContainer<ContainerFluxFurnace, TileEntityFluxFurnace>
 {
-	protected TileEntityFluxFurnace tileEntity;
-
 	public GuiFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
 	{
 		super(new ResourceLocation("yatm", "textures/gui/GuiFluxFurnace.png"), new ContainerFluxFurnace(playerInventory, fluxFurnace), fluxFurnace);
-		this.tileEntity = fluxFurnace;
 		this.ySize = 176;
 	}
 

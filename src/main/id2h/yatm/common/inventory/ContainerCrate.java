@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.inventory;
 
-import id2h.yatm.common.inventory.slot.SlotInputFuel;
+import id2h.yatm.common.inventory.slot.SlotInput;
 import id2h.yatm.common.tileentity.TileEntityCrate;
 
 import net.minecraft.inventory.IInventory;
@@ -34,7 +34,7 @@ public class ContainerCrate extends YATMTileContainer
 	{
 		super(gen);
 
-		addSlotToContainer(new SlotInputFuel(gen, 0, 80, 56));
+		addSlotToContainer(new SlotInput(gen, 0, 80, 41));
 
 		bindPlayerInventory(playerInventory, 8, 94);
 	}
