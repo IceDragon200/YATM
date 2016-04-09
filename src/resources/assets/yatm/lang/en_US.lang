@@ -1,7 +1,7 @@
-// Creative Tabs
+# Creative Tabs
 itemGroup.CreativeTabsYATM=Yet Another Tech Mod
 
-// Blocks
+# Blocks
 tile.yatm.BlockAutoCrafter.name=Auto Crafter
 tile.yatm.BlockAutoGrinder.name=Auto Grindstone
 tile.yatm.BlockChassis.name=Chassis
@@ -37,7 +37,7 @@ tile.yatm.BlockWarningStripes.4x.name=Warning Stripes 4x4
 tile.yatm.BlockWarningStripes.8x.name=Warning Stripes 8x8
 tile.yatm.BlockWindow.name=Vented Window
 
-// Items
+# Items
 item.yatm.ItemCapacitor.0.name=Iron Capacitor
 item.yatm.ItemCapacitor.1.name=Gold Capacitor
 item.yatm.ItemCapacitor.2.name=Diamond Capacitor
