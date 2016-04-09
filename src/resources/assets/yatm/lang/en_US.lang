@@ -87,3 +87,6 @@ item.yatm.ItemVacuumTube.0.name=Iron Vacuum Tube
 item.yatm.ItemVacuumTube.1.name=Gold Vacuum Tube
 item.yatm.ItemVacuumTube.2.name=Diamond Vacuum Tube
 item.yatm.ItemVacuumTube.3.name=Obsidian Vacuum Tube
+
+# GUI
+yatm.inventory.crate=Storage Crate
