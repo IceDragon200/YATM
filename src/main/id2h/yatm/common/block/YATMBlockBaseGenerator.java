@@ -42,7 +42,7 @@ public abstract class YATMBlockBaseGenerator extends YATMBlockBaseTile
 	}
 
 	@Override
-	protected boolean dropsTileStack(World world, int x, int y, int z, int metadata, int fortune)
+	protected boolean shouldDropTileStack(World world, int x, int y, int z, int metadata, int fortune)
 	{
 		return true;
 	}

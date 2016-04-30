@@ -61,8 +61,8 @@ repositories {
     mavenLocal()
 
     maven {
-        name = "AppleCore"
-        url = "http://www.ryanliptak.com/maven/"
+        name "AppleCore"
+        url "http://www.ryanliptak.com/maven/"
     }
 
     maven {
@@ -81,23 +81,23 @@ repositories {
     }
 
     maven {
-        name = "Player"
-        url = "http://maven.ic2.player.to/"
+        name "Player"
+        url "http://maven.ic2.player.to/"
     }
 
     maven {
-        name = "Tterrag"
-        url = "http://maven.tterrag.com/"
+        name "Tterrag"
+        url "http://maven.tterrag.com/"
     }
 
     maven  {
-        name = "RX14 Proxy"
-        url = "http://mvn.rx14.co.uk/repo/"
+        name "RX14 Proxy"
+        url "http://mvn.rx14.co.uk/repo/"
     }
 
     maven {
         name "OpenComputers Repo"
-        url = "http://maven.cil.li/"
+        url "http://maven.cil.li/"
     }
 
     ivy {
@@ -154,6 +154,21 @@ tasks.withType(JavaCompile) {
     options.compilerArgs += ['-Xlint:all', '-Xlint:-rawtypes', '-Xlint:deprecation', '-Xlint:-unchecked']
     options.deprecation = true
     options.encoding = 'utf8'
+}
+
+runClient {
+    if( project.hasProperty("mcUsername") && project.hasProperty("mcPassword") ) {
+        args "--username=${project.mcUsername}"
+        args "--password=${project.mcPassword}"
+    }
+
+}
+
+debugClient {
+    if( project.hasProperty("mcUsername") && project.hasProperty("mcPassword") ) {
+        args "--username=${project.mcUsername}"
+        args "--password=${project.mcPassword}"
+    }
 }
 
 // --------------------

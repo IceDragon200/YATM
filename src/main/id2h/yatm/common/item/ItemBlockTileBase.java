@@ -23,36 +23,14 @@
  */
 package id2h.yatm.common.item;
 
-import growthcraft.api.core.nbt.NBTHelper;
-import growthcraft.core.common.item.IItemTileBlock;
-import growthcraft.core.common.item.GrcItemBlockBase;
+import growthcraft.core.common.item.GrcItemTileBlockBase;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemBlockTileBase extends GrcItemBlockBase implements IItemTileBlock
+public class ItemBlockTileBase extends GrcItemTileBlockBase
 {
 	public ItemBlockTileBase(Block block)
 	{
 		super(block);
-	}
-
-	@Override
-	public NBTTagCompound getTileTagCompound(ItemStack stack)
-	{
-		final NBTTagCompound tag = NBTHelper.openItemStackTag(stack);
-		if (tag.hasKey("tiledata"))
-		{
-			return tag.getCompoundTag("tiledata");
-		}
-		return null;
-	}
-
-	@Override
-	public void setTileTagCompound(ItemStack stack, NBTTagCompound tileTag)
-	{
-		final NBTTagCompound tag = NBTHelper.openItemStackTag(stack);
-		tag.setTag("tiledata", tileTag);
 	}
 }
