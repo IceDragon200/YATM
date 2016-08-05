@@ -33,53 +33,37 @@ import net.minecraft.item.ItemStack;
 
 public class RollingRegistry
 {
-	private final List<RollingResult> rollingEntries = new ArrayList<RollingResult>();
-	private final List<RollingResult> pressingEntries = new ArrayList<RollingResult>();
+	private final List<RollingRecipe> rollingEntries = new ArrayList<RollingRecipe>();
 
-	public void addRolling(@Nonnull ItemStack result, @Nonnull IMultiItemStacks input, int time)
+	public void addRecipe(@Nonnull RollingRecipe recipe)
 	{
-		rollingEntries.add(new RollingResult(input, result, time));
+		rollingEntries.add(recipe);
 	}
 
-	public void addPressing(@Nonnull ItemStack result, @Nonnull IMultiItemStacks input, int time)
+	public void addRecipe(@Nonnull String id, @Nonnull ItemStack result, @Nonnull IMultiItemStacks input, int time)
 	{
-		// TODO: implement different roller modes
-		addRolling(result, input, time);
-		//pressingEntries.put(new ItemKey(input), new RollingResult(result, input, time));
+		addRecipe(new RollingRecipe(id, input, result, time));
 	}
 
-	public RollingResult getRolling(ItemStack input)
+	public RollingRecipe getRecipe(ItemStack input)
 	{
 		if (input == null) return null;
-		for (RollingResult recipe : rollingEntries)
+		for (RollingRecipe recipe : rollingEntries)
 		{
 			if (recipe.matchesRecipe(input)) return recipe;
 		}
 		return null;
 	}
 
-	public RollingResult getPressing(ItemStack input)
+	public boolean hasRecipe(ItemStack input)
 	{
-		// TODO: implement different roller modes
-		//if (input == null) return null;
-		//return pressingEntries.get(new ItemKey(input));
-		return getRolling(input);
-	}
-
-	public boolean canRoll(ItemStack input)
-	{
-		return getRolling(input) != null;
-	}
-
-	public boolean canPress(ItemStack input)
-	{
-		return getPressing(input) != null;
+		return getRecipe(input) != null;
 	}
 
 	public void displayDebug()
 	{
 		System.out.println("RollingRegistry");
-		for (RollingResult result : rollingEntries)
+		for (RollingRecipe result : rollingEntries)
 		{
 			System.out.println("		" +
 				" blasting.input=" + result.getInput() +

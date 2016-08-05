@@ -38,6 +38,6 @@ public class SlotInputCompactor extends SlotInput
 	@Override
 	public boolean isItemValid(ItemStack item)
 	{
-		return YATMApi.instance().compacting().canCompact(item);
+		return YATMApi.instance().compacting().hasRecipe(item);
 	}
 }

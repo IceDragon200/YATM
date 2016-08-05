@@ -35,14 +35,14 @@ public class BlastingRegistry
 {
 	private final List<BlastingRecipe> recipes = new ArrayList<BlastingRecipe>();
 
-	public void addRecipe(BlastingRecipe recipe)
+	public void addRecipe(@Nonnull BlastingRecipe recipe)
 	{
 		recipes.add(recipe);
 	}
 
-	public void addRecipe(@Nonnull ItemStack result, @Nonnull Object i1, @Nonnull Object i2, int time, int heatRequirement)
+	public void addRecipe(@Nonnull String id, @Nonnull ItemStack result, @Nonnull Object i1, @Nonnull Object i2, int time, int heatRequirement)
 	{
-		addRecipe(new BlastingRecipe(result, MultiStacksUtil.toMultiItemStacks(i1), MultiStacksUtil.toMultiItemStacks(i2), time, heatRequirement));
+		addRecipe(new BlastingRecipe(id, result, MultiStacksUtil.toMultiItemStacks(i1), MultiStacksUtil.toMultiItemStacks(i2), time, heatRequirement));
 	}
 
 	public BlastingRecipe getRecipe(ItemStack i1, ItemStack i2)
@@ -57,7 +57,7 @@ public class BlastingRegistry
 		return null;
 	}
 
-	public boolean canBlast(ItemStack i1, ItemStack i2)
+	public boolean hasRecipe(ItemStack i1, ItemStack i2)
 	{
 		return getRecipe(i1, i2) != null;
 	}
@@ -67,7 +67,7 @@ public class BlastingRegistry
 		System.out.println("BlastingRegistry");
 		for (BlastingRecipe recipe : recipes)
 		{
-			System.out.println("		" +
+			System.out.println(recipe.id + ": " +
 				" blasting.catalyst=" + recipe.getCatalystItem() +
 				" blasting.primary=" + recipe.getPrimaryItem() +
 				" blasting.output=" + recipe.getOutput() +

@@ -38,6 +38,6 @@ public class SlotInputRoller extends SlotInput
 	@Override
 	public boolean isItemValid(ItemStack item)
 	{
-		return YATMApi.instance().rolling().canRoll(item);
+		return YATMApi.instance().rolling().hasRecipe(item);
 	}
 }

@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import id2h.yatm.api.compactor.CompactingResult;
+import id2h.yatm.api.compactor.CompactingRecipe;
 import id2h.yatm.api.YATMApi;
 import growthcraft.core.common.inventory.InventorySlice;
 import growthcraft.core.common.inventory.IInventoryWatcher;
@@ -68,7 +68,7 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 			final ItemStack stack = state.inventory.getStackInSlot(0);
 			if (stack != null)
 			{
-				final CompactingResult result = YATMApi.instance().compacting().getCompacting(stack);
+				final CompactingRecipe result = YATMApi.instance().compacting().getRecipe(stack);
 				if (result != null)
 				{
 					if (inventoryProcessor.moveToSlots(state.inventory, result.getInputs(), inputSlotIds, processingSlotIds))
@@ -94,7 +94,7 @@ public class MachineCompactor extends AbstractProgressiveMachine implements IInv
 				final ItemStack stack = state.inventory.getStackInSlotOnClosing(2);
 				if (stack != null)
 				{
-					final CompactingResult result = YATMApi.instance().compacting().getCompacting(stack);
+					final CompactingRecipe result = YATMApi.instance().compacting().getRecipe(stack);
 					if (result != null)
 					{
 						final ItemStack discarded = new InventorySlice(state.inventory, new int[] { 1 }).mergeStackBang(result.asStack());

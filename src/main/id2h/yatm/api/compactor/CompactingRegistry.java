@@ -23,31 +23,40 @@
  */
 package id2h.yatm.api.compactor;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.item.ItemKey;
+import growthcraft.api.core.util.MultiStacksUtil;
 
 import net.minecraft.item.ItemStack;
 
 public class CompactingRegistry
 {
-	private final Map<ItemKey, CompactingResult> compactingEntries = new HashMap<ItemKey, CompactingResult>();
+	private final List<CompactingRecipe> recipes = new ArrayList<CompactingRecipe>();
 
-	public void addCompacting(@Nonnull ItemStack result, @Nonnull ItemStack input, int time)
+	public void addRecipe(@Nonnull CompactingRecipe recipe)
 	{
-		compactingEntries.put(new ItemKey(input), new CompactingResult(input, result, time));
+		recipes.add(recipe);
 	}
 
-	public CompactingResult getCompacting(ItemStack input)
+	public void addRecipe(@Nonnull String id, @Nonnull ItemStack result, @Nonnull ItemStack input, int time)
+	{
+		addRecipe(new CompactingRecipe(id, MultiStacksUtil.toMultiItemStacks(input), result, time));
+	}
+
+	public CompactingRecipe getRecipe(ItemStack input)
 	{
 		if (input == null) return null;
-		return compactingEntries.get(new ItemKey(input));
+		for (CompactingRecipe recipe : recipes)
+		{
+			if (recipe.matchesRecipe(input)) return recipe;
+		}
+		return null;
 	}
 
-	public boolean canCompact(ItemStack input)
+	public boolean hasRecipe(ItemStack input)
 	{
-		return getCompacting(input) != null;
+		return getRecipe(input) != null;
 	}
 }

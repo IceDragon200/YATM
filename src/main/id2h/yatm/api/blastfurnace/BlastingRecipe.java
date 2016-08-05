@@ -32,6 +32,7 @@ import net.minecraft.item.ItemStack;
 
 public class BlastingRecipe implements IItemStackFactory
 {
+	public final String id;
 	public final int time;
 	public final int heatRequirement;
 	private final IMultiItemStacks catalystItem;
@@ -39,8 +40,9 @@ public class BlastingRecipe implements IItemStackFactory
 	private final IMultiItemStacks[] inputItems;
 	private final ItemStack output;
 
-	public BlastingRecipe(@Nonnull ItemStack result, @Nonnull IMultiItemStacks i1, @Nonnull IMultiItemStacks i2, int t, int h)
+	public BlastingRecipe(@Nonnull String p_id, @Nonnull ItemStack result, @Nonnull IMultiItemStacks i1, @Nonnull IMultiItemStacks i2, int t, int h)
 	{
+		this.id = p_id;
 		this.output = result;
 		this.catalystItem = i1;
 		this.primaryItem = i2;

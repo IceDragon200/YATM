@@ -21,35 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.api.compactor;
+package id2h.yatm.api.roller;
 
 import javax.annotation.Nonnull;
 
 import growthcraft.api.core.definition.IItemStackFactory;
+import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
-public class CompactingResult implements IItemStackFactory
+public class RollingRecipe implements IItemStackFactory
 {
+	public final String id;
 	public final int time;
-	private final ItemStack input;
-	private final ItemStack[] inputs;
+	private final IMultiItemStacks input;
+	private final IMultiItemStacks[] inputs;
 	private final ItemStack output;
 
-	public CompactingResult(@Nonnull ItemStack inp, @Nonnull ItemStack result, int t)
+	public RollingRecipe(@Nonnull String p_id, @Nonnull IMultiItemStacks inp, @Nonnull ItemStack result, int t)
 	{
+		this.id = p_id;
 		this.input = inp;
-		this.inputs = new ItemStack[] { input };
 		this.output = result;
+		this.inputs = new IMultiItemStacks[] { input };
 		this.time = t;
 	}
 
-	public ItemStack getInput()
+	public IMultiItemStacks getInput()
 	{
 		return input;
 	}
 
-	public ItemStack[] getInputs()
+	public IMultiItemStacks[] getInputs()
 	{
 		return inputs;
 	}
@@ -69,5 +72,10 @@ public class CompactingResult implements IItemStackFactory
 	public ItemStack asStack()
 	{
 		return output.copy();
+	}
+
+	public boolean matchesRecipe(@Nonnull ItemStack stack)
+	{
+		return input.containsItemStack(stack);
 	}
 }

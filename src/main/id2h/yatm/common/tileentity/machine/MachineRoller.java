@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import id2h.yatm.api.roller.RollingResult;
+import id2h.yatm.api.roller.RollingRecipe;
 import id2h.yatm.api.YATMApi;
 import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.api.core.util.TickUtils;
@@ -51,17 +51,17 @@ public class MachineRoller extends AbstractProgressiveMachine implements IInvent
 	{
 	}
 
-	public RollingResult getSlotResult(MachineUpdateState state, int slot)
+	public RollingRecipe getSlotResult(MachineUpdateState state, int slot)
 	{
-		return YATMApi.instance().rolling().getRolling(state.inventory.getStackInSlot(slot));
+		return YATMApi.instance().rolling().getRecipe(state.inventory.getStackInSlot(slot));
 	}
 
-	public RollingResult getInputResult(MachineUpdateState state)
+	public RollingRecipe getInputResult(MachineUpdateState state)
 	{
 		return getSlotResult(state, inputSlotIds[0]);
 	}
 
-	public RollingResult getProcessingResult(MachineUpdateState state)
+	public RollingRecipe getProcessingResult(MachineUpdateState state)
 	{
 		return getSlotResult(state, processingSlotIds[0]);
 	}
@@ -79,7 +79,7 @@ public class MachineRoller extends AbstractProgressiveMachine implements IInvent
 		{
 			resetProgress();
 
-			final RollingResult result = getInputResult(state);
+			final RollingRecipe result = getInputResult(state);
 
 			if (result != null)
 			{
@@ -103,7 +103,7 @@ public class MachineRoller extends AbstractProgressiveMachine implements IInvent
 			{
 				resetProgress();
 
-				final RollingResult result = getProcessingResult(state);
+				final RollingRecipe result = getProcessingResult(state);
 
 				if (result != null)
 				{

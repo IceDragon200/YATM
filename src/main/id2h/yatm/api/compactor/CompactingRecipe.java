@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.api.roller;
+package id2h.yatm.api.compactor;
 
 import javax.annotation.Nonnull;
 
@@ -30,18 +30,20 @@ import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
-public class RollingResult implements IItemStackFactory
+public class CompactingRecipe implements IItemStackFactory
 {
+	public final String id;
 	public final int time;
 	private final IMultiItemStacks input;
 	private final IMultiItemStacks[] inputs;
 	private final ItemStack output;
 
-	public RollingResult(@Nonnull IMultiItemStacks inp, @Nonnull ItemStack result, int t)
+	public CompactingRecipe(@Nonnull String p_id, @Nonnull IMultiItemStacks inp, @Nonnull ItemStack result, int t)
 	{
+		this.id = p_id;
 		this.input = inp;
-		this.output = result;
 		this.inputs = new IMultiItemStacks[] { input };
+		this.output = result;
 		this.time = t;
 	}
 
@@ -72,8 +74,8 @@ public class RollingResult implements IItemStackFactory
 		return output.copy();
 	}
 
-	public boolean matchesRecipe(@Nonnull ItemStack stack)
+	public boolean matchesRecipe(ItemStack item)
 	{
-		return input.containsItemStack(stack);
+		return input.containsItemStack(item);
 	}
 }
