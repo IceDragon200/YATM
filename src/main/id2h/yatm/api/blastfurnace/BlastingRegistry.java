@@ -33,19 +33,24 @@ import net.minecraft.item.ItemStack;
 
 public class BlastingRegistry
 {
-	private final List<BlastingResult> recipes = new ArrayList<BlastingResult>();
+	private final List<BlastingRecipe> recipes = new ArrayList<BlastingRecipe>();
 
-	public void addBlasting(@Nonnull ItemStack result, @Nonnull Object i1, @Nonnull Object i2, int time, int heatRequirement)
+	public void addRecipe(BlastingRecipe recipe)
 	{
-		recipes.add(new BlastingResult(result, MultiStacksUtil.toMultiItemStacks(i1), MultiStacksUtil.toMultiItemStacks(i2), time, heatRequirement));
+		recipes.add(recipe);
 	}
 
-	public BlastingResult getBlasting(ItemStack i1, ItemStack i2)
+	public void addRecipe(@Nonnull ItemStack result, @Nonnull Object i1, @Nonnull Object i2, int time, int heatRequirement)
+	{
+		addRecipe(new BlastingRecipe(result, MultiStacksUtil.toMultiItemStacks(i1), MultiStacksUtil.toMultiItemStacks(i2), time, heatRequirement));
+	}
+
+	public BlastingRecipe getRecipe(ItemStack i1, ItemStack i2)
 	{
 		if (i1 == null) return null;
 		if (i2 == null) return null;
 
-		for (BlastingResult recipe : recipes)
+		for (BlastingRecipe recipe : recipes)
 		{
 			if (recipe.matchesRecipe(i1, i2)) return recipe;
 		}
@@ -54,17 +59,17 @@ public class BlastingRegistry
 
 	public boolean canBlast(ItemStack i1, ItemStack i2)
 	{
-		return getBlasting(i1, i2) != null;
+		return getRecipe(i1, i2) != null;
 	}
 
 	public void displayDebug()
 	{
 		System.out.println("BlastingRegistry");
-		for (BlastingResult recipe : recipes)
+		for (BlastingRecipe recipe : recipes)
 		{
 			System.out.println("		" +
-				" blasting.input1=" + recipe.getInput1() +
-				" blasting.input2=" + recipe.getInput2() +
+				" blasting.catalyst=" + recipe.getCatalystItem() +
+				" blasting.primary=" + recipe.getPrimaryItem() +
 				" blasting.output=" + recipe.getOutput() +
 				" blasting.time=" + recipe.time
 			);

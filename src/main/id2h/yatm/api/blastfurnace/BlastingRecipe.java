@@ -30,38 +30,38 @@ import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
-public class BlastingResult implements IItemStackFactory
+public class BlastingRecipe implements IItemStackFactory
 {
 	public final int time;
 	public final int heatRequirement;
-	private final IMultiItemStacks input1;
-	private final IMultiItemStacks input2;
-	private final IMultiItemStacks[] inputs;
+	private final IMultiItemStacks catalystItem;
+	private final IMultiItemStacks primaryItem;
+	private final IMultiItemStacks[] inputItems;
 	private final ItemStack output;
 
-	public BlastingResult(@Nonnull ItemStack result, @Nonnull IMultiItemStacks i1, @Nonnull IMultiItemStacks i2, int t, int h)
+	public BlastingRecipe(@Nonnull ItemStack result, @Nonnull IMultiItemStacks i1, @Nonnull IMultiItemStacks i2, int t, int h)
 	{
 		this.output = result;
-		this.input1 = i1;
-		this.input2 = i2;
+		this.catalystItem = i1;
+		this.primaryItem = i2;
 		this.time = t;
 		this.heatRequirement = h;
-		this.inputs = new IMultiItemStacks[] { input1, input2 };
+		this.inputItems = new IMultiItemStacks[] { catalystItem, primaryItem };
 	}
 
-	public IMultiItemStacks getInput1()
+	public IMultiItemStacks getCatalystItem()
 	{
-		return input1;
+		return catalystItem;
 	}
 
-	public IMultiItemStacks getInput2()
+	public IMultiItemStacks getPrimaryItem()
 	{
-		return input2;
+		return primaryItem;
 	}
 
-	public IMultiItemStacks[] getInputs()
+	public IMultiItemStacks[] getInputItems()
 	{
-		return inputs;
+		return inputItems;
 	}
 
 	public ItemStack getOutput()
@@ -72,7 +72,7 @@ public class BlastingResult implements IItemStackFactory
 	public ItemStack asStack(int size)
 	{
 		final ItemStack result = output.copy();
-		result.stackSize = size;
+		result.stackSize *= size;
 		return result;
 	}
 
@@ -83,6 +83,7 @@ public class BlastingResult implements IItemStackFactory
 
 	public boolean matchesRecipe(ItemStack i1, ItemStack i2)
 	{
-		return input1.containsItemStack(i1) && input2.containsItemStack(i2);
+		return catalystItem.containsItemStack(i1) &&
+			primaryItem.containsItemStack(i2);
 	}
 }

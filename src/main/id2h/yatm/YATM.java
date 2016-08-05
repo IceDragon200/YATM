@@ -207,7 +207,7 @@ public class YATM
 
 	private void registerBlastingRecipes()
 	{
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			items.ingotCarbonSteel.asStack(1),
 			new ItemStack(Items.coal, 1, 0),
 			new OreItemStacks("ingotIron", 1),
@@ -215,7 +215,7 @@ public class YATM
 			600
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			items.ingotCarbonSteel.asStack(1),
 			new ItemStack(Items.coal, 4, 1),
 			new OreItemStacks("ingotIron", 1),
@@ -223,7 +223,7 @@ public class YATM
 			600
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			items.ingotCrystalSteel.asStack(1),
 			new ItemStack(Items.diamond),
 			new OreItemStacks("ingotIron", 1),
@@ -231,7 +231,7 @@ public class YATM
 			600
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			EnumPlate.ENERGIZED.asStack(1),
 			new OreItemStacks("dustPureRedstone", 4),
 			new OreItemStacks("materialPlateIron", 1),
@@ -239,7 +239,7 @@ public class YATM
 			400
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			EnumPlate.PHOTOVOLTAIC.asStack(1),
 			new OreItemStacks(EnumDye.BLUE.getOreName(), 4),
 			new OreItemStacks("materialPlateEnergized", 1),
@@ -248,7 +248,7 @@ public class YATM
 		);
 
 		// Reinforced Glass
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			blocks.reinforcedGlass.asStack(1),
 			new ItemStack(Blocks.sand, 1, 0),
 			new ItemStack(Blocks.sand, 1, 0),
@@ -256,7 +256,7 @@ public class YATM
 			400
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			blocks.reinforcedGlass.asStack(1),
 			new ItemStack(Blocks.sand, 1, 1),
 			new ItemStack(Blocks.sand, 1, 0),
@@ -264,7 +264,7 @@ public class YATM
 			400
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			blocks.reinforcedGlass.asStack(1),
 			new ItemStack(Blocks.sand, 1, 1),
 			new ItemStack(Blocks.sand, 1, 1),
@@ -272,7 +272,7 @@ public class YATM
 			400
 		);
 
-		YATMApi.instance().blasting().addBlasting(
+		YATMApi.instance().blasting().addRecipe(
 			blocks.reinforcedGlass.asStack(1),
 			new ItemStack(Blocks.sand, 1, 1),
 			new ItemStack(Blocks.sand, 1, 1),

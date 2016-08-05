@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.tileentity.machine;
 
-import id2h.yatm.api.blastfurnace.BlastingResult;
+import id2h.yatm.api.blastfurnace.BlastingRecipe;
 import id2h.yatm.api.YATMApi;
 import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.api.core.util.TickUtils;
@@ -56,19 +56,19 @@ public class MachineMiniBlastFurnace extends AbstractProgressiveMachine implemen
 		return 100;
 	}
 
-	private BlastingResult getSlotResult(MachineUpdateState state, int[] slotIds)
+	private BlastingRecipe getSlotResult(MachineUpdateState state, int[] slotIds)
 	{
 		final ItemStack i1 = state.inventory.getStackInSlot(slotIds[0]);
 		final ItemStack i2 = state.inventory.getStackInSlot(slotIds[1]);
-		return YATMApi.instance().blasting().getBlasting(i1, i2);
+		return YATMApi.instance().blasting().getRecipe(i1, i2);
 	}
 
-	private BlastingResult getInputResult(MachineUpdateState state)
+	private BlastingRecipe getInputResult(MachineUpdateState state)
 	{
 		return getSlotResult(state, inputSlotIds);
 	}
 
-	private BlastingResult getProcessingResult(MachineUpdateState state)
+	private BlastingRecipe getProcessingResult(MachineUpdateState state)
 	{
 		return getSlotResult(state, processingSlotIds);
 	}
@@ -80,11 +80,11 @@ public class MachineMiniBlastFurnace extends AbstractProgressiveMachine implemen
 		{
 			resetProgress();
 
-			final BlastingResult result = getInputResult(state);
+			final BlastingRecipe result = getInputResult(state);
 
 			if (result != null)
 			{
-				if (inventoryProcessor.moveToSlots(state.inventory, result.getInputs(), inputSlotIds, processingSlotIds))
+				if (inventoryProcessor.moveToSlots(state.inventory, result.getInputItems(), inputSlotIds, processingSlotIds))
 				{
 					progressMax = result.time;
 				}
@@ -102,7 +102,7 @@ public class MachineMiniBlastFurnace extends AbstractProgressiveMachine implemen
 		{
 			if (progress >= progressMax)
 			{
-				final BlastingResult result = getProcessingResult(state);
+				final BlastingRecipe result = getProcessingResult(state);
 
 				if (result != null)
 				{
