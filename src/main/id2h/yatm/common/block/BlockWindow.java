@@ -40,7 +40,7 @@ public class BlockWindow extends Block
 		setStepSound(Block.soundTypeGlass);
 		setHardness(2.0F);
 		setResistance(5.0F);
-		setBlockName("yatm.BlockWindow");
+		setBlockName("yatm.window");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
@@ -48,7 +48,7 @@ public class BlockWindow extends Block
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		this.blockIcon = reg.registerIcon("yatm:BlockVentWindow");
+		this.blockIcon = reg.registerIcon("yatm:vent_window");
 	}
 
 	@Override

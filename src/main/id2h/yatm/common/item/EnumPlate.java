@@ -93,7 +93,7 @@ public enum EnumPlate implements IItemStackFactory
 
 	public String getPlateName()
 	{
-		return String.format("Plate.%s", getCamelName());
+		return String.format("plate.%s", underscoreName);
 	}
 
 	@Override

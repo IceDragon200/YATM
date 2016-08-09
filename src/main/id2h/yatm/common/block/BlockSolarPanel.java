@@ -40,8 +40,8 @@ public class BlockSolarPanel extends YATMBlockBaseTile
 		setStepSound(Block.soundTypeGlass);
 		setHardness(2.0F);
 		setResistance(5.0F);
-		setBlockName("yatm.BlockSolarPanel");
-		setBlockTextureName("yatm:BlockSolarPanel");
+		setBlockName("yatm.solar_panel");
+		setBlockTextureName("yatm:solar_panel");
 
 		float[] bounds = BoundUtils.newCubeToBounds(0f, 0f, 0f, 16f, 2f, 16f);
 		bounds = BoundUtils.scaleBounds(bounds, 1f / 16f, bounds);

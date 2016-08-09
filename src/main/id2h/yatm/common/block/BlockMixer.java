@@ -33,8 +33,8 @@ public class BlockMixer extends YATMBlockBaseMachine
 	public BlockMixer()
 	{
 		super(Material.rock, TileEntityMixer.class);
-		setBlockName("yatm.BlockMixer");
-		setBlockTextureName("yatm:BlockMixer");
+		setBlockName("yatm.mixer");
+		setBlockTextureName("yatm:mixer");
 		setGuiType(GuiType.MIXER);
 	}
 }

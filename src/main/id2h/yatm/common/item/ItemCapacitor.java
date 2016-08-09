@@ -39,7 +39,7 @@ public class ItemCapacitor extends AbstractItemMaterial
 	public ItemCapacitor()
 	{
 		super();
-		setUnlocalizedName("yatm.ItemCapacitor");
+		setUnlocalizedName("yatm.capacitor");
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class ItemCapacitor extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[4];
-		icons[YATM.items.capacitorIron.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Iron");
-		icons[YATM.items.capacitorGold.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Gold");
-		icons[YATM.items.capacitorDiamond.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Diamond");
-		icons[YATM.items.capacitorObsidian.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneCapacitor.Obsidian");
+		icons[YATM.items.capacitorIron.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.iron");
+		icons[YATM.items.capacitorGold.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.gold");
+		icons[YATM.items.capacitorDiamond.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.diamond");
+		icons[YATM.items.capacitorObsidian.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.obsidian");
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -33,8 +33,8 @@ public class BlockRoller extends YATMBlockBaseMachine
 	public BlockRoller()
 	{
 		super(Material.rock, TileEntityRoller.class);
-		setBlockName("yatm.BlockRoller");
-		setBlockTextureName("yatm:BlockRoller");
+		setBlockName("yatm.roller");
+		setBlockTextureName("yatm:roller");
 		setGuiType(GuiType.ROLLER);
 	}
 }

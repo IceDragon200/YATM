@@ -203,20 +203,20 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		icons = new FlippableIcon[12];
 
 		final IIcon defaultIcon = optionalIcon(reg, getTextureName(), null);
-		final IIcon sideIconOff = optionalSubIcon(reg, "/Side.Off", optionalSubIcon(reg, "/Side", defaultIcon));
-		icons[0] = optionalSubIcon(reg, "/Bottom.Off", optionalSubIcon(reg, "/Bottom", defaultIcon));
-		icons[1] = optionalSubIcon(reg, "/Top.Off", optionalSubIcon(reg, "/Top", defaultIcon));
-		icons[2] = optionalSubIcon(reg, "/Back.Off", optionalSubIcon(reg, "/Back", sideIconOff));
-		icons[3] = optionalSubIcon(reg, "/Front.Off", optionalSubIcon(reg, "/Front", sideIconOff));
-		icons[4] = optionalSubIcon(reg, "/East.Off", optionalSubIcon(reg, "/East", sideIconOff));
-		icons[5] = optionalSubIcon(reg, "/West.Off", optionalSubIcon(reg, "/West", sideIconOff));
+		final IIcon sideIconOff = optionalSubIcon(reg, "/side.off", optionalSubIcon(reg, "/side", defaultIcon));
+		icons[0] = optionalSubIcon(reg, "/bottom.off", optionalSubIcon(reg, "/bottom", defaultIcon));
+		icons[1] = optionalSubIcon(reg, "/top.off", optionalSubIcon(reg, "/top", defaultIcon));
+		icons[2] = optionalSubIcon(reg, "/back.off", optionalSubIcon(reg, "/back", sideIconOff));
+		icons[3] = optionalSubIcon(reg, "/front.off", optionalSubIcon(reg, "/front", sideIconOff));
+		icons[4] = optionalSubIcon(reg, "/east.off", optionalSubIcon(reg, "/east", sideIconOff));
+		icons[5] = optionalSubIcon(reg, "/west.off", optionalSubIcon(reg, "/west", sideIconOff));
 
-		icons[6] = optionalSubIcon(reg, "/Bottom.On", icons[0]);
-		icons[7] = optionalSubIcon(reg, "/Top.On", icons[1]);
-		icons[8] = optionalSubIcon(reg, "/Back.On",  optionalSubIcon(reg, "/Side.On", icons[2]));
-		icons[9] = optionalSubIcon(reg, "/Front.On", optionalSubIcon(reg, "/Side.On", icons[3]));
-		icons[10] = optionalSubIcon(reg, "/East.On", optionalSubIcon(reg, "/Side.On", icons[4]));
-		icons[11] = optionalSubIcon(reg, "/West.On", optionalSubIcon(reg, "/Side.On", icons[5]));
+		icons[6] = optionalSubIcon(reg, "/bottom.on", icons[0]);
+		icons[7] = optionalSubIcon(reg, "/top.on", icons[1]);
+		icons[8] = optionalSubIcon(reg, "/back.on",  optionalSubIcon(reg, "/side.on", icons[2]));
+		icons[9] = optionalSubIcon(reg, "/front.on", optionalSubIcon(reg, "/side.on", icons[3]));
+		icons[10] = optionalSubIcon(reg, "/east.on", optionalSubIcon(reg, "/side.on", icons[4]));
+		icons[11] = optionalSubIcon(reg, "/west.on", optionalSubIcon(reg, "/side.on", icons[5]));
 	}
 
 	@Override

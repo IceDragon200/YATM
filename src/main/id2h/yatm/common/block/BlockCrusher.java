@@ -43,8 +43,8 @@ public class BlockCrusher extends YATMBlockBaseMachine
 	public BlockCrusher()
 	{
 		super(Material.iron, TileEntityCrusher.class);
-		setBlockName("yatm.BlockCrusher");
-		setBlockTextureName("yatm:BlockCrusher");
+		setBlockName("yatm.crusher");
+		setBlockTextureName("yatm:crusher");
 		setGuiType(GuiType.CRUSHER);
 	}
 

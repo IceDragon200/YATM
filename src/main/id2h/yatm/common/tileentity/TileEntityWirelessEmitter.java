@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.item;
+package id2h.yatm.common.tileentity;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
-import growthcraft.core.common.item.GrcItemBase;
+import growthcraft.api.core.util.Point3;
+import id2h.yatm.system.WirelessSystem.WirelessEvent;
+import id2h.yatm.YATM;
 
-public class ItemMesh extends GrcItemBase
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+
+public class TileEntityWirelessEmitter extends YATMBaseTile
 {
-	public ItemMesh()
+	@Override
+	public void updateEntity()
 	{
-		super();
-		setTextureName("yatm:item_material.mesh.iron");
-		setUnlocalizedName("yatm.mesh");
-		setCreativeTab(CreativeTabsYATM.instance());
+		super.updateEntity();
+		final ByteBuf buf = Unpooled.buffer();
+		buf.writeInt(2);
+		YATM.wireless.pub(new WirelessEvent(worldObj.provider.dimensionId, 12345, new Point3(xCoord, yCoord, zCoord), 16.0D, buf));
 	}
 }

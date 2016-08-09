@@ -40,8 +40,8 @@ public class BlockMetalCrate extends YATMBlockBaseMachine
 		setStepSound(Block.soundTypeStone);
 		setHardness(2.0F);
 		setResistance(5.0F);
-		setBlockName("yatm.BlockMetalCrate");
-		setBlockTextureName("yatm:BlockMetalCrate");
+		setBlockName("yatm.metal_crate");
+		setBlockTextureName("yatm:metal_crate");
 		setGuiType(GuiType.CRATE);
 		setCreativeTab(CreativeTabsYATM.instance());
 	}

@@ -122,14 +122,14 @@ public class ItemInstances extends GrcModuleBase
 	@Override
 	public void register()
 	{
-		GameRegistry.registerItem(capacitor.getItem(), "yatm.ItemCapacitor");
-		GameRegistry.registerItem(crystalSeed.getItem(), "yatm.ItemCrystalSeed");
-		GameRegistry.registerItem(dust.getItem(), "yatm.ItemDust");
-		GameRegistry.registerItem(ingot.getItem(), "yatm.ItemIngot");
-		GameRegistry.registerItem(crystal.getItem(), "yatm.ItemCrystal");
-		GameRegistry.registerItem(vacuumTube.getItem(), "yatm.ItemVacuumTube");
-		GameRegistry.registerItem(mesh.getItem(), "yatm.ItemMesh");
-		GameRegistry.registerItem(plate.getItem(), "yatm.ItemPlate");
+		capacitor.register("yatm.capacitor");
+		crystalSeed.register("yatm.crystal_seed");
+		dust.register("yatm.dust");
+		ingot.register("yatm.ingot");
+		crystal.register("yatm.crystal");
+		vacuumTube.register("yatm.vacuum_tube");
+		mesh.register("yatm.mesh");
+		plate.register("yatm.plate");
 
 		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), EnumDust.URANIUM.asStack(1), 4);
 		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), EnumDust.PURE_REDSTONE.asStack(1), 4);

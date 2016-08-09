@@ -39,7 +39,7 @@ public class ItemVacuumTube extends AbstractItemMaterial
 	public ItemVacuumTube()
 	{
 		super();
-		setUnlocalizedName("yatm.ItemVacuumTube");
+		setUnlocalizedName("yatm.vacuum_tube");
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class ItemVacuumTube extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[4];
-		icons[YATM.items.vacuumTubeIron.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Iron");
-		icons[YATM.items.vacuumTubeGold.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Gold");
-		icons[YATM.items.vacuumTubeDiamond.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Diamond");
-		icons[YATM.items.vacuumTubeObsidian.meta] = ir.registerIcon("yatm:ItemMaterial.RedstoneVacuumTube.Obsidian");
+		icons[YATM.items.vacuumTubeIron.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.iron");
+		icons[YATM.items.vacuumTubeGold.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.gold");
+		icons[YATM.items.vacuumTubeDiamond.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.diamond");
+		icons[YATM.items.vacuumTubeObsidian.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.obsidian");
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -49,24 +49,6 @@ public abstract class YATMEnergyProviderTile extends YATMPoweredTile implements 
 		needCacheRebuild |= true;
 	}
 
-	//@Override
-	//public void invalidate()
-	//{
-	//	//markForCacheRefresh();
-	//	//markForBlockUpdate();
-	//	YATMDebug.write("EPT invalidated tile=" + this);
-	//	super.invalidate();
-	//}
-
-	//@Override
-	//public void validate()
-	//{
-	//	//markForCacheRefresh();
-	//	//markForBlockUpdate();
-	//	YATMDebug.write("EPT validated tile=" + this);
-	//	super.validate();
-	//}
-
 	public int getMaxReceive()
 	{
 		return energyStorage.getMaxReceive();

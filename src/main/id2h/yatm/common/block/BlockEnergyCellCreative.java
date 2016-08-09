@@ -39,7 +39,7 @@ public class BlockEnergyCellCreative extends BlockEnergyCell
 	public BlockEnergyCellCreative(String basename, Class<? extends TileEntityCreativeEnergyCell> tileentity)
 	{
 		super(basename, tileentity);
-		setBlockName("yatm.BlockEnergyCell" + basename + "Creative");
+		setBlockName(String.format("yatm.energy_cell_%s_creative", basename));
 	}
 
 	@Override
@@ -59,6 +59,6 @@ public class BlockEnergyCellCreative extends BlockEnergyCell
 	public void registerBlockIcons(IIconRegister reg)
 	{
 		icons = new FlippableIcon[1];
-		icons[0] = optionalIcon(reg, getTextureName() + "/Creative", null);
+		icons[0] = optionalIcon(reg, getTextureName() + "/creative", null);
 	}
 }

@@ -38,7 +38,7 @@ public class ItemPlate extends AbstractItemMaterial
 	public ItemPlate()
 	{
 		super();
-		setUnlocalizedName("yatm.ItemPlate");
+		setUnlocalizedName("yatm.plate");
 	}
 
 	public EnumPlate getPlate(ItemStack stack)
@@ -48,7 +48,7 @@ public class ItemPlate extends AbstractItemMaterial
 
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName() + "." + getPlate(stack).getCamelName();
+		return super.getUnlocalizedName() + "." + getPlate(stack).underscoreName;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class ItemPlate extends AbstractItemMaterial
 		icons = new IIcon[EnumPlate.VALUES.length];
 		for (EnumPlate plate : EnumPlate.VALUES)
 		{
-			icons[plate.meta] = ir.registerIcon(String.format("yatm:ItemMaterial.%s", plate.getPlateName()));
+			icons[plate.meta] = ir.registerIcon(String.format("yatm:item_material.%s", plate.getPlateName()));
 		}
 	}
 

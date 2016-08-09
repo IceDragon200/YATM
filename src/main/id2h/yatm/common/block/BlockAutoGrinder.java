@@ -33,8 +33,8 @@ public class BlockAutoGrinder extends YATMBlockBaseMachine
 	public BlockAutoGrinder()
 	{
 		super(Material.iron, TileEntityAutoGrinder.class);
-		setBlockName("yatm.BlockAutoGrinder");
-		setBlockTextureName("yatm:BlockAutoGrinder");
+		setBlockName("yatm.auto_grinder");
+		setBlockTextureName("yatm:auto_grinder");
 		setGuiType(GuiType.AUTO_GRINDER);
 	}
 }

@@ -40,8 +40,8 @@ public class BlockFluxFurnace extends YATMBlockBaseMachine
 	public BlockFluxFurnace()
 	{
 		super(Material.iron, TileEntityFluxFurnace.class);
-		setBlockName("yatm.BlockFluxFurnace");
-		setBlockTextureName("yatm:BlockFluxFurnace");
+		setBlockName("yatm.flux_furnace");
+		setBlockTextureName("yatm:flux_furnace");
 		setGuiType(GuiType.FLUX_FURNACE);
 	}
 

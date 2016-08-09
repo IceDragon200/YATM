@@ -59,7 +59,7 @@ public class ItemCrystalSeed extends AEBaseItem implements IGrowableCrystal
 	public static final int LEVEL_OFFSET = 200;
 	public static final int SINGLE_OFFSET = LEVEL_OFFSET * 3;
 	public static final int[] LEVEL_OFFSETS = { 0, SINGLE_OFFSET };
-	protected static final String[] crystalName = { "Uranium", "Redstone" };
+	protected static final String[] crystalName = { "uranium", "redstone" };
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon[][] iconsTable;
@@ -69,7 +69,7 @@ public class ItemCrystalSeed extends AEBaseItem implements IGrowableCrystal
 		super();
 		setHasSubtypes(true);
 		setFeature(EnumSet.of(AEFeature.Core));
-		setUnlocalizedName("yatm.ItemCrystalSeed");
+		setUnlocalizedName("yatm.crystal_seed");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
@@ -93,26 +93,26 @@ public class ItemCrystalSeed extends AEBaseItem implements IGrowableCrystal
 		ItemStack crystalSeedStack = YATM.items.crystalSeed.asStack(1);
 		crystalSeedStack.setItemDamage(damage);
 		crystalSeedStack = newStyle(crystalSeedStack);
-		return new ResolverResult("ItemCrystalSeed", crystalSeedStack.getItemDamage(), crystalSeedStack.getTagCompound());
+		return new ResolverResult("crystal_seed", crystalSeedStack.getItemDamage(), crystalSeedStack.getTagCompound());
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		final String prefix = "yatm:ItemCrystalSeed.";
+		final String prefix = "yatm:crystal_seed.";
 
 		iconsTable = new IIcon[2][];
 
 		iconsTable[0] = new IIcon[3];
-		iconsTable[0][0] = ir.registerIcon(prefix + "Uranium0");
-		iconsTable[0][1] = ir.registerIcon(prefix + "Uranium1");
-		iconsTable[0][2] = ir.registerIcon(prefix + "Uranium2");
+		iconsTable[0][0] = ir.registerIcon(prefix + "uranium0");
+		iconsTable[0][1] = ir.registerIcon(prefix + "uranium1");
+		iconsTable[0][2] = ir.registerIcon(prefix + "uranium2");
 
 		iconsTable[1] = new IIcon[3];
-		iconsTable[1][0] = ir.registerIcon(prefix + "Redstone0");
-		iconsTable[1][1] = ir.registerIcon(prefix + "Redstone1");
-		iconsTable[1][2] = ir.registerIcon(prefix + "Redstone2");
+		iconsTable[1][0] = ir.registerIcon(prefix + "redstone0");
+		iconsTable[1][1] = ir.registerIcon(prefix + "redstone1");
+		iconsTable[1][2] = ir.registerIcon(prefix + "redstone2");
 	}
 
 	@Override

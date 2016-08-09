@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.item;
+package id2h.yatm.common.block;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
-import growthcraft.core.common.item.GrcItemBase;
+import id2h.yatm.common.tileentity.TileEntityWirelessEmitter;
 
-public class ItemMesh extends GrcItemBase
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+
+public class BlockWirelessEmitter extends YATMBlockBaseTile
 {
-	public ItemMesh()
+	public BlockWirelessEmitter()
 	{
-		super();
-		setTextureName("yatm:item_material.mesh.iron");
-		setUnlocalizedName("yatm.mesh");
-		setCreativeTab(CreativeTabsYATM.instance());
+		super(Material.rock, TileEntityWirelessEmitter.class);
+		this.useNeighborBrightness = true;
+		setStepSound(Block.soundTypeGlass);
+		setHardness(2.0F);
+		setResistance(5.0F);
+		setBlockName("yatm.wireless_emitter");
+		setBlockTextureName("yatm:wireless_emitter");
 	}
 }

@@ -37,7 +37,7 @@ public class CreativeTabsYATM extends CreativeTabs
 
 	public CreativeTabsYATM()
 	{
-		super("CreativeTabsYATM");
+		super("creative_tabs_yatm");
 	}
 
 	@Override

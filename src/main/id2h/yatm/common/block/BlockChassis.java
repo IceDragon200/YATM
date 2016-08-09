@@ -39,7 +39,7 @@ public class BlockChassis extends Block
 		setStepSound(Block.soundTypeStone);
 		setHardness(2.0F);
 		setResistance(5.0F);
-		setBlockName("yatm.BlockChassis");
+		setBlockName("yatm.chassis");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
@@ -47,7 +47,7 @@ public class BlockChassis extends Block
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		this.blockIcon = reg.registerIcon("yatm:BlockChassis");
+		this.blockIcon = reg.registerIcon("yatm:chassis");
 	}
 
 	@Override

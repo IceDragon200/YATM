@@ -38,7 +38,7 @@ public class ItemDust extends AbstractItemMaterial
 	public ItemDust()
 	{
 		super();
-		setUnlocalizedName("yatm.ItemDust");
+		setUnlocalizedName("yatm.dust");
 	}
 
 	public EnumDust getDust(ItemStack stack)
@@ -48,7 +48,7 @@ public class ItemDust extends AbstractItemMaterial
 
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName() + "." + getDust(stack).getCamelName();
+		return super.getUnlocalizedName() + "." + getDust(stack).underscoreName;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class ItemDust extends AbstractItemMaterial
 		icons = new IIcon[EnumDust.VALUES.length];
 		for (EnumDust dust : EnumDust.VALUES)
 		{
-			icons[dust.meta] = ir.registerIcon(String.format("yatm:ItemMaterial.%s", dust.getDustName()));
+			icons[dust.meta] = ir.registerIcon(String.format("yatm:item_material.%s", dust.getDustName()));
 		}
 	}
 

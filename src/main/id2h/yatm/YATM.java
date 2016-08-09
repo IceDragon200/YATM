@@ -25,8 +25,8 @@ package id2h.yatm;
 
 import growthcraft.api.cellar.CellarRegistry;
 import growthcraft.api.core.item.EnumDye;
-import growthcraft.api.core.item.OreItemStacks;
 import growthcraft.api.core.item.MultiItemStacks;
+import growthcraft.api.core.item.OreItemStacks;
 import growthcraft.api.core.log.GrcLogger;
 import growthcraft.api.core.log.ILogger;
 import growthcraft.api.core.module.ModuleContainer;
@@ -41,6 +41,9 @@ import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
 import id2h.yatm.integration.growthcraft.HeatSourceHeater;
+import id2h.yatm.network.handlers.WirelessMessageHandler;
+import id2h.yatm.network.messages.WirelessMessage;
+import id2h.yatm.system.WirelessSystem;
 import id2h.yatm.util.YATMDebug;
 
 import appeng.api.util.AEColor;
@@ -53,7 +56,9 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -74,6 +79,8 @@ public class YATM
 	public static final String MOD_NAME = "Yet Another Tech Mod";
 	public static final String MOD_VERSION = "@VERSION@";
 
+	public static SimpleNetworkWrapper network = new SimpleNetworkWrapper("yatm");
+	public static WirelessSystem wireless = new WirelessSystem();
 	public static BlockInstances blocks;
 	public static ItemInstances items;
 
@@ -88,6 +95,11 @@ public class YATM
 		return INSTANCE;
 	}
 
+	public static ILogger getLogger()
+	{
+		return INSTANCE.logger;
+	}
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -100,6 +112,7 @@ public class YATM
 		modules.freeze();
 		modules.preInit();
 		modules.register();
+		network.registerMessage(WirelessMessageHandler.class, WirelessMessage.class, 200, Side.SERVER);
 	}
 
 	private void registerCrushingRecipes()

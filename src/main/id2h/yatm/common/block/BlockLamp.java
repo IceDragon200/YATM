@@ -41,7 +41,7 @@ public class BlockLamp extends Block
 		setHardness(2.0F);
 		setResistance(5.0F);
 		setLightLevel(1.0f);
-		setBlockName("yatm.BlockLamp");
+		setBlockName("yatm.lamp");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
@@ -49,6 +49,6 @@ public class BlockLamp extends Block
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		this.blockIcon = reg.registerIcon("yatm:BlockLamp.On");
+		this.blockIcon = reg.registerIcon("yatm:lamp.on");
 	}
 }

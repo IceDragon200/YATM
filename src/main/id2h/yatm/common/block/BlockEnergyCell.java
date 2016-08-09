@@ -46,8 +46,8 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 	public BlockEnergyCell(String basename, Class<? extends TileEntityEnergyCell> tileentity)
 	{
 		super(Material.iron, tileentity);
-		setBlockName("yatm.BlockEnergyCell" + basename);
-		setBlockTextureName("yatm:BlockEnergyCell." + basename);
+		setBlockName(String.format("yatm.energy_cell_%s", basename));
+		setBlockTextureName(String.format("yatm:energy_cell_%s", basename));
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 		icons = new FlippableIcon[8];
 		for (int i = 0; i < icons.length; ++i)
 		{
-			icons[i] = optionalIcon(reg, getTextureName() + "/Stage" + i, null);
+			icons[i] = optionalIcon(reg, getTextureName() + "/stage" + i, null);
 		}
 	}
 

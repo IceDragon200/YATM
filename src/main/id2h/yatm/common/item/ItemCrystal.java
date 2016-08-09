@@ -39,7 +39,7 @@ public class ItemCrystal extends AbstractItemMaterial
 	public ItemCrystal()
 	{
 		super();
-		setUnlocalizedName("yatm.ItemCrystal");
+		setUnlocalizedName("yatm.crystal");
 	}
 
 	@Override
@@ -47,8 +47,8 @@ public class ItemCrystal extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[2];
-		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:ItemMaterial.Crystal.PureUranium");
-		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:ItemMaterial.Crystal.PureRedstone");
+		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:item_material.crystal.pure_uranium");
+		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:item_material.crystal.pure_redstone");
 	}
 
 	@SuppressWarnings("rawtypes")

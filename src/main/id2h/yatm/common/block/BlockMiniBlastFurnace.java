@@ -42,8 +42,8 @@ public class BlockMiniBlastFurnace extends YATMBlockBaseMachine
 	public BlockMiniBlastFurnace()
 	{
 		super(Material.rock, TileEntityMiniBlastFurnace.class);
-		setBlockName("yatm.BlockMiniBlastFurnace");
-		setBlockTextureName("yatm:BlockMiniBlastFurnace");
+		setBlockName("yatm.mini_blast_furnace");
+		setBlockTextureName("yatm:mini_blast_furnace");
 		setGuiType(GuiType.MINI_BLAST_FURNACE);
 	}
 

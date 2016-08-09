@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.item;
+package id2h.yatm.network.messages;
 
-import id2h.yatm.creativetab.CreativeTabsYATM;
-import growthcraft.core.common.item.GrcItemBase;
+import io.netty.buffer.ByteBuf;
 
-public class ItemMesh extends GrcItemBase
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+
+public class WirelessMessage implements IMessage
 {
-	public ItemMesh()
+	@Override
+	public void fromBytes(ByteBuf buf)
 	{
-		super();
-		setTextureName("yatm:item_material.mesh.iron");
-		setUnlocalizedName("yatm.mesh");
-		setCreativeTab(CreativeTabsYATM.instance());
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
 	}
 }
