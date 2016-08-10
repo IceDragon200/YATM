@@ -291,9 +291,9 @@ public class YATM
 		for (EnumPlate plate : EnumPlate.VALUES)
 		{
 			YATMApi.instance().rolling().addRecipe(
-				String.format("rolling/plates/%s/ingot-%s*2", plate.underscoreName, plate.underscoreName),
+				String.format("rolling/plates/%s/ingot-%s*2", plate.unlocalizedName, plate.unlocalizedName),
 				plate.asStack(1),
-				new OreItemStacks(String.format("ingot%s", plate.getCamelName()), 2),
+				new OreItemStacks(plate.getIngotOreName(), 2),
 				TickUtils.seconds(10)
 			);
 		}
