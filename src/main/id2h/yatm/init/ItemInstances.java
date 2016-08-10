@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ import id2h.yatm.common.item.ItemCapacitor;
 import id2h.yatm.common.item.ItemCrystal;
 import id2h.yatm.common.item.ItemCrystalSeed;
 import id2h.yatm.common.item.ItemDust;
+import id2h.yatm.common.item.ItemGrenade;
 import id2h.yatm.common.item.ItemIngot;
 import id2h.yatm.common.item.ItemMesh;
 import id2h.yatm.common.item.ItemPlate;
@@ -78,6 +79,8 @@ public class ItemInstances extends GrcModuleBase
 
 	public ItemDefinition mesh;
 
+	public ItemDefinition grenade;
+
 	public ItemInstances() {}
 
 	private void initSubtypes()
@@ -115,6 +118,7 @@ public class ItemInstances extends GrcModuleBase
 		vacuumTube = new ItemDefinition(new ItemVacuumTube());
 		mesh = new ItemDefinition(new ItemMesh());
 		plate = new ItemDefinition(new ItemPlate());
+		grenade = new ItemDefinition(new ItemGrenade());
 
 		initSubtypes();
 	}
@@ -130,6 +134,7 @@ public class ItemInstances extends GrcModuleBase
 		vacuumTube.register("yatm.vacuum_tube");
 		mesh.register("yatm.mesh");
 		plate.register("yatm.plate");
+		grenade.register("yatm.grenade");
 
 		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), EnumDust.URANIUM.asStack(1), 4);
 		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), EnumDust.PURE_REDSTONE.asStack(1), 4);
