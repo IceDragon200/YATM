@@ -41,14 +41,14 @@ public class ItemPlate extends AbstractItemMaterial
 		setUnlocalizedName("yatm.plate");
 	}
 
-	public EnumPlate getPlate(ItemStack stack)
+	public EnumPlate getPlateType(ItemStack stack)
 	{
 		return EnumPlate.get(stack.getItemDamage());
 	}
 
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName() + "." + getPlate(stack).underscoreName;
+		return super.getUnlocalizedName() + "." + getPlateType(stack).unlocalizedName;
 	}
 
 	@Override

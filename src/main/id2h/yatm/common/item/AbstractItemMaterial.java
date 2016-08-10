@@ -44,6 +44,7 @@ public abstract class AbstractItemMaterial extends GrcItemBase
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
+	@Override
 	public String getUnlocalizedName(ItemStack stack)
 	{
 		return super.getUnlocalizedName() + "." + stack.getItemDamage();

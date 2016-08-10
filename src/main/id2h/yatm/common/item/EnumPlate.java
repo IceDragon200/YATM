@@ -63,7 +63,7 @@ public enum EnumPlate implements IItemStackFactory
 
 	public static final EnumPlate[] VALUES = values();
 
-	public final String underscoreName;
+	public final String unlocalizedName;
 	public final String camelName;
 	public final int meta;
 
@@ -77,7 +77,7 @@ public enum EnumPlate implements IItemStackFactory
 		{
 			this.camelName = camel;
 		}
-		this.underscoreName = name().toLowerCase(Locale.ENGLISH);
+		this.unlocalizedName = name().toLowerCase(Locale.ENGLISH);
 		this.meta = ordinal();
 	}
 
@@ -93,7 +93,17 @@ public enum EnumPlate implements IItemStackFactory
 
 	public String getPlateName()
 	{
-		return String.format("plate.%s", underscoreName);
+		return String.format("plate.%s", unlocalizedName);
+	}
+
+	public String getIngotOreName()
+	{
+		return String.format("ingot%s", getCamelName());
+	}
+
+	public String getOreName()
+	{
+		return String.format("materialPlate%s", getCamelName());
 	}
 
 	@Override

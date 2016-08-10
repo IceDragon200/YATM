@@ -57,7 +57,7 @@ public enum EnumDust implements IItemStackFactory
 
 	public static final EnumDust[] VALUES = values();
 
-	public final String underscoreName;
+	public final String unlocalizedName;
 	public final String camelName;
 	public final int meta;
 
@@ -71,7 +71,7 @@ public enum EnumDust implements IItemStackFactory
 		{
 			this.camelName = camel;
 		}
-		this.underscoreName = name().toLowerCase(Locale.ENGLISH);
+		this.unlocalizedName = name().toLowerCase(Locale.ENGLISH);
 		this.meta = ordinal();
 	}
 
@@ -87,7 +87,12 @@ public enum EnumDust implements IItemStackFactory
 
 	public String getDustName()
 	{
-		return String.format("dust.%s", underscoreName);
+		return String.format("dust.%s", unlocalizedName);
+	}
+
+	public String getOreName()
+	{
+		return String.format("dust%s", getCamelName());
 	}
 
 	@Override

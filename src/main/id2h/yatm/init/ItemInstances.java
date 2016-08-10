@@ -161,12 +161,12 @@ public class ItemInstances extends GrcModuleBase
 
 		for (EnumPlate eplate : EnumPlate.VALUES)
 		{
-			OreDictionary.registerOre(String.format("materialPlate%s", eplate.getCamelName()), eplate.asStack());
+			OreDictionary.registerOre(eplate.getOreName(), eplate.asStack());
 		}
 
 		for (EnumDust edust : EnumDust.VALUES)
 		{
-			OreDictionary.registerOre(String.format("dust%s", edust.getCamelName()), edust.asStack());
+			OreDictionary.registerOre(edust.getOreName(), edust.asStack());
 		}
 
 		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());

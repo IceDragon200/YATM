@@ -41,14 +41,24 @@ public class ItemDust extends AbstractItemMaterial
 		setUnlocalizedName("yatm.dust");
 	}
 
-	public EnumDust getDust(ItemStack stack)
+	public EnumDust getDustType(ItemStack stack)
 	{
 		return EnumDust.get(stack.getItemDamage());
 	}
 
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName() + "." + getDust(stack).underscoreName;
+		return super.getUnlocalizedName() + "." + getDustType(stack).unlocalizedName;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
+	{
+		for (EnumDust dust : EnumDust.VALUES)
+		{
+			itemStacks.add(dust.asStack());
+		}
 	}
 
 	@Override
@@ -59,16 +69,6 @@ public class ItemDust extends AbstractItemMaterial
 		for (EnumDust dust : EnumDust.VALUES)
 		{
 			icons[dust.meta] = ir.registerIcon(String.format("yatm:item_material.%s", dust.getDustName()));
-		}
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
-	{
-		for (EnumDust dust : EnumDust.VALUES)
-		{
-			itemStacks.add(dust.asStack());
 		}
 	}
 }
