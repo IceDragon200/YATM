@@ -95,37 +95,47 @@ public class WirelessSystem
 			if (eventsInDimension.containsKey(dimensionId))
 			{
 				final List<WirelessEvent> events = eventsInDimension.get(dimensionId);
-				for (WirelessEvent wev : events)
+				synchronized (events)
 				{
-					for (TileEntity te : (List<TileEntity>)event.world.loadedTileEntityList)
+					for (WirelessEvent wev : events)
 					{
-						final double dist = Math.sqrt(
-							Math.pow(wev.origin.x - te.xCoord, 2) +
-							Math.pow(wev.origin.y - te.yCoord, 2) +
-							Math.pow(wev.origin.z - te.zCoord, 2)
-						);
-						if (dist < wev.range)
+						for (TileEntity te : (List<TileEntity>)event.world.loadedTileEntityList)
 						{
-							if (te instanceof IWirelessReceiver)
+							final double dist = Math.sqrt(
+								Math.pow(wev.origin.x - te.xCoord, 2) +
+								Math.pow(wev.origin.y - te.yCoord, 2) +
+								Math.pow(wev.origin.z - te.zCoord, 2)
+							);
+							if (dist < wev.range)
 							{
-								final IWirelessReceiver wr = (IWirelessReceiver)te;
-								final WirelessEvent _response = wr.onWirelessEvent(wev);
-								// @todo do something with the response
+								if (te instanceof IWirelessReceiver)
+								{
+									final IWirelessReceiver wr = (IWirelessReceiver)te;
+									final WirelessEvent _response = wr.onWirelessEvent(wev);
+									// @todo do something with the response
+								}
 							}
 						}
 					}
+					events.clear();
 				}
-				events.clear();
 			}
 		}
 	}
 
 	public void pub(WirelessEvent event)
 	{
-		if (!eventsInDimension.containsKey(event.dimensionId))
+		synchronized (eventsInDimension)
 		{
-			eventsInDimension.put(event.dimensionId, new ArrayList<WirelessEvent>());
+			if (!eventsInDimension.containsKey(event.dimensionId))
+			{
+				eventsInDimension.put(event.dimensionId, new ArrayList<WirelessEvent>());
+			}
+			final List<WirelessEvent> events = eventsInDimension.get(event.dimensionId);
+			synchronized (events)
+			{
+				events.add(event);
+			}
 		}
-		eventsInDimension.get(event.dimensionId).add(event);
 	}
 }
