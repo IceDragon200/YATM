@@ -32,7 +32,7 @@ import net.minecraft.inventory.Container;
  */
 public interface IInteractionObject
 {
-    Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn);
+	Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn);
 
-    String getGuiID();
+	String getGuiID();
 }
