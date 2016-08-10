@@ -25,7 +25,6 @@ package id2h.yatm.common.block;
 
 import id2h.yatm.client.renderer.RenderCompactor;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
-import id2h.yatm.util.GuiType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +38,6 @@ public class BlockCompactor extends YATMBlockBaseMachine
 		super(Material.iron, TileEntityCompactor.class);
 		setBlockName("yatm.compactor");
 		setBlockTextureName("yatm:compactor");
-		setGuiType(GuiType.COMPACTOR);
 	}
 
 	@Override

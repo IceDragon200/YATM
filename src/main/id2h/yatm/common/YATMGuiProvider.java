@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,9 @@ package id2h.yatm.common;
 import java.lang.reflect.Constructor;
 import javax.annotation.Nonnull;
 
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.exception.YATMInvalidGuiElement;
-import id2h.yatm.util.GuiType;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,9 +36,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * Quite a bit of code was taken from Applied Energistics 2's GuiBridge
- */
 public class YATMGuiProvider implements IGuiHandler
 {
 	private String typeName(Object inventory)
@@ -96,14 +94,14 @@ public class YATMGuiProvider implements IGuiHandler
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
 	{
 		final TileEntity te = world.getTileEntity(x, y, z);
-		final GuiType gui = GuiType.get(id);
-		if (gui != null)
+		if (te instanceof IInteractionObject)
 		{
-			return createContainerInstance(gui.getContainer(), player.inventory, te);
+			final IInteractionObject iobj = (IInteractionObject)te;
+			return iobj.createContainer(player.inventory, player);
 		}
 		else
 		{
-			// LOG invalid GUI
+			YATM.getLogger().warn("Container requested for TE but TE was not a IInteractionObject tile_entity=%s id=%d", te, id);
 		}
 		return null;
 	}
@@ -111,14 +109,12 @@ public class YATMGuiProvider implements IGuiHandler
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
 	{
 		final TileEntity te = world.getTileEntity(x, y, z);
-		final GuiType gui = GuiType.get(id);
-		if (gui != null)
+		if (te instanceof IInteractionObject)
 		{
-			return createContainerInstance(gui.getGui(), player.inventory, te);
-		}
-		else
-		{
-			// LOG invalid GUI
+			final IInteractionObject iobj = (IInteractionObject)te;
+			final String guiId = iobj.getGuiID();
+			final Class klass = CommonProxy.instance.guiMap.get(guiId);
+			return createContainerInstance(klass, player.inventory, te);
 		}
 		return null;
 	}

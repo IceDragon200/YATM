@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,17 @@
  */
 package id2h.yatm.common.tileentity;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
-import id2h.yatm.common.tileentity.machine.IMachineLogic;
-import id2h.yatm.common.tileentity.machine.MachineElectrolyser;
+import id2h.yatm.common.inventory.ContainerElectrolyser;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
+import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.machine.IMachineLogic;
+import id2h.yatm.common.tileentity.machine.MachineElectrolyser;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 
 public class TileEntityElectrolyser extends YATMPoweredMachine
 {
@@ -42,6 +47,18 @@ public class TileEntityElectrolyser extends YATMPoweredMachine
 	protected IYATMInventory createInventory()
 	{
 		return new YATMInternalInventory(this, 7);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:electrolyser";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerElectrolyser(playerInventory, this);
 	}
 
 	@Override

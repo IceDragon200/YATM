@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,18 @@
  */
 package id2h.yatm.common.tileentity;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import growthcraft.api.core.util.NumUtils;
+import id2h.yatm.common.inventory.ContainerFluxFurnace;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
+import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineFluxFurnace;
-import growthcraft.api.core.util.NumUtils;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -65,6 +69,18 @@ public class TileEntityFluxFurnace extends YATMPoweredMachine
 		 * 8..11 - Processing
 		 */
 		return new YATMInternalInventory(this, 12);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:flux_furnace";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerFluxFurnace(playerInventory, this);
 	}
 
 	@Override

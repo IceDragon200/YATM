@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,18 @@
  */
 package id2h.yatm.common.tileentity;
 
+import growthcraft.api.core.util.NumUtils;
+import id2h.yatm.common.inventory.ContainerAutoCrafter;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineAutoCrafter;
-import growthcraft.api.core.util.NumUtils;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 /*
@@ -67,6 +71,18 @@ public class TileEntityAutoCrafter extends YATMPoweredMachine
 		 */
 		// 8 - input, 8 - output, 9 crafting, 9 processing
 		return new YATMInternalInventory(this, 8 + 8 + 9 + 9);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:auto_crafter";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerAutoCrafter(playerInventory, this);
 	}
 
 	@Override

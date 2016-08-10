@@ -32,6 +32,7 @@ import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
 import growthcraft.core.util.ItemUtils;
 import id2h.yatm.common.inventory.IYATMInventory;
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
 import id2h.yatm.common.tileentity.machine.MachineUpdateState;
@@ -47,7 +48,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync, IInventoryWatcher
+public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync, IInventoryWatcher, IInteractionObject
 {
 	protected IYATMInventory inventory;
 	protected IMachineLogic machine;

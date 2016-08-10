@@ -26,10 +26,10 @@ package id2h.yatm.common.block;
 import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.block.GrcBlockContainer;
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.common.tileentity.YATMEnergyProviderTile;
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.BlockSides;
-import id2h.yatm.util.GuiType;
 import id2h.yatm.util.YATMPlatform;
 
 import appeng.client.texture.FlippableIcon;
@@ -60,7 +60,6 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 	@SideOnly(Side.CLIENT)
 	protected FlippableIcon[] icons;
 
-	protected GuiType guiType;
 	protected Class<? extends TileEntity> tileEntityType;
 
 	public YATMBlockBaseTile(Material material, Class<? extends TileEntity> klass)
@@ -70,16 +69,6 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		setHardness(4.0F);
 		setCreativeTab(CreativeTabsYATM.instance());
 		setTileEntityType(klass);
-	}
-
-	protected void setGuiType(GuiType type)
-	{
-		this.guiType = type;
-	}
-
-	public GuiType getGuiType()
-	{
-		return guiType;
 	}
 
 	@Override
@@ -239,14 +228,11 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 
 	protected boolean tryOpenGui(World world, int x, int y, int z, EntityPlayer p, int side)
 	{
-		if (getGuiType() != null)
+		final TileEntity te = getTileEntity(world, x, y, z);
+		if (te instanceof IInteractionObject && !p.isSneaking())
 		{
-			final TileEntity te = this.getTileEntity(world, x, y, z);
-			if (te != null && !p.isSneaking())
-			{
-				YATMPlatform.openGui(p, te, ForgeDirection.getOrientation(side), getGuiType());
-				return true;
-			}
+			YATMPlatform.openGui(p, te, ForgeDirection.getOrientation(side));
+			return true;
 		}
 		return false;
 	}

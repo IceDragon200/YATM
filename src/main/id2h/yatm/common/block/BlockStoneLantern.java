@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common;
+package id2h.yatm.common.block;
 
-import java.util.Map;
-import java.util.HashMap;
+import id2h.yatm.creativetab.CreativeTabsYATM;
 
-import cpw.mods.fml.common.SidedProxy;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 
-public class CommonProxy
+public class BlockStoneLantern extends Block
 {
-	@SidedProxy(clientSide="id2h.yatm.client.ClientProxy", serverSide="id2h.yatm.common.CommonProxy")
-	public static CommonProxy instance;
-
-	// Leave this Map empty on server, only the client should fill it
-	public final Map<String, Class> guiMap = new HashMap<String, Class>();
-
-	public void init() {}
+	public BlockStoneLantern()
+	{
+		super(Material.rock);
+		setStepSound(soundTypeStone);
+		setHardness(2.0F);
+		setResistance(5.0F);
+		setLightLevel(0.9375F);
+		setBlockName("yatm.stone_lantern");
+		setBlockTextureName("minecraft:cobblestone");
+		setCreativeTab(CreativeTabsYATM.instance());
+	}
 }

@@ -23,6 +23,19 @@
  */
 package id2h.yatm.client;
 
+import id2h.yatm.client.gui.GuiAutoCrafter;
+import id2h.yatm.client.gui.GuiAutoGrinder;
+import id2h.yatm.client.gui.GuiCoalGenerator;
+import id2h.yatm.client.gui.GuiCompactor;
+import id2h.yatm.client.gui.GuiCrate;
+import id2h.yatm.client.gui.GuiCrusher;
+import id2h.yatm.client.gui.GuiElectrolyser;
+import id2h.yatm.client.gui.GuiFluxFurnace;
+import id2h.yatm.client.gui.GuiFuelGenerator;
+import id2h.yatm.client.gui.GuiHeater;
+import id2h.yatm.client.gui.GuiMiniBlastFurnace;
+import id2h.yatm.client.gui.GuiMixer;
+import id2h.yatm.client.gui.GuiRoller;
 import id2h.yatm.client.renderer.RenderCagedMachine;
 import id2h.yatm.client.renderer.RenderCompactor;
 import id2h.yatm.client.renderer.RenderEnergyCell;
@@ -33,8 +46,21 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 public class ClientProxy extends CommonProxy
 {
 	@Override
-	public void initRenders()
+	public void init()
 	{
+		guiMap.put("yatm:auto_crafter", GuiAutoCrafter.class);
+		guiMap.put("yatm:auto_grinder", GuiAutoGrinder.class);
+		guiMap.put("yatm:crate", GuiCrate.class);
+		guiMap.put("yatm:compactor", GuiCompactor.class);
+		guiMap.put("yatm:crusher", GuiCrusher.class);
+		guiMap.put("yatm:electrolyser", GuiElectrolyser.class);
+		guiMap.put("yatm:flux_furnace", GuiFluxFurnace.class);
+		guiMap.put("yatm:heater",GuiHeater.class);
+		guiMap.put("yatm:mini_blast_furnace", GuiMiniBlastFurnace.class);
+		guiMap.put("yatm:mixer", GuiMixer.class);
+		guiMap.put("yatm:roller", GuiRoller.class);
+		guiMap.put("yatm:coal_generator", GuiCoalGenerator.class);
+		guiMap.put("yatm:fuel_generator", GuiFuelGenerator.class);
 		RenderingRegistry.registerBlockHandler(new RenderCagedMachine());
 		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());

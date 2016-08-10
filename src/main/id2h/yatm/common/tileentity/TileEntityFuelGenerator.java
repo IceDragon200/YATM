@@ -23,13 +23,31 @@
  */
 package id2h.yatm.common.tileentity;
 
+import id2h.yatm.common.inventory.ContainerFuelGenerator;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 
-public class TileEntityFuelGenerator extends YATMGeneratorBase
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+
+public class TileEntityFuelGenerator extends YATMGeneratorBase implements IInteractionObject
 {
 	@Override
 	protected YATMEnergyStorage createEnergyStorage()
 	{
 		return new YATMEnergyStorage(64000, 100);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:fuel_generator";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerFuelGenerator(playerInventory, this);
 	}
 }

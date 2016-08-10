@@ -24,7 +24,6 @@
 package id2h.yatm.common.block;
 
 import id2h.yatm.common.tileentity.TileEntityHeater;
-import id2h.yatm.util.GuiType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -37,7 +36,6 @@ public class BlockHeater extends YATMBlockBaseMachine
 		super(Material.iron, TileEntityHeater.class);
 		setBlockName("yatm.heater");
 		setBlockTextureName("yatm:heater");
-		setGuiType(GuiType.HEATER);
 	}
 
 	@Override

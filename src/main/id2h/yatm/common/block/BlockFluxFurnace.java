@@ -26,7 +26,6 @@ package id2h.yatm.common.block;
 import java.util.Random;
 
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
-import id2h.yatm.util.GuiType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,7 +41,6 @@ public class BlockFluxFurnace extends YATMBlockBaseMachine
 		super(Material.iron, TileEntityFluxFurnace.class);
 		setBlockName("yatm.flux_furnace");
 		setBlockTextureName("yatm:flux_furnace");
-		setGuiType(GuiType.FLUX_FURNACE);
 	}
 
 	@Override

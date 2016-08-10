@@ -682,7 +682,7 @@ public class YATM
 
 		FMLInterModComms.sendMessage("Waila", "register", "id2h.yatm.integration.WailaIntegration.register");
 
-		CommonProxy.instance.initRenders();
+		CommonProxy.instance.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new YATMGuiProvider());
 	}
 

@@ -26,11 +26,16 @@ package id2h.yatm.common.tileentity;
 import growthcraft.core.common.inventory.GrcInternalInventory;
 import growthcraft.core.common.inventory.InventoryProcessor;
 import growthcraft.core.common.tileentity.GrcTileEntityInventoryBase;
+import id2h.yatm.common.inventory.ContainerCrate;
 import id2h.yatm.common.inventory.YATMInternalInventory;
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public class TileEntityCrate extends GrcTileEntityInventoryBase
+public class TileEntityCrate extends GrcTileEntityInventoryBase implements IInteractionObject
 {
 	private static final int[] primarySlots = new int[] { 0 };
 
@@ -41,6 +46,18 @@ public class TileEntityCrate extends GrcTileEntityInventoryBase
 		 * Crates hold 2 chests worth of 1 item type
 		 */
 		return new YATMInternalInventory(this, 1, 54 * 64).setInventoryName("yatm.inventory.crate");
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:crate";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerCrate(playerInventory, this);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,22 @@
  */
 package id2h.yatm.common.tileentity;
 
-import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import growthcraft.api.core.util.NumUtils;
+import id2h.yatm.common.inventory.ContainerCrusher;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
+import id2h.yatm.common.tileentity.energy.MachineEnergyStorage;
+import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.MachineCrusher;
-import growthcraft.api.core.util.NumUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 
 /*
  * A Crusher applies pressure to a crack, smashing it into smaller pieces,
@@ -86,6 +90,18 @@ public class TileEntityCrusher extends YATMPoweredMachine
 		 * 6 - :Processing
 		 */
 		return new YATMInternalInventory(this, 7);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:crusher";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerCrusher(playerInventory, this);
 	}
 
 	@Override

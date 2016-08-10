@@ -25,7 +25,6 @@ package id2h.yatm.common.block;
 
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.common.tileentity.TileEntityCrate;
-import id2h.yatm.util.GuiType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -42,7 +41,6 @@ public class BlockMetalCrate extends YATMBlockBaseMachine
 		setResistance(5.0F);
 		setBlockName("yatm.metal_crate");
 		setBlockTextureName("yatm:metal_crate");
-		setGuiType(GuiType.CRATE);
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 

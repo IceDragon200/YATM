@@ -24,7 +24,6 @@
 package id2h.yatm.common.block;
 
 import id2h.yatm.common.tileentity.TileEntityAutoCrafter;
-import id2h.yatm.util.GuiType;
 
 import net.minecraft.block.material.Material;
 
@@ -35,6 +34,5 @@ public class BlockAutoCrafter extends YATMBlockBaseMachine
 		super(Material.iron, TileEntityAutoCrafter.class);
 		setBlockName("yatm.auto_crafter");
 		setBlockTextureName("yatm:auto_crafter");
-		setGuiType(GuiType.AUTO_CRAFTER);
 	}
 }

@@ -26,7 +26,6 @@ package id2h.yatm.common.block;
 import java.util.Random;
 
 import id2h.yatm.common.tileentity.TileEntityCrusher;
-import id2h.yatm.util.GuiType;
 import id2h.yatm.util.BlockSides;
 
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +44,6 @@ public class BlockCrusher extends YATMBlockBaseMachine
 		super(Material.iron, TileEntityCrusher.class);
 		setBlockName("yatm.crusher");
 		setBlockTextureName("yatm:crusher");
-		setGuiType(GuiType.CRUSHER);
 	}
 
 	@SideOnly(Side.CLIENT)

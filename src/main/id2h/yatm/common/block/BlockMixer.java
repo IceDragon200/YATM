@@ -24,7 +24,6 @@
 package id2h.yatm.common.block;
 
 import id2h.yatm.common.tileentity.TileEntityMixer;
-import id2h.yatm.util.GuiType;
 
 import net.minecraft.block.material.Material;
 
@@ -35,6 +34,5 @@ public class BlockMixer extends YATMBlockBaseMachine
 		super(Material.rock, TileEntityMixer.class);
 		setBlockName("yatm.mixer");
 		setBlockTextureName("yatm:mixer");
-		setGuiType(GuiType.MIXER);
 	}
 }

@@ -30,13 +30,15 @@ import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
 import growthcraft.core.util.ItemUtils;
+import id2h.yatm.common.inventory.ContainerCoalGenerator;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
-//import id2h.yatm.util.YATMDebug;
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.ISidedInventory;
@@ -45,7 +47,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISidedInventory, IGuiNetworkSync
+public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISidedInventory, IGuiNetworkSync, IInteractionObject
 {
 	protected IYATMInventory inventory;
 	protected int burnTime;
@@ -59,6 +61,18 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		super();
 		this.inventory = new YATMInternalInventory(this, 1);
 		setEnergySyncPriority(200);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:coal_generator";
+	}
+
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	{
+		return new ContainerCoalGenerator(playerInventory, this);
 	}
 
 	@Override

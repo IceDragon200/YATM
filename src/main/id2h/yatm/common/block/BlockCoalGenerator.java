@@ -27,7 +27,6 @@ import java.util.Random;
 
 import net.minecraft.block.material.Material;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
-import id2h.yatm.util.GuiType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +39,6 @@ public class BlockCoalGenerator extends YATMBlockBaseGenerator
 		super(Material.iron, TileEntityCoalGenerator.class);
 		setBlockName("yatm.coal_generator");
 		setBlockTextureName("yatm:coal_generator");
-		setGuiType(GuiType.COAL_GENERATOR);
 	}
 
 	@SideOnly(Side.CLIENT)

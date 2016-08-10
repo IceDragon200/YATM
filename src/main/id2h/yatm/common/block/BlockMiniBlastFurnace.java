@@ -26,7 +26,6 @@ package id2h.yatm.common.block;
 import java.util.Random;
 
 import id2h.yatm.common.tileentity.TileEntityMiniBlastFurnace;
-import id2h.yatm.util.GuiType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +43,6 @@ public class BlockMiniBlastFurnace extends YATMBlockBaseMachine
 		super(Material.rock, TileEntityMiniBlastFurnace.class);
 		setBlockName("yatm.mini_blast_furnace");
 		setBlockTextureName("yatm:mini_blast_furnace");
-		setGuiType(GuiType.MINI_BLAST_FURNACE);
 	}
 
 	@Override

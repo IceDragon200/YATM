@@ -39,7 +39,7 @@ public class YATMPlatform
 	private YATMPlatform() {}
 
 	// Copied from Applied Energistics 2
-	public static void openGui(@Nonnull EntityPlayer player, @Nullable TileEntity tile, @Nullable ForgeDirection dir, @Nonnull GuiType guiID)
+	public static void openGui(@Nonnull EntityPlayer player, @Nullable TileEntity tile, @Nullable ForgeDirection dir)
 	{
 		if (Platform.isClient()) return;
 
@@ -54,6 +54,6 @@ public class YATMPlatform
 			z = tile.zCoord;
 		}
 
-		player.openGui(YATM.instance(), guiID.ordinal(), player.getEntityWorld(), x, y, z);
+		player.openGui(YATM.instance(), 0, player.getEntityWorld(), x, y, z);
 	}
 }
