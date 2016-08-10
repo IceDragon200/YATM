@@ -48,12 +48,13 @@ public class ItemGrenade extends GrcItemBase
 		super();
 		setHasSubtypes(true);
 		setMaxDamage(0);
+		setUnlocalizedName("yatm.grenade");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}
 
 	public EnumGrenade getGrenadeType(ItemStack stack)
 	{
-		return EnumGrenade.getSafeById(stack.getItemDamage());
+		return EnumGrenade.getSafeByID(stack.getItemDamage());
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class ItemGrenade extends GrcItemBase
 		icons = new HashMap<Integer, IIcon>();
 		for (EnumGrenade grenade : EnumGrenade.values())
 		{
-			icons.put(grenade.id, ir.registerIcon(String.format("yatm:weapon/grenade/%s", grenade.unlocalizedName)));
+			icons.put(grenade.id, ir.registerIcon(String.format("yatm:weapons/grenades/%s", grenade.unlocalizedName)));
 		}
 	}
 

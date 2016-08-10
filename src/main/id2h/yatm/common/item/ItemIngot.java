@@ -47,10 +47,10 @@ public class ItemIngot extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[4];
-		icons[YATM.items.ingotUranium.meta] = ir.registerIcon("yatm:item_material.ingot.uranium");
-		icons[YATM.items.ingotPureUranium.meta] = ir.registerIcon("yatm:item_material.ingot.pure_uranium");
-		icons[YATM.items.ingotCarbonSteel.meta] = ir.registerIcon("yatm:item_material.ingot.carbon_steel");
-		icons[YATM.items.ingotCrystalSteel.meta] = ir.registerIcon("yatm:item_material.ingot.crystal_steel");
+		icons[YATM.items.ingotUranium.meta] = ir.registerIcon("yatm:materials/ingots/uranium");
+		icons[YATM.items.ingotPureUranium.meta] = ir.registerIcon("yatm:materials/ingots/pure_uranium");
+		icons[YATM.items.ingotCarbonSteel.meta] = ir.registerIcon("yatm:materials/ingots/carbon_steel");
+		icons[YATM.items.ingotCrystalSteel.meta] = ir.registerIcon("yatm:materials/ingots/crystal_steel");
 	}
 
 	@SuppressWarnings("rawtypes")

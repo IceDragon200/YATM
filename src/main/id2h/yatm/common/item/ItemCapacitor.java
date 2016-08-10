@@ -47,10 +47,10 @@ public class ItemCapacitor extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[4];
-		icons[YATM.items.capacitorIron.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.iron");
-		icons[YATM.items.capacitorGold.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.gold");
-		icons[YATM.items.capacitorDiamond.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.diamond");
-		icons[YATM.items.capacitorObsidian.meta] = ir.registerIcon("yatm:item_material.redstone_capacitor.obsidian");
+		icons[YATM.items.capacitorIron.meta] = ir.registerIcon("yatm:materials/redstone_capacitors/iron");
+		icons[YATM.items.capacitorGold.meta] = ir.registerIcon("yatm:materials/redstone_capacitors/gold");
+		icons[YATM.items.capacitorDiamond.meta] = ir.registerIcon("yatm:materials/redstone_capacitors/diamond");
+		icons[YATM.items.capacitorObsidian.meta] = ir.registerIcon("yatm:materials/redstone_capacitors/obsidian");
 	}
 
 	@SuppressWarnings("rawtypes")

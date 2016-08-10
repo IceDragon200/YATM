@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,52 +23,38 @@
  */
 package id2h.yatm.common.item;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-
-public class ItemDust extends AbstractItemMaterial
+public enum EnumCrystal
 {
-	public ItemDust()
-	{
-		super();
-		setUnlocalizedName("yatm.dust");
-	}
+	PURE_URANIUM(0, "pure_uranium"),
+	PURE_REDSTONE(1, "pure_redstone");
 
-	public EnumDust getDustType(ItemStack stack)
+	public static final Map<Integer, EnumCrystal> idToEnum = new HashMap<Integer, EnumCrystal>();
+	static
 	{
-		return EnumDust.get(stack.getItemDamage());
-	}
-
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return super.getUnlocalizedName() + "." + getDustType(stack).unlocalizedName;
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
-	{
-		for (EnumDust dust : EnumDust.VALUES)
+		for (EnumCrystal en : values())
 		{
-			itemStacks.add(dust.asStack());
+			idToEnum.put(en.id, en);
 		}
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister ir)
+	public final int id;
+	public final String unlocalizedName;
+
+	private EnumCrystal(int p_id, String p_name)
 	{
-		icons = new IIcon[EnumDust.VALUES.length];
-		for (EnumDust dust : EnumDust.VALUES)
+		this.id = p_id;
+		this.unlocalizedName = p_name;
+	}
+
+	public static EnumCrystal getSafeByID(int id)
+	{
+		if (idToEnum.containsKey(id))
 		{
-			icons[dust.meta] = ir.registerIcon(String.format("yatm:materials/%s", dust.getDustName()));
+			return idToEnum.get(id);
 		}
+		return PURE_URANIUM;
 	}
 }

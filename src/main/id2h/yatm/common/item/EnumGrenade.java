@@ -53,7 +53,7 @@ public enum EnumGrenade implements IItemStackFactory
 	/**
 	 * Blinds entities upon detonation
 	 */
-	FLASH_BANG(41, "flash"),
+	FLASH_BANG(41, "flash_bang"),
 	/**
 	 * Disables machines upon detontation for a period of time
 	 */
@@ -108,7 +108,7 @@ public enum EnumGrenade implements IItemStackFactory
 		return asStack(1);
 	}
 
-	public static EnumGrenade getSafeById(int id)
+	public static EnumGrenade getSafeByID(int id)
 	{
 		if (idToEnum.containsKey(id))
 		{

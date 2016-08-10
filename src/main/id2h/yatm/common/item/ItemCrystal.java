@@ -32,6 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class ItemCrystal extends AbstractItemMaterial
@@ -42,13 +43,24 @@ public class ItemCrystal extends AbstractItemMaterial
 		setUnlocalizedName("yatm.crystal");
 	}
 
+	public EnumCrystal getCrystalType(ItemStack stack)
+	{
+		return EnumCrystal.getSafeByID(stack.getItemDamage());
+	}
+
+	@Override
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		return super.getUnlocalizedName() + "." + getCrystalType(stack).unlocalizedName;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[2];
-		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:item_material.crystal.pure_uranium");
-		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:item_material.crystal.pure_redstone");
+		icons[YATM.items.crystalUranium.meta] = ir.registerIcon("yatm:materials/crystals/pure_uranium");
+		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:materials/crystals/pure_redstone");
 	}
 
 	@SuppressWarnings("rawtypes")

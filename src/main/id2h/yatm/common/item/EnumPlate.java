@@ -93,7 +93,7 @@ public enum EnumPlate implements IItemStackFactory
 
 	public String getPlateName()
 	{
-		return String.format("plate.%s", unlocalizedName);
+		return String.format("plates/%s", unlocalizedName);
 	}
 
 	public String getIngotOreName()

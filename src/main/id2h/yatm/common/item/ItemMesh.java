@@ -31,7 +31,7 @@ public class ItemMesh extends GrcItemBase
 	public ItemMesh()
 	{
 		super();
-		setTextureName("yatm:item_material.mesh.iron");
+		setTextureName("yatm:materials/meshes/iron");
 		setUnlocalizedName("yatm.mesh");
 		setCreativeTab(CreativeTabsYATM.instance());
 	}

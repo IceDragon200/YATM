@@ -38,55 +38,78 @@ tile.yatm.warning_stripes_8x.name=Warning Stripes 8x8
 tile.yatm.window.name=Vented Window
 
 # Items
-item.yatm.item_capacitor.0.name=Iron Capacitor
-item.yatm.item_capacitor.1.name=Gold Capacitor
-item.yatm.item_capacitor.2.name=Diamond Capacitor
-item.yatm.item_capacitor.3.name=Obsidian Capacitor
-item.yatm.item_crystal.0.name=Pure Uranium Crystal
-item.yatm.item_crystal.1.name=Pure Redstone Crystal
-item.yatm.item_crystal_seed.redstone.name=Redstone Seed
-item.yatm.item_crystal_seed.uranium.name=Uranium Seed
-item.yatm.item_dust.0.name=Uranium Dust
-item.yatm.item_dust.1.name=Pure Uranium Dust
-item.yatm.item_dust.2.name=Pure Redstone Dust
-item.yatm.item_dust.3.name=Carbon Steel Dust
-item.yatm.item_dust.4.name=Crystal Steel Dust
-item.yatm.item_ingot.0.name=Uranium Ingot
-item.yatm.item_ingot.1.name=Pure Uranium Ingot
-item.yatm.item_ingot.2.name=Carbon Steel Ingot
-item.yatm.item_ingot.3.name=Crystal Steel Ingot
-item.yatm.item_mesh.name=Metal Mesh
-item.yatm.item_plate.aluminum.name=Aluminum Plate
-item.yatm.item_plate.bone.name=Bone Plate
-item.yatm.item_plate.brass.name=Brass Plate
-item.yatm.item_plate.bronze.name=Bronze Plate
-item.yatm.item_plate.carbon_steel.name=Carbon Steel Plate
-item.yatm.item_plate.certus_quartz.name=Certus Quartz Plate
-item.yatm.item_plate.copper.name=Copper Plate
-item.yatm.item_plate.crystal_steel.name=Crystal Steel Plate
-item.yatm.item_plate.electrum.name=Electrum Plate
-item.yatm.item_plate.energized.name=Energized Plate
-item.yatm.item_plate.fluix.name=Fluix Plate
-item.yatm.item_plate.gold.name=Gold Plate
-item.yatm.item_plate.h_s_l_a_steel.name=HSLA Steel Plate
-item.yatm.item_plate.invar.name=Invar Plate
-item.yatm.item_plate.iron.name=Iron Plate
-item.yatm.item_plate.lead.name=Lead Plate
-item.yatm.item_plate.mithril.name=Mithril Plate
-item.yatm.item_plate.nether_quartz.name=Nether Quartz Plate
-item.yatm.item_plate.nickel.name=Nickel Plate
-item.yatm.item_plate.photovoltaic.name=Photovoltaic Plate
-item.yatm.item_plate.pig_iron.name=Pig Iron Plate
-item.yatm.item_plate.silver.name=Silver Plate
-item.yatm.item_plate.steel.name=Steel Plate
-item.yatm.item_plate.thaumium.name=Thaumium Plate
-item.yatm.item_plate.tin.name=Tin Plate
-item.yatm.item_plate.wrought_iron.name=Wrought Iron Plate
-item.yatm.item_plate.zinc.name=Zinc Plate
-item.yatm.item_vacuum_tube.0.name=Iron Vacuum Tube
-item.yatm.item_vacuum_tube.1.name=Gold Vacuum Tube
-item.yatm.item_vacuum_tube.2.name=Diamond Vacuum Tube
-item.yatm.item_vacuum_tube.3.name=Obsidian Vacuum Tube
+item.yatm.capacitor.0.name=Iron Capacitor
+item.yatm.capacitor.1.name=Gold Capacitor
+item.yatm.capacitor.2.name=Diamond Capacitor
+item.yatm.capacitor.3.name=Obsidian Capacitor
+## Crystals
+item.yatm.crystal.pure_uranium.name=Pure Uranium Crystal
+item.yatm.crystal.pure_redstone.name=Pure Redstone Crystal
+## Crystal Seeds
+item.yatm.crystal_seed.redstone.name=Redstone Seed
+item.yatm.crystal_seed.uranium.name=Uranium Seed
+## Dusts
+item.yatm.dust.uranium.name=Uranium Dust
+item.yatm.dust.pure_uranium.name=Pure Uranium Dust
+item.yatm.dust.pure_redstone.name=Pure Redstone Dust
+item.yatm.dust.carbon_steel.name=Carbon Steel Dust
+item.yatm.dust.crystal_steel.name=Crystal Steel Dust
+## Grenades
+item.yatm.grenade.dummy.name=Dummy Grenade
+item.yatm.grenade.frag.name=Fragmentation Grenade
+item.yatm.grenade.concussion.name=Concussion Grenade
+item.yatm.grenade.incendiary.name=Incendiary Grenade
+item.yatm.grenade.stun.name=Stun Grenade
+item.yatm.grenade.flash_bang.name=Flash Bang Grenade
+item.yatm.grenade.flash_bang.desc=Be sure to cover your eyes
+item.yatm.grenade.emp.name=EMP Grenade
+item.yatm.grenade.emp.desc=Don't throw this near your machines
+item.yatm.grenade.gravity.name=Gravity Grenade
+item.yatm.grenade.anti_gravity.name=Anti Gravity
+item.yatm.grenade.air.name=Air Grenade
+item.yatm.grenade.suction.name=Suction Grenade
+item.yatm.grenade.black_hole.name=Black Hole Grenade
+item.yatm.grenade.black_hole.desc=Throw with caution
+## Ingots
+item.yatm.ingot.uranium.name=Uranium Ingot
+item.yatm.ingot.pure_uranium.name=Pure Uranium Ingot
+item.yatm.ingot.carbon_steel.name=Carbon Steel Ingot
+item.yatm.ingot.crystal_steel.name=Crystal Steel Ingot
+## Meshes
+item.yatm.mesh.name=Metal Mesh
+## Plates
+item.yatm.plate.aluminum.name=Aluminum Plate
+item.yatm.plate.bone.name=Bone Plate
+item.yatm.plate.brass.name=Brass Plate
+item.yatm.plate.bronze.name=Bronze Plate
+item.yatm.plate.carbon_steel.name=Carbon Steel Plate
+item.yatm.plate.certus_quartz.name=Certus Quartz Plate
+item.yatm.plate.copper.name=Copper Plate
+item.yatm.plate.crystal_steel.name=Crystal Steel Plate
+item.yatm.plate.electrum.name=Electrum Plate
+item.yatm.plate.energized.name=Energized Plate
+item.yatm.plate.fluix.name=Fluix Plate
+item.yatm.plate.gold.name=Gold Plate
+item.yatm.plate.h_s_l_a_steel.name=HSLA Steel Plate
+item.yatm.plate.invar.name=Invar Plate
+item.yatm.plate.iron.name=Iron Plate
+item.yatm.plate.lead.name=Lead Plate
+item.yatm.plate.mithril.name=Mithril Plate
+item.yatm.plate.nether_quartz.name=Nether Quartz Plate
+item.yatm.plate.nickel.name=Nickel Plate
+item.yatm.plate.photovoltaic.name=Photovoltaic Plate
+item.yatm.plate.pig_iron.name=Pig Iron Plate
+item.yatm.plate.silver.name=Silver Plate
+item.yatm.plate.steel.name=Steel Plate
+item.yatm.plate.thaumium.name=Thaumium Plate
+item.yatm.plate.tin.name=Tin Plate
+item.yatm.plate.wrought_iron.name=Wrought Iron Plate
+item.yatm.plate.zinc.name=Zinc Plate
+## Vacuum Tubes
+item.yatm.vacuum_tube.0.name=Iron Vacuum Tube
+item.yatm.vacuum_tube.1.name=Gold Vacuum Tube
+item.yatm.vacuum_tube.2.name=Diamond Vacuum Tube
+item.yatm.vacuum_tube.3.name=Obsidian Vacuum Tube
 
 # GUI
 yatm.inventory.crate=Storage Crate

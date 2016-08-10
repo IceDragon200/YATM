@@ -87,7 +87,7 @@ public enum EnumDust implements IItemStackFactory
 
 	public String getDustName()
 	{
-		return String.format("dust.%s", unlocalizedName);
+		return String.format("dusts/%s", unlocalizedName);
 	}
 
 	public String getOreName()

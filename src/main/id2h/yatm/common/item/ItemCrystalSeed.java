@@ -100,19 +100,17 @@ public class ItemCrystalSeed extends AEBaseItem implements IGrowableCrystal
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		final String prefix = "yatm:crystal_seed.";
-
-		iconsTable = new IIcon[2][];
-
-		iconsTable[0] = new IIcon[3];
-		iconsTable[0][0] = ir.registerIcon(prefix + "uranium0");
-		iconsTable[0][1] = ir.registerIcon(prefix + "uranium1");
-		iconsTable[0][2] = ir.registerIcon(prefix + "uranium2");
-
-		iconsTable[1] = new IIcon[3];
-		iconsTable[1][0] = ir.registerIcon(prefix + "redstone0");
-		iconsTable[1][1] = ir.registerIcon(prefix + "redstone1");
-		iconsTable[1][2] = ir.registerIcon(prefix + "redstone2");
+		final String prefix = "yatm:crystal_seeds/";
+		this.iconsTable = new IIcon[crystalName.length][];
+		int i = 0;
+		for (String name : crystalName)
+		{
+			iconsTable[i] = new IIcon[3];
+			iconsTable[i][0] = ir.registerIcon(prefix + name + "0");
+			iconsTable[i][1] = ir.registerIcon(prefix + name + "1");
+			iconsTable[i][2] = ir.registerIcon(prefix + name + "2");
+			i++;
+		}
 	}
 
 	@Override

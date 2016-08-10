@@ -47,10 +47,10 @@ public class ItemVacuumTube extends AbstractItemMaterial
 	public void registerIcons(IIconRegister ir)
 	{
 		icons = new IIcon[4];
-		icons[YATM.items.vacuumTubeIron.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.iron");
-		icons[YATM.items.vacuumTubeGold.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.gold");
-		icons[YATM.items.vacuumTubeDiamond.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.diamond");
-		icons[YATM.items.vacuumTubeObsidian.meta] = ir.registerIcon("yatm:item_material.redstone_vacuum_tube.obsidian");
+		icons[YATM.items.vacuumTubeIron.meta] = ir.registerIcon("yatm:materials/redstone_vacuum_tubes/iron");
+		icons[YATM.items.vacuumTubeGold.meta] = ir.registerIcon("yatm:materials/redstone_vacuum_tubes/gold");
+		icons[YATM.items.vacuumTubeDiamond.meta] = ir.registerIcon("yatm:materials/redstone_vacuum_tubes/diamond");
+		icons[YATM.items.vacuumTubeObsidian.meta] = ir.registerIcon("yatm:materials/redstone_vacuum_tubes/obsidian");
 	}
 
 	@SuppressWarnings("rawtypes")

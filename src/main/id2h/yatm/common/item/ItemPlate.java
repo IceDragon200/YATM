@@ -58,7 +58,7 @@ public class ItemPlate extends AbstractItemMaterial
 		icons = new IIcon[EnumPlate.VALUES.length];
 		for (EnumPlate plate : EnumPlate.VALUES)
 		{
-			icons[plate.meta] = ir.registerIcon(String.format("yatm:item_material.%s", plate.getPlateName()));
+			icons[plate.meta] = ir.registerIcon(String.format("yatm:materials/%s", plate.getPlateName()));
 		}
 	}
 
