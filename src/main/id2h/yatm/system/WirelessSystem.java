@@ -28,9 +28,10 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import id2h.yatm.YATM;
 import growthcraft.api.core.util.Point3;
+import id2h.yatm.api.core.wireless.EnumWirelessCode;
 import id2h.yatm.common.tileentity.feature.IWirelessReceiver;
-//import id2h.yatm.YATM;
 
 import io.netty.buffer.ByteBuf;
 
@@ -47,21 +48,27 @@ public class WirelessSystem
 	{
 		// Which dimension emitted the event?
 		public final int dimensionId;
-		// A frequency, channel, whatever you want to call it
+		// The frequency this event is emitted on
 		public final int frequency;
+		// The requested frequency that the sender expects to hear a response on
+		public final int responseFrequency;
 		// Where did the event emit from?
 		public final Point3 origin;
 		// How far in each direction should the event travel
 		public final double range;
+		// An EnumWirelessCode
+		public final EnumWirelessCode code;
 		// The data being sent, please keep it small (under 32 bytes)
 		private final ByteBuf payload;
 
-		public WirelessEvent(int p_dimensionId, int p_frequency, Point3 p_origin, double p_range, ByteBuf p_payload)
+		public WirelessEvent(int p_dimensionId, int p_frequency, int p_responseFrequency, Point3 p_origin, double p_range, EnumWirelessCode p_code, ByteBuf p_payload)
 		{
 			this.dimensionId = p_dimensionId;
 			this.frequency = p_frequency;
+			this.responseFrequency = p_responseFrequency;
 			this.origin = p_origin;
 			this.range = p_range;
+			this.code = p_code;
 			this.payload = p_payload;
 		}
 
@@ -69,17 +76,48 @@ public class WirelessSystem
 		{
 			return payload.duplicate();
 		}
+
+		public String toString()
+		{
+			return String.format("<WirelessEvent dimensionId=%d frequency=%d responseFrequency=%d origin=%s range=%f code=%s>", dimensionId, frequency, responseFrequency, origin, range, code);
+		}
 	}
 
 	/**
 	 * dimensionId => events
 	 */
 	private final Map<Integer, List<WirelessEvent>> eventsInDimension = new HashMap<Integer, List<WirelessEvent>>();
+	private final Map<Integer, List<WirelessEvent>> eventsInDimensionReponses = new HashMap<Integer, List<WirelessEvent>>();
 
 	@SubscribeEvent
 	public void unload(WorldEvent.Unload event)
 	{
 		eventsInDimension.clear();
+		eventsInDimensionReponses.clear();
+	}
+
+	public void pub(WirelessEvent event)
+	{
+		YATM.getLogger().info("WirelessSystem#pub event=%s", event);
+		synchronized (eventsInDimension)
+		{
+			if (eventsInDimension.get(event.dimensionId) == null)
+			{
+				eventsInDimension.put(event.dimensionId, new ArrayList<WirelessEvent>());
+			}
+			synchronized (eventsInDimensionReponses)
+			{
+				if (eventsInDimensionReponses.get(event.dimensionId) == null)
+				{
+					eventsInDimensionReponses.put(event.dimensionId, new ArrayList<WirelessEvent>());
+				}
+			}
+			final List<WirelessEvent> events = eventsInDimension.get(event.dimensionId);
+			synchronized (events)
+			{
+				events.add(event);
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -92,49 +130,47 @@ public class WirelessSystem
 		final int dimensionId = event.world.provider.dimensionId;
 		synchronized (eventsInDimension)
 		{
-			if (eventsInDimension.containsKey(dimensionId))
+			synchronized (eventsInDimensionReponses)
 			{
 				final List<WirelessEvent> events = eventsInDimension.get(dimensionId);
+				if (events == null) return;
+				final List<WirelessEvent> responses = eventsInDimensionReponses.get(dimensionId);
 				synchronized (events)
 				{
-					for (WirelessEvent wev : events)
+					synchronized (responses)
 					{
+						final List<TileEntity> wirelessTiles = new ArrayList<TileEntity>();
 						for (TileEntity te : (List<TileEntity>)event.world.loadedTileEntityList)
 						{
-							final double dist = Math.sqrt(
-								Math.pow(wev.origin.x - te.xCoord, 2) +
-								Math.pow(wev.origin.y - te.yCoord, 2) +
-								Math.pow(wev.origin.z - te.zCoord, 2)
-							);
-							if (dist < wev.range)
+							if (te instanceof IWirelessReceiver)
+							{
+								wirelessTiles.add(te);
+							}
+						}
+						for (WirelessEvent wev : events)
+						{
+							YATM.getLogger().info("WirelessSystem#update event=%s", wev);
+							for (TileEntity te : wirelessTiles)
 							{
 								if (te instanceof IWirelessReceiver)
 								{
+									final double dist = Math.sqrt(te.getDistanceFrom(wev.origin.x, wev.origin.y, wev.origin.z));
+									YATM.getLogger().info("WirelessSystem#update testing tile entity with tile_entity=`%s` dist=%f event=`%s`", te, dist, wev);
+									if (dist > wev.range) continue;
 									final IWirelessReceiver wr = (IWirelessReceiver)te;
-									final WirelessEvent _response = wr.onWirelessEvent(wev);
-									// @todo do something with the response
+									final WirelessEvent response = wr.onWirelessEvent(wev);
+									if (response != null)
+									{
+										responses.add(response);
+									}
 								}
 							}
 						}
+						events.clear();
+						events.addAll(responses);
+						responses.clear();
 					}
-					events.clear();
 				}
-			}
-		}
-	}
-
-	public void pub(WirelessEvent event)
-	{
-		synchronized (eventsInDimension)
-		{
-			if (!eventsInDimension.containsKey(event.dimensionId))
-			{
-				eventsInDimension.put(event.dimensionId, new ArrayList<WirelessEvent>());
-			}
-			final List<WirelessEvent> events = eventsInDimension.get(event.dimensionId);
-			synchronized (events)
-			{
-				events.add(event);
 			}
 		}
 	}

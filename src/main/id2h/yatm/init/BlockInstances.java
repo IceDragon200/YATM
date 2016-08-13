@@ -45,8 +45,8 @@ import id2h.yatm.common.block.BlockMixer;
 import id2h.yatm.common.block.BlockRoller;
 import id2h.yatm.common.block.BlockSolarPanel;
 import id2h.yatm.common.block.BlockWindow;
-import id2h.yatm.common.block.BlockWirelessEmitter;
-import id2h.yatm.common.block.BlockWirelessReceiver;
+import id2h.yatm.common.block.BlockWirelessRedstoneEmitter;
+import id2h.yatm.common.block.BlockWirelessRedstoneReceiver;
 import id2h.yatm.common.definition.BlockDecorativeDefinition;
 import id2h.yatm.common.item.ItemBlockEnergyCell;
 import id2h.yatm.common.item.ItemBlockMachine;
@@ -70,8 +70,8 @@ import id2h.yatm.common.tileentity.TileEntityMiniBlastFurnace;
 import id2h.yatm.common.tileentity.TileEntityMixer;
 import id2h.yatm.common.tileentity.TileEntityRoller;
 import id2h.yatm.common.tileentity.TileEntitySolarPanel;
-import id2h.yatm.common.tileentity.TileEntityWirelessEmitter;
-import id2h.yatm.common.tileentity.TileEntityWirelessReceiver;
+import id2h.yatm.common.tileentity.TileEntityWirelessRedstoneEmitter;
+import id2h.yatm.common.tileentity.TileEntityWirelessRedstoneReceiver;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -113,8 +113,8 @@ public class BlockInstances extends GrcModuleBase
 	public BlockDefinition roller;
 	public BlockDefinition solarPanel;
 	public BlockDefinition window;
-	public BlockDefinition wirelessEmitter;
-	public BlockDefinition wirelessReceiver;
+	public BlockDefinition wirelessRedstoneEmitter;
+	public BlockDefinition wirelessRedstoneReceiver;
 
 	public BlockInstances() {}
 
@@ -143,8 +143,8 @@ public class BlockInstances extends GrcModuleBase
 		miniBlastFurnace = new BlockDefinition(new BlockMiniBlastFurnace());
 		mixer = new BlockDefinition(new BlockMixer());
 		roller = new BlockDefinition(new BlockRoller());
-		wirelessEmitter = new BlockDefinition(new BlockWirelessEmitter());
-		wirelessReceiver = new BlockDefinition(new BlockWirelessReceiver());
+		wirelessRedstoneEmitter = new BlockDefinition(new BlockWirelessRedstoneEmitter());
+		wirelessRedstoneReceiver = new BlockDefinition(new BlockWirelessRedstoneReceiver());
 
 		metalCrate = new BlockDefinition(new BlockMetalCrate());
 
@@ -230,8 +230,8 @@ public class BlockInstances extends GrcModuleBase
 		mixer.register("yatm.mixer", ItemBlockMachine.class);
 		roller.register("yatm.roller", ItemBlockMachine.class);
 		solarPanel.register("yatm.solar_panel", ItemBlockMachine.class);
-		wirelessEmitter.register("yatm.wireless_emitter", ItemBlockMachine.class);
-		wirelessReceiver.register("yatm.wireless_receiver", ItemBlockMachine.class);
+		wirelessRedstoneEmitter.register("yatm.wireless_redstone_emitter", ItemBlockMachine.class);
+		wirelessRedstoneReceiver.register("yatm.wireless_redstone_receiver", ItemBlockMachine.class);
 
 		floorEngraving1.register("yatm.floor_engraving1");
 		floorEngraving2.register("yatm.floor_engraving2");
@@ -268,7 +268,7 @@ public class BlockInstances extends GrcModuleBase
 		GameRegistry.registerTileEntity(TileEntityMixer.class, "yatm.tileentity.mixer");
 		GameRegistry.registerTileEntity(TileEntityRoller.class, "yatm.tileentity.roller");
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "yatm.tileentity.solar_panel");
-		GameRegistry.registerTileEntity(TileEntityWirelessReceiver.class, "yatm.tileentity.wireless_receiver");
-		GameRegistry.registerTileEntity(TileEntityWirelessEmitter.class, "yatm.tileentity.wireless_emitter");
+		GameRegistry.registerTileEntity(TileEntityWirelessRedstoneReceiver.class, "yatm.tileentity.wireless_redstone_receiver");
+		GameRegistry.registerTileEntity(TileEntityWirelessRedstoneEmitter.class, "yatm.tileentity.wireless_redstone_emitter");
 	}
 }

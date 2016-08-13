@@ -21,23 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity;
+package id2h.yatm.common.block;
 
-import growthcraft.api.core.util.Point3;
-import id2h.yatm.system.WirelessSystem.WirelessEvent;
-import id2h.yatm.YATM;
+import id2h.yatm.common.tileentity.TileEntityWirelessRedstoneEmitter;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 
-public class TileEntityWirelessEmitter extends YATMBaseTile
+public class BlockWirelessRedstoneEmitter extends YATMBlockBaseTile
 {
-	@Override
-	public void updateEntity()
+	public BlockWirelessRedstoneEmitter()
 	{
-		super.updateEntity();
-		final ByteBuf buf = Unpooled.buffer();
-		buf.writeInt(2);
-		YATM.wireless.pub(new WirelessEvent(worldObj.provider.dimensionId, 12345, new Point3(xCoord, yCoord, zCoord), 16.0D, buf));
+		super(Material.rock, TileEntityWirelessRedstoneEmitter.class);
+		setStepSound(Block.soundTypeMetal);
+		setHardness(2.0F);
+		setResistance(5.0F);
+		setBlockName("yatm.wireless_redstone_emitter");
+		setBlockTextureName("yatm:wireless_redstone_emitter");
 	}
 }
