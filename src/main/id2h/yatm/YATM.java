@@ -42,9 +42,9 @@ import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
 import id2h.yatm.integration.growthcraft.HeatSourceHeater;
-import id2h.yatm.network.handlers.UpdateTilePropertyMessageHandler;
+import id2h.yatm.network.handlers.UpdateStringTilePropertyMessageHandler;
 import id2h.yatm.network.handlers.WirelessMessageHandler;
-import id2h.yatm.network.messages.UpdateTilePropertyMessage;
+import id2h.yatm.network.messages.UpdateStringTilePropertyMessage;
 import id2h.yatm.network.messages.WirelessMessage;
 import id2h.yatm.system.WirelessSystem;
 import id2h.yatm.util.YATMDebug;
@@ -118,7 +118,7 @@ public class YATM
 		modules.preInit();
 		modules.register();
 		network.registerMessage(WirelessMessageHandler.class, WirelessMessage.class, 200, Side.SERVER);
-		network.registerMessage(UpdateTilePropertyMessageHandler.class, UpdateTilePropertyMessage.class, 200, Side.SERVER);
+		network.registerMessage(UpdateStringTilePropertyMessageHandler.class, UpdateStringTilePropertyMessage.class, 200, Side.SERVER);
 	}
 
 	private void registerCrushingRecipes()

@@ -23,9 +23,9 @@
  */
 package id2h.yatm.system;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import growthcraft.api.core.util.Point3;
@@ -103,13 +103,13 @@ public class WirelessSystem
 		{
 			if (eventsInDimension.get(event.dimensionId) == null)
 			{
-				eventsInDimension.put(event.dimensionId, new ArrayList<WirelessEvent>());
+				eventsInDimension.put(event.dimensionId, new LinkedList<WirelessEvent>());
 			}
 			synchronized (eventsInDimensionReponses)
 			{
 				if (eventsInDimensionReponses.get(event.dimensionId) == null)
 				{
-					eventsInDimensionReponses.put(event.dimensionId, new ArrayList<WirelessEvent>());
+					eventsInDimensionReponses.put(event.dimensionId, new LinkedList<WirelessEvent>());
 				}
 			}
 			final List<WirelessEvent> events = eventsInDimension.get(event.dimensionId);
@@ -134,12 +134,13 @@ public class WirelessSystem
 			{
 				final List<WirelessEvent> events = eventsInDimension.get(dimensionId);
 				if (events == null) return;
+				if (events.isEmpty()) return;
 				final List<WirelessEvent> responses = eventsInDimensionReponses.get(dimensionId);
 				synchronized (events)
 				{
 					synchronized (responses)
 					{
-						final List<TileEntity> wirelessTiles = new ArrayList<TileEntity>();
+						final List<TileEntity> wirelessTiles = new LinkedList<TileEntity>();
 						for (TileEntity te : (List<TileEntity>)event.world.loadedTileEntityList)
 						{
 							if (te instanceof IWirelessReceiver)

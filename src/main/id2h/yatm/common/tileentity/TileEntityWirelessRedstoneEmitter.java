@@ -63,7 +63,7 @@ public class TileEntityWirelessRedstoneEmitter extends TileEntityWirelessRedston
 		super.updateEntity();
 		if (!worldObj.isRemote)
 		{
-			this.currentPowerValue = worldObj.getBlockPowerInput(xCoord, yCoord, zCoord);
+			this.currentPowerValue = worldObj.getStrongestIndirectPower(xCoord, yCoord, zCoord);
 			if (lastPowerValue != currentPowerValue)
 			{
 				this.lastPowerValue = currentPowerValue;
@@ -125,13 +125,13 @@ public class TileEntityWirelessRedstoneEmitter extends TileEntityWirelessRedston
 	public boolean readFromStream_WirelessEmitter(ByteBuf stream) throws IOException
 	{
 		this.emissionRange = stream.readDouble();
-		return false;
+		return true;
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
 	public boolean writeToStream_WirelessEmitter(ByteBuf stream) throws IOException
 	{
 		stream.writeDouble(emissionRange);
-		return false;
+		return true;
 	}
 }

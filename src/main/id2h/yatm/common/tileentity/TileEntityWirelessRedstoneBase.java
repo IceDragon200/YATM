@@ -38,7 +38,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 {
 	protected int lastPowerValue;
 	protected int currentPowerValue;
-	protected String address = "emitter.default";
+	protected String address = "0.0.0.0";
 
 	protected void refreshState()
 	{
@@ -118,7 +118,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 		this.lastPowerValue = stream.readInt();
 		this.currentPowerValue = stream.readInt();
 		this.address = YATMStreamUtils.readString(stream, address);
-		return false;
+		return true;
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
@@ -127,16 +127,19 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 		stream.writeInt(lastPowerValue);
 		stream.writeInt(currentPowerValue);
 		YATMStreamUtils.writeString(stream, address);
-		return false;
+		return true;
 	}
 
 	@Override
-	public void updateTilePropertyFromBytes(int code, ByteBuf payload)
+	public void updateTilePropertyFromObject(int code, Object payload)
 	{
 		switch (code)
 		{
 			case 0:
-				this.address = YATMStreamUtils.readString(payload, address);
+				if (payload instanceof String)
+				{
+					setAddress((String)payload);
+				}
 				break;
 			default:
 		}

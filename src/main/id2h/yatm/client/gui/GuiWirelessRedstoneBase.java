@@ -24,8 +24,7 @@
 package id2h.yatm.client.gui;
 
 import id2h.yatm.common.tileentity.TileEntityWirelessRedstoneBase;
-import id2h.yatm.network.messages.UpdateTilePropertyMessage;
-import id2h.yatm.util.YATMStreamUtils;
+import id2h.yatm.network.messages.UpdateStringTilePropertyMessage;
 import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
@@ -70,14 +69,6 @@ public class GuiWirelessRedstoneBase<C extends Container, T extends TileEntityWi
 	{
 		super.keyTyped(eventChar, eventKey);
 		inputAddress.textboxKeyTyped(eventChar, eventKey);
-		final String address = inputAddress.getText().trim();
-		YATM.network.sendToServer(
-			new UpdateTilePropertyMessage(
-				tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord,
-				0,
-				YATMStreamUtils.toByteBuf(address)
-			)
-		);
 	}
 
 	@Override
@@ -85,5 +76,19 @@ public class GuiWirelessRedstoneBase<C extends Container, T extends TileEntityWi
 	{
 		super.mouseClicked(x, y, code);
 		inputAddress.mouseClicked(x, y, code);
+	}
+
+	@Override
+	public void onGuiClosed()
+	{
+		final String address = inputAddress.getText().trim();
+		YATM.network.sendToServer(
+			new UpdateStringTilePropertyMessage(
+				tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord,
+				0,
+				address
+			)
+		);
+		super.onGuiClosed();
 	}
 }

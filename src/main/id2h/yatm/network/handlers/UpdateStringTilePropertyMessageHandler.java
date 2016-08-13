@@ -21,52 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.network.messages;
+package id2h.yatm.network.handlers;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import id2h.yatm.network.messages.UpdateStringTilePropertyMessage;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-
-public class UpdateTilePropertyMessage implements IMessage
+public class UpdateStringTilePropertyMessageHandler extends AbstractUpdateTilePropertyMessageHandler<UpdateStringTilePropertyMessage>
 {
-	public int xCoord;
-	public int yCoord;
-	public int zCoord;
-	public int code;
-	public ByteBuf payload;
-
-	public UpdateTilePropertyMessage()
-	{
-		this.payload = Unpooled.buffer();
-	}
-
-	public UpdateTilePropertyMessage(int p_xCoord, int p_yCoord, int p_zCoord, int p_code, ByteBuf p_payload)
-	{
-		this.xCoord = p_xCoord;
-		this.yCoord = p_yCoord;
-		this.zCoord = p_zCoord;
-		this.code = p_code;
-		this.payload = p_payload;
-	}
-
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-		this.xCoord = buf.readInt();
-		this.yCoord = buf.readInt();
-		this.zCoord = buf.readInt();
-		this.code = buf.readInt();
-		buf.readBytes(payload);
-	}
-
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-		buf.writeInt(xCoord);
-		buf.writeInt(yCoord);
-		buf.writeInt(zCoord);
-		buf.writeInt(code);
-		buf.writeBytes(payload);
-	}
 }

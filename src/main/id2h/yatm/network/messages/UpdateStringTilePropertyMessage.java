@@ -21,9 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.common.tileentity.feature;
+package id2h.yatm.network.messages;
 
-public interface IUpdatableTile
+import id2h.yatm.util.YATMStreamUtils;
+
+import io.netty.buffer.ByteBuf;
+
+public class UpdateStringTilePropertyMessage extends AbstractUpdateTilePropertyMessage<String>
 {
-	void updateTilePropertyFromObject(int code, Object payload);
+	public UpdateStringTilePropertyMessage() {}
+
+	public UpdateStringTilePropertyMessage(int p_xCoord, int p_yCoord, int p_zCoord, int p_code, String str)
+	{
+		super(p_xCoord, p_yCoord, p_zCoord, p_code, str);
+	}
+
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		super.fromBytes(buf);
+		this.payload = YATMStreamUtils.readString(buf, payload);
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		super.toBytes(buf);
+		YATMStreamUtils.writeString(buf, payload);
+	}
 }

@@ -21,33 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package id2h.yatm.network.handlers;
+package id2h.yatm.network.messages;
 
-import id2h.yatm.network.messages.UpdateTilePropertyMessage;
-import id2h.yatm.common.tileentity.feature.IUpdatableTile;
-import id2h.yatm.YATM;
+import io.netty.buffer.ByteBuf;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import net.minecraft.world.World;
-import net.minecraft.tileentity.TileEntity;
 
-public class UpdateTilePropertyMessageHandler implements IMessageHandler<UpdateTilePropertyMessage, IMessage>
+public abstract class AbstractUpdateTilePropertyMessage<T> implements IMessage
 {
-	@Override
-	public IMessage onMessage(UpdateTilePropertyMessage message, MessageContext ctx)
+	public int xCoord;
+	public int yCoord;
+	public int zCoord;
+	public int code;
+	public T payload;
+
+	public AbstractUpdateTilePropertyMessage() {}
+
+	public AbstractUpdateTilePropertyMessage(int p_xCoord, int p_yCoord, int p_zCoord, int p_code, T p_payload)
 	{
-		final World world = ctx.getServerHandler().playerEntity.worldObj;
-		final TileEntity te = world.getTileEntity(message.xCoord, message.yCoord, message.zCoord);
-		if (te instanceof IUpdatableTile)
-		{
-			((IUpdatableTile)te).updateTilePropertyFromBytes(message.code, message.payload);
-		}
-		else
-		{
-			YATM.getLogger().error("Got a UpdateTilePropertyMessage but there is no IUpdatableTile at the specified location: xCoord=%d yCoord=%d zCoord=%d", message.xCoord, message.yCoord, message.zCoord);
-		}
-		return null;
+		this.xCoord = p_xCoord;
+		this.yCoord = p_yCoord;
+		this.zCoord = p_zCoord;
+		this.code = p_code;
+		this.payload = p_payload;
+	}
+
+	@Override
+	public void fromBytes(ByteBuf buf)
+	{
+		this.xCoord = buf.readInt();
+		this.yCoord = buf.readInt();
+		this.zCoord = buf.readInt();
+		this.code = buf.readInt();
+	}
+
+	@Override
+	public void toBytes(ByteBuf buf)
+	{
+		buf.writeInt(xCoord);
+		buf.writeInt(yCoord);
+		buf.writeInt(zCoord);
+		buf.writeInt(code);
 	}
 }
