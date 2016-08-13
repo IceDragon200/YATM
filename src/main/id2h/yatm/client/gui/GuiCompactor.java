@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerCompactor;
 import id2h.yatm.common.tileentity.TileEntityCompactor;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiCompactor extends YATMMachineGuiContainer<ContainerCompactor, TileEntityCompactor>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/compactor.png");
+
 	public GuiCompactor(IInventory playerInventory, TileEntityCompactor compactor)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiCompactor.png"), new ContainerCompactor(playerInventory, compactor), compactor);
+		super(resloc, new ContainerCompactor(playerInventory, compactor), compactor);
 		this.ySize = 176;
 	}
 

@@ -25,6 +25,7 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerHeater;
 import id2h.yatm.common.tileentity.TileEntityHeater;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,9 +35,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiHeater extends YATMMachineGuiContainer<ContainerHeater, TileEntityHeater>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/heater.png");
+
 	public GuiHeater(IInventory playerInventory, TileEntityHeater heater)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiHeater.png"), new ContainerHeater(playerInventory, heater), heater);
+		super(resloc, new ContainerHeater(playerInventory, heater), heater);
 		this.ySize = 176;
 	}
 }

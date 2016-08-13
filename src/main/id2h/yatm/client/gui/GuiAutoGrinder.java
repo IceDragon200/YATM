@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerAutoGrinder;
 import id2h.yatm.common.tileentity.TileEntityAutoGrinder;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiAutoGrinder extends YATMMachineGuiContainer<ContainerAutoGrinder, TileEntityAutoGrinder>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/auto_grinder.png");
+
 	public GuiAutoGrinder(IInventory playerInventory, TileEntityAutoGrinder grinder)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiAutoGrinder.png"), new ContainerAutoGrinder(playerInventory, grinder), grinder);
+		super(resloc, new ContainerAutoGrinder(playerInventory, grinder), grinder);
 		this.ySize = 176;
 	}
 

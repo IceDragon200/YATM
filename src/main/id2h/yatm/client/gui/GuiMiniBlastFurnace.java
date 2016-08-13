@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerMiniBlastFurnace;
 import id2h.yatm.common.tileentity.TileEntityMiniBlastFurnace;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiMiniBlastFurnace extends YATMMachineGuiContainer<ContainerMiniBlastFurnace, TileEntityMiniBlastFurnace>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/mini_blast_furnace.png");
+
 	public GuiMiniBlastFurnace(IInventory playerInventory, TileEntityMiniBlastFurnace miniBlastFurnace)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiMiniBlastFurnace.png"), new ContainerMiniBlastFurnace(playerInventory, miniBlastFurnace), miniBlastFurnace);
+		super(resloc, new ContainerMiniBlastFurnace(playerInventory, miniBlastFurnace), miniBlastFurnace);
 		this.ySize = 176;
 	}
 

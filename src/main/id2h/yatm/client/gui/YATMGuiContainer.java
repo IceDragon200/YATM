@@ -35,7 +35,7 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public abstract class YATMGuiContainer<C extends Container, T extends TileEntity> extends GrcGuiContainer<C, T>
 {
-	protected static final ResourceLocation yatmCommonResource = new ResourceLocation("yatm", "textures/gui/Gui_Common.png");
+	protected static final ResourceLocation yatmCommonResource = new ResourceLocation("yatm", "textures/gui/common.png");
 
 	public YATMGuiContainer(ResourceLocation res, C container, T te)
 	{
@@ -52,14 +52,14 @@ public abstract class YATMGuiContainer<C extends Container, T extends TileEntity
 		drawTexturedModalRect(x, y + gaugeY, 0, gaugeY, w, h);
 	}
 
-	protected void drawGuiContainerBackgroundElements(float _f, int x, int y)
+	protected void drawGuiContainerBackgroundElements(float scale, int x, int y)
 	{
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float _f, int x, int y)
+	public void drawGuiContainerBackgroundLayer(float scale, int x, int y)
 	{
-		super.drawGuiContainerBackgroundLayer(_f, x, y);
-		drawGuiContainerBackgroundElements(_f, x, y);
+		super.drawGuiContainerBackgroundLayer(scale, x, y);
+		drawGuiContainerBackgroundElements(scale, x, y);
 	}
 }

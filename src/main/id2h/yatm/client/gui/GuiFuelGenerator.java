@@ -25,6 +25,7 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerFuelGenerator;
 import id2h.yatm.common.tileentity.TileEntityFuelGenerator;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,9 +35,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiFuelGenerator extends YATMPoweredGuiContainer<ContainerFuelGenerator, TileEntityFuelGenerator>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/fuel_generator.png");
+
 	public GuiFuelGenerator(IInventory playerInventory, TileEntityFuelGenerator generator)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiFuelGenerator.png"), new ContainerFuelGenerator(playerInventory, generator), generator);
+		super(resloc, new ContainerFuelGenerator(playerInventory, generator), generator);
 		this.ySize = 176;
 	}
 }

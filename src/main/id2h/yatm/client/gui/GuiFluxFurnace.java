@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerFluxFurnace;
 import id2h.yatm.common.tileentity.TileEntityFluxFurnace;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiFluxFurnace extends YATMMachineGuiContainer<ContainerFluxFurnace, TileEntityFluxFurnace>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/flux_furnace.png");
+
 	public GuiFluxFurnace(IInventory playerInventory, TileEntityFluxFurnace fluxFurnace)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiFluxFurnace.png"), new ContainerFluxFurnace(playerInventory, fluxFurnace), fluxFurnace);
+		super(resloc, new ContainerFluxFurnace(playerInventory, fluxFurnace), fluxFurnace);
 		this.ySize = 176;
 	}
 

@@ -25,6 +25,8 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerCrate;
 import id2h.yatm.common.tileentity.TileEntityCrate;
+import id2h.yatm.YATM;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.IInventory;
@@ -33,9 +35,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiCrate extends YATMGuiContainer<ContainerCrate, TileEntityCrate>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/crate.png");
+
 	public GuiCrate(IInventory playerInventory, TileEntityCrate compactor)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiCrate.png"), new ContainerCrate(playerInventory, compactor), compactor);
+		super(resloc, new ContainerCrate(playerInventory, compactor), compactor);
 		this.ySize = 176;
 	}
 }

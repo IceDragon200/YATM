@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerCoalGenerator;
 import id2h.yatm.common.tileentity.TileEntityCoalGenerator;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiCoalGenerator extends YATMPoweredGuiContainer<ContainerCoalGenerator, TileEntityCoalGenerator>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/coal_generator.png");
+
 	public GuiCoalGenerator(IInventory playerInventory, TileEntityCoalGenerator generator)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiCoalGenerator.png"), new ContainerCoalGenerator(playerInventory, generator), generator);
+		super(resloc, new ContainerCoalGenerator(playerInventory, generator), generator);
 		this.ySize = 176;
 	}
 

@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerRoller;
 import id2h.yatm.common.tileentity.TileEntityRoller;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiRoller extends YATMMachineGuiContainer<ContainerRoller, TileEntityRoller>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/roller.png");
+
 	public GuiRoller(IInventory playerInventory, TileEntityRoller roller)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiRoller.png"), new ContainerRoller(playerInventory, roller), roller);
+		super(resloc, new ContainerRoller(playerInventory, roller), roller);
 		this.ySize = 176;
 	}
 

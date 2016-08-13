@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerCrusher;
 import id2h.yatm.common.tileentity.TileEntityCrusher;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,11 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiCrusher extends YATMMachineGuiContainer<ContainerCrusher, TileEntityCrusher>
 {
-	protected TileEntityCrusher tileEntity;
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/crusher.png");
 
 	public GuiCrusher(IInventory playerInventory, TileEntityCrusher crusher)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiCrusher.png"), new ContainerCrusher(playerInventory, crusher), crusher);
+		super(resloc, new ContainerCrusher(playerInventory, crusher), crusher);
 		this.ySize = 176;
 	}
 

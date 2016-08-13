@@ -25,6 +25,7 @@ package id2h.yatm.client.gui;
 
 import id2h.yatm.common.inventory.ContainerElectrolyser;
 import id2h.yatm.common.tileentity.TileEntityElectrolyser;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,11 +35,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiElectrolyser extends YATMMachineGuiContainer<ContainerElectrolyser, TileEntityElectrolyser>
 {
-	protected TileEntityElectrolyser tileEntity;
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/electrolyser.png");
 
 	public GuiElectrolyser(IInventory playerInventory, TileEntityElectrolyser electrolyser)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiElectrolyser.png"), new ContainerElectrolyser(playerInventory, electrolyser), electrolyser);
+		super(resloc, new ContainerElectrolyser(playerInventory, electrolyser), electrolyser);
 		this.ySize = 176;
 	}
 }

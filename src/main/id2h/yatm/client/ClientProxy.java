@@ -50,17 +50,17 @@ public class ClientProxy extends CommonProxy
 	{
 		guiMap.put("yatm:auto_crafter", GuiAutoCrafter.class);
 		guiMap.put("yatm:auto_grinder", GuiAutoGrinder.class);
-		guiMap.put("yatm:crate", GuiCrate.class);
+		guiMap.put("yatm:coal_generator", GuiCoalGenerator.class);
 		guiMap.put("yatm:compactor", GuiCompactor.class);
+		guiMap.put("yatm:crate", GuiCrate.class);
 		guiMap.put("yatm:crusher", GuiCrusher.class);
 		guiMap.put("yatm:electrolyser", GuiElectrolyser.class);
 		guiMap.put("yatm:flux_furnace", GuiFluxFurnace.class);
+		guiMap.put("yatm:fuel_generator", GuiFuelGenerator.class);
 		guiMap.put("yatm:heater",GuiHeater.class);
 		guiMap.put("yatm:mini_blast_furnace", GuiMiniBlastFurnace.class);
 		guiMap.put("yatm:mixer", GuiMixer.class);
 		guiMap.put("yatm:roller", GuiRoller.class);
-		guiMap.put("yatm:coal_generator", GuiCoalGenerator.class);
-		guiMap.put("yatm:fuel_generator", GuiFuelGenerator.class);
 		RenderingRegistry.registerBlockHandler(new RenderCagedMachine());
 		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());

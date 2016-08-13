@@ -23,9 +23,10 @@
  */
 package id2h.yatm.client.gui;
 
+import growthcraft.core.util.RenderUtils;
 import id2h.yatm.common.inventory.ContainerMixer;
 import id2h.yatm.common.tileentity.TileEntityMixer;
-import growthcraft.core.util.RenderUtils;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,11 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class GuiMixer extends YATMMachineGuiContainer<ContainerMixer, TileEntityMixer>
 {
+	protected static final ResourceLocation resloc = YATM.resources.create("textures/gui/mixer.png");
+
 	public GuiMixer(IInventory playerInventory, TileEntityMixer mixer)
 	{
-		super(new ResourceLocation("yatm", "textures/gui/GuiMixer.png"), new ContainerMixer(playerInventory, mixer), mixer);
+		super(resloc, new ContainerMixer(playerInventory, mixer), mixer);
 		this.ySize = 176;
 	}
 
