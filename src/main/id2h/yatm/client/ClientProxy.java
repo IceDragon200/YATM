@@ -36,6 +36,8 @@ import id2h.yatm.client.gui.GuiHeater;
 import id2h.yatm.client.gui.GuiMiniBlastFurnace;
 import id2h.yatm.client.gui.GuiMixer;
 import id2h.yatm.client.gui.GuiRoller;
+import id2h.yatm.client.gui.GuiWirelessRedstoneEmitter;
+import id2h.yatm.client.gui.GuiWirelessRedstoneReceiver;
 import id2h.yatm.client.renderer.RenderCagedMachine;
 import id2h.yatm.client.renderer.RenderCompactor;
 import id2h.yatm.client.renderer.RenderEnergyCell;
@@ -61,6 +63,8 @@ public class ClientProxy extends CommonProxy
 		guiMap.put("yatm:mini_blast_furnace", GuiMiniBlastFurnace.class);
 		guiMap.put("yatm:mixer", GuiMixer.class);
 		guiMap.put("yatm:roller", GuiRoller.class);
+		guiMap.put("yatm:wireless_redstone_emitter", GuiWirelessRedstoneEmitter.class);
+		guiMap.put("yatm:wireless_redstone_receiver", GuiWirelessRedstoneReceiver.class);
 		RenderingRegistry.registerBlockHandler(new RenderCagedMachine());
 		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());

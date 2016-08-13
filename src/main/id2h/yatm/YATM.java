@@ -30,6 +30,7 @@ import growthcraft.api.core.item.OreItemStacks;
 import growthcraft.api.core.log.GrcLogger;
 import growthcraft.api.core.log.ILogger;
 import growthcraft.api.core.module.ModuleContainer;
+import growthcraft.api.core.util.DomainResourceLocationFactory;
 import growthcraft.api.core.util.TickUtils;
 import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.core.util.PossibleItemList;
@@ -41,7 +42,9 @@ import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
 import id2h.yatm.integration.growthcraft.HeatSourceHeater;
+import id2h.yatm.network.handlers.UpdateTilePropertyMessageHandler;
 import id2h.yatm.network.handlers.WirelessMessageHandler;
+import id2h.yatm.network.messages.UpdateTilePropertyMessage;
 import id2h.yatm.network.messages.WirelessMessage;
 import id2h.yatm.system.WirelessSystem;
 import id2h.yatm.util.YATMDebug;
@@ -80,8 +83,9 @@ public class YATM
 	public static final String MOD_NAME = "Yet Another Tech Mod";
 	public static final String MOD_VERSION = "@VERSION@";
 
-	public static SimpleNetworkWrapper network = new SimpleNetworkWrapper("yatm");
-	public static WirelessSystem wireless = new WirelessSystem();
+	public static final DomainResourceLocationFactory resources = new DomainResourceLocationFactory("yatm");
+	public static final SimpleNetworkWrapper network = new SimpleNetworkWrapper("yatm");
+	public static final WirelessSystem wireless = new WirelessSystem();
 	public static BlockInstances blocks;
 	public static ItemInstances items;
 
@@ -114,6 +118,7 @@ public class YATM
 		modules.preInit();
 		modules.register();
 		network.registerMessage(WirelessMessageHandler.class, WirelessMessage.class, 200, Side.SERVER);
+		network.registerMessage(UpdateTilePropertyMessageHandler.class, UpdateTilePropertyMessage.class, 200, Side.SERVER);
 	}
 
 	private void registerCrushingRecipes()

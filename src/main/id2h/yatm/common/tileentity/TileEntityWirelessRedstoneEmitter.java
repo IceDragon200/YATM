@@ -25,36 +25,36 @@ package id2h.yatm.common.tileentity;
 
 import java.io.IOException;
 
-import growthcraft.api.core.util.BlockFlags;
 import growthcraft.api.core.util.Point3;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import id2h.yatm.api.core.wireless.EnumWirelessCode;
+import id2h.yatm.common.inventory.ContainerWirelessRedstoneEmitter;
+import id2h.yatm.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.system.WirelessSystem.WirelessEvent;
 import id2h.yatm.YATM;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityWirelessRedstoneEmitter extends YATMBaseTile
+public class TileEntityWirelessRedstoneEmitter extends TileEntityWirelessRedstoneBase implements IInteractionObject
 {
-	protected int lastPowerValue;
-	protected int currentPowerValue;
-	protected int emissionFrequency = 12345;
 	protected double emissionRange = 16.0D;
 
-	protected void refreshState()
+	@Override
+	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
 	{
-		final int meta = getBlockMetadata()	& 7;
-		final boolean oldState = (meta & 4) > 0;
-		final boolean curState = currentPowerValue > 0;
-		if (oldState != curState)
-		{
-			final int curMeta = (meta & 3) | (curState ? 4 : 0);
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.SYNC);
-		}
-		markDirty();
+		return new ContainerWirelessRedstoneEmitter(playerInventory, this);
+	}
+
+	@Override
+	public String getGuiID()
+	{
+		return "yatm:wireless_redstone_emitter";
 	}
 
 	@Override
@@ -71,8 +71,8 @@ public class TileEntityWirelessRedstoneEmitter extends YATMBaseTile
 				buf.writeInt(currentPowerValue);
 				final WirelessEvent event = new WirelessEvent(
 					worldObj.provider.dimensionId,
-					emissionFrequency,
-					-1,
+					address,
+					null,
 					new Point3(xCoord, yCoord, zCoord),
 					emissionRange,
 					EnumWirelessCode.PUT,
@@ -85,9 +85,6 @@ public class TileEntityWirelessRedstoneEmitter extends YATMBaseTile
 
 	private void readEmitterFromNBT(NBTTagCompound nbt)
 	{
-		this.lastPowerValue = nbt.getInteger("last_power_value");
-		this.currentPowerValue = nbt.getInteger("current_power_value");
-		this.emissionFrequency = nbt.getInteger("emission_frequency");
 		this.emissionRange = nbt.getDouble("emission_range");
 	}
 
@@ -107,9 +104,6 @@ public class TileEntityWirelessRedstoneEmitter extends YATMBaseTile
 
 	private void writeEmitterToNBT(NBTTagCompound nbt)
 	{
-		nbt.setInteger("last_power_value", lastPowerValue);
-		nbt.setInteger("current_power_value", currentPowerValue);
-		nbt.setInteger("emission_frequency", emissionFrequency);
 		nbt.setDouble("emission_range", emissionRange);
 	}
 
@@ -128,21 +122,15 @@ public class TileEntityWirelessRedstoneEmitter extends YATMBaseTile
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
-	public boolean readFromStream_Power(ByteBuf stream) throws IOException
+	public boolean readFromStream_WirelessEmitter(ByteBuf stream) throws IOException
 	{
-		this.lastPowerValue = stream.readInt();
-		this.currentPowerValue = stream.readInt();
-		this.emissionFrequency = stream.readInt();
 		this.emissionRange = stream.readDouble();
 		return false;
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
-	public boolean writeToStream_Power(ByteBuf stream) throws IOException
+	public boolean writeToStream_WirelessEmitter(ByteBuf stream) throws IOException
 	{
-		stream.writeInt(lastPowerValue);
-		stream.writeInt(currentPowerValue);
-		stream.writeInt(emissionFrequency);
 		stream.writeDouble(emissionRange);
 		return false;
 	}

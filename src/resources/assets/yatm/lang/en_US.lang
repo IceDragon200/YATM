@@ -36,6 +36,8 @@ tile.yatm.warning_stripes_2x.name=Warning Stripes 2x2
 tile.yatm.warning_stripes_4x.name=Warning Stripes 4x4
 tile.yatm.warning_stripes_8x.name=Warning Stripes 8x8
 tile.yatm.window.name=Vented Window
+tile.yatm.wireless_redstone_emitter.name=Wireless Redstone Emitter
+tile.yatm.wireless_redstone_receiver.name=Wireless Redstone Receiver
 
 # Items
 item.yatm.capacitor.0.name=Iron Capacitor

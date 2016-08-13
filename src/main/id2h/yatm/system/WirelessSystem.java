@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-import id2h.yatm.YATM;
 import growthcraft.api.core.util.Point3;
 import id2h.yatm.api.core.wireless.EnumWirelessCode;
 import id2h.yatm.common.tileentity.feature.IWirelessReceiver;
+//import id2h.yatm.YATM;
 
 import io.netty.buffer.ByteBuf;
 
@@ -48,10 +48,10 @@ public class WirelessSystem
 	{
 		// Which dimension emitted the event?
 		public final int dimensionId;
-		// The frequency this event is emitted on
-		public final int frequency;
-		// The requested frequency that the sender expects to hear a response on
-		public final int responseFrequency;
+		// The address this event is emitted on
+		public final String address;
+		// The requested address that the sender expects to hear a response on
+		public final String responseAddress;
 		// Where did the event emit from?
 		public final Point3 origin;
 		// How far in each direction should the event travel
@@ -61,11 +61,11 @@ public class WirelessSystem
 		// The data being sent, please keep it small (under 32 bytes)
 		private final ByteBuf payload;
 
-		public WirelessEvent(int p_dimensionId, int p_frequency, int p_responseFrequency, Point3 p_origin, double p_range, EnumWirelessCode p_code, ByteBuf p_payload)
+		public WirelessEvent(int p_dimensionId, String p_address, String p_responseAddress, Point3 p_origin, double p_range, EnumWirelessCode p_code, ByteBuf p_payload)
 		{
 			this.dimensionId = p_dimensionId;
-			this.frequency = p_frequency;
-			this.responseFrequency = p_responseFrequency;
+			this.address = p_address;
+			this.responseAddress = p_responseAddress;
 			this.origin = p_origin;
 			this.range = p_range;
 			this.code = p_code;
@@ -79,7 +79,7 @@ public class WirelessSystem
 
 		public String toString()
 		{
-			return String.format("<WirelessEvent dimensionId=%d frequency=%d responseFrequency=%d origin=%s range=%f code=%s>", dimensionId, frequency, responseFrequency, origin, range, code);
+			return String.format("<WirelessEvent dimensionId=%d address=%s responseAddress=%s origin=%s range=%f code=%s>", dimensionId, address, responseAddress, origin, range, code);
 		}
 	}
 
