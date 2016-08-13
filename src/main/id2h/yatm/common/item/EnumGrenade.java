@@ -77,7 +77,11 @@ public enum EnumGrenade implements IItemStackFactory
 	/**
 	 * Run all you want, this will eat you.
 	 */
-	BLACK_HOLE(80, "black_hole");
+	BLACK_HOLE(80, "black_hole"),
+	/**
+	 * A grenade that floods the area with water on impact
+	 */
+	AQUIFER(90, "aquifer");
 
 	public static final Map<Integer, EnumGrenade> idToEnum = new HashMap<Integer, EnumGrenade>();
 	static
