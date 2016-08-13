@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 
+import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.IGuiNetworkSync;
@@ -37,8 +38,6 @@ import id2h.yatm.common.tileentity.machine.IMachineLogic;
 import id2h.yatm.common.tileentity.machine.IProgressiveMachine;
 import id2h.yatm.common.tileentity.machine.MachineUpdateState;
 import id2h.yatm.util.YATMDebug;
-
-import growthcraft.api.core.util.BlockFlags;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -295,7 +294,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		if (lastWorkingState != machineState.didWork)
 		{
 			lastWorkingState = machineState.didWork;
-			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 3;
+			int meta = getBlockMetadata() & 3;
 			if (lastWorkingState) meta |= 4;
 
 			YATMDebug.write("Machine changed state:" +

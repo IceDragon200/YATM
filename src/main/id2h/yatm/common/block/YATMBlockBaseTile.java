@@ -208,11 +208,16 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		icons[11] = optionalSubIcon(reg, "/west.on", optionalSubIcon(reg, "/side.on", icons[5]));
 	}
 
+	public boolean isOnline(int meta)
+	{
+		return (meta & 4) == 4;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		final boolean online = (meta & 4) == 4;
+		final boolean online = isOnline(meta);
 		final int onlineOffset = online ? 6 : 0;
 		if (side > 1)
 		{
