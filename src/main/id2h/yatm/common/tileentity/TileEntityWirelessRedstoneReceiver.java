@@ -64,7 +64,7 @@ public class TileEntityWirelessRedstoneReceiver extends YATMBaseTile implements 
 	@Override
 	public WirelessEvent onWirelessEvent(WirelessEvent event)
 	{
-		YATM.getLogger().info(String.format("Got a Wireless Event from dimension_id=%d origin=%s frequency=%d receiverFrequency=%d", event.dimensionId, event.origin, event.frequency, receiverFrequency));
+		//YATM.getLogger().info(String.format("Got a Wireless Event from dimension_id=%d origin=%s frequency=%d receiverFrequency=%d", event.dimensionId, event.origin, event.frequency, receiverFrequency));
 		if (event.frequency != receiverFrequency) return null;
 		switch (event.code)
 		{

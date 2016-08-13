@@ -98,7 +98,7 @@ public class WirelessSystem
 
 	public void pub(WirelessEvent event)
 	{
-		YATM.getLogger().info("WirelessSystem#pub event=%s", event);
+		//YATM.getLogger().info("WirelessSystem#pub event=%s", event);
 		synchronized (eventsInDimension)
 		{
 			if (eventsInDimension.get(event.dimensionId) == null)
@@ -149,13 +149,13 @@ public class WirelessSystem
 						}
 						for (WirelessEvent wev : events)
 						{
-							YATM.getLogger().info("WirelessSystem#update event=%s", wev);
+							//YATM.getLogger().info("WirelessSystem#update event=%s", wev);
 							for (TileEntity te : wirelessTiles)
 							{
 								if (te instanceof IWirelessReceiver)
 								{
 									final double dist = Math.sqrt(te.getDistanceFrom(wev.origin.x, wev.origin.y, wev.origin.z));
-									YATM.getLogger().info("WirelessSystem#update testing tile entity with tile_entity=`%s` dist=%f event=`%s`", te, dist, wev);
+									//YATM.getLogger().info("WirelessSystem#update testing tile entity with tile_entity=`%s` dist=%f event=`%s`", te, dist, wev);
 									if (dist > wev.range) continue;
 									final IWirelessReceiver wr = (IWirelessReceiver)te;
 									final WirelessEvent response = wr.onWirelessEvent(wev);

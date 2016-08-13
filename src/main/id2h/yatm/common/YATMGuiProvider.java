@@ -101,7 +101,7 @@ public class YATMGuiProvider implements IGuiHandler
 		}
 		else
 		{
-			YATM.getLogger().warn("Container requested for TE but TE was not a IInteractionObject tile_entity=%s id=%d", te, id);
+			YATM.getLogger().error("Container requested for TE but TE was not a IInteractionObject tile_entity=%s id=%d", te, id);
 		}
 		return null;
 	}
