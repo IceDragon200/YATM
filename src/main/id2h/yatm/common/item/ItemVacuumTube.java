@@ -53,8 +53,8 @@ public class ItemVacuumTube extends AbstractItemMaterial
 		icons[YATM.items.vacuumTubeObsidian.meta] = ir.registerIcon("yatm:materials/redstone_vacuum_tubes/obsidian");
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		itemStacks.add(YATM.items.vacuumTubeIron.asStack());

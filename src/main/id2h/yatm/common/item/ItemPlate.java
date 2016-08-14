@@ -62,8 +62,8 @@ public class ItemPlate extends AbstractItemMaterial
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		for (EnumPlate plate : EnumPlate.VALUES)

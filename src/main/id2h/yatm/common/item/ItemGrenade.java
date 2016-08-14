@@ -66,8 +66,8 @@ public class ItemGrenade extends GrcItemBase
 		return super.getUnlocalizedName() + "." + getGrenadeType(stack).unlocalizedName;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		for (EnumGrenade grenade : EnumGrenade.values())

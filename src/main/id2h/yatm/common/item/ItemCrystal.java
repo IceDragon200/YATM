@@ -63,8 +63,8 @@ public class ItemCrystal extends AbstractItemMaterial
 		icons[YATM.items.crystalRedstone.meta] = ir.registerIcon("yatm:materials/crystals/pure_redstone");
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		itemStacks.add(YATM.items.crystalUranium.asStack());

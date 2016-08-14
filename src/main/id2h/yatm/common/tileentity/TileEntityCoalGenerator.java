@@ -28,14 +28,14 @@ import io.netty.buffer.ByteBuf;
 
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.event.EventHandler;
-import growthcraft.core.common.tileentity.IGuiNetworkSync;
+import growthcraft.core.common.tileentity.feature.IGuiNetworkSync;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import growthcraft.core.util.ItemUtils;
 import id2h.yatm.common.inventory.ContainerCoalGenerator;
 import id2h.yatm.common.inventory.IYATMInventory;
 import id2h.yatm.common.inventory.YATMInternalInventory;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
 import id2h.yatm.common.tileentity.feature.IEnergyGridSync;
-import id2h.yatm.common.tileentity.feature.IInteractionObject;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

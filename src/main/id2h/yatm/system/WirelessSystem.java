@@ -121,6 +121,7 @@ public class WirelessSystem
 	}
 
 	@SubscribeEvent
+	@SuppressWarnings({"unchecked"})
 	public void update(WorldTickEvent event)
 	{
 		// We only process these events on the server

@@ -26,7 +26,7 @@ package id2h.yatm.common.block;
 import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.block.GrcBlockContainer;
-import id2h.yatm.common.tileentity.feature.IInteractionObject;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.common.tileentity.YATMEnergyProviderTile;
 import id2h.yatm.creativetab.CreativeTabsYATM;
 import id2h.yatm.util.BlockSides;

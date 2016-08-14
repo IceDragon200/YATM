@@ -23,7 +23,7 @@
  */
 package id2h.yatm.common.inventory;
 
-import growthcraft.core.common.tileentity.IGuiNetworkSync;
+import growthcraft.core.common.tileentity.feature.IGuiNetworkSync;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

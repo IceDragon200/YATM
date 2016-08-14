@@ -24,7 +24,7 @@
 package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.inventory.ContainerWirelessRedstoneReceiver;
-import id2h.yatm.common.tileentity.feature.IInteractionObject;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.common.tileentity.feature.IWirelessReceiver;
 import id2h.yatm.system.WirelessSystem.WirelessEvent;
 //import id2h.yatm.YATM;

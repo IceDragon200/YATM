@@ -51,8 +51,8 @@ public class ItemDust extends AbstractItemMaterial
 		return super.getUnlocalizedName() + "." + getDustType(stack).unlocalizedName;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		for (EnumDust dust : EnumDust.VALUES)

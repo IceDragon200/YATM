@@ -53,8 +53,8 @@ public class ItemCapacitor extends AbstractItemMaterial
 		icons[YATM.items.capacitorObsidian.meta] = ir.registerIcon("yatm:materials/redstone_capacitors/obsidian");
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		itemStacks.add(YATM.items.capacitorIron.asStack());

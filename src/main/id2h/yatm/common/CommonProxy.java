@@ -23,18 +23,12 @@
  */
 package id2h.yatm.common;
 
-import java.util.Map;
-import java.util.HashMap;
-
 import cpw.mods.fml.common.SidedProxy;
 
 public class CommonProxy
 {
 	@SidedProxy(clientSide="id2h.yatm.client.ClientProxy", serverSide="id2h.yatm.common.CommonProxy")
 	public static CommonProxy instance;
-
-	// Leave this Map empty on server, only the client should fill it
-	public final Map<String, Class> guiMap = new HashMap<String, Class>();
 
 	public void init() {}
 }

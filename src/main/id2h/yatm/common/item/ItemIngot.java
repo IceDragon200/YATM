@@ -53,8 +53,8 @@ public class ItemIngot extends AbstractItemMaterial
 		icons[YATM.items.ingotCrystalSteel.meta] = ir.registerIcon("yatm:materials/ingots/crystal_steel");
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
 		itemStacks.add(YATM.items.ingotUranium.asStack());

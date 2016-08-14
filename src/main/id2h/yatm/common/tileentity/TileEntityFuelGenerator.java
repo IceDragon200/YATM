@@ -25,7 +25,7 @@ package id2h.yatm.common.tileentity;
 
 import id2h.yatm.common.inventory.ContainerFuelGenerator;
 import id2h.yatm.common.tileentity.energy.YATMEnergyStorage;
-import id2h.yatm.common.tileentity.feature.IInteractionObject;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

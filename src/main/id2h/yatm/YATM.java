@@ -32,13 +32,13 @@ import growthcraft.api.core.log.ILogger;
 import growthcraft.api.core.module.ModuleContainer;
 import growthcraft.api.core.util.DomainResourceLocationFactory;
 import growthcraft.api.core.util.TickUtils;
+import growthcraft.core.GrcGuiProvider;
 import id2h.yatm.api.core.util.PossibleItem;
 import id2h.yatm.api.core.util.PossibleItemList;
 import id2h.yatm.api.crusher.CrushingRegistry;
 import id2h.yatm.api.YATMApi;
 import id2h.yatm.common.CommonProxy;
 import id2h.yatm.common.item.EnumPlate;
-import id2h.yatm.common.YATMGuiProvider;
 import id2h.yatm.init.BlockInstances;
 import id2h.yatm.init.ItemInstances;
 import id2h.yatm.integration.growthcraft.HeatSourceHeater;
@@ -86,30 +86,29 @@ public class YATM
 	public static final DomainResourceLocationFactory resources = new DomainResourceLocationFactory("yatm");
 	public static final SimpleNetworkWrapper network = new SimpleNetworkWrapper("yatm");
 	public static final WirelessSystem wireless = new WirelessSystem();
-	public static BlockInstances blocks;
-	public static ItemInstances items;
+	public static final GrcGuiProvider guiProvider = new GrcGuiProvider(new GrcLogger(MOD_ID + ":GuiProvider"));
+	public static final BlockInstances blocks = new BlockInstances();
+	public static final ItemInstances items = new ItemInstances();
 
 	@Instance(MOD_ID)
-	private static YATM INSTANCE;
+	private static YATM modInstance;
 
 	private final ILogger logger = new GrcLogger(MOD_ID);
 	private final ModuleContainer modules = new ModuleContainer();
 
 	public static YATM instance()
 	{
-		return INSTANCE;
+		return modInstance;
 	}
 
 	public static ILogger getLogger()
 	{
-		return INSTANCE.logger;
+		return modInstance.logger;
 	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		blocks = new BlockInstances();
-		items = new ItemInstances();
 		modules.add(blocks);
 		modules.add(items);
 		modules.add(new id2h.yatm.integration.ThaumcraftModule());
@@ -688,7 +687,7 @@ public class YATM
 		FMLInterModComms.sendMessage("Waila", "register", "id2h.yatm.integration.WailaIntegration.register");
 
 		CommonProxy.instance.init();
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new YATMGuiProvider());
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, guiProvider);
 	}
 
 	@EventHandler

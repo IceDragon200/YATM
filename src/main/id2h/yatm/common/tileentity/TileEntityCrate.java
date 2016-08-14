@@ -28,7 +28,7 @@ import growthcraft.core.common.inventory.InventoryProcessor;
 import growthcraft.core.common.tileentity.GrcTileEntityInventoryBase;
 import id2h.yatm.common.inventory.ContainerCrate;
 import id2h.yatm.common.inventory.YATMInternalInventory;
-import id2h.yatm.common.tileentity.feature.IInteractionObject;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -29,7 +29,7 @@ import growthcraft.api.core.util.Point3;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import id2h.yatm.api.core.wireless.EnumWirelessCode;
 import id2h.yatm.common.inventory.ContainerWirelessRedstoneEmitter;
-import id2h.yatm.common.tileentity.feature.IInteractionObject;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import id2h.yatm.system.WirelessSystem.WirelessEvent;
 import id2h.yatm.YATM;
 

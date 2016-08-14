@@ -42,6 +42,7 @@ import id2h.yatm.client.renderer.RenderCagedMachine;
 import id2h.yatm.client.renderer.RenderCompactor;
 import id2h.yatm.client.renderer.RenderEnergyCell;
 import id2h.yatm.common.CommonProxy;
+import id2h.yatm.YATM;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -50,21 +51,21 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void init()
 	{
-		guiMap.put("yatm:auto_crafter", GuiAutoCrafter.class);
-		guiMap.put("yatm:auto_grinder", GuiAutoGrinder.class);
-		guiMap.put("yatm:coal_generator", GuiCoalGenerator.class);
-		guiMap.put("yatm:compactor", GuiCompactor.class);
-		guiMap.put("yatm:crate", GuiCrate.class);
-		guiMap.put("yatm:crusher", GuiCrusher.class);
-		guiMap.put("yatm:electrolyser", GuiElectrolyser.class);
-		guiMap.put("yatm:flux_furnace", GuiFluxFurnace.class);
-		guiMap.put("yatm:fuel_generator", GuiFuelGenerator.class);
-		guiMap.put("yatm:heater",GuiHeater.class);
-		guiMap.put("yatm:mini_blast_furnace", GuiMiniBlastFurnace.class);
-		guiMap.put("yatm:mixer", GuiMixer.class);
-		guiMap.put("yatm:roller", GuiRoller.class);
-		guiMap.put("yatm:wireless_redstone_emitter", GuiWirelessRedstoneEmitter.class);
-		guiMap.put("yatm:wireless_redstone_receiver", GuiWirelessRedstoneReceiver.class);
+		YATM.guiProvider.register("yatm:auto_crafter", GuiAutoCrafter.class);
+		YATM.guiProvider.register("yatm:auto_grinder", GuiAutoGrinder.class);
+		YATM.guiProvider.register("yatm:coal_generator", GuiCoalGenerator.class);
+		YATM.guiProvider.register("yatm:compactor", GuiCompactor.class);
+		YATM.guiProvider.register("yatm:crate", GuiCrate.class);
+		YATM.guiProvider.register("yatm:crusher", GuiCrusher.class);
+		YATM.guiProvider.register("yatm:electrolyser", GuiElectrolyser.class);
+		YATM.guiProvider.register("yatm:flux_furnace", GuiFluxFurnace.class);
+		YATM.guiProvider.register("yatm:fuel_generator", GuiFuelGenerator.class);
+		YATM.guiProvider.register("yatm:heater",GuiHeater.class);
+		YATM.guiProvider.register("yatm:mini_blast_furnace", GuiMiniBlastFurnace.class);
+		YATM.guiProvider.register("yatm:mixer", GuiMixer.class);
+		YATM.guiProvider.register("yatm:roller", GuiRoller.class);
+		YATM.guiProvider.register("yatm:wireless_redstone_emitter", GuiWirelessRedstoneEmitter.class);
+		YATM.guiProvider.register("yatm:wireless_redstone_receiver", GuiWirelessRedstoneReceiver.class);
 		RenderingRegistry.registerBlockHandler(new RenderCagedMachine());
 		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());
