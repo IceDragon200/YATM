@@ -227,7 +227,7 @@ public class YATM
 	private void registerBlastingRecipes()
 	{
 		YATMApi.instance().blasting().addRecipe(
-			"blasting/ingots/carbon_steel/coal+ingot-iron",
+			"yatm:blasting/ingots/carbon_steel/coal+ingot-iron",
 			items.ingotCarbonSteel.asStack(1),
 			new ItemStack(Items.coal, 1, 0),
 			new OreItemStacks("ingotIron", 1),
@@ -236,7 +236,7 @@ public class YATM
 		);
 
 		YATMApi.instance().blasting().addRecipe(
-			"blasting/ingots/carbon_steel/charcoal+ingot-iron",
+			"yatm:blasting/ingots/carbon_steel/charcoal+ingot-iron",
 			items.ingotCarbonSteel.asStack(1),
 			new ItemStack(Items.coal, 4, 1),
 			new OreItemStacks("ingotIron", 1),
@@ -245,7 +245,7 @@ public class YATM
 		);
 
 		YATMApi.instance().blasting().addRecipe(
-			"blasting/ingots/crystal_steel/diamdon+ingot-iron",
+			"yatm:blasting/ingots/crystal_steel/diamdon+ingot-iron",
 			items.ingotCrystalSteel.asStack(1),
 			new ItemStack(Items.diamond),
 			new OreItemStacks("ingotIron", 1),
@@ -254,7 +254,7 @@ public class YATM
 		);
 
 		YATMApi.instance().blasting().addRecipe(
-			"blasting/plates/energized/dust.pure_redsteon+plate-iron",
+			"yatm:blasting/plates/energized/dust.pure_redsteon+plate-iron",
 			EnumPlate.ENERGIZED.asStack(1),
 			new OreItemStacks("dustPureRedstone", 4),
 			new OreItemStacks("materialPlateIron", 1),
@@ -263,7 +263,7 @@ public class YATM
 		);
 
 		YATMApi.instance().blasting().addRecipe(
-			"blasting/plates/photovoltaic/dye.blue+plate-energized",
+			"yatm:blasting/plates/photovoltaic/dye.blue+plate-energized",
 			EnumPlate.PHOTOVOLTAIC.asStack(1),
 			new OreItemStacks(EnumDye.BLUE.getOreName(), 4),
 			new OreItemStacks("materialPlateEnergized", 1),
@@ -276,7 +276,7 @@ public class YATM
 			new ItemStack(Blocks.sand, 1, 0),
 			new ItemStack(Blocks.sand, 1, 1));
 		YATMApi.instance().blasting().addRecipe(
-			"blasting/blocks/reinforced_glass/sand+sand",
+			"yatm:blasting/blocks/reinforced_glass/sand+sand",
 			blocks.reinforcedGlass.asStack(1),
 			sandStacks,
 			sandStacks,
@@ -295,7 +295,7 @@ public class YATM
 		for (EnumPlate plate : EnumPlate.VALUES)
 		{
 			YATMApi.instance().rolling().addRecipe(
-				String.format("rolling/plates/%s/ingot-%s*2", plate.unlocalizedName, plate.unlocalizedName),
+				String.format("yatm:rolling/plates/%s/ingot-%s*2", plate.unlocalizedName, plate.unlocalizedName),
 				plate.asStack(1),
 				new OreItemStacks(plate.getIngotOreName(), 2),
 				TickUtils.seconds(10)
@@ -650,13 +650,13 @@ public class YATM
 	{
 		// 1 Stack (64) of Coal == 1 Diamond
 		YATMApi.instance().compacting().addRecipe(
-			"compacting/gems/diamond/coal*64",
+			"yatm:compacting/gems/diamond/coal*64",
 			new ItemStack(Items.diamond, 1),
 			new ItemStack(Items.coal, 64), TickUtils.minutes(5));
 
 		// if you're willing to lose a bit of extra coal, the compacting can be faster by using coal blocks
 		YATMApi.instance().compacting().addRecipe(
-			"compacting/gems/diamond/coal_block*8",
+			"yatm:compacting/gems/diamond/coal_block*8",
 			new ItemStack(Items.diamond, 1),
 			new ItemStack(Blocks.coal_block, 8), TickUtils.minutes(2) + TickUtils.seconds(30));
 	}
