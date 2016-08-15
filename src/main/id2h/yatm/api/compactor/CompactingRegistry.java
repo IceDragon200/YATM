@@ -40,7 +40,7 @@ public class CompactingRegistry
 		recipes.add(recipe);
 	}
 
-	public void addRecipe(@Nonnull String id, @Nonnull ItemStack result, @Nonnull ItemStack input, int time)
+	public void addRecipe(@Nonnull String id, @Nonnull ItemStack result, @Nonnull Object input, int time)
 	{
 		addRecipe(new CompactingRecipe(id, MultiStacksUtil.toMultiItemStacks(input), result, time));
 	}
