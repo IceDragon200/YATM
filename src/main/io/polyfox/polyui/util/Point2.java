@@ -23,8 +23,6 @@
  */
 package io.polyfox.polyui.util;
 
-import net.minecraftforge.common.util.ForgeDirection;
-
 public class Point2
 {
 	public final int x;

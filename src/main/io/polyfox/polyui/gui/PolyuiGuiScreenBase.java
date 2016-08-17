@@ -67,14 +67,14 @@ public class PolyuiGuiScreenBase extends GuiScreen
 	@Override
 	public void handleMouseInput()
 	{
-		int k = Mouse.getEventButton();
+		int buttonID = Mouse.getEventButton();
 		if (Mouse.getEventButtonState())
 		{
-			elements.getInputHandler().onMouseDown(k);
+			elements.getInputHandler().onMouseDown(buttonID);
 		}
 		else
 		{
-			elements.getInputHandler().onMouseUp(k);
+			elements.getInputHandler().onMouseUp(buttonID);
 		}
 		super.handleMouseInput();
 	}

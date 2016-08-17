@@ -69,14 +69,14 @@ public abstract class PolyuiGuiContainerBase extends GuiContainer
 	@Override
 	public void handleMouseInput()
 	{
-		int k = Mouse.getEventButton();
+		final int buttonID = Mouse.getEventButton();
 		if (Mouse.getEventButtonState())
 		{
-			elements.getInputHandler().onMouseDown(k);
+			elements.getInputHandler().onMouseDown(buttonID);
 		}
 		else
 		{
-			elements.getInputHandler().onMouseUp(k);
+			elements.getInputHandler().onMouseUp(buttonID);
 		}
 		super.handleMouseInput();
 	}
