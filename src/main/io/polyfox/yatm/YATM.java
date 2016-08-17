@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -111,7 +111,7 @@ public class YATM
 	{
 		modules.add(blocks);
 		modules.add(items);
-		modules.add(new id2h.yatm.integration.ThaumcraftModule());
+		modules.add(new io.polyfox.yatm.integration.ThaumcraftModule());
 		modules.setLogger(logger);
 		modules.freeze();
 		modules.preInit();
