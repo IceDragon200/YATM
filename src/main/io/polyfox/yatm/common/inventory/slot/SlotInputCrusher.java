@@ -38,6 +38,6 @@ public class SlotInputCrusher extends SlotInput
 	@Override
 	public boolean isItemValid(ItemStack item)
 	{
-		return YATMApi.instance().crushing().canCrush(item);
+		return YATMApi.instance().crushing().hasRecipe(item);
 	}
 }

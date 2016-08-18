@@ -124,28 +124,24 @@ public class YATM
 	{
 		final CrushingRegistry c = YATMApi.instance().crushing();
 
-		c.addCrushing(new ItemStack(Blocks.sandstone),
+		final MultiItemStacks sandstoneStacks = new MultiItemStacks(
+			new ItemStack(Blocks.sandstone, 1, 0),
+			new ItemStack(Blocks.sandstone, 1, 1),
+			new ItemStack(Blocks.sandstone, 1, 2)
+		);
+
+		c.addRecipe(
+			"yatm:crushing/blocks/sand/sandstone",
+			sandstoneStacks,
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
 			),
 			TickUtils.seconds(1)
 		);
 
-		c.addCrushing(new ItemStack(Blocks.sandstone, 1, 1),
-			PossibleItemList.create(
-				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
-			),
-			TickUtils.seconds(1)
-		);
-
-		c.addCrushing(new ItemStack(Blocks.sandstone, 1, 2),
-			PossibleItemList.create(
-				new PossibleItem(new ItemStack(Blocks.sand, 4), 1.0f)
-			),
-			TickUtils.seconds(1)
-		);
-
-		c.addCrushing(new ItemStack(Blocks.sandstone_stairs, 1, 0),
+		c.addRecipe(
+			"yatm:crushing/blocks/sand/sandstone_stairs",
+			new ItemStack(Blocks.sandstone_stairs, 1, 0),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand, 18), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.sand, 4), 0.7f),
@@ -154,7 +150,9 @@ public class YATM
 			TickUtils.seconds(1)
 		);
 
-		c.addCrushing(new ItemStack(Blocks.stone),
+		c.addRecipe(
+			"yatm:crushing/blocks/gravel,cobblestone/stone",
+			new ItemStack(Blocks.stone),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.gravel), 0.1f)
@@ -163,7 +161,9 @@ public class YATM
 		);
 
 		// stone brick > cracked stone brick
-		c.addCrushing(new ItemStack(Blocks.stonebrick, 1, 0),
+		c.addRecipe(
+			"yatm:crushing/blocks/stonebrick,cobblestone/stonebrick?meta=0",
+			new ItemStack(Blocks.stonebrick, 1, 0),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.stonebrick, 1, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone), 0.1f)
@@ -172,7 +172,9 @@ public class YATM
 		);
 
 		// mossy stonebrick > 2 mossy cobblestone (100%) + 1 cobblestone (20%) + 1 vine (10%)
-		c.addCrushing(new ItemStack(Blocks.stonebrick, 1, 1),
+		c.addRecipe(
+			"yatm:crushing/blocks/mossy_cobblestone,cobblestone,vine/stonebrick?meta=1",
+			new ItemStack(Blocks.stonebrick, 1, 1),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.mossy_cobblestone, 2), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.cobblestone, 1), 0.2f),
@@ -181,7 +183,9 @@ public class YATM
 			TickUtils.seconds(2)
 		);
 
-		c.addCrushing(new ItemStack(Blocks.cobblestone),
+		c.addRecipe(
+			"yatm:crushing/blocks/gravel,sand/cobblestone",
+			new ItemStack(Blocks.cobblestone),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.gravel), 1.0f),
 				new PossibleItem(new ItemStack(Blocks.sand), 0.1f)
@@ -189,26 +193,35 @@ public class YATM
 			TickUtils.seconds(1)
 		);
 
-		c.addCrushing(new ItemStack(Blocks.gravel),
+		c.addRecipe(
+			"yatm:crushing/blocks/sand/gravel",
+			new ItemStack(Blocks.gravel),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Blocks.sand), 1.0f)
 			),
 			TickUtils.seconds(1)
 		);
 
-		for (int i = 0; i < 3; ++i)
-		{
-			c.addCrushing(new ItemStack(Blocks.quartz_block, 1, i),
-				PossibleItemList.create(
-					new PossibleItem(new ItemStack(Items.quartz, 2), 1.0f),
-					new PossibleItem(new ItemStack(Items.quartz, 1), 0.3f),
-					new PossibleItem(new ItemStack(Items.quartz, 1), 0.1f)
-				),
-				TickUtils.seconds(2)
-			);
-		}
+		final MultiItemStacks quartzBlockStacks = new MultiItemStacks(
+			new ItemStack(Blocks.quartz_block, 1, 0),
+			new ItemStack(Blocks.quartz_block, 1, 1),
+			new ItemStack(Blocks.quartz_block, 1, 2)
+		);
 
-		c.addCrushing(new ItemStack(Blocks.quartz_stairs),
+		c.addRecipe(
+			"yatm:crushing/blocks/quartz/quartz_block",
+			quartzBlockStacks,
+			PossibleItemList.create(
+				new PossibleItem(new ItemStack(Items.quartz, 2), 1.0f),
+				new PossibleItem(new ItemStack(Items.quartz, 1), 0.3f),
+				new PossibleItem(new ItemStack(Items.quartz, 1), 0.1f)
+			),
+			TickUtils.seconds(2)
+		);
+
+		c.addRecipe(
+			"yatm:crushing/blocks/quartz/quartz_stairs",
+			new ItemStack(Blocks.quartz_stairs),
 			PossibleItemList.create(
 				new PossibleItem(new ItemStack(Items.quartz, 2), 1.0f),
 				new PossibleItem(new ItemStack(Items.quartz, 1), 0.3f),
@@ -217,11 +230,6 @@ public class YATM
 			),
 			TickUtils.seconds(2)
 		);
-
-		//c.addCrushing(new ItemStack(Blocks.sand),
-		//	WeightedItemList.create(
-		//	)
-		//);
 	}
 
 	private void registerBlastingRecipes()

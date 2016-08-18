@@ -26,24 +26,32 @@ package io.polyfox.yatm.api.crusher;
 import javax.annotation.Nonnull;
 
 import io.polyfox.yatm.api.core.util.PossibleItemList;
+import growthcraft.api.core.definition.IMultiItemStacks;
 
 import net.minecraft.item.ItemStack;
 
-public class CrushingResult
+public class CrushingRecipe
 {
+	public final String id;
 	public final int time;
 	public final PossibleItemList items;
-	private final ItemStack input;
+	private final IMultiItemStacks input;
 
-	public CrushingResult(@Nonnull ItemStack inp, @Nonnull PossibleItemList i, int t)
+	public CrushingRecipe(@Nonnull String p_id, @Nonnull IMultiItemStacks p_input, @Nonnull PossibleItemList p_items, int p_time)
 	{
-		this.input = inp;
-		this.items = i;
-		this.time = t;
+		this.id = p_id;
+		this.input = p_input;
+		this.items = p_items;
+		this.time = p_time;
 	}
 
-	public ItemStack getInput()
+	public IMultiItemStacks getInput()
 	{
 		return input;
+	}
+
+	public boolean matchesRecipe(ItemStack stack)
+	{
+		return input.containsItemStack(stack);
 	}
 }

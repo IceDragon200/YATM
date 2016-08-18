@@ -23,11 +23,12 @@
  */
 package io.polyfox.yatm.common.tileentity.machine;
 
-import io.polyfox.yatm.api.core.util.PossibleItem;
-import io.polyfox.yatm.api.crusher.CrushingResult;
-import io.polyfox.yatm.api.YATMApi;
-import growthcraft.core.common.inventory.InventorySlice;
+import growthcraft.api.core.definition.IMultiItemStacks;
 import growthcraft.core.common.inventory.IInventoryWatcher;
+import growthcraft.core.common.inventory.InventorySlice;
+import io.polyfox.yatm.api.core.util.PossibleItem;
+import io.polyfox.yatm.api.crusher.CrushingRecipe;
+import io.polyfox.yatm.api.YATMApi;
 import io.polyfox.yatm.util.YATMDebug;
 
 import net.minecraft.inventory.IInventory;
@@ -49,14 +50,14 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 	{
 	}
 
-	protected CrushingResult getCrushingResultFromInput(IInventory inventory)
+	protected CrushingRecipe getCrushingRecipeFromInput(IInventory inventory)
 	{
-		return YATMApi.instance().crushing().getCrushingResult(inventory.getStackInSlot(0));
+		return YATMApi.instance().crushing().getRecipe(inventory.getStackInSlot(0));
 	}
 
-	protected CrushingResult getCurshingResultFromProcessing(IInventory inventory)
+	protected CrushingRecipe getCurshingResultFromProcessing(IInventory inventory)
 	{
-		return YATMApi.instance().crushing().getCrushingResult(inventory.getStackInSlot(6));
+		return YATMApi.instance().crushing().getRecipe(inventory.getStackInSlot(6));
 	}
 
 	protected void addOutputItem(IInventory inventory, ItemStack stack)
@@ -72,15 +73,15 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 		{
 			resetProgress();
 
-			final CrushingResult result = getCrushingResultFromInput(state.inventory);
+			final CrushingRecipe result = getCrushingRecipeFromInput(state.inventory);
 
 			if (result != null)
 			{
-				final ItemStack inputStack = result.getInput();
+				final IMultiItemStacks inputStack = result.getInput();
 				final ItemStack srcStack = state.inventory.getStackInSlot(0);
-				if (inputStack.stackSize <= srcStack.stackSize)
+				if (inputStack.getStackSize() <= srcStack.stackSize)
 				{
-					state.inventory.setInventorySlotContents(6, state.inventory.decrStackSize(0, inputStack.stackSize));
+					state.inventory.setInventorySlotContents(6, state.inventory.decrStackSize(0, inputStack.getStackSize()));
 					this.progress = 0.0f;
 					this.progressMax = (float)result.time;
 				}
@@ -104,7 +105,7 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 		{
 			if (progress >= progressMax)
 			{
-				final CrushingResult result = getCurshingResultFromProcessing(state.inventory);
+				final CrushingRecipe result = getCurshingResultFromProcessing(state.inventory);
 				resetProgress();
 
 				if (result != null)

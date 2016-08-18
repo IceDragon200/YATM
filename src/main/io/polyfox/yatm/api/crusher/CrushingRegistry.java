@@ -23,34 +23,36 @@
  */
 package io.polyfox.yatm.api.crusher;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nonnull;
 
-import growthcraft.api.core.item.ItemKey;
-
+import growthcraft.api.core.util.MultiStacksUtil;
 import io.polyfox.yatm.api.core.util.PossibleItemList;
 
 import net.minecraft.item.ItemStack;
 
 public class CrushingRegistry
 {
-	private Map<ItemKey, CrushingResult> crushingResults = new HashMap<ItemKey, CrushingResult>();
+	private List<CrushingRecipe> recipes = new ArrayList<CrushingRecipe>();
 
-	public void addCrushing(@Nonnull ItemStack src, @Nonnull PossibleItemList items, int time)
+	public void addRecipe(@Nonnull String id, @Nonnull Object input, @Nonnull PossibleItemList items, int time)
 	{
-		crushingResults.put(new ItemKey(src), new CrushingResult(src, items, time));
+		recipes.add(new CrushingRecipe(id, MultiStacksUtil.toMultiItemStacks(input), items, time));
 	}
 
-	public CrushingResult getCrushingResult(ItemStack src)
+	public CrushingRecipe getRecipe(ItemStack src)
 	{
 		if (src == null) return null;
-		return crushingResults.get(new ItemKey(src));
+		for (CrushingRecipe recipe : recipes)
+		{
+			if (recipe.matchesRecipe(src)) return recipe;
+		}
+		return null;
 	}
 
-	public boolean canCrush(ItemStack src)
+	public boolean hasRecipe(ItemStack src)
 	{
-		if (src == null) return false;
-		return crushingResults.containsKey(new ItemKey(src));
+		return getRecipe(src) != null;
 	}
 }
