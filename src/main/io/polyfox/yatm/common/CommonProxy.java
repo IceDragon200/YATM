@@ -23,12 +23,11 @@
  */
 package io.polyfox.yatm.common;
 
+import growthcraft.core.common.GrcModuleBase;
 import cpw.mods.fml.common.SidedProxy;
 
-public class CommonProxy
+public class CommonProxy extends GrcModuleBase
 {
-	@SidedProxy(clientSide="id2h.yatm.client.ClientProxy", serverSide="id2h.yatm.common.CommonProxy")
+	@SidedProxy(clientSide="io.polyfox.yatm.client.ClientProxy", serverSide="io.polyfox.yatm.common.CommonProxy")
 	public static CommonProxy instance;
-
-	public void init() {}
 }

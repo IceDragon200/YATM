@@ -109,6 +109,7 @@ public class YATM
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		modules.add(CommonProxy.instance);
 		modules.add(blocks);
 		modules.add(items);
 		modules.add(new io.polyfox.yatm.integration.ThaumcraftModule());
@@ -689,12 +690,10 @@ public class YATM
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
+		modules.init();
 		registerRecipes();
 		registerHeatSources();
-
 		FMLInterModComms.sendMessage("Waila", "register", "id2h.yatm.integration.WailaIntegration.register");
-
-		CommonProxy.instance.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, guiProvider);
 	}
 
