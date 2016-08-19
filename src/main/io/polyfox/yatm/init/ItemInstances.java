@@ -26,7 +26,7 @@ package io.polyfox.yatm.init;
 import growthcraft.api.core.item.ItemKey;
 import growthcraft.core.common.definition.ItemDefinition;
 import growthcraft.core.common.definition.ItemSubtypeDefinition;
-import growthcraft.core.common.GrcModuleBase;
+import growthcraft.core.common.GrcModuleItems;
 import io.polyfox.yatm.common.item.EnumDust;
 import io.polyfox.yatm.common.item.EnumPlate;
 import io.polyfox.yatm.common.item.ItemCapacitor;
@@ -45,7 +45,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraftforge.oredict.OreDictionary;
 
-public class ItemInstances extends GrcModuleBase
+public class ItemInstances extends GrcModuleItems
 {
 	public ItemDefinition crystalSeed;
 	public ItemSubtypeDefinition crystalSeedUranium;
@@ -110,15 +110,15 @@ public class ItemInstances extends GrcModuleBase
 	@Override
 	public void preInit()
 	{
-		capacitor = new ItemDefinition(new ItemCapacitor());
-		crystalSeed = new ItemDefinition(new ItemCrystalSeed());
-		dust = new ItemDefinition(new ItemDust());
-		ingot = new ItemDefinition(new ItemIngot());
-		crystal = new ItemDefinition(new ItemCrystal());
-		vacuumTube = new ItemDefinition(new ItemVacuumTube());
-		mesh = new ItemDefinition(new ItemMesh());
-		plate = new ItemDefinition(new ItemPlate());
-		grenade = new ItemDefinition(new ItemGrenade());
+		capacitor = newDefinition(new ItemCapacitor());
+		crystalSeed = newDefinition(new ItemCrystalSeed());
+		dust = newDefinition(new ItemDust());
+		ingot = newDefinition(new ItemIngot());
+		crystal = newDefinition(new ItemCrystal());
+		vacuumTube = newDefinition(new ItemVacuumTube());
+		mesh = newDefinition(new ItemMesh());
+		plate = newDefinition(new ItemPlate());
+		grenade = newDefinition(new ItemGrenade());
 
 		initSubtypes();
 	}
