@@ -28,16 +28,19 @@ import java.io.IOException;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import io.polyfox.yatm.common.tileentity.feature.IUpdatableTile;
+import io.polyfox.yatm.common.tileentity.feature.IWirelessReceiver;
 import io.polyfox.yatm.util.YATMStreamUtils;
 
 import io.netty.buffer.ByteBuf;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implements IUpdatableTile
+public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implements IWirelessReceiver, IUpdatableTile
 {
 	protected int lastPowerValue;
 	protected int currentPowerValue;
+	protected boolean checkState = true;
+	protected double emissionRange = 16.0D;
 	protected String address = "0.0.0.0";
 
 	protected void refreshState()
@@ -66,6 +69,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 	public void setAddress(String p_address)
 	{
 		this.address = p_address;
+		this.checkState = true;
 		markDirty();
 	}
 
@@ -73,6 +77,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 	{
 		this.lastPowerValue = nbt.getInteger("last_power_value");
 		this.currentPowerValue = nbt.getInteger("current_power_value");
+		this.emissionRange = nbt.getDouble("emission_range");
 		if (nbt.hasKey("address"))
 			this.address = nbt.getString("address");
 	}
@@ -96,6 +101,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 		nbt.setInteger("last_power_value", lastPowerValue);
 		nbt.setInteger("current_power_value", currentPowerValue);
 		nbt.setString("address", address);
+		nbt.setDouble("emission_range", emissionRange);
 	}
 
 	@Override
@@ -117,6 +123,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 	{
 		this.lastPowerValue = stream.readInt();
 		this.currentPowerValue = stream.readInt();
+		this.emissionRange = stream.readDouble();
 		this.address = YATMStreamUtils.readString(stream, address);
 		return true;
 	}
@@ -126,6 +133,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 	{
 		stream.writeInt(lastPowerValue);
 		stream.writeInt(currentPowerValue);
+		stream.writeDouble(emissionRange);
 		YATMStreamUtils.writeString(stream, address);
 		return true;
 	}

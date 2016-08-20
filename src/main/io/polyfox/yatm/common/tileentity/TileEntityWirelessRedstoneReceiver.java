@@ -23,20 +23,22 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import io.polyfox.yatm.common.inventory.ContainerWirelessRedstoneReceiver;
+import growthcraft.api.core.util.Point3;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
-import io.polyfox.yatm.common.tileentity.feature.IWirelessReceiver;
+import io.polyfox.yatm.api.core.wireless.EnumWirelessCode;
+import io.polyfox.yatm.common.inventory.ContainerWirelessRedstoneReceiver;
 import io.polyfox.yatm.system.WirelessSystem.WirelessEvent;
-//import io.polyfox.yatm.YATM;
+import io.polyfox.yatm.YATM;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWirelessRedstoneReceiver extends TileEntityWirelessRedstoneBase implements IWirelessReceiver, IInteractionObject
+public class TileEntityWirelessRedstoneReceiver extends TileEntityWirelessRedstoneBase implements IInteractionObject
 {
 	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
@@ -61,9 +63,31 @@ public class TileEntityWirelessRedstoneReceiver extends TileEntityWirelessRedsto
 	}
 
 	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+		if (!worldObj.isRemote)
+		{
+			if (checkState)
+			{
+				this.checkState = false;
+				final ByteBuf buf = Unpooled.buffer();
+				final WirelessEvent event = new WirelessEvent(
+					worldObj.provider.dimensionId,
+					address,
+					null,
+					new Point3(xCoord, yCoord, zCoord),
+					emissionRange,
+					EnumWirelessCode.GET,
+					buf);
+				YATM.wireless.pub(event);
+			}
+		}
+	}
+
+	@Override
 	public WirelessEvent onWirelessEvent(WirelessEvent event)
 	{
-		//YATM.getLogger().info(String.format("Got a Wireless Event from dimension_id=%d origin=%s frequency=%d address=%s", event.dimensionId, event.origin, event.frequency, address));
 		if (!address.equals(event.address)) return null;
 		switch (event.code)
 		{

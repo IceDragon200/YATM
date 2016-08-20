@@ -23,13 +23,10 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import java.io.IOException;
-
 import growthcraft.api.core.util.Point3;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import io.polyfox.yatm.api.core.wireless.EnumWirelessCode;
 import io.polyfox.yatm.common.inventory.ContainerWirelessRedstoneEmitter;
-import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import io.polyfox.yatm.system.WirelessSystem.WirelessEvent;
 import io.polyfox.yatm.YATM;
 
@@ -39,12 +36,9 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityWirelessRedstoneEmitter extends TileEntityWirelessRedstoneBase implements IInteractionObject
 {
-	protected double emissionRange = 16.0D;
-
 	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
 	{
@@ -64,9 +58,10 @@ public class TileEntityWirelessRedstoneEmitter extends TileEntityWirelessRedston
 		if (!worldObj.isRemote)
 		{
 			this.currentPowerValue = worldObj.getStrongestIndirectPower(xCoord, yCoord, zCoord);
-			if (lastPowerValue != currentPowerValue)
+			if (checkState || lastPowerValue != currentPowerValue)
 			{
 				this.lastPowerValue = currentPowerValue;
+				this.checkState = false;
 				final ByteBuf buf = Unpooled.buffer();
 				buf.writeInt(currentPowerValue);
 				final WirelessEvent event = new WirelessEvent(
@@ -83,55 +78,17 @@ public class TileEntityWirelessRedstoneEmitter extends TileEntityWirelessRedston
 		}
 	}
 
-	private void readEmitterFromNBT(NBTTagCompound nbt)
-	{
-		this.emissionRange = nbt.getDouble("emission_range");
-	}
-
 	@Override
-	public void readFromNBTForItem(NBTTagCompound nbt)
+	public WirelessEvent onWirelessEvent(WirelessEvent event)
 	{
-		super.readFromNBTForItem(nbt);
-		readEmitterFromNBT(nbt);
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		super.readFromNBT(nbt);
-		readEmitterFromNBT(nbt);
-	}
-
-	private void writeEmitterToNBT(NBTTagCompound nbt)
-	{
-		nbt.setDouble("emission_range", emissionRange);
-	}
-
-	@Override
-	public void writeToNBTForItem(NBTTagCompound nbt)
-	{
-		super.writeToNBTForItem(nbt);
-		writeEmitterToNBT(nbt);
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
-	{
-		super.writeToNBT(nbt);
-		writeEmitterToNBT(nbt);
-	}
-
-	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
-	public boolean readFromStream_WirelessEmitter(ByteBuf stream) throws IOException
-	{
-		this.emissionRange = stream.readDouble();
-		return true;
-	}
-
-	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
-	public boolean writeToStream_WirelessEmitter(ByteBuf stream) throws IOException
-	{
-		stream.writeDouble(emissionRange);
-		return true;
+		if (!address.equals(event.address)) return null;
+		switch (event.code)
+		{
+			case GET:
+				this.checkState = true;
+				break;
+			default:
+		}
+		return null;
 	}
 }
