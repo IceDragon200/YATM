@@ -48,7 +48,7 @@ public class TileEntityFluidReplicator extends GrcTileEntityDeviceBase
 	@Override
 	protected FluidTank[] createTanks()
 	{
-		return new FluidTank[] { new FluidTank(1000), new FluidTank(1000) };
+		return new FluidTank[] { new FluidTank(1000), new FluidTank(32000) };
 	}
 
 	@Override
