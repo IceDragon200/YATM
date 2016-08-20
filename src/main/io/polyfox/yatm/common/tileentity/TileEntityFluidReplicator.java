@@ -71,14 +71,13 @@ public class TileEntityFluidReplicator extends GrcTileEntityDeviceBase
 
 	protected void setState(boolean newState)
 	{
-		final int meta = getBlockMetadata()	& 7;
-		final boolean oldState = (meta & 4) > 0;
-		if (oldState != newState)
+		final int meta = getBlockMetadata();
+		final int curMeta = (meta & 3) | (newState ? 4 : 0) | (fluidSlotDest.isFull() ? 8 : 0);
+		if (curMeta != meta)
 		{
-			final int curMeta = (meta & 3) | (newState ? 4 : 0);
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
+			updateContainingBlockInfo();
 		}
-		markDirty();
 	}
 
 	@Override
@@ -94,6 +93,7 @@ public class TileEntityFluidReplicator extends GrcTileEntityDeviceBase
 					if (!fluidSlotDest.isFull())
 					{
 						fluidSlotDest.fill(fluidSlotSource.get(), true);
+						markDirty();
 					}
 					setState(true);
 				}

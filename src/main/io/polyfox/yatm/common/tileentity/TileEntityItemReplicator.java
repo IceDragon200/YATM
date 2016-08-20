@@ -39,6 +39,7 @@ import net.minecraft.item.ItemStack;
 
 public class TileEntityItemReplicator extends GrcTileEntityInventoryBase implements IItemHandler
 {
+	private static final int[] replicatedSlotIDs = new int[] { 1 };
 	private DeviceInventorySlot itemSlotSource;
 	private DeviceInventorySlot itemSlotDest;
 	private PulseStepper workPulsar = new PulseStepper(20, 0);
@@ -56,16 +57,37 @@ public class TileEntityItemReplicator extends GrcTileEntityInventoryBase impleme
 		return new GrcInternalInventory(this, 2);
 	}
 
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side)
+	{
+		return replicatedSlotIDs;
+	}
+
+	@Override
+	public boolean canInsertItem(int index, ItemStack stack, int side)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int index, ItemStack stack, int side)
+	{
+		if (index == 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	protected void setState(boolean newState)
 	{
-		final int meta = getBlockMetadata()	& 7;
-		final boolean oldState = (meta & 4) > 0;
-		if (oldState != newState)
+		final int meta = getBlockMetadata();
+		final int curMeta = (meta & 3) | (newState ? 4 : 0) | (itemSlotDest.isFull() ? 8 : 0);
+		if (curMeta != meta)
 		{
-			final int curMeta = (meta & 3) | (newState ? 4 : 0);
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
+			updateContainingBlockInfo();
 		}
-		markDirty();
 	}
 
 	@Override
@@ -81,6 +103,7 @@ public class TileEntityItemReplicator extends GrcTileEntityInventoryBase impleme
 					if (!itemSlotDest.isFull())
 					{
 						itemSlotDest.increaseStack(itemSlotSource.get());
+						markDirty();
 					}
 					setState(true);
 				}

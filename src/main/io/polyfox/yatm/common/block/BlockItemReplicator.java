@@ -23,8 +23,11 @@
  */
 package io.polyfox.yatm.common.block;
 
+import io.polyfox.yatm.client.util.StateIconLoader.IconVariant;
 import io.polyfox.yatm.common.tileentity.TileEntityItemReplicator;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -38,5 +41,27 @@ public class BlockItemReplicator extends YATMBlockBaseTile
 		setResistance(5.0F);
 		setBlockName("yatm.item_replicator");
 		setBlockTextureName("yatm:item_replicator");
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getIconOffset(int meta)
+	{
+		final boolean isIdle = (meta & 8) == 8;
+		if (isOnline(meta))
+		{
+			if (isIdle) return 12;
+			return 6;
+		}
+		return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	protected IconVariant[] getIconVariants()
+	{
+		return new IconVariant[] {
+			new IconVariant("off", null),
+			new IconVariant("on", "off"),
+			new IconVariant("idle", "on")
+		};
 	}
 }
