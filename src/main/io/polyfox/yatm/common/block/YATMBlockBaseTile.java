@@ -27,6 +27,7 @@ import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.block.GrcBlockContainer;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
+import io.polyfox.yatm.client.util.StateIconLoader;
 import io.polyfox.yatm.common.tileentity.YATMEnergyProviderTile;
 import io.polyfox.yatm.creativetab.CreativeTabsYATM;
 import io.polyfox.yatm.util.BlockSides;
@@ -36,10 +37,8 @@ import appeng.client.texture.FlippableIcon;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.entity.EntityLivingBase;
@@ -149,63 +148,16 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected FlippableIcon optionalIcon(IIconRegister ir, String name, IIcon substitute)
+	protected StateIconLoader.IconVariant[] getIconVariants()
 	{
-		// if the input is an flippable IIcon find the original.
-		while (substitute instanceof FlippableIcon)
-		{
-			substitute = ((FlippableIcon)substitute).getOriginal();
-		}
-
-		if (substitute != null)
-		{
-			try
-			{
-				ResourceLocation resLoc = new ResourceLocation( name );
-				resLoc = new ResourceLocation( resLoc.getResourceDomain(), String.format( "%s/%s%s", "textures/blocks", resLoc.getResourcePath(), ".png" ) );
-
-				final IResource res = Minecraft.getMinecraft().getResourceManager().getResource( resLoc );
-				if( res != null )
-				{
-					return new FlippableIcon( ir.registerIcon( name ) );
-				}
-			}
-			catch( Throwable e )
-			{
-				return new FlippableIcon( substitute );
-			}
-		}
-
-		return new FlippableIcon( ir.registerIcon( name ) );
-	}
-
-	@SideOnly(Side.CLIENT)
-	public FlippableIcon optionalSubIcon(IIconRegister ir, String name, IIcon substitute)
-	{
-		return optionalIcon(ir, getTextureName() + name, substitute);
+		return StateIconLoader.instance.defaultIconVariants;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg)
 	{
-		icons = new FlippableIcon[12];
-
-		final IIcon defaultIcon = optionalIcon(reg, getTextureName(), null);
-		final IIcon sideIconOff = optionalSubIcon(reg, "/side.off", optionalSubIcon(reg, "/side", defaultIcon));
-		icons[0] = optionalSubIcon(reg, "/bottom.off", optionalSubIcon(reg, "/bottom", defaultIcon));
-		icons[1] = optionalSubIcon(reg, "/top.off", optionalSubIcon(reg, "/top", defaultIcon));
-		icons[2] = optionalSubIcon(reg, "/back.off", optionalSubIcon(reg, "/back", sideIconOff));
-		icons[3] = optionalSubIcon(reg, "/front.off", optionalSubIcon(reg, "/front", sideIconOff));
-		icons[4] = optionalSubIcon(reg, "/east.off", optionalSubIcon(reg, "/east", sideIconOff));
-		icons[5] = optionalSubIcon(reg, "/west.off", optionalSubIcon(reg, "/west", sideIconOff));
-
-		icons[6] = optionalSubIcon(reg, "/bottom.on", icons[0]);
-		icons[7] = optionalSubIcon(reg, "/top.on", icons[1]);
-		icons[8] = optionalSubIcon(reg, "/back.on",  optionalSubIcon(reg, "/side.on", icons[2]));
-		icons[9] = optionalSubIcon(reg, "/front.on", optionalSubIcon(reg, "/side.on", icons[3]));
-		icons[10] = optionalSubIcon(reg, "/east.on", optionalSubIcon(reg, "/side.on", icons[4]));
-		icons[11] = optionalSubIcon(reg, "/west.on", optionalSubIcon(reg, "/side.on", icons[5]));
+		this.icons = StateIconLoader.instance.registerIconsWithIconVariants(getTextureName(), reg, getIconVariants());
 	}
 
 	public boolean isOnline(int meta)
@@ -213,21 +165,31 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		return (meta & 4) == 4;
 	}
 
+	public int getOrientation(int meta)
+	{
+		return meta & 3;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public int getIconOffset(int meta)
+	{
+		return isOnline(meta) ? 6 : 0;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta)
 	{
-		final boolean online = isOnline(meta);
-		final int onlineOffset = online ? 6 : 0;
+		final int iconOffset = getIconOffset(meta);
 		if (side > 1)
 		{
-			final int orientation = meta & 3;
+			final int orientation = getOrientation(meta);
 			final int newSide = BlockSides.ORIENTATIONS4[orientation][side - 2];
-			return icons[newSide + onlineOffset];
+			return icons[iconOffset + newSide];
 		}
 		else
 		{
-			return icons[side + onlineOffset];
+			return icons[iconOffset + side];
 		}
 	}
 

@@ -23,6 +23,7 @@
  */
 package io.polyfox.yatm.common.block;
 
+import io.polyfox.yatm.client.util.StateIconLoader;
 import io.polyfox.yatm.common.tileentity.TileEntityCreativeEnergyCell;
 
 import appeng.client.texture.FlippableIcon;
@@ -59,6 +60,6 @@ public class BlockEnergyCellCreative extends BlockEnergyCell
 	public void registerBlockIcons(IIconRegister reg)
 	{
 		icons = new FlippableIcon[1];
-		icons[0] = optionalIcon(reg, getTextureName() + "/creative", null);
+		icons[0] = StateIconLoader.instance.optionalIcon(reg, getTextureName() + "/creative", null);
 	}
 }

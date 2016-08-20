@@ -26,6 +26,7 @@ package io.polyfox.yatm.common.block;
 import java.util.ArrayList;
 
 import io.polyfox.yatm.client.renderer.RenderEnergyCell;
+import io.polyfox.yatm.client.util.StateIconLoader;
 import io.polyfox.yatm.common.tileentity.TileEntityEnergyCell;
 
 import appeng.client.texture.FlippableIcon;
@@ -114,7 +115,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 		icons = new FlippableIcon[8];
 		for (int i = 0; i < icons.length; ++i)
 		{
-			icons[i] = optionalIcon(reg, getTextureName() + "/stage" + i, null);
+			icons[i] = StateIconLoader.instance.optionalIcon(reg, getTextureName() + "/stage" + i, null);
 		}
 	}
 
