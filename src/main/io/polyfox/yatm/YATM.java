@@ -109,11 +109,11 @@ public class YATM
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		modules.add(CommonProxy.instance);
+		modules.setLogger(logger);
 		modules.add(blocks);
 		modules.add(items);
 		modules.add(new io.polyfox.yatm.integration.ThaumcraftModule());
-		modules.setLogger(logger);
+		modules.add(CommonProxy.instance);
 		modules.freeze();
 		modules.preInit();
 		modules.register();
