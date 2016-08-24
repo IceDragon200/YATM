@@ -164,12 +164,12 @@ public class ItemInstances extends GrcModuleItems
 
 		OreDictionary.registerOre("materialPlate", plate.asStack(1, ItemKey.WILDCARD_VALUE));
 
-		for (EnumPlate eplate : EnumPlate.VALUES)
+		for (EnumPlate eplate : EnumPlate.values())
 		{
 			OreDictionary.registerOre(eplate.getOreName(), eplate.asStack());
 		}
 
-		for (EnumDust edust : EnumDust.VALUES)
+		for (EnumDust edust : EnumDust.values())
 		{
 			OreDictionary.registerOre(edust.getOreName(), edust.asStack());
 		}

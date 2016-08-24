@@ -43,19 +43,19 @@ public class ItemDust extends AbstractItemMaterial
 
 	public EnumDust getDustType(ItemStack stack)
 	{
-		return EnumDust.get(stack.getItemDamage());
+		return EnumDust.byIndex(stack.getItemDamage());
 	}
 
 	public String getUnlocalizedName(ItemStack stack)
 	{
-		return super.getUnlocalizedName() + "." + getDustType(stack).unlocalizedName;
+		return super.getUnlocalizedName() + "." + getDustType(stack).getBasename();
 	}
 
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
 	{
-		for (EnumDust dust : EnumDust.VALUES)
+		for (EnumDust dust : EnumDust.values())
 		{
 			itemStacks.add(dust.asStack());
 		}
@@ -65,10 +65,10 @@ public class ItemDust extends AbstractItemMaterial
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister ir)
 	{
-		icons = new IIcon[EnumDust.VALUES.length];
-		for (EnumDust dust : EnumDust.VALUES)
+		icons = new IIcon[EnumDust.values().length];
+		for (EnumDust dust : EnumDust.values())
 		{
-			icons[dust.meta] = ir.registerIcon(String.format("yatm:materials/%s", dust.getDustName()));
+			icons[dust.getMetadata()] = ir.registerIcon(String.format("yatm:materials/%s", dust.getDustName()));
 		}
 	}
 }

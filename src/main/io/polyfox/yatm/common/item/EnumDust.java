@@ -23,7 +23,8 @@
  */
 package io.polyfox.yatm.common.item;
 
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 import com.google.common.base.CaseFormat;
 
 import growthcraft.api.core.definition.IItemStackFactory;
@@ -33,51 +34,59 @@ import net.minecraft.item.ItemStack;
 
 public enum EnumDust implements IItemStackFactory
 {
-	URANIUM,
-	PURE_URANIUM,
-	PURE_REDSTONE,
-	IRON,
-	GOLD,
-	CARBON_STEEL,
-	CRYSTAL_STEEL,
-	STEEL,
-	COPPER,
-	ALUMINUM,
-	TIN,
-	ZINC,
-	LEAD,
-	NICKEL,
-	MITHRIL,
-	WROUGHT_IRON,
-	PIG_IRON,
-	SILVER,
-	INVAR,
-	BRONZE,
-	BRASS;
+	URANIUM(0, "uranium"),
+	PURE_URANIUM(1, "pure_uranium"),
+	PURE_REDSTONE(2, "pure_redstone"),
+	IRON(3, "iron"),
+	GOLD(4, "gold"),
+	CARBON_STEEL(5, "carbon_steel"),
+	CRYSTAL_STEEL(6, "crystal_steel"),
+	STEEL(7, "steel"),
+	COPPER(8, "copper"),
+	ALUMINUM(9, "aluminum"),
+	TIN(10, "tin"),
+	ZINC(11, "zinc"),
+	LEAD(12, "lead"),
+	NICKEL(13, "nickel"),
+	MITHRIL(14, "mithril"),
+	WROUGHT_IRON(15, "wrought_iron"),
+	PIG_IRON(16, "pig_iron"),
+	SILVER(17, "silver"),
+	INVAR(18, "invar"),
+	BRONZE(19, "bronze"),
+	BRASS(20, "brass");
 
-	public static final EnumDust[] VALUES = values();
+	private static final EnumDust[] BY_INDEX = new EnumDust[values().length];
+	private static final Map<String, EnumDust> BY_NAME = new HashMap<String, EnumDust>();
 
-	public final String unlocalizedName;
-	public final String camelName;
-	public final int meta;
-
-	private EnumDust(String camel)
+	static
 	{
-		if (camel == null)
+		for (EnumDust dust : values())
 		{
-			this.camelName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name());
+			BY_NAME.put(dust.getBasename(), dust);
+			BY_INDEX[dust.getMetadata()] = dust;
 		}
-		else
-		{
-			this.camelName = camel;
-		}
-		this.unlocalizedName = name().toLowerCase(Locale.ENGLISH);
-		this.meta = ordinal();
 	}
 
-	private EnumDust()
+	private final String camelName;
+	private final String basename;
+	private final int meta;
+
+	private EnumDust(int p_meta, String p_basename)
 	{
-		this((String)null);
+		this.meta = p_meta;
+		this.basename = p_basename;
+		this.camelName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name());
+	}
+
+	public int getMetadata()
+	{
+		return meta;
+	}
+
+	public String getBasename()
+	{
+		return basename;
 	}
 
 	public String getCamelName()
@@ -87,7 +96,7 @@ public enum EnumDust implements IItemStackFactory
 
 	public String getDustName()
 	{
-		return String.format("dusts/%s", unlocalizedName);
+		return String.format("dusts/%s", basename);
 	}
 
 	public String getOreName()
@@ -107,12 +116,19 @@ public enum EnumDust implements IItemStackFactory
 		return asStack(1);
 	}
 
-	public static EnumDust get(int index)
+	public static EnumDust byIndex(int index)
 	{
-		if (index >= 0 && index < VALUES.length)
+		if (index >= 0 && index < BY_INDEX.length)
 		{
-			return VALUES[index];
+			return BY_INDEX[index];
 		}
+		return IRON;
+	}
+
+	public static EnumDust byBasename(String name)
+	{
+		final EnumDust dust = BY_NAME.get(name);
+		if (dust != null) return dust;
 		return IRON;
 	}
 }
