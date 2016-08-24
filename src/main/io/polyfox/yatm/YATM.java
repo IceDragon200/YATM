@@ -511,6 +511,15 @@ public class YATM
 			'I', "ingotIron"
 		));
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.fluxSwitch.asStack(),
+			" I ",
+			"ILI",
+			" A ",
+			'A', items.capacitorIron.asStack(),
+			'L', Blocks.lever,
+			'I', "ingotIron"
+		));
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.miniBlastFurnace.asStack(),
 			"BBB",
 			"BFB",
@@ -519,6 +528,27 @@ public class YATM
 			'F', Blocks.furnace,
 			'P', "materialPlateIron",
 			'B', Blocks.brick_block
+		));
+
+		// Wireless Redstone Devices
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.wirelessRedstoneEmitter.asStack(),
+			" A ",
+			"ITI",
+			" P ",
+			'P', "materialPlateIron",
+			'A', items.vacuumTubeIron.asStack(),
+			'L', Blocks.redstone_torch,
+			'I', "ingotIron"
+		));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.wirelessRedstoneReceiver.asStack(),
+			" T ",
+			"IAI",
+			" P ",
+			'P', "materialPlateIron",
+			'A', items.vacuumTubeIron.asStack(),
+			'L', Blocks.redstone_torch,
+			'I', "ingotIron"
 		));
 
 		// Solar Panels
