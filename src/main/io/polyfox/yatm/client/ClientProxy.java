@@ -31,6 +31,7 @@ import io.polyfox.yatm.client.gui.GuiCrate;
 import io.polyfox.yatm.client.gui.GuiCrusher;
 import io.polyfox.yatm.client.gui.GuiElectrolyser;
 import io.polyfox.yatm.client.gui.GuiFluxFurnace;
+import io.polyfox.yatm.client.gui.GuiFluxSwitch;
 import io.polyfox.yatm.client.gui.GuiFuelGenerator;
 import io.polyfox.yatm.client.gui.GuiHeater;
 import io.polyfox.yatm.client.gui.GuiMiniBlastFurnace;
@@ -59,6 +60,7 @@ public class ClientProxy extends CommonProxy
 		YATM.guiProvider.register("yatm:crusher", GuiCrusher.class);
 		YATM.guiProvider.register("yatm:electrolyser", GuiElectrolyser.class);
 		YATM.guiProvider.register("yatm:flux_furnace", GuiFluxFurnace.class);
+		YATM.guiProvider.register("yatm:flux_switch", GuiFluxSwitch.class);
 		YATM.guiProvider.register("yatm:fuel_generator", GuiFuelGenerator.class);
 		YATM.guiProvider.register("yatm:heater",GuiHeater.class);
 		YATM.guiProvider.register("yatm:mini_blast_furnace", GuiMiniBlastFurnace.class);
