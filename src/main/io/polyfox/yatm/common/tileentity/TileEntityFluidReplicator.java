@@ -76,7 +76,7 @@ public class TileEntityFluidReplicator extends GrcTileEntityDeviceBase
 		if (curMeta != meta)
 		{
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
-			updateContainingBlockInfo();
+			markDirty();
 		}
 	}
 

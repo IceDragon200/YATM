@@ -30,7 +30,7 @@ import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import io.polyfox.yatm.client.util.StateIconLoader;
 import io.polyfox.yatm.common.tileentity.YATMEnergyProviderTile;
 import io.polyfox.yatm.creativetab.CreativeTabsYATM;
-import io.polyfox.yatm.util.BlockSides;
+import io.polyfox.yatm.util.BlockFacing;
 import io.polyfox.yatm.util.YATMPlatform;
 
 import appeng.client.texture.FlippableIcon;
@@ -102,7 +102,7 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		final int orn = meta & 3;
 		final int extflag = meta & 12;
 		// first normalize the orientation and then get its clockwise direction
-		final int newMeta = BlockSides.CW[BlockSides.ORIENTATIONS4[orn][0] - 2] - 2;
+		final int newMeta = BlockFacing.CW[BlockFacing.ORIENTATIONS4[orn][0].getHorizontalIndex()].getHorizontalIndex();
 		world.setBlockMetadataWithNotify(x, y, z, newMeta | extflag, BlockFlags.SYNC);
 	}
 
@@ -182,7 +182,7 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		if (side > 1)
 		{
 			final int orientation = getOrientation(meta);
-			final int newSide = BlockSides.ORIENTATIONS4[orientation][side - 2];
+			final int newSide = BlockFacing.ORIENTATIONS4[orientation][side - 2].getIndex();
 			return icons[iconOffset + newSide];
 		}
 		else

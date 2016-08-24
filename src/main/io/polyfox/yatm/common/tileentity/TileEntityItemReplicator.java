@@ -86,7 +86,7 @@ public class TileEntityItemReplicator extends GrcTileEntityInventoryBase impleme
 		if (curMeta != meta)
 		{
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
-			updateContainingBlockInfo();
+			markDirty();
 		}
 	}
 

@@ -40,6 +40,7 @@ import io.polyfox.yatm.common.block.BlockEnergyCell;
 import io.polyfox.yatm.common.block.BlockEnergyCellCreative;
 import io.polyfox.yatm.common.block.BlockFluidReplicator;
 import io.polyfox.yatm.common.block.BlockFluxFurnace;
+import io.polyfox.yatm.common.block.BlockFluxSwitch;
 import io.polyfox.yatm.common.block.BlockHeater;
 import io.polyfox.yatm.common.block.BlockItemReplicator;
 import io.polyfox.yatm.common.block.BlockLamp;
@@ -68,6 +69,7 @@ import io.polyfox.yatm.common.tileentity.TileEntityEnergyCellDense;
 import io.polyfox.yatm.common.tileentity.TileEntityEnergyCellNormal;
 import io.polyfox.yatm.common.tileentity.TileEntityFluidReplicator;
 import io.polyfox.yatm.common.tileentity.TileEntityFluxFurnace;
+import io.polyfox.yatm.common.tileentity.TileEntityFluxSwitch;
 import io.polyfox.yatm.common.tileentity.TileEntityFuelGenerator;
 import io.polyfox.yatm.common.tileentity.TileEntityHeater;
 import io.polyfox.yatm.common.tileentity.TileEntityItemReplicator;
@@ -111,6 +113,7 @@ public class BlockInstances extends GrcModuleBlocks
 	public BlockDefinition floorWarning2;
 	public BlockDefinition fluidReplicator;
 	public BlockDefinition fluxFurnace;
+	public BlockDefinition fluxSwitch;
 	public BlockDefinition heater;
 	public BlockDefinition itemReplicator;
 	public BlockDefinition lamp;
@@ -147,6 +150,7 @@ public class BlockInstances extends GrcModuleBlocks
 		electrolyser = newDefinition(new BlockElectrolyser());
 		fluidReplicator = newDefinition(new BlockFluidReplicator());
 		fluxFurnace = newDefinition(new BlockFluxFurnace());
+		fluxSwitch = newDefinition(new BlockFluxSwitch());
 		heater = newDefinition(new BlockHeater());
 		itemReplicator = newDefinition(new BlockItemReplicator());
 		miniBlastFurnace = newDefinition(new BlockMiniBlastFurnace());
@@ -235,6 +239,7 @@ public class BlockInstances extends GrcModuleBlocks
 		electrolyser.register("yatm.electrolyser", ItemBlockMachine.class);
 		fluidReplicator.register("yatm.fluid_replicator", ItemBlockMachine.class);
 		fluxFurnace.register("yatm.flux_furnace", ItemBlockMachine.class);
+		fluxSwitch.register("yatm.flux_switch", ItemBlockMachine.class);
 		heater.register("yatm.heater", ItemBlockMachine.class);
 		itemReplicator.register("yatm.item_replicator", ItemBlockMachine.class);
 		miniBlastFurnace.register("yatm.mini_blast_furnace", ItemBlockMachine.class);
@@ -274,6 +279,7 @@ public class BlockInstances extends GrcModuleBlocks
 		GameRegistry.registerTileEntity(TileEntityEnergyCellNormal.class, "yatm.tileentity.energy_cell_normal");
 		GameRegistry.registerTileEntity(TileEntityFluidReplicator.class, "yatm.tileentity.fluid_replicator");
 		GameRegistry.registerTileEntity(TileEntityFluxFurnace.class, "yatm.tileentity.flux_furnace");
+		GameRegistry.registerTileEntity(TileEntityFluxSwitch.class, "yatm.tileentity.flux_switch");
 		GameRegistry.registerTileEntity(TileEntityFuelGenerator.class, "yatm.tileentity.fuel_generator");
 		GameRegistry.registerTileEntity(TileEntityHeater.class, "yatm.tileentity.heater");
 		GameRegistry.registerTileEntity(TileEntityItemReplicator.class, "yatm.tileentity.item_replicator");

@@ -26,7 +26,7 @@ package io.polyfox.yatm.common.block;
 import java.util.Random;
 
 import io.polyfox.yatm.common.tileentity.TileEntityCrusher;
-import io.polyfox.yatm.util.BlockSides;
+import io.polyfox.yatm.util.BlockFacing;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -62,7 +62,7 @@ public class BlockCrusher extends YATMBlockBaseMachine
 					if (block != null)
 					{
 						final int bmeta = crushingStack.getItemDamage();
-						final ForgeDirection dir = BlockSides.getOppositeForgeDirection4(l & 3);
+						final ForgeDirection dir = BlockFacing.byHorizontalIndex(l & 3).getForgeDirection();
 						final float px = (float)x + 0.5F;
 						final float py = (float)y + 0.5F;
 						final float pz = (float)z + 0.5F;

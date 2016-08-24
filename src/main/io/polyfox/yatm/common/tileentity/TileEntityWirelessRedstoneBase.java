@@ -52,8 +52,8 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 		{
 			final int curMeta = (meta & 3) | (curState ? 4 : 0);
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
+			markDirty();
 		}
-		markDirty();
 	}
 
 	public int getPowerValue()

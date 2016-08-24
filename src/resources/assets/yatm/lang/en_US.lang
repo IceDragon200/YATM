@@ -22,6 +22,7 @@ tile.yatm.floor_warning2.name=Floor Warning Strips 2
 tile.yatm.fluid_replicator.name=Fluid Replicator
 tile.yatm.fluid_replicator.desc=A Creative Helper Block
 tile.yatm.flux_furnace.name=RF Furnace
+tile.yatm.flux_switch.name=RF Switch
 tile.yatm.fuel_generator.name=Fuel Generator
 tile.yatm.heater.name=RF Heater
 tile.yatm.item_replicator.name=Item Replicator

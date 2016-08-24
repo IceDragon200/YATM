@@ -23,7 +23,7 @@
  */
 package io.polyfox.yatm.client.util;
 
-import io.polyfox.yatm.util.BlockSides;
+import io.polyfox.yatm.util.BlockFacing;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.IBlockAccess;
@@ -94,7 +94,7 @@ public class ConnectedTextureSolver
 		return index;
 	}
 
-	public static int solveSide(IBlockAccess world, int x, int y, int z, Block block, int side, boolean dir8)
+	public static int solveSide(IBlockAccess world, int x, int y, int z, Block block, BlockFacing side, boolean dir8)
 	{
 		boolean north = false;
 		boolean east = false;
@@ -111,7 +111,7 @@ public class ConnectedTextureSolver
 		// north, east, south, west
 		switch (side)
 		{
-			case BlockSides.DOWN:
+			case DOWN:
 				north = Block.isEqualTo(block, world.getBlock(x, y, z - 1));
 				east = Block.isEqualTo(block, world.getBlock(x + 1, y, z));
 				south = Block.isEqualTo(block, world.getBlock(x, y, z + 1));
@@ -127,7 +127,7 @@ public class ConnectedTextureSolver
 
 				facing = Block.isEqualTo(block, world.getBlock(x, y - 1, z));
 				break;
-			case BlockSides.UP:
+			case UP:
 				north = Block.isEqualTo(block, world.getBlock(x, y, z - 1));
 				east = Block.isEqualTo(block, world.getBlock(x + 1, y, z));
 				south = Block.isEqualTo(block, world.getBlock(x, y, z + 1));
@@ -143,7 +143,7 @@ public class ConnectedTextureSolver
 
 				facing = Block.isEqualTo(block, world.getBlock(x, y + 1, z));
 				break;
-			case BlockSides.NORTH:
+			case NORTH:
 				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z));
 				east = Block.isEqualTo(block, world.getBlock(x - 1, y, z));
 				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z));
@@ -159,7 +159,7 @@ public class ConnectedTextureSolver
 
 				facing = Block.isEqualTo(block, world.getBlock(x, y, z - 1));
 				break;
-			case BlockSides.SOUTH:
+			case SOUTH:
 				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z));
 				east = Block.isEqualTo(block, world.getBlock(x + 1, y, z));
 				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z));
@@ -175,7 +175,7 @@ public class ConnectedTextureSolver
 
 				facing = Block.isEqualTo(block, world.getBlock(x, y, z + 1));
 				break;
-			case BlockSides.WEST:
+			case WEST:
 				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z));
 				east = Block.isEqualTo(block, world.getBlock(x, y, z + 1));
 				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z));
@@ -191,7 +191,7 @@ public class ConnectedTextureSolver
 
 				facing = Block.isEqualTo(block, world.getBlock(x - 1, y, z));
 				break;
-			case BlockSides.EAST:
+			case EAST:
 				north = Block.isEqualTo(block, world.getBlock(x, y + 1, z));
 				east = Block.isEqualTo(block, world.getBlock(x, y, z - 1));
 				south = Block.isEqualTo(block, world.getBlock(x, y - 1, z));
@@ -369,6 +369,6 @@ public class ConnectedTextureSolver
 
 	public static int iconForSide(IBlockAccess world, int x, int y, int z, Block block, int side, boolean dir8)
 	{
-		return indexToIcon(side, solveSide(world, x, y, z, block, side, dir8));
+		return indexToIcon(side, solveSide(world, x, y, z, block, BlockFacing.byIndex(side), dir8));
 	}
 }

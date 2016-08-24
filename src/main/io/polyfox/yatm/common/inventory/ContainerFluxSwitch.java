@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 IceDragon200
+ * Copyright (c) 2015 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity.feature;
+package io.polyfox.yatm.common.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import io.polyfox.yatm.common.tileentity.TileEntityFluxSwitch;
 
-/**
- * Backport from Minecraft 1.8.9
- */
-public interface IInteractionObject
+import net.minecraft.inventory.IInventory;
+
+public class ContainerFluxSwitch extends YATMTileContainer
 {
-	Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn);
+	public ContainerFluxSwitch(IInventory playerInventory, TileEntityFluxSwitch heater)
+	{
+		super(heater);
 
-	String getGuiID();
+		bindPlayerInventory(playerInventory, 8, 94);
+	}
 }
