@@ -117,7 +117,7 @@ public class TileEntityFluxSwitch extends YATMEnergyProviderTile implements IInt
 	}
 
 	@Override
-	public int getEnergySyncAmount(ForgeDirection from, IEnergyGridSync _other)
+	public int getEnergySyncAmount(ForgeDirection from, IEnergyGridSync other)
 	{
 		if (canConnectEnergy(from))
 		{
