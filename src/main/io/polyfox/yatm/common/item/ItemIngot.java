@@ -32,6 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class ItemIngot extends AbstractItemMaterial
@@ -40,6 +41,29 @@ public class ItemIngot extends AbstractItemMaterial
 	{
 		super();
 		setUnlocalizedName("yatm.ingot");
+	}
+
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		final int meta = stack.getItemDamage();
+		final String basename = super.getUnlocalizedName();
+		if (YATM.items.ingotUranium.meta == meta)
+		{
+			return basename + ".uranium";
+		}
+		else if (YATM.items.ingotPureUranium.meta == meta)
+		{
+			return basename + ".pure_uranium";
+		}
+		else if (YATM.items.ingotCarbonSteel.meta == meta)
+		{
+			return basename + ".carbon_steel";
+		}
+		else if (YATM.items.ingotCrystalSteel.meta == meta)
+		{
+			return basename + ".crystal_steel";
+		}
+		return basename;
 	}
 
 	@Override
