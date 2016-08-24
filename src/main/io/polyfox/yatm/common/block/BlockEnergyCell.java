@@ -82,7 +82,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 		return result;
 	}
 
-	/*@Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public int getRenderType()
 	{
@@ -106,7 +106,7 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
 	{
 		return true;
-	}*/
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
