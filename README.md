@@ -1,6 +1,6 @@
 # [![YATM](https://raw.githubusercontent.com/IceDragon200/YATM/master/wiki/EnergyCell.Basic.png)](https://github.com/IceDragon200/YATM) YATM
 [![Minecraft Version](http://img.shields.io/minecraft/1.7.10.png?color=green)](https://minecraft.net/)
-[![Growthcraft Version](http://img.shields.io/yatm/1.2.0.png?color=green)](https://github.com/IceDragon200/YATM)
+[![Growthcraft Version](http://img.shields.io/yatm/1.6.0.png?color=green)](https://github.com/IceDragon200/YATM)
 [![Forge Version](http://img.shields.io/forge/10.13.4.1566.png?color=green)](http://files.minecraftforge.net/)
 [![Java Version](http://img.shields.io/java/7.png?color=green)](https://www.java.com/en/)
 [![Build Status](https://travis-ci.org/IceDragon200/YATM.svg?branch=master)](https://travis-ci.org/IceDragon200/YATM)
