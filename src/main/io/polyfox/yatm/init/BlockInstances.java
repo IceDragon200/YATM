@@ -32,6 +32,7 @@ import io.polyfox.yatm.common.block.BlockChassis;
 import io.polyfox.yatm.common.block.BlockCoalGenerator;
 import io.polyfox.yatm.common.block.BlockCompactor;
 import io.polyfox.yatm.common.block.BlockCrusher;
+import io.polyfox.yatm.common.block.BlockCrystalVat;
 import io.polyfox.yatm.common.block.BlockDecorative8;
 import io.polyfox.yatm.common.block.BlockDecorative;
 import io.polyfox.yatm.common.block.BlockDecorativeBase;
@@ -64,6 +65,7 @@ import io.polyfox.yatm.common.tileentity.TileEntityCreativeEnergyCellBasic;
 import io.polyfox.yatm.common.tileentity.TileEntityCreativeEnergyCellDense;
 import io.polyfox.yatm.common.tileentity.TileEntityCreativeEnergyCellNormal;
 import io.polyfox.yatm.common.tileentity.TileEntityCrusher;
+import io.polyfox.yatm.common.tileentity.TileEntityCrystalVat;
 import io.polyfox.yatm.common.tileentity.TileEntityElectrolyser;
 import io.polyfox.yatm.common.tileentity.TileEntityEnergyCellBasic;
 import io.polyfox.yatm.common.tileentity.TileEntityEnergyCellDense;
@@ -102,6 +104,7 @@ public class BlockInstances extends GrcModuleBlocks
 	public BlockDefinition coalGenerator;
 	public BlockDefinition compactor;
 	public BlockDefinition crusher;
+	public BlockDefinition crystalVat;
 	public BlockDefinition electrolyser;
 	public BlockDefinition energyCellBasic;
 	public BlockDefinition energyCellBasicCreative;
@@ -150,6 +153,7 @@ public class BlockInstances extends GrcModuleBlocks
 		coalGenerator = newDefinition(new BlockCoalGenerator());
 		compactor = newDefinition(new BlockCompactor());
 		crusher = newDefinition(new BlockCrusher());
+		crystalVat = newDefinition(new BlockCrystalVat());
 		electrolyser = newDefinition(new BlockElectrolyser());
 		fluidReplicator = newDefinition(new BlockFluidReplicator());
 		fluxFurnace = newDefinition(new BlockFluxFurnace());
@@ -240,6 +244,7 @@ public class BlockInstances extends GrcModuleBlocks
 		coalGenerator.register("yatm.coal_generator", ItemBlockMachine.class);
 		compactor.register("yatm.compactor", ItemBlockMachine.class);
 		crusher.register("yatm.crusher", ItemBlockMachine.class);
+		crystalVat.register("yatm.crystal_vat", ItemBlockMachine.class);
 		electrolyser.register("yatm.electrolyser", ItemBlockMachine.class);
 		fluidReplicator.register("yatm.fluid_replicator", ItemBlockMachine.class);
 		fluxFurnace.register("yatm.flux_furnace", ItemBlockMachine.class);
@@ -278,6 +283,7 @@ public class BlockInstances extends GrcModuleBlocks
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellDense.class, "yatm.tileentity.creative_energy_cell_dense");
 		GameRegistry.registerTileEntity(TileEntityCreativeEnergyCellNormal.class, "yatm.tileentity.creative_energy_cell_normal");
 		GameRegistry.registerTileEntity(TileEntityCrusher.class, "yatm.tileentity.crusher");
+		GameRegistry.registerTileEntity(TileEntityCrystalVat.class, "yatm.tileentity.crystal_vat");
 		GameRegistry.registerTileEntity(TileEntityElectrolyser.class, "yatm.tileentity.electrolyser");
 		GameRegistry.registerTileEntity(TileEntityEnergyCellBasic.class, "yatm.tileentity.energy_cell_basic");
 		GameRegistry.registerTileEntity(TileEntityEnergyCellDense.class, "yatm.tileentity.energy_cell_dense");

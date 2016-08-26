@@ -33,8 +33,6 @@ import io.polyfox.yatm.creativetab.CreativeTabsYATM;
 import io.polyfox.yatm.util.BlockFacing;
 import io.polyfox.yatm.util.YATMPlatform;
 
-import appeng.client.texture.FlippableIcon;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -55,7 +53,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class YATMBlockBaseTile extends GrcBlockContainer
 {
 	@SideOnly(Side.CLIENT)
-	protected FlippableIcon[] icons;
+	protected IIcon[] icons;
 
 	protected Class<? extends TileEntity> tileEntityType;
 

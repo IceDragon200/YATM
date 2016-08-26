@@ -572,6 +572,15 @@ public class YATM
 			'I', "materialPlateIron"
 		));
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.crystalVat.asStack(),
+			" I ",
+			"ICI",
+			" Y ",
+			'Y', "crystalCertusQuartz",
+			'C', Items.cauldron,
+			'I', "materialPlateIron"
+		));
+
 		// Solar Panels
 		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.solarPanel.asStack(),
 			"YYY",

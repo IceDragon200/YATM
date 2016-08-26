@@ -8,6 +8,7 @@ tile.yatm.chassis.name=Chassis
 tile.yatm.coal_generator.name=Coal Generator
 tile.yatm.compactor.name=RF Compactor
 tile.yatm.crusher.name=Crusher
+tile.yatm.crystal_vat.name=Crystal Vat
 tile.yatm.electrolyser.name=RF Electrolyser
 tile.yatm.energy_cell_basic.name=Basic Energy Cell
 tile.yatm.energy_cell_basic_creative.name=Basic Energy Cell (Creative)
@@ -141,3 +142,4 @@ item.yatm.vacuum_tube.3.name=Obsidian Vacuum Tube
 
 # GUI
 yatm.inventory.crate=Storage Crate
+yatm.inventory.crystal_vat=Crystal Vat
