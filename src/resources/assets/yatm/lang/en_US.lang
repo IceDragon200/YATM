@@ -130,6 +130,9 @@ item.yatm.plate.thaumium.name=Thaumium Plate
 item.yatm.plate.tin.name=Tin Plate
 item.yatm.plate.wrought_iron.name=Wrought Iron Plate
 item.yatm.plate.zinc.name=Zinc Plate
+## Springs
+item.yatm.spring.carbon_steel.name=Carbon Steel Spring
+item.yatm.spring.carbon_steel.desc=Toss this bad boy into your favourite spring wound machine!
 ## Vacuum Tubes
 item.yatm.vacuum_tube.0.name=Iron Vacuum Tube
 item.yatm.vacuum_tube.1.name=Gold Vacuum Tube

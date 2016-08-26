@@ -37,6 +37,7 @@ import io.polyfox.yatm.common.item.ItemGrenade;
 import io.polyfox.yatm.common.item.ItemIngot;
 import io.polyfox.yatm.common.item.ItemMesh;
 import io.polyfox.yatm.common.item.ItemPlate;
+import io.polyfox.yatm.common.item.ItemSpring;
 import io.polyfox.yatm.common.item.ItemVacuumTube;
 
 import appeng.api.AEApi;
@@ -76,6 +77,7 @@ public class ItemInstances extends GrcModuleItems
 	public ItemSubtypeDefinition vacuumTubeObsidian;
 
 	public ItemDefinition plate;
+	public ItemDefinition spring;
 
 	public ItemDefinition mesh;
 
@@ -118,6 +120,7 @@ public class ItemInstances extends GrcModuleItems
 		vacuumTube = newDefinition(new ItemVacuumTube());
 		mesh = newDefinition(new ItemMesh());
 		plate = newDefinition(new ItemPlate());
+		spring = newDefinition(new ItemSpring());
 		grenade = newDefinition(new ItemGrenade());
 
 		initSubtypes();
@@ -134,6 +137,7 @@ public class ItemInstances extends GrcModuleItems
 		vacuumTube.register("yatm.vacuum_tube");
 		mesh.register("yatm.mesh");
 		plate.register("yatm.plate");
+		spring.register("yatm.spring");
 		grenade.register("yatm.grenade");
 
 		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), EnumDust.URANIUM.asStack(1), 4);
@@ -172,6 +176,11 @@ public class ItemInstances extends GrcModuleItems
 		for (EnumDust edust : EnumDust.values())
 		{
 			OreDictionary.registerOre(edust.getOreName(), edust.asStack());
+		}
+
+		for (EnumPlate espring : EnumPlate.values())
+		{
+			OreDictionary.registerOre(espring.getOreName(), espring.asStack());
 		}
 
 		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());

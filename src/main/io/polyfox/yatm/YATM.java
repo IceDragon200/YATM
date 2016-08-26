@@ -39,6 +39,7 @@ import io.polyfox.yatm.api.crusher.CrushingRegistry;
 import io.polyfox.yatm.api.YATMApi;
 import io.polyfox.yatm.common.CommonProxy;
 import io.polyfox.yatm.common.item.EnumPlate;
+import io.polyfox.yatm.common.item.EnumSpring;
 import io.polyfox.yatm.init.BlockInstances;
 import io.polyfox.yatm.init.ItemInstances;
 import io.polyfox.yatm.integration.growthcraft.HeatSourceHeater;
@@ -310,6 +311,16 @@ public class YATM
 				TickUtils.seconds(10)
 			);
 		}
+
+		for (EnumSpring spring : EnumSpring.VALUES)
+		{
+			YATMApi.instance().rolling().addRecipe(
+				String.format("yatm:rolling/springs/%s/ingot-%s*2", spring.getBasename(), spring.getBasename()),
+				spring.asStack(2),
+				new OreItemStacks(spring.getPlateOreName(), 1),
+				TickUtils.seconds(10)
+			);
+		}
 	}
 
 	private void registerCraftingRecipes()
@@ -549,6 +560,16 @@ public class YATM
 			'A', items.vacuumTubeIron.asStack(),
 			'L', Blocks.redstone_torch,
 			'I', "ingotIron"
+		));
+
+		// Spring Wound Crank
+		GameRegistry.addRecipe(new ShapedOreRecipe(blocks.springWoundCrank.asStack(),
+			" I ",
+			"ISI",
+			" G ",
+			'G', "gearIron",
+			'S', EnumSpring.CARBON_STEEL.getOreName(),
+			'I', "materialPlateIron"
 		));
 
 		// Solar Panels
