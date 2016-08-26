@@ -21,31 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.client.renderer;
+package io.polyfox.yatm.common.block;
 
-import growthcraft.core.util.RenderUtils;
-import growthcraft.api.core.util.BBox;
+import io.polyfox.yatm.client.renderer.RenderSpringWoundCrank;
+import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
 
-import io.polyfox.yatm.client.boxmodels.BoxModels;
-
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
 import net.minecraft.world.IBlockAccess;
 
-public class RenderCagedMachine extends AbstractRenderBoxModels
+public class BlockSpringWoundCrank extends YATMBlockBaseTile
 {
-	public static final int id = RenderingRegistry.getNextAvailableRenderId();
-
-	public RenderCagedMachine()
+	public BlockSpringWoundCrank()
 	{
-		super(BoxModels.cagedMachine2);
+		super(Material.iron, TileEntitySpringWoundCrank.class);
+		setStepSound(soundTypeMetal);
+		setHardness(2.0F);
+		setResistance(5.0F);
+		setBlockName("yatm.spring_wound_crank");
+		setBlockTextureName("yatm:spring_wound_crank");
 	}
 
 	@Override
-	public int getRenderId()
+	@SideOnly(Side.CLIENT)
+	public int getRenderType()
 	{
-		return id;
+		return RenderSpringWoundCrank.id;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock()
+	{
+		return false;
 	}
 }

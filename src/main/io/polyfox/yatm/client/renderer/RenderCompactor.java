@@ -35,53 +35,13 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
-public class RenderCompactor implements ISimpleBlockRenderingHandler
+public class RenderCompactor extends AbstractRenderBoxModels
 {
 	public static final int id = RenderingRegistry.getNextAvailableRenderId();
-	private static final BBox[] boxes = BoxModels.compactor;
 
-	@Override
-	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
+	public RenderCompactor()
 	{
-		if (id == modelID)
-		{
-			final Tessellator tess = Tessellator.instance;
-			RenderUtils.startInventoryRender();
-			{
-				tess.setColorOpaque_F(1.0f, 1.0f, 1.0f);
-
-				for (BBox box : boxes)
-				{
-					renderer.setRenderBounds(box.x0(), box.y0(), box.z0(), box.x1(), box.y1(), box.z1());
-					RenderUtils.renderInventoryBlockFaces(block, metadata, renderer, tess);
-				}
-			}
-			RenderUtils.endInventoryRender();
-		}
-	}
-
-	@Override
-	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelID, RenderBlocks renderer)
-	{
-		if (id == modelID)
-		{
-			final Tessellator tess = Tessellator.instance;
-			tess.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
-			tess.setColorOpaque_F(1.0f, 1.0f, 1.0f);
-
-			for (BBox box : boxes)
-			{
-				renderer.setRenderBounds(box.x0(), box.y0(), box.z0(), box.x1(), box.y1(), box.z1());
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public boolean shouldRender3DInInventory(int modelID)
-	{
-		return true;
+		super(BoxModels.compactor);
 	}
 
 	@Override

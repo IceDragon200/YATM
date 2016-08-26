@@ -1,0 +1,186 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016 IceDragon200
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package io.polyfox.yatm.common.tileentity;
+
+import java.io.IOException;
+
+import growthcraft.api.core.util.BlockFlags;
+import growthcraft.core.common.tileentity.event.EventHandler;
+
+import appeng.api.implementations.tiles.ICrankable;
+
+import io.netty.buffer.ByteBuf;
+
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.nbt.NBTTagCompound;
+
+public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankable
+{
+	private static final int ticksPerWind = 4;
+	private static final int maxWinds = 200;
+	public int winds;
+	protected int nextWindIn;
+
+	@Override
+	public boolean canTurn()
+	{
+		return winds < maxWinds;
+	}
+
+	@Override
+	public void applyTurn()
+	{
+		this.winds = Math.min(winds + 10, maxWinds);
+	}
+
+	@Override
+	public boolean canCrankAttach(ForgeDirection directionToCrank)
+	{
+		switch (directionToCrank)
+		{
+			case UP:
+			case DOWN:
+				return false;
+			case NORTH:
+			case SOUTH:
+			case WEST:
+			case EAST:
+				return true;
+			default:
+		}
+		return false;
+	}
+
+	public ForgeDirection getUp()
+	{
+		return ForgeDirection.UP;
+	}
+
+	public ICrankable getCrankable()
+	{
+		if (worldObj.isRemote)
+		{
+			return null;
+		}
+
+		final ForgeDirection below = this.getUp().getOpposite();
+		final TileEntity te = this.worldObj.getTileEntity(this.xCoord + below.offsetX, this.yCoord + below.offsetY, this.zCoord + below.offsetZ);
+		if (te instanceof ICrankable)
+		{
+			return (ICrankable) te;
+		}
+		return null;
+	}
+
+	protected void refreshState()
+	{
+		final int meta = getBlockMetadata()	& 7;
+		final boolean oldState = (meta & 4) > 0;
+		final boolean curState = winds > 0;
+		if (oldState != curState)
+		{
+			final int curMeta = (meta & 3) | (curState ? 4 : 0);
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
+			markDirty();
+		}
+	}
+
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+		if (winds > 0)
+		{
+			if (nextWindIn-- <= 0)
+			{
+				this.nextWindIn = ticksPerWind;
+				final ICrankable crankable = getCrankable();
+				if (crankable != null)
+				{
+					if (crankable.canTurn())
+					{
+						this.winds--;
+						crankable.applyTurn();
+					}
+				}
+			}
+			refreshState();
+		}
+	}
+
+	protected void readCrankFromNBT(NBTTagCompound nbt)
+	{
+		this.winds = nbt.getInteger("winds");
+		this.nextWindIn = nbt.getInteger("winds");
+	}
+
+	@Override
+	public void readFromNBTForItem(NBTTagCompound nbt)
+	{
+		super.readFromNBTForItem(nbt);
+		readCrankFromNBT(nbt);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
+		readCrankFromNBT(nbt);
+	}
+
+	private void writeCrankToNBT(NBTTagCompound nbt)
+	{
+		nbt.setInteger("winds", winds);
+		nbt.setInteger("next_wind_in", nextWindIn);
+	}
+
+	@Override
+	public void writeToNBTForItem(NBTTagCompound nbt)
+	{
+		super.writeToNBTForItem(nbt);
+		writeCrankToNBT(nbt);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		super.writeToNBT(nbt);
+		writeCrankToNBT(nbt);
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	public boolean readFromStream_Crank(ByteBuf stream) throws IOException
+	{
+		this.winds = stream.readInt();
+		return true;
+	}
+
+	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	public boolean writeToStream_Crank(ByteBuf stream) throws IOException
+	{
+		stream.writeInt(winds);
+		return false;
+	}
+}

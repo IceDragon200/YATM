@@ -49,6 +49,7 @@ import io.polyfox.yatm.common.block.BlockMiniBlastFurnace;
 import io.polyfox.yatm.common.block.BlockMixer;
 import io.polyfox.yatm.common.block.BlockRoller;
 import io.polyfox.yatm.common.block.BlockSolarPanel;
+import io.polyfox.yatm.common.block.BlockSpringWoundCrank;
 import io.polyfox.yatm.common.block.BlockWindow;
 import io.polyfox.yatm.common.block.BlockWirelessRedstoneEmitter;
 import io.polyfox.yatm.common.block.BlockWirelessRedstoneReceiver;
@@ -77,6 +78,7 @@ import io.polyfox.yatm.common.tileentity.TileEntityMiniBlastFurnace;
 import io.polyfox.yatm.common.tileentity.TileEntityMixer;
 import io.polyfox.yatm.common.tileentity.TileEntityRoller;
 import io.polyfox.yatm.common.tileentity.TileEntitySolarPanel;
+import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
 import io.polyfox.yatm.common.tileentity.TileEntityWirelessRedstoneEmitter;
 import io.polyfox.yatm.common.tileentity.TileEntityWirelessRedstoneReceiver;
 
@@ -122,6 +124,7 @@ public class BlockInstances extends GrcModuleBlocks
 	public BlockDefinition mixer;
 	public BlockDefinition roller;
 	public BlockDefinition solarPanel;
+	public BlockDefinition springWoundCrank;
 	public BlockDefinition window;
 	public BlockDefinition wirelessRedstoneEmitter;
 	public BlockDefinition wirelessRedstoneReceiver;
@@ -156,6 +159,7 @@ public class BlockInstances extends GrcModuleBlocks
 		miniBlastFurnace = newDefinition(new BlockMiniBlastFurnace());
 		mixer = newDefinition(new BlockMixer());
 		roller = newDefinition(new BlockRoller());
+		springWoundCrank = newDefinition(new BlockSpringWoundCrank());
 		wirelessRedstoneEmitter = newDefinition(new BlockWirelessRedstoneEmitter());
 		wirelessRedstoneReceiver = newDefinition(new BlockWirelessRedstoneReceiver());
 
@@ -246,6 +250,7 @@ public class BlockInstances extends GrcModuleBlocks
 		mixer.register("yatm.mixer", ItemBlockMachine.class);
 		roller.register("yatm.roller", ItemBlockMachine.class);
 		solarPanel.register("yatm.solar_panel", ItemBlockMachine.class);
+		springWoundCrank.register("yatm.spring_wound_crank", ItemBlockMachine.class);
 		wirelessRedstoneEmitter.register("yatm.wireless_redstone_emitter", ItemBlockMachine.class);
 		wirelessRedstoneReceiver.register("yatm.wireless_redstone_receiver", ItemBlockMachine.class);
 
@@ -289,5 +294,6 @@ public class BlockInstances extends GrcModuleBlocks
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, "yatm.tileentity.solar_panel");
 		GameRegistry.registerTileEntity(TileEntityWirelessRedstoneEmitter.class, "yatm.tileentity.wireless_redstone_emitter");
 		GameRegistry.registerTileEntity(TileEntityWirelessRedstoneReceiver.class, "yatm.tileentity.wireless_redstone_receiver");
+		GameRegistry.registerTileEntity(TileEntitySpringWoundCrank.class, "yatm.tileentity.spring_wound_crank");
 	}
 }

@@ -42,6 +42,7 @@ import io.polyfox.yatm.client.gui.GuiWirelessRedstoneReceiver;
 import io.polyfox.yatm.client.renderer.RenderCagedMachine;
 import io.polyfox.yatm.client.renderer.RenderCompactor;
 import io.polyfox.yatm.client.renderer.RenderEnergyCell;
+import io.polyfox.yatm.client.renderer.RenderSpringWoundCrank;
 import io.polyfox.yatm.common.CommonProxy;
 import io.polyfox.yatm.YATM;
 
@@ -71,5 +72,6 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerBlockHandler(new RenderCagedMachine());
 		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());
+		RenderingRegistry.registerBlockHandler(new RenderSpringWoundCrank());
 	}
 }

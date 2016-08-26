@@ -26,26 +26,63 @@ package io.polyfox.yatm.client.renderer;
 import growthcraft.core.util.RenderUtils;
 import growthcraft.api.core.util.BBox;
 
-import io.polyfox.yatm.client.boxmodels.BoxModels;
-
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
-public class RenderCagedMachine extends AbstractRenderBoxModels
+public abstract class AbstractRenderBoxModels implements ISimpleBlockRenderingHandler
 {
-	public static final int id = RenderingRegistry.getNextAvailableRenderId();
+	protected final BBox[] boxes;
 
-	public RenderCagedMachine()
+	public AbstractRenderBoxModels(BBox[] p_boxes)
 	{
-		super(BoxModels.cagedMachine2);
+		this.boxes = p_boxes;
 	}
 
 	@Override
-	public int getRenderId()
+	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer)
 	{
-		return id;
+		if (getRenderId() == modelID)
+		{
+			final Tessellator tess = Tessellator.instance;
+			RenderUtils.startInventoryRender();
+			{
+				tess.setColorOpaque_F(1.0f, 1.0f, 1.0f);
+
+				for (BBox box : boxes)
+				{
+					renderer.setRenderBounds(box.x0(), box.y0(), box.z0(), box.x1(), box.y1(), box.z1());
+					RenderUtils.renderInventoryBlockFaces(block, metadata, renderer, tess);
+				}
+			}
+			RenderUtils.endInventoryRender();
+		}
+	}
+
+	@Override
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelID, RenderBlocks renderer)
+	{
+		if (getRenderId() == modelID)
+		{
+			final Tessellator tess = Tessellator.instance;
+			tess.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
+			tess.setColorOpaque_F(1.0f, 1.0f, 1.0f);
+
+			for (BBox box : boxes)
+			{
+				renderer.setRenderBounds(box.x0(), box.y0(), box.z0(), box.x1(), box.y1(), box.z1());
+				renderer.renderStandardBlock(block, x, y, z);
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public boolean shouldRender3DInInventory(int modelID)
+	{
+		return true;
 	}
 }

@@ -69,7 +69,7 @@ public class BoxModels
 		BBox.newCube(14, 14, 2, 2, 2, 12).scale(SCALE)
 	};
 
-	public static final BBox[] compactor = ObjectArrays.concat(cagedMachine2, new BBox[]{
+	public static final BBox[] compactor = ObjectArrays.concat(cagedMachine2, new BBox[] {
 		// Top stubs
 		/// Center Stub
 		BBox.newCube(0, 0, 0, 8, 2, 8).translate(4, 14, 4).scale(SCALE),
@@ -79,6 +79,21 @@ public class BoxModels
 		BBox.newCube(0, 0, 0, 4, 1, 4).translate(11, 14, 1).scale(SCALE),
 		BBox.newCube(0, 0, 0, 4, 1, 4).translate(11, 14, 11).scale(SCALE)
 	}, BBox.class);
+
+	public static final BBox[] springWoundCrank = new BBox[] {
+		// Main Body
+		BBox.newCube(3, 2, 3, 10, 12, 10).scale(SCALE),
+		// Crank Shafts
+		BBox.newCube(0, 6, 6, 3, 4, 4).scale(SCALE),
+		BBox.newCube(13, 6, 6, 3, 4, 4).scale(SCALE),
+		BBox.newCube(6, 6, 0, 4, 4, 3).scale(SCALE),
+		BBox.newCube(6, 6, 13, 4, 4, 3).scale(SCALE),
+		// Legs
+		BBox.newCube(3, 0, 3, 2, 2, 2).scale(SCALE),
+		BBox.newCube(3, 0, 11, 2, 2, 2).scale(SCALE),
+		BBox.newCube(11, 0, 3, 2, 2, 2).scale(SCALE),
+		BBox.newCube(11, 0, 11, 2, 2, 2).scale(SCALE)
+	};
 
 	private BoxModels() {}
 }
