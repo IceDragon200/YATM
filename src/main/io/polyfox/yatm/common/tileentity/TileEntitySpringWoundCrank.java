@@ -41,9 +41,9 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 	private static final int ticksPerWind = 5;
 	// The maximum number of winds allowed, afer passing that,
 	// this device will self destruct, err I mean it will be destroyed.
-	private static final int maxWinds = 300;
+	private static final int maxWinds = 150;
 	// Number of winds before entering the 'warning' state
-	private static final int warnWinds = 200;
+	private static final int warnWinds = 100;
 	public int winds;
 	protected int nextWindIn;
 
@@ -112,7 +112,7 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 
 	protected void refreshState()
 	{
-		final int meta = getBlockMetadata()	& 7;
+		final int meta = getBlockMetadata()	& 0xF;
 		final boolean online = winds > 0;
 		final boolean warn = isAlmostOverwound();
 		final int newMeta = (meta & 3) | (online ? 4 : 0) | (warn ? 8 : 0);
