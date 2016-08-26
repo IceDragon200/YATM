@@ -23,7 +23,6 @@
  */
 package io.polyfox.yatm.common.item;
 
-import java.util.Locale;
 import com.google.common.base.CaseFormat;
 
 import growthcraft.api.core.definition.IItemStackFactory;

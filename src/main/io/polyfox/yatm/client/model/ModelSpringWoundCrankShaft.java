@@ -38,7 +38,7 @@ import net.minecraft.util.ResourceLocation;
 public class ModelSpringWoundCrankShaft extends ModelBase
 {
 	public static final float SCALE = 1f / 16f;
-	ModelRenderer[] shafts;
+	protected ModelRenderer[] shafts;
 	protected ResourceLocation textureResource = YATM.resources.create("textures/models/spring_wound_crank_shaft.png");
 
 	public ModelSpringWoundCrankShaft()
