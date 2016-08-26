@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,54 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.item;
+package io.polyfox.yatm.client.renderer;
 
-import java.util.List;
+import io.polyfox.yatm.client.model.ModelSpringWoundCrankShaft;
+import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
+
+import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
 
-public class ItemPlate extends AbstractItemMaterial
+@SideOnly(Side.CLIENT)
+public class TileEntitySpringWoundCrankShaftRenderer extends TileEntitySpecialRenderer
 {
-	public ItemPlate()
-	{
-		super();
-		setUnlocalizedName("yatm.plate");
-	}
-
-	public EnumPlate getPlateType(ItemStack stack)
-	{
-		return EnumPlate.get(stack.getItemDamage());
-	}
-
-	public String getUnlocalizedName(ItemStack stack)
-	{
-		return super.getUnlocalizedName() + "." + getPlateType(stack).unlocalizedName;
-	}
+	protected final ModelSpringWoundCrankShaft model = new ModelSpringWoundCrankShaft();
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister ir)
+	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f)
 	{
-		icons = new IIcon[EnumPlate.VALUES.length];
-		for (EnumPlate plate : EnumPlate.VALUES)
+		if (te instanceof TileEntitySpringWoundCrank)
 		{
-			icons[plate.getMetadata()] = ir.registerIcon(String.format("yatm:materials/%s", plate.getPlateName()));
-		}
-	}
-
-	@Override
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	public void getSubItems(Item sameItem, CreativeTabs creativeTab, List itemStacks)
-	{
-		for (EnumPlate plate : EnumPlate.VALUES)
-		{
-			itemStacks.add(plate.asStack());
+			final TileEntitySpringWoundCrank crank = (TileEntitySpringWoundCrank)te;
+			GL11.glPushMatrix();
+			{
+				GL11.glTranslatef((float)x + 0.5F, (float)y, (float)z + 0.5F);
+				//GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
+				this.bindTexture(model.getTextureResource());
+				model.render(null, 0f, 0f, 0f, f, crank.clicks, ModelSpringWoundCrankShaft.SCALE);
+			}
+			GL11.glPopMatrix();
 		}
 	}
 }

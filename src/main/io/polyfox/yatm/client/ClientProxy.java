@@ -43,9 +43,12 @@ import io.polyfox.yatm.client.renderer.RenderCagedMachine;
 import io.polyfox.yatm.client.renderer.RenderCompactor;
 import io.polyfox.yatm.client.renderer.RenderEnergyCell;
 import io.polyfox.yatm.client.renderer.RenderSpringWoundCrank;
+import io.polyfox.yatm.client.renderer.TileEntitySpringWoundCrankShaftRenderer;
 import io.polyfox.yatm.common.CommonProxy;
+import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
 import io.polyfox.yatm.YATM;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
@@ -73,5 +76,6 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerBlockHandler(new RenderCompactor());
 		RenderingRegistry.registerBlockHandler(new RenderEnergyCell());
 		RenderingRegistry.registerBlockHandler(new RenderSpringWoundCrank());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySpringWoundCrank.class, new TileEntitySpringWoundCrankShaftRenderer());
 	}
 }

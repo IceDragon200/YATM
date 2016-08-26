@@ -86,6 +86,11 @@ public enum EnumPlate implements IItemStackFactory
 		this((String)null);
 	}
 
+	public int getMetadata()
+	{
+		return meta;
+	}
+
 	public String getCamelName()
 	{
 		return camelName;

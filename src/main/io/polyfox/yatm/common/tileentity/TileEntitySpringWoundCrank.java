@@ -38,13 +38,17 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankable
 {
+	// The interval between winds/turns
 	private static final int ticksPerWind = 5;
+	// How much should the shaft turn (visibily) per wind
+	private static final int clicksPerWind = 360 / ticksPerWind;
 	// The maximum number of winds allowed, afer passing that,
 	// this device will self destruct, err I mean it will be destroyed.
 	private static final int maxWinds = 150;
 	// Number of winds before entering the 'warning' state
 	private static final int warnWinds = 100;
 	public int winds;
+	public int clicks;
 	protected int nextWindIn;
 
 	@Override
@@ -156,6 +160,7 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 				}
 				refreshState();
 			}
+			this.clicks = (this.clicks + clicksPerWind / ticksPerWind) % 360;
 		}
 	}
 
