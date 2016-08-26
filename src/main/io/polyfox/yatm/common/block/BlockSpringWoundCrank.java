@@ -23,6 +23,7 @@
  */
 package io.polyfox.yatm.common.block;
 
+import io.polyfox.yatm.client.util.StateIconLoader.IconVariant;
 import io.polyfox.yatm.client.renderer.RenderSpringWoundCrank;
 import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
 
@@ -67,5 +68,26 @@ public class BlockSpringWoundCrank extends YATMBlockBaseTile
 	public boolean renderAsNormalBlock()
 	{
 		return false;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public int getIconOffset(int meta)
+	{
+		final boolean isAlmostOverWound = (meta & 8) == 8;
+		if (isAlmostOverWound) return 12;
+		if (isOnline(meta)) return 6;
+		return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	protected IconVariant[] getIconVariants()
+	{
+		return new IconVariant[] {
+			new IconVariant("off", null),
+			new IconVariant("on", "off"),
+			new IconVariant("warn", "on")
+		};
 	}
 }

@@ -38,21 +38,27 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankable
 {
-	private static final int ticksPerWind = 4;
-	private static final int maxWinds = 200;
+	private static final int ticksPerWind = 5;
+	// The maximum number of winds allowed, afer passing that,
+	// this device will self destruct, err I mean it will be destroyed.
+	private static final int maxWinds = 300;
+	// Number of winds before entering the 'warning' state
+	private static final int warnWinds = 200;
 	public int winds;
 	protected int nextWindIn;
 
 	@Override
 	public boolean canTurn()
 	{
-		return winds < maxWinds;
+		// @todo Add option to control overwinding
+		//return winds < maxWinds;
+		return true;
 	}
 
 	@Override
 	public void applyTurn()
 	{
-		this.winds = Math.min(winds + 10, maxWinds);
+		this.winds = winds + 10;
 	}
 
 	@Override
@@ -94,17 +100,33 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 		return null;
 	}
 
+	protected boolean isOverwound()
+	{
+		return winds >= maxWinds;
+	}
+
+	protected boolean isAlmostOverwound()
+	{
+		return winds >= warnWinds;
+	}
+
 	protected void refreshState()
 	{
 		final int meta = getBlockMetadata()	& 7;
-		final boolean oldState = (meta & 4) > 0;
-		final boolean curState = winds > 0;
-		if (oldState != curState)
+		final boolean online = winds > 0;
+		final boolean warn = isAlmostOverwound();
+		final int newMeta = (meta & 3) | (online ? 4 : 0) | (warn ? 8 : 0);
+		if (meta != newMeta)
 		{
-			final int curMeta = (meta & 3) | (curState ? 4 : 0);
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, curMeta, BlockFlags.UPDATE_AND_SYNC);
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, newMeta, BlockFlags.UPDATE_AND_SYNC);
 			markDirty();
 		}
+	}
+
+	protected void backlash()
+	{
+		this.worldObj.func_147480_a(this.xCoord, this.yCoord, this.zCoord, false);
+		// worldObj.destroyBlock(xCoord, yCoord, zCoord, false);
 	}
 
 	@Override
@@ -113,20 +135,27 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 		super.updateEntity();
 		if (winds > 0)
 		{
-			if (nextWindIn-- <= 0)
+			if (isOverwound())
 			{
-				this.nextWindIn = ticksPerWind;
-				final ICrankable crankable = getCrankable();
-				if (crankable != null)
+				backlash();
+			}
+			else
+			{
+				if (nextWindIn-- <= 0)
 				{
-					if (crankable.canTurn())
+					this.nextWindIn = ticksPerWind;
+					final ICrankable crankable = getCrankable();
+					if (crankable != null)
 					{
-						this.winds--;
-						crankable.applyTurn();
+						if (crankable.canTurn())
+						{
+							this.winds--;
+							crankable.applyTurn();
+						}
 					}
 				}
+				refreshState();
 			}
-			refreshState();
 		}
 	}
 
