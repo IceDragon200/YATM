@@ -29,6 +29,7 @@ import growthcraft.core.common.definition.ItemSubtypeDefinition;
 import growthcraft.core.common.GrcModuleItems;
 import io.polyfox.yatm.common.item.EnumDust;
 import io.polyfox.yatm.common.item.EnumPlate;
+import io.polyfox.yatm.common.item.EnumSpring;
 import io.polyfox.yatm.common.item.ItemCapacitor;
 import io.polyfox.yatm.common.item.ItemCrystal;
 import io.polyfox.yatm.common.item.ItemCrystalSeed;
@@ -178,7 +179,7 @@ public class ItemInstances extends GrcModuleItems
 			OreDictionary.registerOre(edust.getOreName(), edust.asStack());
 		}
 
-		for (EnumPlate espring : EnumPlate.values())
+		for (EnumSpring espring : EnumSpring.values())
 		{
 			OreDictionary.registerOre(espring.getOreName(), espring.asStack());
 		}
