@@ -27,8 +27,11 @@ import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 
+import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.core.common.inventory.InventoryProcessor;
+import growthcraft.core.util.ItemUtils;
 
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -189,6 +192,19 @@ public abstract class AbstractMachine implements IMachineLogic
 
 	public void discardItemStack(ItemStack stack)
 	{
+		if (tileEntity instanceof IInventoryWatcher)
+		{
+			if (tileEntity instanceof IInventory)
+			{
+				final IInventoryWatcher watcher = (IInventoryWatcher)tileEntity;
+				watcher.onItemDiscarded((IInventory)tileEntity, stack, -1, stack.stackSize);
+			}
+			else
+			{
+				final ItemStack discarded = stack.copy();
+				ItemUtils.spawnItemStack(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, discarded, tileEntity.getWorldObj().rand);
+			}
+		}
 	}
 
 	public void discardInventorySlots(MachineUpdateState state, int[] slots)
