@@ -23,6 +23,7 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
+import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.core.common.inventory.GrcInternalInventory;
 import growthcraft.core.common.inventory.InventoryProcessor;
 import growthcraft.core.common.tileentity.device.DeviceFluidSlot;
@@ -52,7 +53,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-public class TileEntityCrystalVat extends GrcTileEntityDeviceBase implements IInteractionObject
+public class TileEntityCrystalVat extends GrcTileEntityDeviceBase implements IInteractionObject, INBTItemSerializable
 {
 	private static final int[] primarySlots = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 

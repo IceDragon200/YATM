@@ -25,6 +25,7 @@ package io.polyfox.yatm.common.tileentity;
 
 import java.io.IOException;
 
+import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.event.EventHandler;
 
@@ -36,7 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankable
+public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankable, INBTItemSerializable
 {
 	// The interval between winds/turns
 	private static final int ticksPerWind = 5;
