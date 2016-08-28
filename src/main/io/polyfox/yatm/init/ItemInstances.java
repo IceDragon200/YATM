@@ -184,6 +184,7 @@ public class ItemInstances extends GrcModuleItems
 			OreDictionary.registerOre(espring.getOreName(), espring.asStack());
 		}
 
+		OreDictionary.registerOre("dustSteel", EnumDust.CARBON_STEEL.asStack());
 		OreDictionary.registerOre("ingotUranium", ingotUranium.asStack());
 		OreDictionary.registerOre("ingotPureUranium", ingotPureUranium.asStack());
 		OreDictionary.registerOre("ingotSteel", ingotCarbonSteel.asStack());
