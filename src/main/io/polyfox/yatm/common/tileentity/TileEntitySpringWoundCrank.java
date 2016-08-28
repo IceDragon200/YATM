@@ -152,16 +152,19 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 					final ICrankable crankable = getCrankable();
 					if (crankable != null)
 					{
-						if (crankable.canTurn())
+						if (!worldObj.isRemote)
 						{
-							this.winds--;
-							crankable.applyTurn();
+							if (crankable.canTurn())
+							{
+								this.winds--;
+								crankable.applyTurn();
+							}
 						}
 					}
 				}
 				refreshState();
+				this.clicks = (this.clicks + clicksPerWind / ticksPerWind) % 360;
 			}
-			this.clicks = (this.clicks + clicksPerWind / ticksPerWind) % 360;
 		}
 	}
 
