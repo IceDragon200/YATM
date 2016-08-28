@@ -48,7 +48,6 @@ import io.polyfox.yatm.network.handlers.WirelessMessageHandler;
 import io.polyfox.yatm.network.messages.UpdateStringTilePropertyMessage;
 import io.polyfox.yatm.network.messages.WirelessMessage;
 import io.polyfox.yatm.system.WirelessSystem;
-import io.polyfox.yatm.util.YATMDebug;
 
 import appeng.api.util.AEColor;
 
@@ -472,7 +471,6 @@ public class YATM
 			final Block grindstone = GameRegistry.findBlock("appliedenergistics2", "tile.BlockGrinder");
 			if (grindstone != null)
 			{
-				YATMDebug.write("Adding Auto Grindstone recipe");
 				GameRegistry.addRecipe(new ShapedOreRecipe(blocks.autoGrinder.asStack(),
 					"IPI",
 					"PWP",

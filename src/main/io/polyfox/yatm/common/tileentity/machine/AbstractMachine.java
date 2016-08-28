@@ -28,7 +28,6 @@ import java.util.Random;
 import io.netty.buffer.ByteBuf;
 
 import growthcraft.core.common.inventory.InventoryProcessor;
-import io.polyfox.yatm.util.YATMDebug;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -123,25 +122,16 @@ public abstract class AbstractMachine implements IMachineLogic
 	protected void goIdle(int duration)
 	{
 		idleTime = duration;
-		YATMDebug.writeMachineState("Machine has gone idle machine=" + this);
 	}
 
 	@Override
 	public void awake()
 	{
-		if (sleeping)
-		{
-			YATMDebug.writeMachineState("Machine has awoken machine=" + this);
-		}
 		this.sleeping = false;
 	}
 
 	protected void gotoSleep()
 	{
-		if (!sleeping)
-		{
-			YATMDebug.writeMachineState("Machine has gone to sleep machine=" + this);
-		}
 		this.sleeping = true;
 	}
 
@@ -199,7 +189,6 @@ public abstract class AbstractMachine implements IMachineLogic
 
 	public void discardItemStack(ItemStack stack)
 	{
-		YATMDebug.write("TODO: Discard itemstack stack=" + stack);
 	}
 
 	public void discardInventorySlots(MachineUpdateState state, int[] slots)

@@ -37,7 +37,6 @@ import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.IProgressiveMachine;
 import io.polyfox.yatm.common.tileentity.machine.MachineUpdateState;
-import io.polyfox.yatm.util.YATMDebug;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -296,15 +295,6 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 			lastWorkingState = machineState.didWork;
 			int meta = getBlockMetadata() & 3;
 			if (lastWorkingState) meta |= 4;
-
-			YATMDebug.write("Machine changed state:" +
-				" obj=" + this +
-				" state=" + lastWorkingState +
-				" meta=" + meta +
-				" x=" + xCoord +
-				" y=" + yCoord +
-				" z=" + zCoord);
-
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.SYNC);
 		}
 	}
@@ -327,11 +317,6 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	{
 		super.markDirty();
 		machine.awake();
-		YATMDebug.write("Marked as dirty:" +
-				" obj=" + this +
-				" x=" + xCoord +
-				" y=" + yCoord +
-				" z=" + zCoord);
 	}
 
 	// This is completely different from markDirty, and is more of a delayed mark

@@ -26,7 +26,6 @@ package io.polyfox.yatm.common.tileentity.machine;
 import growthcraft.core.common.inventory.IInventoryWatcher;
 import growthcraft.core.common.inventory.InventorySlice;
 import growthcraft.api.core.util.NumUtils;
-import io.polyfox.yatm.util.YATMDebug;
 
 import growthcraft.core.util.ItemUtils;
 
@@ -142,7 +141,6 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 			refundProcessing(inventory);
 			resetProgress();
 		}
-		YATMDebug.writeMachineState("Recipe has changed machine=" + this + " inv=" + inventory);
 	}
 
 	@Override
@@ -157,10 +155,6 @@ public class MachineAutoCrafter extends AbstractProgressiveMachine implements II
 		{
 			this.recipeNeedsRefresh = true;
 			awake();
-		}
-		else
-		{
-			YATMDebug.write("Inventory has changed inv=" + inventory + " index=" + index);
 		}
 	}
 

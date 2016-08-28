@@ -25,7 +25,6 @@ package io.polyfox.yatm.common.tileentity;
 
 import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.feature.IEnergyGridSync;
-//import io.polyfox.yatm.util.YATMDebug;
 
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;

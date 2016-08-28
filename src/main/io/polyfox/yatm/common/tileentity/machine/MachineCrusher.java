@@ -29,7 +29,6 @@ import growthcraft.core.common.inventory.InventorySlice;
 import io.polyfox.yatm.api.core.util.PossibleItem;
 import io.polyfox.yatm.api.crusher.CrushingRecipe;
 import io.polyfox.yatm.api.YATMApi;
-import io.polyfox.yatm.util.YATMDebug;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -113,7 +112,6 @@ public class MachineCrusher extends AbstractProgressiveMachine implements IInven
 					for (PossibleItem item : result.items.randomResults(rand))
 					{
 						final ItemStack stack = item.asStack();
-						YATMDebug.write("Finding available slot for stack=" + stack);
 						addOutputItem(state.inventory, stack);
 					}
 				}
