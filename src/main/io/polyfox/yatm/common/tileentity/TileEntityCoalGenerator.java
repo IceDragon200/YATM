@@ -112,7 +112,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 			{
 				--burnTime;
 				final int stored = energyStorage.getEnergyStored();
-				energyStorage.modifyEnergyStored(5);
+				energyStorage.modifyEnergyStored(10);
 				if (stored != energyStorage.getEnergyStored())
 				{
 					markForBlockUpdate();
