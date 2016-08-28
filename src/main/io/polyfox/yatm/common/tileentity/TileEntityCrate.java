@@ -37,10 +37,10 @@ public class TileEntityCrate extends YATMBaseTile implements IInventory, INBTIte
 	protected InternalInventoryCrate inventory = new InternalInventoryCrate(4096);
 
 	@Override
-    public boolean canUpdate()
-    {
-        return false;
-    }
+	public boolean canUpdate()
+	{
+		return false;
+	}
 
 	@Override
 	public int getSizeInventory()
