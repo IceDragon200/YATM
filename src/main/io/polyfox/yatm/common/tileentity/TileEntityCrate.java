@@ -23,66 +23,163 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import growthcraft.core.common.inventory.GrcInternalInventory;
-import growthcraft.core.common.inventory.InventoryProcessor;
-import growthcraft.core.common.tileentity.GrcTileEntityInventoryBase;
-import io.polyfox.yatm.common.inventory.ContainerCrate;
-import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import growthcraft.core.common.tileentity.feature.IInteractionObject;
+import growthcraft.api.core.nbt.INBTItemSerializable;
+import io.polyfox.yatm.common.inventory.InternalInventoryCrate;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityCrate extends GrcTileEntityInventoryBase implements IInteractionObject
+public class TileEntityCrate extends YATMBaseTile implements IInventory, INBTItemSerializable
 {
-	private static final int[] primarySlots = new int[] { 0 };
+	private static final int[] PRIMARY_SLOTS = new int[] { 0 };
+	protected InternalInventoryCrate inventory = new InternalInventoryCrate(4096);
 
 	@Override
-	protected GrcInternalInventory createInventory()
+    public boolean canUpdate()
+    {
+        return false;
+    }
+
+	@Override
+	public int getSizeInventory()
 	{
-		/**
-		 * Crates hold 2 chests worth of 1 item type
-		 */
-		return new YATMInternalInventory(this, 1, 54 * 64).setInventoryName("yatm.inventory.crate");
+		return 1;
+	}
+
+	public int insertItem(ItemStack stack)
+	{
+		return inventory.insert(stack);
+	}
+
+	public ItemStack extractItem(int amount)
+	{
+		return inventory.extract(amount);
+	}
+
+	public ItemStack extractItem()
+	{
+		return inventory.extract();
 	}
 
 	@Override
-	public String getGuiID()
+	public ItemStack getStackInSlot(int slotIndex)
 	{
-		return "yatm:crate";
+		if (slotIndex == 0)
+		{
+			return inventory.getItemStack();
+		}
+		return null;
 	}
 
 	@Override
-	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+	public ItemStack decrStackSize(int slotIndex, int amount)
 	{
-		return new ContainerCrate(playerInventory, this);
+		if (slotIndex == 0)
+		{
+			ItemStack stack = inventory.getItemStack();
+			if (stack != null)
+			{
+				final int pulled = inventory.decr(amount);
+				stack = stack.copy();
+				stack.stackSize = pulled;
+				return stack;
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public String getDefaultInventoryName()
+	public ItemStack getStackInSlotOnClosing(int slotIndex)
 	{
-		return inventory.getInventoryName();
+		return null;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side)
+	public void setInventorySlotContents(int slotIndex, ItemStack stack) {}
+
+	@Override
+	public String getInventoryName()
 	{
-		return primarySlots;
+		return "yatm.inventory.crate";
 	}
 
 	@Override
-	public boolean canInsertItem(int index, ItemStack stack, int side)
+	public boolean hasCustomInventoryName()
 	{
-		if (index != 0) return false;
-		return InventoryProcessor.instance().canInsertItem(this, stack, index);
+		return false;
 	}
 
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, int side)
+	public int getInventoryStackLimit()
 	{
-		if (index != 0) return false;
-		return InventoryProcessor.instance().canExtractItem(this, stack, index);
+		return 64;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player)
+	{
+		// Add Security header and check against it
+		return true;
+	}
+
+	@Override
+	public void openInventory() {}
+
+	@Override
+	public void closeInventory() {}
+
+	@Override
+	public boolean isItemValidForSlot(int slotIndex, ItemStack stack)
+	{
+		if (slotIndex == 0)
+		{
+			return inventory.canInsert(stack);
+		}
+		return false;
+	}
+
+	protected void readInventoryFromNBT(NBTTagCompound data)
+	{
+		if (data.hasKey("inventory"))
+		{
+			inventory.readFromNBT(data.getCompoundTag("inventory"));
+		}
+	}
+
+	@Override
+	public void readFromNBTForItem(NBTTagCompound data)
+	{
+		super.readFromNBTForItem(data);
+		readInventoryFromNBT(data);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound data)
+	{
+		super.readFromNBT(data);
+		readInventoryFromNBT(data);
+	}
+
+	protected void writeInventoryToNBT(NBTTagCompound data)
+	{
+		final NBTTagCompound inventoryTag = new NBTTagCompound();
+		inventory.writeToNBT(inventoryTag);
+		data.setTag("inventory", inventoryTag);
+	}
+
+	@Override
+	public void writeToNBTForItem(NBTTagCompound data)
+	{
+		super.writeToNBTForItem(data);
+		writeInventoryToNBT(data);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound data)
+	{
+		super.writeToNBT(data);
+		writeInventoryToNBT(data);
 	}
 }

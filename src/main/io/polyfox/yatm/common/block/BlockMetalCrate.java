@@ -23,12 +23,16 @@
  */
 package io.polyfox.yatm.common.block;
 
-import io.polyfox.yatm.creativetab.CreativeTabsYATM;
+import growthcraft.core.util.ItemUtils;
 import io.polyfox.yatm.common.tileentity.TileEntityCrate;
+import io.polyfox.yatm.creativetab.CreativeTabsYATM;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockMetalCrate extends YATMBlockBaseMachine
@@ -48,5 +52,53 @@ public class BlockMetalCrate extends YATMBlockBaseMachine
 	public boolean isRotatable(IBlockAccess world, int x, int y, int z, ForgeDirection side)
 	{
 		return false;
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+	{
+		if (super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ)) return true;
+		final TileEntityCrate te = getTileEntity(world, x, y, z);
+		if (te != null)
+		{
+			if (!world.isRemote)
+			{
+				final ItemStack stack = player.inventory.getStackInSlot(player.inventory.currentItem);
+				if (stack != null)
+				{
+					ItemStack inStack = stack;
+					if (!player.isSneaking())
+					{
+						inStack = stack.copy();
+						inStack.stackSize = 1;
+					}
+					final int amount = te.insertItem(stack);
+					player.inventory.decrStackSize(player.inventory.currentItem, amount);
+				}
+				else
+				{
+					// @todo Report current inventory size to player
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
+	{
+		if (!world.isRemote)
+		{
+			final TileEntityCrate te = getTileEntity(world, x, y, z);
+			if (te != null)
+			{
+				final ItemStack stack = player.isSneaking() ? te.extractItem() : te.extractItem(1);
+				if (stack != null)
+				{
+					ItemUtils.addStackToPlayer(stack, player, world, false);
+				}
+			}
+		}
 	}
 }
