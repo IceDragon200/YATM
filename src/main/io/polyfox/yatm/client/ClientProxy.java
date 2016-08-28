@@ -27,7 +27,6 @@ import io.polyfox.yatm.client.gui.GuiAutoCrafter;
 import io.polyfox.yatm.client.gui.GuiAutoGrinder;
 import io.polyfox.yatm.client.gui.GuiCoalGenerator;
 import io.polyfox.yatm.client.gui.GuiCompactor;
-import io.polyfox.yatm.client.gui.GuiCrate;
 import io.polyfox.yatm.client.gui.GuiCrusher;
 import io.polyfox.yatm.client.gui.GuiCrystalVat;
 import io.polyfox.yatm.client.gui.GuiElectrolyser;
@@ -62,7 +61,6 @@ public class ClientProxy extends CommonProxy
 		YATM.guiProvider.register("yatm:auto_grinder", GuiAutoGrinder.class);
 		YATM.guiProvider.register("yatm:coal_generator", GuiCoalGenerator.class);
 		YATM.guiProvider.register("yatm:compactor", GuiCompactor.class);
-		YATM.guiProvider.register("yatm:crate", GuiCrate.class);
 		YATM.guiProvider.register("yatm:crusher", GuiCrusher.class);
 		YATM.guiProvider.register("yatm:crystal_vat", GuiCrystalVat.class);
 		YATM.guiProvider.register("yatm:electrolyser", GuiElectrolyser.class);
