@@ -32,6 +32,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySolarPanel extends YATMGeneratorBase
 {
+	private static final float maxGen = 20f;
 	public int lastEnergyGain;
 
 	public TileEntitySolarPanel()
@@ -99,7 +100,7 @@ public class TileEntitySolarPanel extends YATMGeneratorBase
 			}
 
 			final float r = (float)lv / 15.0f;
-			lastEnergyGain = (int)(10f * r);
+			lastEnergyGain = (int)(maxGen * r);
 			if (lastEnergyGain > 0)
 			{
 				receiveEnergy(ForgeDirection.UNKNOWN, lastEnergyGain, false);
