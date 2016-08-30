@@ -31,13 +31,13 @@ import growthcraft.api.core.util.PulseStepper;
 import growthcraft.core.common.inventory.GrcInternalInventory;
 import growthcraft.core.common.tileentity.device.DeviceInventorySlot;
 import growthcraft.core.common.tileentity.feature.IItemHandler;
-import growthcraft.core.common.tileentity.GrcTileEntityInventoryBase;
+import growthcraft.core.common.tileentity.GrcTileInventoryBase;
 import growthcraft.core.util.ItemUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-public class TileEntityItemReplicator extends GrcTileEntityInventoryBase implements IItemHandler
+public class TileEntityItemReplicator extends GrcTileInventoryBase implements IItemHandler
 {
 	private static final int[] replicatedSlotIDs = new int[] { 1 };
 	private DeviceInventorySlot itemSlotSource;

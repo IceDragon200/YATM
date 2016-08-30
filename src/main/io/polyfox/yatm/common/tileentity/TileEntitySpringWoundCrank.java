@@ -181,10 +181,9 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 		readCrankFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_Crank(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readCrankFromNBT(nbt);
 	}
 
@@ -201,10 +200,9 @@ public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankab
 		writeCrankToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_Crank(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeCrankToNBT(nbt);
 	}
 

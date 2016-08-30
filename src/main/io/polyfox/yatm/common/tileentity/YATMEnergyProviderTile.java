@@ -81,7 +81,7 @@ public abstract class YATMEnergyProviderTile extends YATMPoweredTile implements 
 		final int result = energyStorage.extractEnergy(maxExtract, simulated);
 		if (!simulated && result != 0)
 		{
-			markForBlockUpdate();
+			markDirty();
 		}
 		return result;
 	}
@@ -129,7 +129,7 @@ public abstract class YATMEnergyProviderTile extends YATMPoweredTile implements 
 		final int result = energyStorage.modifyEnergyStoredDiff(value);
 		if (result != 0)
 		{
-			markForBlockUpdate();
+			markDirty();
 		}
 		return result;
 	}
@@ -144,7 +144,7 @@ public abstract class YATMEnergyProviderTile extends YATMPoweredTile implements 
 			{
 				if (extractEnergy(dir, diff, false) != 0)
 				{
-					markForBlockUpdate();
+					markDirty();
 				}
 			}
 		}
@@ -172,7 +172,7 @@ public abstract class YATMEnergyProviderTile extends YATMPoweredTile implements 
 					{
 						if (extractEnergy(dir, diff, false) != 0)
 						{
-							markForBlockUpdate();
+							markDirty();
 						}
 					}
 				}
@@ -183,13 +183,6 @@ public abstract class YATMEnergyProviderTile extends YATMPoweredTile implements 
 	protected boolean updateBlockMeta()
 	{
 		return false;
-	}
-
-	@Override
-	protected void preMarkForUpdate()
-	{
-		if (!worldObj.isRemote) updateBlockMeta();
-		super.preMarkForUpdate();
 	}
 
 	@Override

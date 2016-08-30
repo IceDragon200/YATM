@@ -87,10 +87,9 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		readMachineFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_Machine(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readInventoryFromNBT(nbt);
 		readMachineFromNBT(nbt);
 	}
@@ -113,10 +112,9 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		writeMachineToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_Machine(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeInventoryToNBT(nbt);
 		writeMachineToNBT(nbt);
 	}
@@ -287,7 +285,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		if (machineState.energyConsumed != 0)
 		{
 			energyStorage.modifyEnergyStored(-machineState.energyConsumed);
-			markForBlockUpdate();
+			markDirty();
 		}
 
 		if (lastWorkingState != machineState.didWork)

@@ -27,8 +27,9 @@ import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.core.common.inventory.GrcInternalInventory;
 import growthcraft.core.common.inventory.InventoryProcessor;
 import growthcraft.core.common.tileentity.device.DeviceFluidSlot;
+import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
-import growthcraft.core.common.tileentity.GrcTileEntityDeviceBase;
+import growthcraft.core.common.tileentity.GrcTileDeviceBase;
 import io.polyfox.yatm.common.inventory.ContainerCrystalVat;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
 
@@ -53,7 +54,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-public class TileEntityCrystalVat extends GrcTileEntityDeviceBase implements IInteractionObject, INBTItemSerializable
+public class TileEntityCrystalVat extends GrcTileDeviceBase implements IInteractionObject, INBTItemSerializable
 {
 	private static final int[] primarySlots = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
@@ -302,10 +303,9 @@ public class TileEntityCrystalVat extends GrcTileEntityDeviceBase implements IIn
 		readCrystalVatBaseFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_CrystalVat(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readCrystalVatBaseFromNBT(nbt);
 	}
 
@@ -321,10 +321,9 @@ public class TileEntityCrystalVat extends GrcTileEntityDeviceBase implements IIn
 		writeCrystalVatBaseToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_CrystalVat(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeCrystalVatBaseToNBT(nbt);
 	}
 }

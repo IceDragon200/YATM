@@ -104,7 +104,7 @@ public class TileEntitySolarPanel extends YATMGeneratorBase
 			if (lastEnergyGain > 0)
 			{
 				receiveEnergy(ForgeDirection.UNKNOWN, lastEnergyGain, false);
-				markForBlockUpdate();
+				markDirty();
 			}
 		}
 		super.updateEnergyProvider();

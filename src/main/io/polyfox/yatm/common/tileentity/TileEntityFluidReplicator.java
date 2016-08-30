@@ -26,13 +26,13 @@ package io.polyfox.yatm.common.tileentity;
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.api.core.util.PulseStepper;
 import growthcraft.core.common.tileentity.device.DeviceFluidSlot;
-import growthcraft.core.common.tileentity.GrcTileEntityDeviceBase;
+import growthcraft.core.common.tileentity.GrcTileDeviceBase;
 
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-public class TileEntityFluidReplicator extends GrcTileEntityDeviceBase
+public class TileEntityFluidReplicator extends GrcTileDeviceBase
 {
 	private DeviceFluidSlot fluidSlotSource;
 	private DeviceFluidSlot fluidSlotDest;

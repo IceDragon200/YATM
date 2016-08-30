@@ -28,6 +28,7 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
 import cofh.api.energy.IEnergyReceiver;
+
 import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
@@ -62,7 +63,7 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 		final int result = energyStorage.receiveEnergy(maxReceive, simulated);
 		if (!simulated && result != 0)
 		{
-			markForBlockUpdate();
+			markDirty();
 		}
 		return result;
 	}
@@ -115,10 +116,9 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 		readEnergyFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_Energy(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readEnergyFromNBT(nbt);
 	}
 
@@ -134,10 +134,9 @@ public abstract class YATMPoweredTile extends YATMBaseTile implements IEnergyRec
 		writeEnergyToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_Energy(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeEnergyToNBT(nbt);
 	}
 }

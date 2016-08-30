@@ -115,7 +115,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 				energyStorage.modifyEnergyStored(10);
 				if (stored != energyStorage.getEnergyStored())
 				{
-					markForBlockUpdate();
+					markDirty();
 				}
 			}
 			else
@@ -293,10 +293,9 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		readTimeFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_CoalGenerator(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readInventoryFromNBT(nbt);
 		readTimeFromNBT(nbt);
 	}
@@ -322,10 +321,9 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		writeTimesToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_CoalGenerator(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeInventoryToNBT(nbt);
 		writeTimesToNBT(nbt);
 	}

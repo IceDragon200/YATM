@@ -89,10 +89,9 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 		readWirelessBaseFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_WirelessBase(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readWirelessBaseFromNBT(nbt);
 	}
 
@@ -111,10 +110,9 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implem
 		writeWirelessBaseToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_WirelessBase(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeWirelessBaseToNBT(nbt);
 	}
 

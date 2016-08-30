@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import growthcraft.core.common.tileentity.GrcTileEntityBase;
+import growthcraft.core.common.tileentity.GrcTileBase;
 
-public abstract class YATMBaseTile extends GrcTileEntityBase
+public abstract class YATMBaseTile extends GrcTileBase
 {
 }

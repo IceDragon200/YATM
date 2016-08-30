@@ -148,10 +148,9 @@ public class TileEntityFuelGenerator extends YATMGeneratorBase implements IInter
 		readTanksFromNBT(nbt);
 	}
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	public void readFromNBT_FuelGenerator(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbt);
 		readTanksFromNBT(nbt);
 	}
 
@@ -168,15 +167,14 @@ public class TileEntityFuelGenerator extends YATMGeneratorBase implements IInter
 		writeTanksToNBT(nbt);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	public void writeToNBT_FuelGenerator(NBTTagCompound nbt)
 	{
-		super.writeToNBT(nbt);
 		writeTanksToNBT(nbt);
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
-	public boolean readFromStream_FluidTanks(ByteBuf stream) throws IOException
+	public boolean readFromStream_FuelGenerator(ByteBuf stream) throws IOException
 	{
 		if (fluidTanks != null)
 			fluidTanks.readFromStream(stream);
@@ -184,7 +182,7 @@ public class TileEntityFuelGenerator extends YATMGeneratorBase implements IInter
 	}
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
-	public boolean writeToStream_FluidTanks(ByteBuf stream) throws IOException
+	public boolean writeToStream_FuelGenerator(ByteBuf stream) throws IOException
 	{
 		if (fluidTanks != null)
 			fluidTanks.writeToStream(stream);
