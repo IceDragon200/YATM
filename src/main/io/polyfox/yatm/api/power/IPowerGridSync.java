@@ -27,7 +27,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IPowerGridSync
 {
-	long getPowerSyncPriorityFrom(ForgeDirection from);
-	PowerSyncDirection powerSyncDirectionFrom(ForgeDirection from, IPowerGridSync other);
+	int getPowerSyncLevelFrom(ForgeDirection from);
+	/**
+	 * Queries the tile's sync direction for the given IPowerGridSync tile
+	 * The target tile should respond with it's expectation, if it is a lower priority it should respond with a RECEIVE direction
+	 * Meaning "I expect to receive power from this `other`"
+	 * If it is a higher priority it should respond with a SEND direction
+	 * Meaning "I will send power to this `other`"
+	 *
+	 * @param from direction to sync from
+	 * @param other the tile being synched with
+	 * @return sync direction
+	 */
+	PowerSyncDirection getPowerSyncDirectionFor(ForgeDirection from, IPowerGridSync other);
 	long syncPowerFrom(ForgeDirection from, long value);
 }

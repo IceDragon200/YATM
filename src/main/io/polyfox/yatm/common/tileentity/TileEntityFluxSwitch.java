@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,11 @@ package io.polyfox.yatm.common.tileentity;
 
 import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
+import io.polyfox.yatm.api.power.IPowerGridSync;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerSyncDirection;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerFluxSwitch;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
-import io.polyfox.yatm.common.tileentity.feature.IEnergyGridSync;
 import io.polyfox.yatm.util.BlockFacing;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,14 +37,20 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFluxSwitch extends YATMEnergyProviderTile implements IInteractionObject
+public class TileEntityFluxSwitch extends TilePowerProviderBase implements IInteractionObject
 {
 	public boolean online;
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new YATMEnergyStorage(12000, 1000);
+		return new PowerStorage(400000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 4000, 4000);
 	}
 
 	@Override
@@ -65,7 +73,7 @@ public class TileEntityFluxSwitch extends YATMEnergyProviderTile implements IInt
 	protected void refreshState()
 	{
 		final int meta = getBlockMetadata()	& 0xF;
-		final boolean powered = energyStorage.getEnergyStored() > 0;
+		final boolean powered = powerStorage.getAmount() > 0;
 		final int newMeta = (meta & 3) | (online ? 4 : 0) | (powered ? 8 : 0);
 		if (meta != newMeta)
 		{
@@ -117,20 +125,22 @@ public class TileEntityFluxSwitch extends YATMEnergyProviderTile implements IInt
 	}
 
 	@Override
-	public int getEnergySyncAmount(ForgeDirection from, IEnergyGridSync other)
+	public long getPowerSyncAmount(ForgeDirection from, IPowerGridSync other)
 	{
 		if (canConnectEnergy(from))
 		{
-			return super.getEnergySyncAmount(from, other);
+			return super.getPowerSyncAmount(from, other);
 		}
 		return 0;
 	}
 
 	@Override
-	public boolean canEnergyGridSync(ForgeDirection from, IEnergyGridSync other)
+	public PowerSyncDirection getPowerSyncDirectionFor(ForgeDirection from, IPowerGridSync other)
 	{
-		return online &&
-			canConnectEnergy(from) &&
-			super.canEnergyGridSync(from, other);
+		if (online && canConnectEnergy(from))
+		{
+			return super.getPowerSyncDirectionFor(from, other);
+		}
+		return PowerSyncDirection.NONE;
 	}
 }

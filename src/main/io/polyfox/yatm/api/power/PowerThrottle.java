@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,47 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.api.power;
 
-import io.polyfox.yatm.api.power.IPowerGridSync;
-import growthcraft.api.core.util.BlockFlags;
+import io.polyfox.yatm.api.core.util.MathI64;
 
-import net.minecraftforge.common.util.ForgeDirection;
-
-public abstract class TileEntityEnergyCell extends TilePowerProviderBase
+public class PowerThrottle
 {
-	protected int lastMeta = -1;
+	protected PowerStorage storage;
+	protected long maxConsume;
+	protected long maxProduce;
 
-	public TileEntityEnergyCell()
+	public PowerThrottle(PowerStorage p_storage, long p_maxConsume, long p_maxProduce)
 	{
-		super();
-		setPowerSyncPriority(100);
+		this.storage = p_storage;
+		this.maxConsume = p_maxConsume;
+		this.maxProduce = p_maxProduce;
 	}
 
-	@Override
-	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
+	public PowerThrottle(PowerStorage p_storage, long p_maxTransmit)
 	{
-		// Energy cells sync at twice their rate
-		return powerThrottle.getMaxConsume() * 2;
+		this(p_storage, p_maxTransmit, p_maxTransmit);
 	}
 
-	public int calculateEnergyMeta()
+	public long getMaxReceive()
 	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
-		if (max <= 0) return 0;
-		return stored * 8 / max;
+		return maxProduce;
 	}
 
-	@Override
-	protected boolean updateBlockMeta()
+	public long getMaxConsume()
 	{
-		final int newMeta = calculateEnergyMeta();
-		if (lastMeta != newMeta)
-		{
-			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
-		}
-		return true;
+		return maxConsume;
+	}
+
+	public long receive(long p_amount, boolean simulate)
+	{
+		return storage.receive(MathI64.clamp(p_amount, 0, maxProduce), simulate);
+	}
+
+	public long consume(long p_amount, boolean simulate)
+	{
+		return storage.consume(MathI64.clamp(p_amount, 0, maxConsume), simulate);
 	}
 }

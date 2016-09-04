@@ -35,7 +35,7 @@ import io.netty.buffer.ByteBuf;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileEntityWirelessRedstoneBase extends YATMBaseTile implements IWirelessReceiver, IUpdatableTile
+public abstract class TileEntityWirelessRedstoneBase extends YATMTileBase implements IWirelessReceiver, IUpdatableTile
 {
 	protected int lastPowerValue;
 	protected int currentPowerValue;

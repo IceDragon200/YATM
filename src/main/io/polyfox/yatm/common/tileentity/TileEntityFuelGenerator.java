@@ -29,8 +29,9 @@ import growthcraft.api.core.fluids.FluidTest;
 import growthcraft.core.common.tileentity.device.FluidTanks;
 import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerFuelGenerator;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 
 import io.netty.buffer.ByteBuf;
 
@@ -45,7 +46,7 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileEntityFuelGenerator extends YATMGeneratorBase implements IInteractionObject, IFluidHandler
+public class TileEntityFuelGenerator extends TileGeneratorBase implements IInteractionObject, IFluidHandler
 {
 	protected FluidTanks fluidTanks;
 
@@ -56,9 +57,15 @@ public class TileEntityFuelGenerator extends YATMGeneratorBase implements IInter
 	}
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new YATMEnergyStorage(64000, 100);
+		return new PowerStorage(1600000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 1600, 1600);
 	}
 
 	@Override

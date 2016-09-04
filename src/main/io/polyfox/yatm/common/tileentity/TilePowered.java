@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,45 +23,54 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import io.polyfox.yatm.api.power.IPowerGridSync;
-import growthcraft.api.core.util.BlockFlags;
+import growthcraft.api.core.nbt.INBTItemSerializable;
+import io.polyfox.yatm.api.power.IPowerConsumer;
+import io.polyfox.yatm.common.tileentity.feature.ITileNeighbourAware;
+import io.polyfox.yatm.util.TileUtils;
 
+import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityEnergyCell extends TilePowerProviderBase
+public abstract class TilePowered extends TilePowerStorage implements IPowerConsumer, INBTItemSerializable, ITileNeighbourAware
 {
-	protected int lastMeta = -1;
+	protected boolean needCacheRebuild = true;
+	protected TileEntity[] tileCache = TileUtils.instance().createTileCache();
 
-	public TileEntityEnergyCell()
+	@Override
+	public long receivePowerFrom(ForgeDirection from, long amount, boolean simulated)
 	{
-		super();
-		setPowerSyncPriority(100);
+		return powerThrottle.receive(amount, simulated);
+	}
+
+	protected void rebuildTileCache()
+	{
+		TileUtils.instance().populateTileCache(tileCache, worldObj, xCoord, yCoord, zCoord);
+	}
+
+	public void markForCacheRefresh()
+	{
+		needCacheRebuild |= true;
 	}
 
 	@Override
-	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
 	{
-		// Energy cells sync at twice their rate
-		return powerThrottle.getMaxConsume() * 2;
-	}
-
-	public int calculateEnergyMeta()
-	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
-		if (max <= 0) return 0;
-		return stored * 8 / max;
+		markForCacheRefresh();
 	}
 
 	@Override
-	protected boolean updateBlockMeta()
+	public void updateEntity()
 	{
-		final int newMeta = calculateEnergyMeta();
-		if (lastMeta != newMeta)
+		super.updateEntity();
+		if (!worldObj.isRemote)
 		{
-			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
+			if (needCacheRebuild)
+			{
+				this.needCacheRebuild = false;
+				rebuildTileCache();
+			}
 		}
-		return true;
 	}
 }

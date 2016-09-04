@@ -21,8 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.common.tileentity.feature;
 
-public abstract class YATMGeneratorBase extends YATMEnergyProviderTile
+import net.minecraft.block.Block;
+import net.minecraft.world.World;
+
+public interface ITileNeighbourAware
 {
+	void onNeighborBlockChange(World world, int x, int y, int z, Block block);
 }

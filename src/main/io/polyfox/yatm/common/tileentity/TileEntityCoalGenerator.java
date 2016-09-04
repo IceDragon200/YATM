@@ -31,11 +31,12 @@ import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.feature.IGuiNetworkSync;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import growthcraft.core.util.ItemUtils;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerCoalGenerator;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
-import io.polyfox.yatm.common.tileentity.feature.IEnergyGridSync;
+import io.polyfox.yatm.api.power.IPowerGridSync;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -47,7 +48,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISidedInventory, IGuiNetworkSync, IInteractionObject
+public class TileEntityCoalGenerator extends TileGeneratorBase implements ISidedInventory, IGuiNetworkSync, IInteractionObject
 {
 	protected IYATMInventory inventory;
 	protected int burnTime;
@@ -60,7 +61,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	{
 		super();
 		this.inventory = new YATMInternalInventory(this, 1);
-		setEnergySyncPriority(200);
+		setPowerSyncPriority(200);
 	}
 
 	@Override
@@ -76,9 +77,15 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	}
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new YATMEnergyStorage(16000, 50);
+		return new PowerStorage(32000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 50, 50);
 	}
 
 	public float getBurnTimeRate()
@@ -91,7 +98,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	}
 
 	@Override
-	public boolean checkEnergySyncLevels(ForgeDirection dir, IEnergyGridSync other)
+	public boolean checkEnergySyncLevels(ForgeDirection dir, IPowerGridSync other)
 	{
 		if (getEnergyStored(dir) > 0)
 		{
@@ -100,7 +107,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 		return false;
 	}
 
-	private void updateEnergyProduction()
+	private void updateCoalGenerator()
 	{
 		if (idleTime > 0)
 		{
@@ -111,9 +118,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 			if (burnTime > 0)
 			{
 				--burnTime;
-				final int stored = energyStorage.getEnergyStored();
-				energyStorage.modifyEnergyStored(10);
-				if (stored != energyStorage.getEnergyStored())
+				if (powerStorage.receive(100, false) != 0)
 				{
 					markDirty();
 				}
@@ -121,7 +126,7 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 			else
 			{
 				this.online = false;
-				if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored())
+				if (powerStorage.getAmount() < powerStorage.getCapacity())
 				{
 					final ItemStack fuel = getStackInSlot(0);
 					if (fuel != null)
@@ -152,10 +157,10 @@ public class TileEntityCoalGenerator extends YATMGeneratorBase implements ISided
 	}
 
 	@Override
-	protected void updateEnergyProvider()
+	protected void updatePowerProvider()
 	{
-		updateEnergyProduction();
-		super.updateEnergyProvider();
+		updateCoalGenerator();
+		super.updatePowerProvider();
 	}
 
 	@Override

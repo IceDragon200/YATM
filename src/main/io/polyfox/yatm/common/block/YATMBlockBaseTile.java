@@ -28,7 +28,7 @@ import growthcraft.api.core.util.BlockFlags;
 import growthcraft.core.common.block.GrcBlockContainer;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import io.polyfox.yatm.client.util.StateIconLoader;
-import io.polyfox.yatm.common.tileentity.YATMEnergyProviderTile;
+import io.polyfox.yatm.common.tileentity.feature.ITileNeighbourAware;
 import io.polyfox.yatm.creativetab.CreativeTabsYATM;
 import io.polyfox.yatm.util.BlockFacing;
 import io.polyfox.yatm.util.YATMPlatform;
@@ -136,9 +136,9 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		final TileEntity te = getTileEntity(world, x, y, z);
 		if (te != null)
 		{
-			if (te instanceof YATMEnergyProviderTile)
+			if (te instanceof ITileNeighbourAware)
 			{
-				((YATMEnergyProviderTile)te).onNeighborBlockChange(world, x, y, z, block);
+				((ITileNeighbourAware)te).onNeighborBlockChange(world, x, y, z, block);
 			}
 		}
 	}

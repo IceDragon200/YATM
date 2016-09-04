@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,45 +23,8 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import io.polyfox.yatm.api.power.IPowerGridSync;
-import growthcraft.api.core.util.BlockFlags;
+import growthcraft.core.common.tileentity.GrcTileBase;
 
-import net.minecraftforge.common.util.ForgeDirection;
-
-public abstract class TileEntityEnergyCell extends TilePowerProviderBase
+public abstract class YATMTileBase extends GrcTileBase
 {
-	protected int lastMeta = -1;
-
-	public TileEntityEnergyCell()
-	{
-		super();
-		setPowerSyncPriority(100);
-	}
-
-	@Override
-	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
-	{
-		// Energy cells sync at twice their rate
-		return powerThrottle.getMaxConsume() * 2;
-	}
-
-	public int calculateEnergyMeta()
-	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
-		if (max <= 0) return 0;
-		return stored * 8 / max;
-	}
-
-	@Override
-	protected boolean updateBlockMeta()
-	{
-		final int newMeta = calculateEnergyMeta();
-		if (lastMeta != newMeta)
-		{
-			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
-		}
-		return true;
-	}
 }

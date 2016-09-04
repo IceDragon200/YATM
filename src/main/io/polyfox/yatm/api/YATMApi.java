@@ -27,6 +27,7 @@ import io.polyfox.yatm.api.blastfurnace.BlastingRegistry;
 import io.polyfox.yatm.api.compactor.CompactingRegistry;
 import io.polyfox.yatm.api.crusher.CrushingRegistry;
 import io.polyfox.yatm.api.mixer.MixingRegistry;
+import io.polyfox.yatm.api.power.PowerRatioRegistry;
 import io.polyfox.yatm.api.roller.RollingRegistry;
 
 public class YATMApi
@@ -38,6 +39,7 @@ public class YATMApi
 	private final CompactingRegistry compactingRegistry = new CompactingRegistry();
 	private final MixingRegistry mixingRegistry = new MixingRegistry();
 	private final RollingRegistry rollingRegistry = new RollingRegistry();
+	private final PowerRatioRegistry powerRatioRegistry = new PowerRatioRegistry();
 
 	public static YATMApi instance()
 	{
@@ -67,5 +69,10 @@ public class YATMApi
 	public RollingRegistry rolling()
 	{
 		return rollingRegistry;
+	}
+
+	public PowerRatioRegistry powerRatio()
+	{
+		return powerRatioRegistry;
 	}
 }

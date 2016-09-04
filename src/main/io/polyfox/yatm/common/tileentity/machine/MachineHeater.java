@@ -23,7 +23,7 @@
  */
 package io.polyfox.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
+import io.polyfox.yatm.api.power.PowerStorage;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.MathHelper;
@@ -47,7 +47,7 @@ public class MachineHeater extends AbstractMachine
 	@Override
 	public boolean canWork(MachineUpdateState state)
 	{
-		return state.energyStorage.getEnergyStored() > 0;
+		return state.powerStorage.getAmount() > 0;
 	}
 
 	public void doWork(MachineUpdateState state)
@@ -55,12 +55,13 @@ public class MachineHeater extends AbstractMachine
 
 	}
 
-	public float getHeatValue(EnergyStorage en, IInventory _inv)
+	public float getHeatValue(PowerStorage pw, IInventory _inv)
 	{
-		final int enStored = en.getEnergyStored();
+		final long enStored = pw.getAmount();
 		if (enStored > 0)
 		{
-			return MathHelper.clamp_float((float)enStored / ((float)en.getMaxEnergyStored() * 0.5f), 0.0f, 1.0f);
+			final double rt = (double)enStored / (pw.getCapacity() * 0.5);
+			return MathHelper.clamp_float((float)rt, 0.0f, 1.0f);
 		}
 		return 0.0f;
 	}

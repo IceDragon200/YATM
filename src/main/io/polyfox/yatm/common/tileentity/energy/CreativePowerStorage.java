@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 IceDragon200
+ * Copyright (c) 2015 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.api.power;
+package io.polyfox.yatm.common.tileentity.energy;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import io.polyfox.yatm.api.power.PowerStorage;
+import net.minecraft.nbt.NBTTagCompound;
 
-public interface IPowerStorage
+public class CreativePowerStorage extends PowerStorage
 {
-	/**
-	 * Return the current amount of power stored
-	 *
-	 * @param from - the side being queried
-	 * @return power on the specified side
-	 */
-	long getPowerStoredFrom(ForgeDirection from);
+	public CreativePowerStorage(long capacity)
+	{
+		super(capacity);
+		this.amount = capacity;
+	}
 
-	/**
-	 * Return the maximum amount of power stored
-	 *
-	 * @param from - the side being queried
-	 * @return power on the specified side
-	 */
-	long getPowerStoredMaxFrom(ForgeDirection from);
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+	}
+
+	@Override
+	public long getAmount()
+	{
+		return capacity;
+	}
+
+	@Override
+	public void setAmountUnsafe(long p_amount)
+	{
+	}
 }

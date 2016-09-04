@@ -23,6 +23,8 @@
  */
 package io.polyfox.yatm.api.power;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 public interface IPowerConsumer
 {
 	/**
@@ -31,7 +33,8 @@ public interface IPowerConsumer
 	 *
 	 * @param from side to receive power from
 	 * @param amount amount of power being received
+	 * @param simulated should the receive be simulated (no-op?)
 	 * @return amount of power actually used
 	 */
-	long receivePowerFrom(ForgeDirection from, long amount);
+	long receivePowerFrom(ForgeDirection from, long amount, boolean simulated);
 }

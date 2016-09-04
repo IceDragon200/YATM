@@ -25,7 +25,7 @@ package io.polyfox.yatm.client.gui;
 
 import java.util.List;
 
-import io.polyfox.yatm.common.tileentity.YATMPoweredTile;
+import io.polyfox.yatm.common.tileentity.TilePowered;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +34,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @SideOnly(Side.CLIENT)
-public abstract class YATMPoweredGuiContainer<C extends Container, T extends YATMPoweredTile> extends YATMGuiContainer<C, T>
+public abstract class YATMPoweredGuiContainer<C extends Container, T extends TilePowered> extends YATMGuiContainer<C, T>
 {
 	protected T poweredTile;
 

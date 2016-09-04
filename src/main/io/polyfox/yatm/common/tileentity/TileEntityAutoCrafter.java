@@ -24,11 +24,11 @@
 package io.polyfox.yatm.common.tileentity;
 
 import growthcraft.api.core.util.NumUtils;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerAutoCrafter;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.MachineEnergyStorage;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.MachineAutoCrafter;
 
@@ -41,7 +41,7 @@ import net.minecraft.item.ItemStack;
  * An RF powered Crafting bench which autocrafts from a 8 slot input to a
  * 8 slot output, this thing eats power like its nobody's business however.
  */
-public class TileEntityAutoCrafter extends YATMPoweredMachine
+public class TileEntityAutoCrafter extends TilePoweredMachine
 {
 	protected static final int[][] slotTable = {
 		{ 0, 1, 2, 3, 4, 5, 6, 7 },
@@ -53,9 +53,15 @@ public class TileEntityAutoCrafter extends YATMPoweredMachine
 	};
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new MachineEnergyStorage(40000, 200);
+		return new PowerStorage(40000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 200, 200);
 	}
 
 	@Override

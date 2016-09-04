@@ -24,11 +24,11 @@
 package io.polyfox.yatm.common.tileentity;
 
 import growthcraft.api.core.util.NumUtils;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerAutoGrinder;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.MachineEnergyStorage;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.MachineAutoGrinder;
 
@@ -40,7 +40,7 @@ import net.minecraft.item.ItemStack;
 /*
  * Its an AE2 grindstone, except automatic and super fast.
  */
-public class TileEntityAutoGrinder extends YATMPoweredMachine
+public class TileEntityAutoGrinder extends TilePoweredMachine
 {
 	protected static final int[][] slotTable = {
 		{ 0, 1, 2 },
@@ -52,9 +52,15 @@ public class TileEntityAutoGrinder extends YATMPoweredMachine
 	};
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new MachineEnergyStorage(16000, 50);
+		return new PowerStorage(40000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 200, 200);
 	}
 
 	@Override

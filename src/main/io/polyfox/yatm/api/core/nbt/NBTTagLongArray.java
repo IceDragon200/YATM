@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,47 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.api.core.nbt;
 
-import io.polyfox.yatm.api.power.IPowerGridSync;
-import growthcraft.api.core.util.BlockFlags;
+import io.polyfox.yatm.api.core.util.BytePack;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.nbt.NBTTagIntArray;
 
-public abstract class TileEntityEnergyCell extends TilePowerProviderBase
+public class NBTTagLongArray
 {
-	protected int lastMeta = -1;
+	protected NBTTagIntArray intArrayTag;
 
-	public TileEntityEnergyCell()
+	public NBTTagLongArray(NBTTagIntArray intArray)
 	{
-		super();
-		setPowerSyncPriority(100);
+		this.intArrayTag = intArray;
 	}
 
-	@Override
-	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
+	public NBTTagLongArray(long[] array)
 	{
-		// Energy cells sync at twice their rate
-		return powerThrottle.getMaxConsume() * 2;
+		this(new NBTTagIntArray(BytePack.packI64aToI32a(array)));
 	}
 
-	public int calculateEnergyMeta()
+	public NBTTagIntArray getIntArrayTag()
 	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
-		if (max <= 0) return 0;
-		return stored * 8 / max;
+		return intArrayTag;
 	}
 
-	@Override
-	protected boolean updateBlockMeta()
+	public long[] loadI64Array(long[] target)
 	{
-		final int newMeta = calculateEnergyMeta();
-		if (lastMeta != newMeta)
-		{
-			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
-		}
-		return true;
+		final int[] source = intArrayTag.func_150302_c();
+		return BytePack.unpackI64aFromI32a(target, source);
+	}
+
+	public long[] toI64Array()
+	{
+		final int[] source = intArrayTag.func_150302_c();
+		return BytePack.unpackI64aFromI32a(source);
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015, 2016 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.api.power;
 
-import growthcraft.core.common.tileentity.GrcTileBase;
+import java.util.Map;
+import java.util.HashMap;
 
-public abstract class YATMBaseTile extends GrcTileBase
+public class PowerRatioRegistry
 {
+	protected Map<String, PowerRatio> registered = new HashMap<String, PowerRatio>();
+
+	public PowerRatio register(String name, PowerRatio ratio)
+	{
+		registered.put(name, ratio);
+		return ratio;
+	}
+
+	public PowerRatio register(String name, long base, long target)
+	{
+		return register(name, new PowerRatio(base, target));
+	}
+
+	public PowerRatio get(String name)
+	{
+		return registered.get(name);
+	}
 }

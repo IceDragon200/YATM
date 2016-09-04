@@ -23,11 +23,11 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerElectrolyser;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.MachineEnergyStorage;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.MachineElectrolyser;
 
@@ -35,12 +35,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 
-public class TileEntityElectrolyser extends YATMPoweredMachine
+public class TileEntityElectrolyser extends TilePoweredMachine
 {
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new MachineEnergyStorage(4000, 400);
+		return new PowerStorage(40000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 200, 200);
 	}
 
 	@Override

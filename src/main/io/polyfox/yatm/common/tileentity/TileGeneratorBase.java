@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity.feature;
+package io.polyfox.yatm.common.tileentity;
 
-import cofh.api.energy.IEnergyReceiver;
-
-import net.minecraftforge.common.util.ForgeDirection;
-
-// Gives the tile the ability to synchronize its energy with nearby energy cells
-public interface IEnergyGridSync extends IEnergyReceiver
+public abstract class TileGeneratorBase extends TilePowerProviderBase
 {
-	int getEnergySyncPriority(ForgeDirection dir);
-	boolean canEnergyGridSync(ForgeDirection dir, IEnergyGridSync other);
-	int syncEnergy(ForgeDirection dir, int value);
 }

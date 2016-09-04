@@ -23,7 +23,7 @@
  */
 package io.polyfox.yatm.client.gui;
 
-import io.polyfox.yatm.common.tileentity.YATMPoweredMachine;
+import io.polyfox.yatm.common.tileentity.TilePoweredMachine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +31,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public abstract class YATMMachineGuiContainer<C extends Container, T extends YATMPoweredMachine> extends YATMPoweredGuiContainer<C, T>
+public abstract class YATMMachineGuiContainer<C extends Container, T extends TilePoweredMachine> extends YATMPoweredGuiContainer<C, T>
 {
 	protected T machineTile;
 

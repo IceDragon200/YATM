@@ -32,7 +32,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityCrate extends YATMBaseTile implements IInventory, INBTItemSerializable
+public class TileEntityCrate extends YATMTileBase implements IInventory, INBTItemSerializable
 {
 	private static final int[] PRIMARY_SLOTS = new int[] { 0 };
 	protected InternalInventoryCrate inventory = new InternalInventoryCrate(4096);

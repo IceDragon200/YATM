@@ -23,11 +23,12 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
+import growthcraft.api.core.util.TickUtils;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerCompactor;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.MachineEnergyStorage;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.MachineCompactor;
 
@@ -36,7 +37,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
-public class TileEntityCompactor extends YATMPoweredMachine
+public class TileEntityCompactor extends TilePoweredMachine
 {
 	protected static final int[][] slotTable = {
 		{ 0 },
@@ -48,9 +49,15 @@ public class TileEntityCompactor extends YATMPoweredMachine
 	};
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new MachineEnergyStorage(80000, 4000);
+		return new PowerStorage(400 * TickUtils.minutes(10));
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 4000, 4000);
 	}
 
 	@Override

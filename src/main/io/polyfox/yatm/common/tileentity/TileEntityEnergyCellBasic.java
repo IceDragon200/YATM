@@ -23,13 +23,20 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 
 public class TileEntityEnergyCellBasic extends TileEntityEnergyCell
 {
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new YATMEnergyStorage(500000, 50);
+		return new PowerStorage(2000000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 200, 200);
 	}
 }

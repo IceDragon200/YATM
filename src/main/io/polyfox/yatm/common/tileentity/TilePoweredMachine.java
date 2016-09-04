@@ -33,6 +33,8 @@ import growthcraft.core.common.tileentity.event.EventHandler;
 import growthcraft.core.common.tileentity.feature.IGuiNetworkSync;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import growthcraft.core.util.ItemUtils;
+import io.polyfox.yatm.api.core.util.BytePack;
+import io.polyfox.yatm.api.power.IPowerProducer;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.IProgressiveMachine;
@@ -45,8 +47,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISidedInventory, IGuiNetworkSync, IInventoryWatcher, IInteractionObject
+public abstract class TilePoweredMachine extends TilePowered implements ISidedInventory, IGuiNetworkSync, IInventoryWatcher, IInteractionObject
 {
 	protected IYATMInventory inventory;
 	protected IMachineLogic machine;
@@ -54,7 +58,7 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	protected boolean dirtyNext = true;
 	protected MachineUpdateState machineState = new MachineUpdateState();
 
-	public YATMPoweredMachine()
+	public TilePoweredMachine()
 	{
 		super();
 		this.inventory = createInventory();
@@ -140,8 +144,17 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 			icrafting.sendProgressBarUpdate(container, 100, (int)progMachine.getProgress());
 			icrafting.sendProgressBarUpdate(container, 101, (int)progMachine.getProgressMax());
 		}
-		icrafting.sendProgressBarUpdate(container, 200, energyStorage.getMaxEnergyStored());
-		icrafting.sendProgressBarUpdate(container, 201, energyStorage.getEnergyStored());
+		final short[] buffer = new short[4];
+		BytePack.packI64ToI16(powerStorage.getCapacity(), buffer, 0);
+		for (int i = 0; i < buffer.length; ++i)
+		{
+			icrafting.sendProgressBarUpdate(container, 200 + i, buffer[i]);
+		}
+		BytePack.packI64ToI16(powerStorage.getAmount(), buffer, 0);
+		for (int i = 0; i < buffer.length; ++i)
+		{
+			icrafting.sendProgressBarUpdate(container, 204 + i, buffer[i]);
+		}
 	}
 
 	@Override
@@ -164,11 +177,21 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		switch (id)
 		{
 			case 200:
-				energyStorage.setCapacity(value);
-				break;
 			case 201:
-				energyStorage.setEnergyStored(value);
-				break;
+			case 202:
+			case 203:
+			{
+				final int segment = id - 200;
+				powerStorage.setCapacity(BytePack.replaceI16SegmentInI64(segment, (short)value, powerStorage.getCapacity()));
+			}	break;
+			case 204:
+			case 205:
+			case 206:
+			case 207:
+			{
+				final int segment = id - 204;
+				powerStorage.setAmountUnsafe(BytePack.replaceI16SegmentInI64(segment, (short)value, powerStorage.getAmount()));
+			}	break;
 			default:
 		}
 	}
@@ -275,41 +298,6 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 		return 0.0f;
 	}
 
-	public void updateMachine()
-	{
-		machineState.clear();
-		machineState.inventory = inventory;
-		machineState.energyStorage = energyStorage;
-		machine.updateMachine(machineState);
-
-		if (machineState.energyConsumed != 0)
-		{
-			energyStorage.modifyEnergyStored(-machineState.energyConsumed);
-			markDirty();
-		}
-
-		if (lastWorkingState != machineState.didWork)
-		{
-			lastWorkingState = machineState.didWork;
-			int meta = getBlockMetadata() & 3;
-			if (lastWorkingState) meta |= 4;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.SYNC);
-		}
-	}
-
-	@Override
-	public void updateEntity()
-	{
-		super.updateEntity();
-		if (!worldObj.isRemote) updateMachine();
-
-		if (dirtyNext)
-		{
-			dirtyNext = false;
-			markDirty();
-		}
-	}
-
 	@Override
 	public void markDirty()
 	{
@@ -322,6 +310,64 @@ public abstract class YATMPoweredMachine extends YATMPoweredTile implements ISid
 	public void markDirtyNext()
 	{
 		this.dirtyNext |= true;
+	}
+
+	public void updateMachine()
+	{
+		machineState.clear();
+		machineState.inventory = inventory;
+		machineState.powerStorage = powerStorage;
+		machine.updateMachine(machineState);
+
+		if (machineState.powerConsumed != 0)
+		{
+			powerStorage.consume(machineState.powerConsumed, false);
+			onInternalPowerChanged();
+		}
+
+		if (lastWorkingState != machineState.didWork)
+		{
+			lastWorkingState = machineState.didWork;
+			int meta = getBlockMetadata() & 3;
+			if (lastWorkingState) meta |= 4;
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.SYNC);
+		}
+	}
+
+	protected void demandPowerFromNeighbours()
+	{
+		final long demand = powerThrottle.getMaxConsume();
+		for (int i = 0; i < tileCache.length; ++i)
+		{
+			if (demand <= 0) break;
+			final TileEntity te = tileCache[i];
+			if (te != null)
+			{
+				if (te instanceof IPowerProducer)
+				{
+					final IPowerProducer producer = (IPowerProducer)te;
+					final ForgeDirection dir = ForgeDirection.getOrientation(i);
+					producer.demandPowerFrom(dir.getOpposite(), demand);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void updateEntity()
+	{
+		super.updateEntity();
+		if (!worldObj.isRemote)
+		{
+			demandPowerFromNeighbours();
+			updateMachine();
+		}
+
+		if (dirtyNext)
+		{
+			dirtyNext = false;
+			markDirty();
+		}
 	}
 
 	protected void triggerInventoryChanged(IInventory inv, int index)

@@ -24,8 +24,11 @@
 package io.polyfox.yatm.api.power;
 
 import io.polyfox.yatm.api.core.util.MathI64;
+import growthcraft.api.core.nbt.INBTSerializable;
 
-public class PowerStorage implements IPowerStorage
+import net.minecraft.nbt.NBTTagCompound;
+
+public class PowerStorage implements INBTSerializable
 {
 	protected long capacity;
 	protected long amount;
@@ -36,19 +39,34 @@ public class PowerStorage implements IPowerStorage
 		this.amount = 0;
 	}
 
-	public long isFull()
+	public boolean isFull()
 	{
 		return amount >= capacity;
 	}
 
-	public long isOvercharged()
+	public boolean isOvercharged()
 	{
 		return amount > capacity;
 	}
 
-	public long isEmpty()
+	public boolean isEmpty()
 	{
 		return amount == 0;
+	}
+
+	public long getAmount()
+	{
+		return amount;
+	}
+
+	public long getCapacity()
+	{
+		return capacity;
+	}
+
+	public void setCapacity(long value)
+	{
+		this.capacity = value;
 	}
 
 	public void setAmountUnsafe(long p_amount)
@@ -68,15 +86,27 @@ public class PowerStorage implements IPowerStorage
 		return p_amount - a - capped;
 	}
 
-	public long produce(long p_amount)
+	public long receive(long p_amount, boolean simulate)
 	{
 		final long used = chargeDiff(p_amount);
-		setAmountUnsafe(amount + used);
+		if (!simulate) setAmountUnsafe(amount + used);
 		return used;
 	}
 
-	public long consume(long p_amount)
+	public long consume(long p_amount, boolean simulate)
 	{
-		return -produce(-p_amount);
+		return -receive(-p_amount, simulate);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		this.amount = nbt.getLong("amount");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
+	{
+		nbt.setLong("amount", amount);
 	}
 }

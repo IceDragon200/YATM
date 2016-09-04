@@ -37,7 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntitySpringWoundCrank extends YATMBaseTile implements ICrankable, INBTItemSerializable
+public class TileEntitySpringWoundCrank extends YATMTileBase implements ICrankable, INBTItemSerializable
 {
 	// The interval between winds/turns
 	private static final int ticksPerWind = 5;

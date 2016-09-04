@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,47 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.util;
 
-import io.polyfox.yatm.api.power.IPowerGridSync;
-import growthcraft.api.core.util.BlockFlags;
-
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityEnergyCell extends TilePowerProviderBase
+public class TileUtils
 {
-	protected int lastMeta = -1;
+	private static final TileUtils inst = new TileUtils();
 
-	public TileEntityEnergyCell()
+	public TileEntity[] createTileCache()
 	{
-		super();
-		setPowerSyncPriority(100);
+		return new TileEntity[ForgeDirection.VALID_DIRECTIONS.length];
 	}
 
-	@Override
-	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
+	public void populateTileCache(TileEntity[] cache, World world, int x, int y, int z)
 	{
-		// Energy cells sync at twice their rate
-		return powerThrottle.getMaxConsume() * 2;
-	}
-
-	public int calculateEnergyMeta()
-	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
-		if (max <= 0) return 0;
-		return stored * 8 / max;
-	}
-
-	@Override
-	protected boolean updateBlockMeta()
-	{
-		final int newMeta = calculateEnergyMeta();
-		if (lastMeta != newMeta)
+		for (int i = 0; i < cache.length; ++i)
 		{
-			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
+			final ForgeDirection dir = ForgeDirection.getOrientation(i);
+			final int fx = x + dir.offsetX;
+			final int fy = y + dir.offsetY;
+			final int fz = z + dir.offsetZ;
+			cache[i] = world.getTileEntity(fx, fy, fz);
 		}
-		return true;
+	}
+
+	public static TileUtils instance()
+	{
+		return inst;
 	}
 }

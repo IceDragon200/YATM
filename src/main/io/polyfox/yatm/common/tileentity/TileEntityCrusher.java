@@ -24,11 +24,11 @@
 package io.polyfox.yatm.common.tileentity;
 
 import growthcraft.api.core.util.NumUtils;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerCrusher;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.MachineEnergyStorage;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.MachineCrusher;
 
@@ -45,7 +45,7 @@ import net.minecraft.item.ItemStack;
  * it can be used to shard certain blocks, or reduce stone to cobble, cobble
  * to gravel and gravel to sand.
  */
-public class TileEntityCrusher extends YATMPoweredMachine
+public class TileEntityCrusher extends TilePoweredMachine
 {
 	protected static final int[][] slotTable = {
 		{ 0 },
@@ -71,9 +71,15 @@ public class TileEntityCrusher extends YATMPoweredMachine
 	}
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new MachineEnergyStorage(16000, 50);
+		return new PowerStorage(128000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 100, 100);
 	}
 
 	@Override

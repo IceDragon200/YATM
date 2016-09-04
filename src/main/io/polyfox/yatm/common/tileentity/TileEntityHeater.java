@@ -23,11 +23,11 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 import io.polyfox.yatm.common.inventory.ContainerHeater;
 import io.polyfox.yatm.common.inventory.IYATMInventory;
 import io.polyfox.yatm.common.inventory.YATMInternalInventory;
-import io.polyfox.yatm.common.tileentity.energy.MachineEnergyStorage;
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic;
 import io.polyfox.yatm.common.tileentity.machine.MachineHeater;
 
@@ -35,12 +35,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 
-public class TileEntityHeater extends YATMPoweredMachine
+public class TileEntityHeater extends TilePoweredMachine
 {
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new MachineEnergyStorage(8000, 100);
+		return new PowerStorage(400000);
+	}
+
+	@Override
+	protected PowerThrottle createPowerThrottle()
+	{
+		return new PowerThrottle(powerStorage, 100, 100);
 	}
 
 	@Override
@@ -69,6 +75,6 @@ public class TileEntityHeater extends YATMPoweredMachine
 
 	public float getHeatValue()
 	{
-		return ((MachineHeater)machine).getHeatValue(energyStorage, inventory);
+		return ((MachineHeater)machine).getHeatValue(powerStorage, inventory);
 	}
 }

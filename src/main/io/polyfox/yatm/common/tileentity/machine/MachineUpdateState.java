@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,20 @@
  */
 package io.polyfox.yatm.common.tileentity.machine;
 
-import cofh.api.energy.EnergyStorage;
+import io.polyfox.yatm.api.power.PowerStorage;
 
 import net.minecraft.inventory.IInventory;
 
 public class MachineUpdateState
 {
-	public int energyConsumed;
+	public long powerConsumed;
 	public boolean didWork;
-	public EnergyStorage energyStorage;
+	public PowerStorage powerStorage;
 	public IInventory inventory;
 
 	public void clear()
 	{
-		energyConsumed = 0;
-		didWork = false;
+		this.powerConsumed = 0;
+		this.didWork = false;
 	}
 }

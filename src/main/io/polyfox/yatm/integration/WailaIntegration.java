@@ -27,10 +27,11 @@ import java.util.List;
 
 import cofh.api.energy.IEnergyReceiver;
 
+import io.polyfox.yatm.api.power.IPowerStorageTile;
 import io.polyfox.yatm.common.block.YATMBlockBaseTile;
-import io.polyfox.yatm.common.tileentity.YATMEnergyProviderTile;
-import io.polyfox.yatm.common.tileentity.YATMPoweredMachine;
 import io.polyfox.yatm.common.tileentity.TileEntitySolarPanel;
+import io.polyfox.yatm.common.tileentity.TilePoweredMachine;
+import io.polyfox.yatm.common.tileentity.TilePowerProviderBase;
 
 import appeng.util.ReadableNumberConverter;
 import appeng.util.IWideReadableNumberConverter;
@@ -81,9 +82,9 @@ public class WailaIntegration implements IWailaDataProvider
 	{
 		final TileEntity te = accessor.getTileEntity();
 		final NBTTagCompound tag = accessor.getNBTData();
-		if (te instanceof YATMPoweredMachine)
+		if (te instanceof TilePoweredMachine)
 		{
-			if (tag.getBoolean("WorkingState"))
+			if (tag.getBoolean("working_state"))
 			{
 				tooltip.add("Machine Active");
 			}
@@ -95,33 +96,32 @@ public class WailaIntegration implements IWailaDataProvider
 
 		if (te instanceof IEnergyReceiver)
 		{
-			final long energy = tag.getLong("Energy");
-			final long maxEnergy = tag.getLong("EnergyMax");
+			final long power = tag.getLong("power");
+			final long powerMax = tag.getLong("power_max");
 
-
-			tooltip.add("Energy: " +
-				wideConverter.toWideReadableForm(energy) + "RF" +
+			tooltip.add("Power: " +
+				wideConverter.toWideReadableForm(power) + "YW" +
 				" / " +
-				wideConverter.toWideReadableForm(maxEnergy) + "RF"
+				wideConverter.toWideReadableForm(powerMax) + "YW"
 			);
 		}
 
-		if (te instanceof YATMEnergyProviderTile)
+		if (te instanceof TilePowerProviderBase)
 		{
-			final int prio = tag.getInteger("EnergySyncPriority");
-			final long maxIN = tag.getLong("InputRate");
-			final long maxOUT = tag.getLong("OutputRate");
-			tooltip.add("Sync Priority: " + prio);
+			final int level = tag.getInteger("get_energy_level");
+			final long maxIn = tag.getLong("input_rate");
+			final long maxOut = tag.getLong("output_rate");
+			tooltip.add("Sync Level: " + level);
 			tooltip.add("Max I/O: " +
-				wideConverter.toWideReadableForm(maxIN) + "RF/t" +
+				wideConverter.toWideReadableForm(maxIn) + "YW/t" +
 				" / " +
-				wideConverter.toWideReadableForm(maxOUT) + "RF/t"
+				wideConverter.toWideReadableForm(maxOut) + "YW/t"
 			);
 		}
 
 		if (te instanceof TileEntitySolarPanel)
 		{
-			tooltip.add("Last Gain: " + tag.getInteger("LastEnergyGain") + "RF/t");
+			tooltip.add("Last Gain: " + tag.getLong("las_energy_gain") + "YW/t");
 		}
 		return tooltip;
 	}
@@ -137,31 +137,31 @@ public class WailaIntegration implements IWailaDataProvider
 	@Optional.Method(modid = "Waila")
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z)
 	{
-		if (te instanceof YATMPoweredMachine)
+		if (te instanceof TilePoweredMachine)
 		{
-			final YATMPoweredMachine pm = (YATMPoweredMachine)te;
-			tag.setBoolean("WorkingState", pm.getWorkingState());
+			final TilePoweredMachine pm = (TilePoweredMachine)te;
+			tag.setBoolean("working_state", pm.getWorkingState());
 		}
 
-		if (te instanceof IEnergyReceiver)
+		if (te instanceof IPowerStorageTile)
 		{
-			final IEnergyReceiver er = (IEnergyReceiver)te;
-			tag.setLong("EnergyMax", er.getMaxEnergyStored(ForgeDirection.UNKNOWN));
-			tag.setLong("Energy", er.getEnergyStored(ForgeDirection.UNKNOWN));
+			final IPowerStorageTile pt = (IPowerStorageTile)te;
+			tag.setLong("power_max", pt.getPowerCapacityFrom(ForgeDirection.UNKNOWN));
+			tag.setLong("power", pt.getPowerStoredFrom(ForgeDirection.UNKNOWN));
 		}
 
-		if (te instanceof YATMEnergyProviderTile)
+		if (te instanceof TilePowerProviderBase)
 		{
-			final YATMEnergyProviderTile prov = (YATMEnergyProviderTile)te;
-			tag.setInteger("EnergySyncPriority", prov.getEnergySyncPriority(ForgeDirection.UNKNOWN));
-			tag.setLong("InputRate", prov.getMaxReceive());
-			tag.setLong("OutputRate", prov.getMaxExtract());
+			final TilePowerProviderBase prov = (TilePowerProviderBase)te;
+			tag.setInteger("get_energy_level", prov.getPowerSyncLevelFrom(ForgeDirection.UNKNOWN));
+			tag.setLong("input_rate", prov.getMaxReceive());
+			tag.setLong("output_rate", prov.getMaxExtract());
 		}
 
 		if (te instanceof TileEntitySolarPanel)
 		{
 			final TileEntitySolarPanel sp = (TileEntitySolarPanel)te;
-			tag.setInteger("LastEnergyGain", sp.lastEnergyGain);
+			tag.setLong("las_energy_gain", sp.lastPowerGain);
 		}
 		return tag;
 	}

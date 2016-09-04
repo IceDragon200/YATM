@@ -23,47 +23,58 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import io.polyfox.yatm.common.tileentity.energy.YATMEnergyStorage;
-import io.polyfox.yatm.common.tileentity.feature.IEnergyGridSync;
+import io.polyfox.yatm.api.power.IPowerGridSync;
+import io.polyfox.yatm.api.power.IPowerStorageTile;
+import io.polyfox.yatm.api.power.PowerStorage;
+import io.polyfox.yatm.api.power.PowerThrottle;
 
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySolarPanel extends YATMGeneratorBase
+public class TileEntitySolarPanel extends TileGeneratorBase
 {
 	private static final float maxGen = 20f;
-	public int lastEnergyGain;
+	public long lastPowerGain;
 
 	public TileEntitySolarPanel()
 	{
 		super();
-		setEnergySyncPriority(200);
+		setPowerSyncPriority(200);
 	}
 
 	@Override
-	protected YATMEnergyStorage createEnergyStorage()
+	protected PowerStorage createPowerStorage()
 	{
-		return new YATMEnergyStorage(4000, 50);
+		return new PowerStorage(40000);
 	}
 
 	@Override
-	public int getEnergySyncAmount(ForgeDirection dir, IEnergyGridSync other)
+	protected PowerThrottle createPowerThrottle()
 	{
-		// Solar panels can only sync at half their rate if their target
-		// has more energy than it does
-		if (other.getEnergyStored(dir.getOpposite()) > getEnergyStored(dir))
+		return new PowerThrottle(powerStorage, 50, 50);
+	}
+
+	@Override
+	public long getPowerSyncAmount(ForgeDirection dir, IPowerGridSync other)
+	{
+		if (other instanceof IPowerStorageTile)
 		{
-			return energyStorage.getMaxExtract() / 2;
+			// Solar panels can only sync at half their rate if their target
+			// has more energy than it does
+			if (((IPowerStorageTile)other).getPowerStoredFrom(dir.getOpposite()) > getPowerStoredFrom(dir))
+			{
+				return powerThrottle.getMaxReceive() / 2;
+			}
 		}
 		// Otherwise it syncs at its original rate
-		return energyStorage.getMaxExtract();
+		return powerThrottle.getMaxReceive();
 	}
 
 	@Override
-	public boolean checkEnergySyncLevels(ForgeDirection dir, IEnergyGridSync other)
+	public boolean checkEnergySyncLevels(ForgeDirection dir, IPowerGridSync other)
 	{
-		if (getEnergyStored(dir) > 0)
+		if (getPowerStoredFrom(dir) > 0)
 		{
 			return true;
 		}
@@ -71,7 +82,7 @@ public class TileEntitySolarPanel extends YATMGeneratorBase
 	}
 
 	@Override
-	protected void updateEnergyProvider()
+	protected void updatePowerProvider()
 	{
 		if (!worldObj.provider.hasNoSky)
 		{
@@ -100,13 +111,15 @@ public class TileEntitySolarPanel extends YATMGeneratorBase
 			}
 
 			final float r = (float)lv / 15.0f;
-			lastEnergyGain = (int)(maxGen * r);
-			if (lastEnergyGain > 0)
+			this.lastPowerGain = (long)(maxGen * r);
+			if (lastPowerGain > 0)
 			{
-				receiveEnergy(ForgeDirection.UNKNOWN, lastEnergyGain, false);
-				markDirty();
+				if (powerStorage.receive(lastPowerGain, false) > 0)
+				{
+					onInternalPowerChanged();
+				}
 			}
 		}
-		super.updateEnergyProvider();
+		super.updatePowerProvider();
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,47 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.api.power;
 
-import io.polyfox.yatm.api.power.IPowerGridSync;
-import growthcraft.api.core.util.BlockFlags;
-
-import net.minecraftforge.common.util.ForgeDirection;
-
-public abstract class TileEntityEnergyCell extends TilePowerProviderBase
+public class PowerRatio
 {
-	protected int lastMeta = -1;
+	protected long base;
+	protected long target;
 
-	public TileEntityEnergyCell()
+	public PowerRatio(long p_base, long p_target)
 	{
-		super();
-		setPowerSyncPriority(100);
+		this.base = p_base;
+		this.target = p_target;
 	}
 
-	@Override
-	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
+	public PowerRatio reverse()
 	{
-		// Energy cells sync at twice their rate
-		return powerThrottle.getMaxConsume() * 2;
+		return new PowerRatio(target, base);
 	}
 
-	public int calculateEnergyMeta()
+	public long getBase()
 	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
-		if (max <= 0) return 0;
-		return stored * 8 / max;
+		return base;
 	}
 
-	@Override
-	protected boolean updateBlockMeta()
+	public long getTarget()
 	{
-		final int newMeta = calculateEnergyMeta();
-		if (lastMeta != newMeta)
-		{
-			lastMeta = newMeta;
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
-		}
-		return true;
+		return target;
+	}
+
+	/**
+	 * @param from the target value
+	 */
+	public long toBase(long from)
+	{
+		return from * base / target;
+	}
+
+	/**
+	 * @param from the base value
+	 */
+	public long toTarget(long from)
+	{
+		return from * target / base;
+	}
+
+	public String toString()
+	{
+		return String.format("%d:%d", base, target);
 	}
 }

@@ -147,11 +147,11 @@ public abstract class AbstractMachine implements IMachineLogic
 	{
 		final int workingCost = getWorkingPowerCost(state);
 		final int workingThreshold = getWorkingThreshold(state);
-		if (state.energyStorage.getEnergyStored() >= (state.energyConsumed + workingThreshold))
+		if (state.powerStorage.getAmount() >= (state.powerConsumed + workingThreshold))
 		{
 			if (canWork(state))
 			{
-				state.energyConsumed += workingCost;
+				state.powerConsumed += workingCost;
 				doWork(state);
 				state.didWork |= true;
 			}
@@ -177,7 +177,7 @@ public abstract class AbstractMachine implements IMachineLogic
 	@Override
 	public void updateMachine(MachineUpdateState state)
 	{
-		state.energyConsumed += getRunningPowerCost(state);
+		state.powerConsumed += getRunningPowerCost(state);
 		if (!sleeping)
 		{
 			updateAwakeMachine(state);

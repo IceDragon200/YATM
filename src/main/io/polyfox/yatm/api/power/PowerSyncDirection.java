@@ -36,9 +36,5 @@ public enum PowerSyncDirection
 	/**
 	 * The target will only respond to requests
 	 */
-	SEND,
-	/**
-	 * The target can send and receive synchronization requests
-	 */
-	BI_DIRECTION;
+	SEND;
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity.energy;
+package io.polyfox.yatm.system;
 
-public class MachineEnergyStorage extends YATMEnergyStorage
+import io.polyfox.yatm.api.YATMApi;
+import io.polyfox.yatm.api.power.PowerRatio;
+
+public class PowerSystem
 {
-	public MachineEnergyStorage(int capacity, int maxReceive, int maxExtract)
-	{
-		super(capacity, maxReceive, maxExtract);
-	}
+	// YATM Watt > RF
+	public static final PowerRatio YW_RF = YATMApi.instance().powerRatio().register("yw:rf", 4, 1);
+	// YATM Watt > Mekanism
+	public static final PowerRatio YW_JOULES = YATMApi.instance().powerRatio().register("yw:joules", 1, 1);
 
-	public MachineEnergyStorage(int capacity, int maxTransfer)
-	{
-		this(capacity, maxTransfer, maxTransfer);
-	}
-
-	public MachineEnergyStorage(int capacity)
-	{
-		this(capacity, capacity, capacity);
-	}
+	private PowerSystem() {}
 }
