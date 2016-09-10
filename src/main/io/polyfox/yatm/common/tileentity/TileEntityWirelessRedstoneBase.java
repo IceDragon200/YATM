@@ -26,7 +26,7 @@ package io.polyfox.yatm.common.tileentity;
 import java.io.IOException;
 
 import growthcraft.api.core.util.BlockFlags;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import io.polyfox.yatm.common.tileentity.feature.IUpdatableTile;
 import io.polyfox.yatm.common.tileentity.feature.IWirelessReceiver;
 import io.polyfox.yatm.util.YATMStreamUtils;
@@ -89,7 +89,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMTileBase implem
 		readWirelessBaseFromNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_WirelessBase(NBTTagCompound nbt)
 	{
 		readWirelessBaseFromNBT(nbt);
@@ -110,13 +110,13 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMTileBase implem
 		writeWirelessBaseToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_WirelessBase(NBTTagCompound nbt)
 	{
 		writeWirelessBaseToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_WirelessBase(ByteBuf stream) throws IOException
 	{
 		this.lastPowerValue = stream.readInt();
@@ -126,7 +126,7 @@ public abstract class TileEntityWirelessRedstoneBase extends YATMTileBase implem
 		return true;
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_WRITE)
 	public boolean writeToStream_WirelessBase(ByteBuf stream) throws IOException
 	{
 		stream.writeInt(lastPowerValue);

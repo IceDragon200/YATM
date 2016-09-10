@@ -27,7 +27,7 @@ import java.io.IOException;
 import io.netty.buffer.ByteBuf;
 
 import growthcraft.api.core.util.BlockFlags;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import growthcraft.core.common.tileentity.feature.IGuiNetworkSync;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import growthcraft.core.util.ItemUtils;
@@ -83,9 +83,9 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 50, 50);
+		return new PowerThrottle(storage, 50, 50);
 	}
 
 	public float getBurnTimeRate()
@@ -118,7 +118,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 			if (burnTime > 0)
 			{
 				--burnTime;
-				if (powerStorage.receive(100, false) != 0)
+				if (getPowerStorage().receive(100, false) != 0)
 				{
 					onInternalPowerChanged();
 				}
@@ -126,7 +126,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 			else
 			{
 				this.online = false;
-				if (!powerStorage.isFull())
+				if (!getPowerStorage().isFull())
 				{
 					final ItemStack fuel = getStackInSlot(0);
 					if (fuel != null)
@@ -258,7 +258,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 		return false;
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_CoalGenerator(ByteBuf stream) throws IOException
 	{
 		this.idleTime = stream.readInt();
@@ -268,7 +268,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 		return false;
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_WRITE)
 	public boolean writeToStream_CoalGenerator(ByteBuf stream) throws IOException
 	{
 		stream.writeInt(idleTime);
@@ -299,7 +299,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 		readTimeFromNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_CoalGenerator(NBTTagCompound nbt)
 	{
 		readInventoryFromNBT(nbt);
@@ -327,7 +327,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 		writeTimesToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_CoalGenerator(NBTTagCompound nbt)
 	{
 		writeInventoryToNBT(nbt);

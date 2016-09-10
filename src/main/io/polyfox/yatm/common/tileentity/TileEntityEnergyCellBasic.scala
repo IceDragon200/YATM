@@ -21,23 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.common.tileentity
 
-import io.polyfox.yatm.api.power.PowerStorage;
-import io.polyfox.yatm.api.power.PowerThrottle;
-import io.polyfox.yatm.common.tileentity.energy.CreativePowerStorage;
+import io.polyfox.yatm.api.power.PowerStorage
+import io.polyfox.yatm.api.power.PowerThrottle
 
-public class TileEntityCreativeEnergyCellDense extends TileEntityCreativeEnergyCell
+class TileEntityEnergyCellBasic extends TileEntityEnergyCell()
 {
-	@Override
-	protected PowerStorage createPowerStorage()
-	{
-		return new CreativePowerStorage(32000000);
-	}
-
-	@Override
-	protected PowerThrottle createPowerThrottle()
-	{
-		return new PowerThrottle(powerStorage, 3200, 3200);
-	}
+	override protected def createPowerStorage(): PowerStorage = new PowerStorage(2000000)
+	override protected def createPowerThrottle(storage: PowerStorage): PowerThrottle = new PowerThrottle(storage, 200, 200)
 }

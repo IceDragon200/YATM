@@ -27,6 +27,8 @@ import java.io.IOException;
 
 import io.netty.buffer.ByteBuf;
 
+import growthcraft.api.core.nbt.INBTItemSerializable;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import io.polyfox.yatm.api.power.IPowerStorageTile;
 import io.polyfox.yatm.api.power.PowerStorage;
 import io.polyfox.yatm.api.power.PowerThrottle;
@@ -34,22 +36,29 @@ import io.polyfox.yatm.system.PowerSystem;
 
 import cofh.api.energy.IEnergyReceiver;
 
-import growthcraft.api.core.nbt.INBTItemSerializable;
-import growthcraft.core.common.tileentity.event.EventHandler;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTile, INBTItemSerializable//, IEnergyReceiver
+abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTile, INBTItemSerializable //, IEnergyReceiver
 {
-	protected PowerStorage powerStorage;
-	protected PowerThrottle powerThrottle;
+	private PowerThrottle powerThrottle;
+	private PowerStorage powerStorage;
 
 	public TilePowerStorage()
 	{
 		super();
 		this.powerStorage = createPowerStorage();
-		this.powerThrottle = createPowerThrottle();
+		this.powerThrottle = createPowerThrottle(powerStorage);
+	}
+
+	public PowerStorage getPowerStorage()
+	{
+		return powerStorage;
+	}
+
+	public PowerThrottle getPowerThrottle()
+	{
+		return powerThrottle;
 	}
 
 	protected PowerStorage createPowerStorage()
@@ -57,9 +66,9 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		return new PowerStorage(4000);
 	}
 
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 20, 20);
+		return new PowerThrottle(storage, 20, 20);
 	}
 
 	protected void onInternalPowerChanged()
@@ -122,7 +131,7 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		return result;
 	}*/
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_Power(ByteBuf stream) throws IOException
 	{
 		final long power = stream.readLong();
@@ -130,7 +139,7 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		return false;
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_WRITE)
 	public boolean writeToStream_Power(ByteBuf stream) throws IOException
 	{
 		final long power = powerStorage.getAmount();
@@ -160,7 +169,7 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		readPowerStorageFromNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_Power(NBTTagCompound nbt)
 	{
 		readPowerStorageFromNBT(nbt);
@@ -180,7 +189,7 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		writePowerStorageToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_Power(NBTTagCompound nbt)
 	{
 		writePowerStorageToNBT(nbt);

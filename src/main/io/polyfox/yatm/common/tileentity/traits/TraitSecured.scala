@@ -21,8 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.common.tileentity.traits
 
-public abstract class TileGeneratorBase extends TilePowerProviderBase
+import growthcraft.core.common.tileentity.event.TileEventHandler
+import io.polyfox.yatm.security.ISecuredEntity
+import io.polyfox.yatm.security.SecurityHeader
+
+import net.minecraft.nbt.NBTTagCompound
+
+trait TraitSecured extends ISecuredEntity
 {
+	def getSecurityHeader(): SecurityHeader
+
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
+	def readFromNBT_Secured(nbt: NBTTagCompound)
+	{
+		val header = getSecurityHeader()
+		if (nbt.hasKey("security_header"))
+		{
+			val sectag: NBTTagCompound = nbt.getCompoundTag("security_header")
+			header.readFromNBT(sectag)
+		}
+	}
+
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
+	def writeToNBT_Secured(nbt: NBTTagCompound)
+	{
+		val header = getSecurityHeader()
+		val sectag = new NBTTagCompound()
+		header.writeToNBT(sectag)
+		nbt.setTag("security_header", sectag)
+	}
 }

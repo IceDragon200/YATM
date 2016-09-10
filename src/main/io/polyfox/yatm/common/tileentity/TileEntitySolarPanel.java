@@ -50,9 +50,9 @@ public class TileEntitySolarPanel extends TileGeneratorBase
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 50, 50);
+		return new PowerThrottle(storage, 50, 50);
 	}
 
 	@Override
@@ -64,11 +64,11 @@ public class TileEntitySolarPanel extends TileGeneratorBase
 			// has more energy than it does
 			if (((IPowerStorageTile)other).getPowerStoredFrom(dir.getOpposite()) > getPowerStoredFrom(dir))
 			{
-				return powerThrottle.getMaxReceive() / 2;
+				return getPowerThrottle().getMaxReceive() / 2;
 			}
 		}
 		// Otherwise it syncs at its original rate
-		return powerThrottle.getMaxReceive();
+		return getPowerThrottle().getMaxReceive();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class TileEntitySolarPanel extends TileGeneratorBase
 			this.lastPowerGain = (long)(maxGen * r);
 			if (lastPowerGain > 0)
 			{
-				if (powerStorage.receive(lastPowerGain, false) > 0)
+				if (getPowerStorage().receive(lastPowerGain, false) > 0)
 				{
 					onInternalPowerChanged();
 				}

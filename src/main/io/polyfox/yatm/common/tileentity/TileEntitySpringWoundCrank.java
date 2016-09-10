@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.api.core.util.BlockFlags;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 
 import appeng.api.implementations.tiles.ICrankable;
 
@@ -181,7 +181,7 @@ public class TileEntitySpringWoundCrank extends YATMTileBase implements ICrankab
 		readCrankFromNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_Crank(NBTTagCompound nbt)
 	{
 		readCrankFromNBT(nbt);
@@ -200,20 +200,20 @@ public class TileEntitySpringWoundCrank extends YATMTileBase implements ICrankab
 		writeCrankToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_Crank(NBTTagCompound nbt)
 	{
 		writeCrankToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_Crank(ByteBuf stream) throws IOException
 	{
 		this.winds = stream.readInt();
 		return true;
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_WRITE)
 	public boolean writeToStream_Crank(ByteBuf stream) throws IOException
 	{
 		stream.writeInt(winds);

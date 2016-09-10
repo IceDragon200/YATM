@@ -44,13 +44,13 @@ public class TileEntityHeater extends TilePoweredMachine
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 100, 100);
+		return new PowerThrottle(storage, 100, 100);
 	}
 
 	@Override
-	protected IYATMInventory createInventory()
+	public IYATMInventory createInventory()
 	{
 		return new YATMInternalInventory(this, 7);
 	}
@@ -68,13 +68,13 @@ public class TileEntityHeater extends TilePoweredMachine
 	}
 
 	@Override
-	protected IMachineLogic createMachine()
+	public IMachineLogic createMachine()
 	{
 		return new MachineHeater();
 	}
 
 	public float getHeatValue()
 	{
-		return ((MachineHeater)machine).getHeatValue(powerStorage, inventory);
+		return ((MachineHeater)getMachine()).getHeatValue(getPowerStorage(), getInventory());
 	}
 }

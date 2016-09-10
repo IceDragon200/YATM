@@ -44,13 +44,13 @@ public class TileEntityElectrolyser extends TilePoweredMachine
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 200, 200);
+		return new PowerThrottle(storage, 200, 200);
 	}
 
 	@Override
-	protected IYATMInventory createInventory()
+	public IYATMInventory createInventory()
 	{
 		return new YATMInternalInventory(this, 7);
 	}
@@ -68,7 +68,7 @@ public class TileEntityElectrolyser extends TilePoweredMachine
 	}
 
 	@Override
-	protected IMachineLogic createMachine()
+	public IMachineLogic createMachine()
 	{
 		return new MachineElectrolyser();
 	}

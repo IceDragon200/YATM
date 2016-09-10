@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import growthcraft.api.core.fluids.FluidTest;
 import growthcraft.core.common.tileentity.device.FluidTanks;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import io.polyfox.yatm.api.power.PowerStorage;
 import io.polyfox.yatm.api.power.PowerThrottle;
@@ -63,9 +63,9 @@ public class TileEntityFuelGenerator extends TileGeneratorBase implements IInter
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 1600, 1600);
+		return new PowerThrottle(storage, 1600, 1600);
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class TileEntityFuelGenerator extends TileGeneratorBase implements IInter
 		readTanksFromNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_FuelGenerator(NBTTagCompound nbt)
 	{
 		readTanksFromNBT(nbt);
@@ -174,13 +174,13 @@ public class TileEntityFuelGenerator extends TileGeneratorBase implements IInter
 		writeTanksToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_FuelGenerator(NBTTagCompound nbt)
 	{
 		writeTanksToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_FuelGenerator(ByteBuf stream) throws IOException
 	{
 		if (fluidTanks != null)
@@ -188,7 +188,7 @@ public class TileEntityFuelGenerator extends TileGeneratorBase implements IInter
 		return true;
 	}
 
-	@EventHandler(type=EventHandler.EventType.NETWORK_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_WRITE)
 	public boolean writeToStream_FuelGenerator(ByteBuf stream) throws IOException
 	{
 		if (fluidTanks != null)

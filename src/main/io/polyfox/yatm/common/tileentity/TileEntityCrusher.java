@@ -59,7 +59,7 @@ public class TileEntityCrusher extends TilePoweredMachine
 	@SideOnly(Side.CLIENT)
 	public ItemStack getCrushingBlock()
 	{
-		final ItemStack stack = inventory.getStackInSlot(6);
+		final ItemStack stack = getStackInSlot(6);
 		if (stack != null)
 		{
 			if (stack.getItem() instanceof ItemBlock)
@@ -77,13 +77,13 @@ public class TileEntityCrusher extends TilePoweredMachine
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 100, 100);
+		return new PowerThrottle(storage, 100, 100);
 	}
 
 	@Override
-	protected IYATMInventory createInventory()
+	public IYATMInventory createInventory()
 	{
 		/*
 		 * Slots are reserved as such:
@@ -111,7 +111,7 @@ public class TileEntityCrusher extends TilePoweredMachine
 	}
 
 	@Override
-	protected IMachineLogic createMachine()
+	public IMachineLogic createMachine()
 	{
 		return new MachineCrusher();
 	}
@@ -129,7 +129,7 @@ public class TileEntityCrusher extends TilePoweredMachine
 		{
 			if (side == 0 || side == 1)
 			{
-				final ItemStack existing = inventory.getStackInSlot(index);
+				final ItemStack existing = getStackInSlot(index);
 				if (existing == null) return true;
 				return existing.isItemEqual(stack);
 			}
@@ -144,7 +144,7 @@ public class TileEntityCrusher extends TilePoweredMachine
 		{
 			if (side > 1)
 			{
-				final ItemStack existing = inventory.getStackInSlot(index);
+				final ItemStack existing = getStackInSlot(index);
 				if (existing == null) return false;
 				return true;
 			}

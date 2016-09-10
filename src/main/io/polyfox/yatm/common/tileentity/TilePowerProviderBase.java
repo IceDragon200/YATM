@@ -23,7 +23,7 @@
  */
 package io.polyfox.yatm.common.tileentity;
 
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import io.polyfox.yatm.api.core.nbt.NBTTagLongArray;
 import io.polyfox.yatm.api.core.util.MathI64;
 import io.polyfox.yatm.api.power.IPowerConsumer;
@@ -50,12 +50,12 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 
 	public long getMaxReceive()
 	{
-		return powerThrottle.getMaxReceive();
+		return getPowerThrottle().getMaxReceive();
 	}
 
 	public long getMaxExtract()
 	{
-		return powerThrottle.getMaxConsume();
+		return getPowerThrottle().getMaxConsume();
 	}
 
 	@Override
@@ -112,13 +112,13 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 
 	public long getPowerSyncAmount(ForgeDirection _dir, IPowerGridSync _other)
 	{
-		return powerThrottle.getMaxConsume();
+		return getPowerThrottle().getMaxConsume();
 	}
 
 	@Override
 	public long syncPowerFrom(ForgeDirection dir, long value)
 	{
-		final long result = powerStorage.receive(value, false);
+		final long result = getPowerStorage().receive(value, false);
 		if (result != 0)
 		{
 			onInternalPowerChanged();
@@ -135,11 +135,11 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 				YATM.getLogger().info("Not syncing with target=%s target from tile=%s x=%d y=%d z=%d", target, this, xCoord, yCoord, zCoord);
 				break;
 			case SEND:
-				final long supp = powerStorage.consume(getPowerSyncAmount(dir, target), true);
+				final long supp = getPowerStorage().consume(getPowerSyncAmount(dir, target), true);
 				final long diff = target.syncPowerFrom(dir.getOpposite(), supp);
 				if (diff > 0)
 				{
-					if (powerStorage.consume(diff, false) != 0)
+					if (getPowerStorage().consume(diff, false) != 0)
 					{
 						onInternalPowerChanged();
 					}
@@ -154,13 +154,13 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 		final int i = dir.ordinal();
 		if (powerDemand[i] > 0)
 		{
-			final long maxConsumable = powerStorage.consume(powerDemand[i], true);
+			final long maxConsumable = getPowerStorage().consume(powerDemand[i], true);
 			if (maxConsumable > 0)
 			{
 				final long consumed = MathI64.clamp(consumer.receivePowerFrom(dir.getOpposite(), maxConsumable, false), 0, maxConsumable);
 				if (consumed > 0)
 				{
-					powerStorage.consume(consumed, false);
+					getPowerStorage().consume(consumed, false);
 					onInternalPowerChanged();
 				}
 			}
@@ -169,9 +169,10 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 
 	protected void updatePowerProvider()
 	{
-		for (int i = 0; i < tileCache.length; ++i)
+		final TileEntity[] tc = getTileCache();
+		for (int i = 0; i < tc.length; ++i)
 		{
-			final TileEntity te = tileCache[i];
+			final TileEntity te = tc[i];
 			if (te != null)
 			{
 				final ForgeDirection dir = ForgeDirection.getOrientation(i);
@@ -241,7 +242,7 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 		}
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_PowerProvider(NBTTagCompound nbt)
 	{
 		readPowerProviderFromNBT(nbt);
@@ -253,7 +254,7 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 		nbt.setTag("power_demand", la.getIntArrayTag());
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_PowerProvider(NBTTagCompound nbt)
 	{
 		writePowerProviderToNBT(nbt);

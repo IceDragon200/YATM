@@ -24,7 +24,7 @@
 package io.polyfox.yatm.common.tileentity;
 
 import growthcraft.api.core.nbt.INBTItemSerializable;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import io.polyfox.yatm.common.inventory.InternalInventoryCrate;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -156,7 +156,7 @@ public class TileEntityCrate extends YATMTileBase implements IInventory, INBTIte
 		readInventoryFromNBT(data);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_Crate(NBTTagCompound data)
 	{
 		readInventoryFromNBT(data);
@@ -176,7 +176,7 @@ public class TileEntityCrate extends YATMTileBase implements IInventory, INBTIte
 		writeInventoryToNBT(data);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_Crate(NBTTagCompound data)
 	{
 		writeInventoryToNBT(data);

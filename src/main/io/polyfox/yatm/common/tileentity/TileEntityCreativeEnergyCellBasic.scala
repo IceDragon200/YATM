@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.common.tileentity
 
-import io.polyfox.yatm.api.power.PowerStorage;
-import io.polyfox.yatm.api.power.PowerThrottle;
+import io.polyfox.yatm.api.power.PowerStorage
+import io.polyfox.yatm.api.power.PowerThrottle
+import io.polyfox.yatm.common.tileentity.energy.CreativePowerStorage
 
-public class TileEntityEnergyCellNormal extends TileEntityEnergyCell
+class TileEntityCreativeEnergyCellBasic extends TileEntityCreativeEnergyCell()
 {
-	@Override
-	protected PowerStorage createPowerStorage()
-	{
-		return new PowerStorage(8000000);
-	}
-
-	@Override
-	protected PowerThrottle createPowerThrottle()
-	{
-		return new PowerThrottle(powerStorage, 800, 800);
-	}
+	override protected def createPowerStorage(): PowerStorage = new CreativePowerStorage(2000000)
+	override protected def createPowerThrottle(storage: PowerStorage): PowerThrottle = new PowerThrottle(storage, 200, 200)
 }

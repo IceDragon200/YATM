@@ -48,9 +48,9 @@ public class TileEntityFluxSwitch extends TilePowerProviderBase implements IInte
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 4000, 4000);
+		return new PowerThrottle(storage, 4000, 4000);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class TileEntityFluxSwitch extends TilePowerProviderBase implements IInte
 	protected void refreshState()
 	{
 		final int meta = getBlockMetadata()	& 0xF;
-		final boolean powered = powerStorage.getAmount() > 0;
+		final boolean powered = getPowerStorage().getAmount() > 0;
 		final int newMeta = (meta & 3) | (online ? 4 : 0) | (powered ? 8 : 0);
 		if (meta != newMeta)
 		{

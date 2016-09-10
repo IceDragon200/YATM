@@ -21,10 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.tileentity;
+package io.polyfox.yatm.common.tileentity
 
-import growthcraft.core.common.tileentity.GrcTileBase;
+import io.polyfox.yatm.api.power.PowerStorage
+import io.polyfox.yatm.api.power.PowerThrottle
+import io.polyfox.yatm.common.tileentity.energy.CreativePowerStorage
 
-public abstract class YATMTileBase extends GrcTileBase
+class TileEntityCreativeEnergyCellNormal extends TileEntityCreativeEnergyCell()
 {
+	override protected def createPowerStorage(): PowerStorage = new CreativePowerStorage(8000000)
+	override protected def createPowerThrottle(storage: PowerStorage): PowerThrottle = new PowerThrottle(storage, 800, 800)
 }

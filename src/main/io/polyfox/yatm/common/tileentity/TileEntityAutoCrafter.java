@@ -59,13 +59,13 @@ public class TileEntityAutoCrafter extends TilePoweredMachine
 	}
 
 	@Override
-	protected PowerThrottle createPowerThrottle()
+	public PowerThrottle createPowerThrottle(PowerStorage storage)
 	{
-		return new PowerThrottle(powerStorage, 200, 200);
+		return new PowerThrottle(storage, 200, 200);
 	}
 
 	@Override
-	protected IYATMInventory createInventory()
+	public IYATMInventory createInventory()
 	{
 		/*
 		 * 0..7 - :Input
@@ -92,7 +92,7 @@ public class TileEntityAutoCrafter extends TilePoweredMachine
 	}
 
 	@Override
-	protected IMachineLogic createMachine()
+	public IMachineLogic createMachine()
 	{
 		return new MachineAutoCrafter();
 	}
@@ -110,7 +110,7 @@ public class TileEntityAutoCrafter extends TilePoweredMachine
 		{
 			if (side == 0 || side == 1)
 			{
-				final ItemStack existing = inventory.getStackInSlot(index);
+				final ItemStack existing = getStackInSlot(index);
 				if (existing == null) return true;
 				return existing.isItemEqual(stack);
 			}
@@ -125,7 +125,7 @@ public class TileEntityAutoCrafter extends TilePoweredMachine
 		{
 			if (side > 1)
 			{
-				final ItemStack existing = inventory.getStackInSlot(index);
+				final ItemStack existing = getStackInSlot(index);
 				if (existing == null) return false;
 				return true;
 			}

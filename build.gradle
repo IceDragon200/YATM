@@ -18,6 +18,7 @@ buildscript {
     }
 }
 
+apply plugin: 'scala'
 apply plugin: 'forge'
 apply plugin: 'checkstyle'
 
@@ -116,7 +117,7 @@ dependencies {
 
 sourceSets {
     main {
-        java {
+        scala {
             srcDir 'src/main'
         }
         resources {
@@ -124,7 +125,7 @@ sourceSets {
         }
     }
     api {
-        java {
+        scala {
             srcDir 'src/main/id2h/yatm/api'
             srcDir 'api'
             srcDir project.forestryApi

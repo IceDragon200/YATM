@@ -27,7 +27,7 @@ import growthcraft.api.core.nbt.INBTItemSerializable;
 import growthcraft.core.common.inventory.GrcInternalInventory;
 import growthcraft.core.common.inventory.InventoryProcessor;
 import growthcraft.core.common.tileentity.device.DeviceFluidSlot;
-import growthcraft.core.common.tileentity.event.EventHandler;
+import growthcraft.core.common.tileentity.event.TileEventHandler;
 import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import growthcraft.core.common.tileentity.GrcTileDeviceBase;
 import io.polyfox.yatm.common.inventory.ContainerCrystalVat;
@@ -303,7 +303,7 @@ public class TileEntityCrystalVat extends GrcTileDeviceBase implements IInteract
 		readCrystalVatBaseFromNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_READ)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
 	public void readFromNBT_CrystalVat(NBTTagCompound nbt)
 	{
 		readCrystalVatBaseFromNBT(nbt);
@@ -321,7 +321,7 @@ public class TileEntityCrystalVat extends GrcTileDeviceBase implements IInteract
 		writeCrystalVatBaseToNBT(nbt);
 	}
 
-	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_CrystalVat(NBTTagCompound nbt)
 	{
 		writeCrystalVatBaseToNBT(nbt);
