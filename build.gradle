@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        mavenLocal()
 
         maven {
             name = "forge"
@@ -31,7 +30,7 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 version = "${minecraft_version}-${yatm_version}"
-group = "id2h"
+group = "io.polyfox"
 archivesBaseName = "yatm"
 
 // 3rd party APIs
