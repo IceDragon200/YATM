@@ -35,7 +35,7 @@ public abstract class TileEntityEnergyCell extends TilePowerProviderBase
 	public TileEntityEnergyCell()
 	{
 		super();
-		setPowerSyncPriority(100);
+		setPowerSyncLevel(100);
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public abstract class TileEntityEnergyCell extends TilePowerProviderBase
 
 	public int calculateEnergyMeta()
 	{
-		final int stored = getEnergyStored(ForgeDirection.UNKNOWN);
-		final int max = getMaxEnergyStored(ForgeDirection.UNKNOWN);
+		final long stored = getPowerStoredFrom(ForgeDirection.UNKNOWN);
+		final long max = getPowerCapacityFrom(ForgeDirection.UNKNOWN);
 		if (max <= 0) return 0;
-		return stored * 8 / max;
+		return (int)(stored * 8 / max);
 	}
 
 	@Override
@@ -61,6 +61,7 @@ public abstract class TileEntityEnergyCell extends TilePowerProviderBase
 		{
 			lastMeta = newMeta;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, lastMeta, BlockFlags.SYNC);
+			markDirty();
 		}
 		return true;
 	}

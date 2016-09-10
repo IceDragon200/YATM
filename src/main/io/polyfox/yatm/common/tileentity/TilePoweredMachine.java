@@ -331,6 +331,7 @@ public abstract class TilePoweredMachine extends TilePowered implements ISidedIn
 			int meta = getBlockMetadata() & 3;
 			if (lastWorkingState) meta |= 4;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.SYNC);
+			markDirty();
 		}
 	}
 

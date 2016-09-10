@@ -21,36 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.common.item;
+package io.polyfox.yatm.integration;
 
-import java.util.List;
+import growthcraft.core.integration.WailaIntegrationBase;
+import io.polyfox.yatm.common.block.YATMBlockBaseTile;
+import io.polyfox.yatm.integration.waila.YATMDataProvider;
+import io.polyfox.yatm.YATM;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import cpw.mods.fml.common.Optional;
 
-public class ItemBlockEnergyCell extends ItemBlockTileBase
+import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaRegistrar;
+
+public class Waila extends WailaIntegrationBase
 {
-	public ItemBlockEnergyCell(Block block)
+	public Waila()
 	{
-		super(block);
+		super(YATM.MOD_ID);
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	@SuppressWarnings({"unchecked", "rawtypes"})
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	@Optional.Method(modid = "Waila")
+	public static void register(IWailaRegistrar reg)
 	{
-		super.addInformation(stack, player, list, bool);
-		final NBTTagCompound tag = stack.getTagCompound();
-		if (tag != null)
-		{
-			final long en = tag.getLong("energy");
-			final long enMax = tag.getLong("energy_max");
-			list.add("Energy Stored: " + en + "RF / " + enMax + "RF");
-		}
+		final IWailaDataProvider instance = new YATMDataProvider();
+
+		reg.registerBodyProvider(instance, YATMBlockBaseTile.class);
+		reg.registerNBTProvider(instance, YATMBlockBaseTile.class);
 	}
 }

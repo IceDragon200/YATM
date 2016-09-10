@@ -45,9 +45,9 @@ public class TileEntitySpringWoundCrank extends YATMTileBase implements ICrankab
 	private static final int clicksPerWind = 360 / ticksPerWind;
 	// The maximum number of winds allowed, afer passing that,
 	// this device will self destruct, err I mean it will be destroyed.
-	private static final int maxWinds = 150;
+	public final int maxWinds = 150;
 	// Number of winds before entering the 'warning' state
-	private static final int warnWinds = 100;
+	public final int warnWinds = 100;
 	public int winds;
 	public int clicks;
 	protected int nextWindIn;

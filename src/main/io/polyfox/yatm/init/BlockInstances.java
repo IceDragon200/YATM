@@ -137,10 +137,13 @@ public class BlockInstances extends GrcModuleBlocks
 	@Override
 	public void preInit()
 	{
+		// Material
 		chassis = newDefinition(new BlockChassis());
 
-		solarPanel = newDefinition(new BlockSolarPanel());
+		// Item Storage
+		metalCrate = newDefinition(new BlockMetalCrate());
 
+		// Power Storage
 		energyCellBasic = newDefinition(new BlockEnergyCell("basic", TileEntityEnergyCellBasic.class));
 		energyCellBasicCreative = newDefinition(new BlockEnergyCellCreative("basic", TileEntityCreativeEnergyCellBasic.class));
 		energyCellNormal = newDefinition(new BlockEnergyCell("normal", TileEntityEnergyCellNormal.class));
@@ -148,27 +151,36 @@ public class BlockInstances extends GrcModuleBlocks
 		energyCellDense = newDefinition(new BlockEnergyCell("dense", TileEntityEnergyCellDense.class));
 		energyCellDenseCreative = newDefinition(new BlockEnergyCellCreative("dense", TileEntityCreativeEnergyCellDense.class));
 
+		// Power Generation
+		springWoundCrank = newDefinition(new BlockSpringWoundCrank());
+		coalGenerator = newDefinition(new BlockCoalGenerator());
+		solarPanel = newDefinition(new BlockSolarPanel());
+
+		// Machines
 		autoCrafter = newDefinition(new BlockAutoCrafter());
 		autoGrinder = newDefinition(new BlockAutoGrinder());
-		coalGenerator = newDefinition(new BlockCoalGenerator());
 		compactor = newDefinition(new BlockCompactor());
 		crusher = newDefinition(new BlockCrusher());
 		crystalVat = newDefinition(new BlockCrystalVat());
 		electrolyser = newDefinition(new BlockElectrolyser());
-		fluidReplicator = newDefinition(new BlockFluidReplicator());
 		fluxFurnace = newDefinition(new BlockFluxFurnace());
 		fluxSwitch = newDefinition(new BlockFluxSwitch());
 		heater = newDefinition(new BlockHeater());
-		itemReplicator = newDefinition(new BlockItemReplicator());
 		miniBlastFurnace = newDefinition(new BlockMiniBlastFurnace());
 		mixer = newDefinition(new BlockMixer());
 		roller = newDefinition(new BlockRoller());
-		springWoundCrank = newDefinition(new BlockSpringWoundCrank());
+
+		// Redstone Utility
 		wirelessRedstoneEmitter = newDefinition(new BlockWirelessRedstoneEmitter());
 		wirelessRedstoneReceiver = newDefinition(new BlockWirelessRedstoneReceiver());
 
-		metalCrate = newDefinition(new BlockMetalCrate());
+		// Creative Utility
+		fluidReplicator = newDefinition(new BlockFluidReplicator());
+		itemReplicator = newDefinition(new BlockItemReplicator());
 
+		lamp = newDefinition(new BlockLamp());
+
+		// Decorative
 		floorEngraving1 = newDefinition(new BlockDecorative8(Material.rock)
 			.setBlockTextureName("yatm:floor_engraving1")
 			.setBlockName("yatm.floor_engraving1"));
@@ -184,8 +196,6 @@ public class BlockInstances extends GrcModuleBlocks
 		floorWarning2 = newDefinition(new BlockDecorative8(Material.rock)
 			.setBlockTextureName("yatm:floor_warning2")
 			.setBlockName("yatm.floor_warning2"));
-
-		lamp = newDefinition(new BlockLamp());
 
 		reinforcedGlass = newTypedDefinition(new BlockDecorative8(Material.glass));
 		reinforcedGlass.getBlock().setStepSound(Block.soundTypeGlass)
@@ -230,8 +240,13 @@ public class BlockInstances extends GrcModuleBlocks
 	@Override
 	public void register()
 	{
+		// Material
 		chassis.register("yatm.chassis");
 
+		// Item Storage
+		metalCrate.register("yatm.metal_crate");
+
+		// Power Storage
 		energyCellBasic.register("yatm.energy_cell_basic", ItemBlockEnergyCell.class);
 		energyCellBasicCreative.register("yatm.energy_cell_basic_creative");
 		energyCellNormal.register("yatm.energy_cell_normal", ItemBlockEnergyCell.class);
@@ -239,32 +254,40 @@ public class BlockInstances extends GrcModuleBlocks
 		energyCellDense.register("yatm.energy_cell_dense", ItemBlockEnergyCell.class);
 		energyCellDenseCreative.register("yatm.energy_cell_dense_creative");
 
+		// Power Generation
+		springWoundCrank.register("yatm.spring_wound_crank", ItemBlockMachine.class);
+		coalGenerator.register("yatm.coal_generator", ItemBlockMachine.class);
+		solarPanel.register("yatm.solar_panel", ItemBlockMachine.class);
+
+		// Machines
 		autoCrafter.register("yatm.auto_crafter", ItemBlockMachine.class);
 		autoGrinder.register("yatm.auto_grinder", ItemBlockMachine.class);
-		coalGenerator.register("yatm.coal_generator", ItemBlockMachine.class);
 		compactor.register("yatm.compactor", ItemBlockMachine.class);
 		crusher.register("yatm.crusher", ItemBlockMachine.class);
 		crystalVat.register("yatm.crystal_vat", ItemBlockMachine.class);
 		electrolyser.register("yatm.electrolyser", ItemBlockMachine.class);
-		fluidReplicator.register("yatm.fluid_replicator", ItemBlockMachine.class);
 		fluxFurnace.register("yatm.flux_furnace", ItemBlockMachine.class);
 		fluxSwitch.register("yatm.flux_switch", ItemBlockMachine.class);
 		heater.register("yatm.heater", ItemBlockMachine.class);
-		itemReplicator.register("yatm.item_replicator", ItemBlockMachine.class);
 		miniBlastFurnace.register("yatm.mini_blast_furnace", ItemBlockMachine.class);
 		mixer.register("yatm.mixer", ItemBlockMachine.class);
 		roller.register("yatm.roller", ItemBlockMachine.class);
-		solarPanel.register("yatm.solar_panel", ItemBlockMachine.class);
-		springWoundCrank.register("yatm.spring_wound_crank", ItemBlockMachine.class);
+
+		// Redstone Utility
 		wirelessRedstoneEmitter.register("yatm.wireless_redstone_emitter", ItemBlockMachine.class);
 		wirelessRedstoneReceiver.register("yatm.wireless_redstone_receiver", ItemBlockMachine.class);
 
+		// Creative Utility
+		fluidReplicator.register("yatm.fluid_replicator", ItemBlockMachine.class);
+		itemReplicator.register("yatm.item_replicator", ItemBlockMachine.class);
+
+		lamp.register("yatm.lamp");
+
+		// Decorative
 		floorEngraving1.register("yatm.floor_engraving1");
 		floorEngraving2.register("yatm.floor_engraving2");
 		floorWarning1.register("yatm.floor_warning1");
 		floorWarning2.register("yatm.floor_warning2");
-		lamp.register("yatm.lamp");
-		metalCrate.register("yatm.metal_crate");
 		reinforcedGlass.register("yatm.reinforced_glass");
 		ventedMesh2x.register("yatm.vented_mesh_2x");
 		ventedMesh4x.register("yatm.vented_mesh_4x");

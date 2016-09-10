@@ -116,8 +116,9 @@ public class TileEntityItemReplicator extends GrcTileInventoryBase implements II
 	}
 
 	@Override
-	public boolean tryPlaceItem(@Nonnull EntityPlayer player, @Nullable ItemStack stack)
+	public boolean tryPlaceItem(IItemHandler.Action action, @Nonnull EntityPlayer player, @Nullable ItemStack stack)
 	{
+		if (IItemHandler.Action.RIGHT != action) return false;
 		if (stack != null)
 		{
 			if (!itemSlotSource.hasContent())
@@ -130,8 +131,9 @@ public class TileEntityItemReplicator extends GrcTileInventoryBase implements II
 	}
 
 	@Override
-	public boolean tryTakeItem(@Nonnull EntityPlayer player, @Nullable ItemStack stack)
+	public boolean tryTakeItem(IItemHandler.Action action, @Nonnull EntityPlayer player, @Nullable ItemStack stack)
 	{
+		if (IItemHandler.Action.RIGHT != action) return false;
 		if (stack == null)
 		{
 			if (itemSlotSource.hasContent())

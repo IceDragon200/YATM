@@ -40,7 +40,7 @@ import growthcraft.core.common.tileentity.event.EventHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTile, IEnergyReceiver, INBTItemSerializable
+public abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTile, INBTItemSerializable//, IEnergyReceiver
 {
 	protected PowerStorage powerStorage;
 	protected PowerThrottle powerThrottle;
@@ -60,6 +60,11 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 	protected PowerThrottle createPowerThrottle()
 	{
 		return new PowerThrottle(powerStorage, 20, 20);
+	}
+
+	protected void onInternalPowerChanged()
+	{
+		markForUpdate();
 	}
 
 	/**
@@ -87,7 +92,8 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		return 0.0f;
 	}
 
-	@Override
+	// @todo - FIXME RF
+	/*@Override
 	public int getEnergyStored(ForgeDirection from)
 	{
 		return (int)PowerSystem.YW_RF.toTarget(powerStorage.getAmount());
@@ -105,11 +111,6 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		return true;
 	}
 
-	protected void onInternalPowerChanged()
-	{
-		markDirty();
-	}
-
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulated)
 	{
@@ -119,7 +120,7 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 			onInternalPowerChanged();
 		}
 		return result;
-	}
+	}*/
 
 	@EventHandler(type=EventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_Power(ByteBuf stream) throws IOException
@@ -137,7 +138,7 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 		return false;
 	}
 
-	private void readPowerFromNBT(NBTTagCompound nbt)
+	private void readPowerStorageFromNBT(NBTTagCompound nbt)
 	{
 		// Legacy
 		if (nbt.hasKey("energy"))
@@ -156,16 +157,16 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 	public void readFromNBTForItem(NBTTagCompound nbt)
 	{
 		super.readFromNBTForItem(nbt);
-		readPowerFromNBT(nbt);
+		readPowerStorageFromNBT(nbt);
 	}
 
 	@EventHandler(type=EventHandler.EventType.NBT_READ)
 	public void readFromNBT_Power(NBTTagCompound nbt)
 	{
-		readPowerFromNBT(nbt);
+		readPowerStorageFromNBT(nbt);
 	}
 
-	private void writePowerToNBT(NBTTagCompound nbt)
+	private void writePowerStorageToNBT(NBTTagCompound nbt)
 	{
 		final NBTTagCompound powerTag = new NBTTagCompound();
 		powerStorage.writeToNBT(powerTag);
@@ -176,12 +177,12 @@ public abstract class TilePowerStorage extends YATMTileBase implements IPowerSto
 	public void writeToNBTForItem(NBTTagCompound nbt)
 	{
 		super.writeToNBTForItem(nbt);
-		writePowerToNBT(nbt);
+		writePowerStorageToNBT(nbt);
 	}
 
 	@EventHandler(type=EventHandler.EventType.NBT_WRITE)
 	public void writeToNBT_Power(NBTTagCompound nbt)
 	{
-		writePowerToNBT(nbt);
+		writePowerStorageToNBT(nbt);
 	}
 }

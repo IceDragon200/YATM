@@ -52,7 +52,6 @@ import io.polyfox.yatm.system.WirelessSystem;
 import appeng.api.util.AEColor;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -113,6 +112,7 @@ public class YATM
 		modules.add(blocks);
 		modules.add(items);
 		modules.add(new io.polyfox.yatm.integration.ThaumcraftModule());
+		modules.add(new io.polyfox.yatm.integration.Waila());
 		modules.add(CommonProxy.instance);
 		modules.freeze();
 		modules.preInit();
@@ -751,7 +751,6 @@ public class YATM
 		modules.init();
 		registerRecipes();
 		registerHeatSources();
-		FMLInterModComms.sendMessage("Waila", "register", "id2h.yatm.integration.WailaIntegration.register");
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, guiProvider);
 	}
 

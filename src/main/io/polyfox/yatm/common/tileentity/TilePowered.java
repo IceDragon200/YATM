@@ -27,6 +27,7 @@ import growthcraft.api.core.nbt.INBTItemSerializable;
 import io.polyfox.yatm.api.power.IPowerConsumer;
 import io.polyfox.yatm.common.tileentity.feature.ITileNeighbourAware;
 import io.polyfox.yatm.util.TileUtils;
+import io.polyfox.yatm.YATM;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -47,11 +48,12 @@ public abstract class TilePowered extends TilePowerStorage implements IPowerCons
 	protected void rebuildTileCache()
 	{
 		TileUtils.instance().populateTileCache(tileCache, worldObj, xCoord, yCoord, zCoord);
+		YATM.getLogger().info("Rebuilt Tile Cache for tile=%s x=%d y=%d z=%d", this, xCoord, yCoord, zCoord);
 	}
 
 	public void markForCacheRefresh()
 	{
-		needCacheRebuild |= true;
+		this.needCacheRebuild |= true;
 	}
 
 	@Override

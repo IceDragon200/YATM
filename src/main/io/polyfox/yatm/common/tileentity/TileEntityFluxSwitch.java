@@ -93,7 +93,8 @@ public class TileEntityFluxSwitch extends TilePowerProviderBase implements IInte
 		super.updateEntity();
 	}
 
-	@Override
+	// @todo - FIXME RF
+	//@Override
 	public boolean canConnectEnergy(ForgeDirection from)
 	{
 		final BlockFacing facing = getBlockFacing();
@@ -104,7 +105,7 @@ public class TileEntityFluxSwitch extends TilePowerProviderBase implements IInte
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulated)
 	{
 		if (online && canConnectEnergy(from))
@@ -122,7 +123,7 @@ public class TileEntityFluxSwitch extends TilePowerProviderBase implements IInte
 			return super.receiveEnergy(from, maxReceive, simulated);
 		}
 		return 0;
-	}
+	}*/
 
 	@Override
 	public long getPowerSyncAmount(ForgeDirection from, IPowerGridSync other)

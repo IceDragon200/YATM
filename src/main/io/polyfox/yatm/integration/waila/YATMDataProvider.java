@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 IceDragon200
+ * Copyright (c) 2015, 2016 IceDragon200
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.integration;
+package io.polyfox.yatm.integration.waila;
 
 import java.util.List;
 
-import cofh.api.energy.IEnergyReceiver;
-
 import io.polyfox.yatm.api.power.IPowerStorageTile;
-import io.polyfox.yatm.common.block.YATMBlockBaseTile;
 import io.polyfox.yatm.common.tileentity.TileEntitySolarPanel;
+import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
 import io.polyfox.yatm.common.tileentity.TilePoweredMachine;
 import io.polyfox.yatm.common.tileentity.TilePowerProviderBase;
 
@@ -39,7 +37,6 @@ import appeng.util.IWideReadableNumberConverter;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaRegistrar;
 
 import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -49,18 +46,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class WailaIntegration implements IWailaDataProvider
+public class YATMDataProvider implements IWailaDataProvider
 {
 	private static final IWideReadableNumberConverter wideConverter = ReadableNumberConverter.INSTANCE;
-
-	@Optional.Method(modid = "Waila")
-	public static void register(IWailaRegistrar reg)
-	{
-		final IWailaDataProvider instance = new WailaIntegration();
-
-		reg.registerBodyProvider(instance, YATMBlockBaseTile.class);
-		reg.registerNBTProvider(instance, YATMBlockBaseTile.class);
-	}
 
 	@Override
 	@Optional.Method(modid = "Waila")
@@ -82,6 +70,13 @@ public class WailaIntegration implements IWailaDataProvider
 	{
 		final TileEntity te = accessor.getTileEntity();
 		final NBTTagCompound tag = accessor.getNBTData();
+		if (te instanceof TileEntitySpringWoundCrank)
+		{
+			final int w = tag.getInteger("winds");
+			final int m = tag.getInteger("max_winds");
+			tooltip.add(String.format("Winds: %d / %d", w, m));
+		}
+
 		if (te instanceof TilePoweredMachine)
 		{
 			if (tag.getBoolean("working_state"))
@@ -94,15 +89,15 @@ public class WailaIntegration implements IWailaDataProvider
 			}
 		}
 
-		if (te instanceof IEnergyReceiver)
+		if (te instanceof IPowerStorageTile)
 		{
 			final long power = tag.getLong("power");
 			final long powerMax = tag.getLong("power_max");
 
 			tooltip.add("Power: " +
-				wideConverter.toWideReadableForm(power) + "YW" +
+				wideConverter.toWideReadableForm(power) + " YW" +
 				" / " +
-				wideConverter.toWideReadableForm(powerMax) + "YW"
+				wideConverter.toWideReadableForm(powerMax) + " YW"
 			);
 		}
 
@@ -113,15 +108,15 @@ public class WailaIntegration implements IWailaDataProvider
 			final long maxOut = tag.getLong("output_rate");
 			tooltip.add("Sync Level: " + level);
 			tooltip.add("Max I/O: " +
-				wideConverter.toWideReadableForm(maxIn) + "YW/t" +
+				wideConverter.toWideReadableForm(maxIn) + " YW/t" +
 				" / " +
-				wideConverter.toWideReadableForm(maxOut) + "YW/t"
+				wideConverter.toWideReadableForm(maxOut) + " YW/t"
 			);
 		}
 
 		if (te instanceof TileEntitySolarPanel)
 		{
-			tooltip.add("Last Gain: " + tag.getLong("las_energy_gain") + "YW/t");
+			tooltip.add("Last Gain: " + tag.getLong("last_energy_gain") + " YW/t");
 		}
 		return tooltip;
 	}
@@ -137,6 +132,13 @@ public class WailaIntegration implements IWailaDataProvider
 	@Optional.Method(modid = "Waila")
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z)
 	{
+		if (te instanceof TileEntitySpringWoundCrank)
+		{
+			final TileEntitySpringWoundCrank swc = (TileEntitySpringWoundCrank)te;
+			tag.setInteger("winds", swc.winds);
+			tag.setInteger("max_winds", swc.maxWinds);
+		}
+
 		if (te instanceof TilePoweredMachine)
 		{
 			final TilePoweredMachine pm = (TilePoweredMachine)te;
@@ -161,7 +163,7 @@ public class WailaIntegration implements IWailaDataProvider
 		if (te instanceof TileEntitySolarPanel)
 		{
 			final TileEntitySolarPanel sp = (TileEntitySolarPanel)te;
-			tag.setLong("las_energy_gain", sp.lastPowerGain);
+			tag.setLong("last_energy_gain", sp.lastPowerGain);
 		}
 		return tag;
 	}

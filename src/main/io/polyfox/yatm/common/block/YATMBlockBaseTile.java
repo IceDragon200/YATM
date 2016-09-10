@@ -55,8 +55,6 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] icons;
 
-	protected Class<? extends TileEntity> tileEntityType;
-
 	public YATMBlockBaseTile(Material material, Class<? extends TileEntity> klass)
 	{
 		super(material);

@@ -32,6 +32,7 @@ import io.polyfox.yatm.api.power.IPowerProducer;
 import io.polyfox.yatm.api.power.IPowerStorageTile;
 import io.polyfox.yatm.api.power.PowerSyncDirection;
 import io.polyfox.yatm.system.PowerSystem;
+import io.polyfox.yatm.YATM;
 
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
@@ -42,7 +43,7 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TilePowerProviderBase extends TilePowered implements IEnergyHandler, IPowerGridSync, IPowerProducer
+public abstract class TilePowerProviderBase extends TilePowered implements IPowerGridSync, IPowerProducer//, IEnergyHandler
 {
 	protected int powerSyncLevel = 10;
 	protected long[] powerDemand = new long[6];
@@ -66,7 +67,8 @@ public abstract class TilePowerProviderBase extends TilePowered implements IEner
 		}
 	}
 
-	@Override
+	// @todo - FIXME RF
+	/*@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulated)
 	{
 		final long result = powerThrottle.consume(PowerSystem.YW_RF.toBase(maxExtract), simulated);
@@ -75,9 +77,9 @@ public abstract class TilePowerProviderBase extends TilePowered implements IEner
 			onInternalPowerChanged();
 		}
 		return (int)result;
-	}
+	}*/
 
-	protected void setPowerSyncPriority(int value)
+	protected void setPowerSyncLevel(int value)
 	{
 		this.powerSyncLevel = value;
 	}
@@ -130,6 +132,7 @@ public abstract class TilePowerProviderBase extends TilePowered implements IEner
 		{
 			case NONE:
 			case RECEIVE:
+				YATM.getLogger().info("Not syncing with target=%s target from tile=%s x=%d y=%d z=%d", target, this, xCoord, yCoord, zCoord);
 				break;
 			case SEND:
 				final long supp = powerStorage.consume(getPowerSyncAmount(dir, target), true);
@@ -154,7 +157,7 @@ public abstract class TilePowerProviderBase extends TilePowered implements IEner
 			final long maxConsumable = powerStorage.consume(powerDemand[i], true);
 			if (maxConsumable > 0)
 			{
-				final long consumed = MathI64.clamp(consumer.receivePowerFrom(dir.getOpposite(), maxConsumable, true), 0, maxConsumable);
+				final long consumed = MathI64.clamp(consumer.receivePowerFrom(dir.getOpposite(), maxConsumable, false), 0, maxConsumable);
 				if (consumed > 0)
 				{
 					powerStorage.consume(consumed, false);
@@ -186,15 +189,16 @@ public abstract class TilePowerProviderBase extends TilePowered implements IEner
 				else if (te instanceof IEnergyReceiver)
 				{
 					final IEnergyReceiver receiver = (IEnergyReceiver)te;
-					final int feed = extractEnergy(dir, (int)PowerSystem.YW_RF.toTarget(powerThrottle.getMaxConsume()), true);
-					final int diff = receiver.receiveEnergy(dir.getOpposite(), feed, false);
-					if (diff > 0)
-					{
-						if (extractEnergy(dir, diff, false) != 0)
-						{
-							onInternalPowerChanged();
-						}
-					}
+					// @todo FIXME - RF
+					//final int feed = extractEnergy(dir, (int)PowerSystem.YW_RF.toTarget(powerThrottle.getMaxConsume()), true);
+					//final int diff = receiver.receiveEnergy(dir.getOpposite(), feed, false);
+					//if (diff > 0)
+					//{
+					//	if (extractEnergy(dir, diff, false) != 0)
+					//	{
+					//		onInternalPowerChanged();
+					//	}
+					//}
 				}
 			}
 			powerDemand[i] = 0;
@@ -204,6 +208,13 @@ public abstract class TilePowerProviderBase extends TilePowered implements IEner
 	protected boolean updateBlockMeta()
 	{
 		return false;
+	}
+
+	@Override
+	protected void onInternalPowerChanged()
+	{
+		super.onInternalPowerChanged();
+		updateBlockMeta();
 	}
 
 	@Override

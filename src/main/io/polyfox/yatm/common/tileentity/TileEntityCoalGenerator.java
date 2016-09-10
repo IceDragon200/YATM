@@ -61,7 +61,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 	{
 		super();
 		this.inventory = new YATMInternalInventory(this, 1);
-		setPowerSyncPriority(200);
+		setPowerSyncLevel(200);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 	@Override
 	public boolean checkEnergySyncLevels(ForgeDirection dir, IPowerGridSync other)
 	{
-		if (getEnergyStored(dir) > 0)
+		if (getPowerStoredFrom(dir) > 0)
 		{
 			return true;
 		}
@@ -120,13 +120,13 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 				--burnTime;
 				if (powerStorage.receive(100, false) != 0)
 				{
-					markDirty();
+					onInternalPowerChanged();
 				}
 			}
 			else
 			{
 				this.online = false;
-				if (powerStorage.getAmount() < powerStorage.getCapacity())
+				if (!powerStorage.isFull())
 				{
 					final ItemStack fuel = getStackInSlot(0);
 					if (fuel != null)
@@ -153,6 +153,7 @@ public class TileEntityCoalGenerator extends TileGeneratorBase implements ISided
 			int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 3;
 			if (online) meta |= 4;
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, BlockFlags.UPDATE_AND_SYNC);
+			markDirty();
 		}
 	}
 

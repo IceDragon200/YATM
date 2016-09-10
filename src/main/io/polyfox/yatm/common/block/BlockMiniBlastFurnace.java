@@ -35,7 +35,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 // Also known as the poor mans blast furnace, its much slower than a regular
-// blast furnace because it runs on RF.
+// blast furnace because it runs on power.
 public class BlockMiniBlastFurnace extends YATMBlockBaseMachine
 {
 	public BlockMiniBlastFurnace()

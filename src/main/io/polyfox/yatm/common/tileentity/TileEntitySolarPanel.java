@@ -40,7 +40,7 @@ public class TileEntitySolarPanel extends TileGeneratorBase
 	public TileEntitySolarPanel()
 	{
 		super();
-		setPowerSyncPriority(200);
+		setPowerSyncLevel(200);
 	}
 
 	@Override

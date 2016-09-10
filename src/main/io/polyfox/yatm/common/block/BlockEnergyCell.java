@@ -70,8 +70,8 @@ public class BlockEnergyCell extends YATMBlockBaseTile
 			final NBTTagCompound itemTag = new NBTTagCompound();
 			te.writeToNBTForItem(teTag);
 			itemTag.setTag("tiledata", teTag);
-			itemTag.setInteger("energy", te.getEnergyStored(ForgeDirection.UNKNOWN));
-			itemTag.setInteger("energy_max", te.getMaxEnergyStored(ForgeDirection.UNKNOWN));
+			itemTag.setLong("energy", te.getPowerStoredFrom(ForgeDirection.UNKNOWN));
+			itemTag.setLong("energy_max", te.getPowerCapacityFrom(ForgeDirection.UNKNOWN));
 			itemStack.setTagCompound(itemTag);
 			result.add(itemStack);
 		}
