@@ -114,6 +114,7 @@ public class YATM
 		modules.setLogger(logger);
 		modules.add(blocks);
 		modules.add(items);
+		modules.add(new io.polyfox.yatm.modules.Harmonia());
 		modules.add(new io.polyfox.yatm.integration.ThaumcraftModule());
 		modules.add(new io.polyfox.yatm.integration.Waila());
 		modules.add(CommonProxy.instance);
