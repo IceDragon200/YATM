@@ -37,6 +37,7 @@ import io.polyfox.yatm.common.item.ItemDust;
 import io.polyfox.yatm.common.item.ItemGrenade;
 import io.polyfox.yatm.common.item.ItemIngot;
 import io.polyfox.yatm.common.item.ItemMesh;
+import io.polyfox.yatm.common.item.ItemMultiMeter;
 import io.polyfox.yatm.common.item.ItemPlate;
 import io.polyfox.yatm.common.item.ItemSpring;
 import io.polyfox.yatm.common.item.ItemVacuumTube;
@@ -49,6 +50,12 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemInstances extends GrcModuleItems
 {
+	// Tools
+	public ItemDefinition multiMeter;
+
+	// Weapons
+	public ItemDefinition grenade;
+
 	public ItemDefinition crystalSeed;
 	public ItemSubtypeDefinition crystalSeedUranium;
 	public ItemSubtypeDefinition crystalSeedRedstone;
@@ -82,47 +89,46 @@ public class ItemInstances extends GrcModuleItems
 
 	public ItemDefinition mesh;
 
-	public ItemDefinition grenade;
-
 	public ItemInstances() {}
 
 	private void initSubtypes()
 	{
-		crystalSeedUranium = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[0]);
-		crystalSeedRedstone = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[1]);
+		this.crystalSeedUranium = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[0]);
+		this.crystalSeedRedstone = new ItemSubtypeDefinition(crystalSeed, ItemCrystalSeed.LEVEL_OFFSETS[1]);
 
-		ingotUranium = new ItemSubtypeDefinition(ingot, 0);
-		ingotPureUranium = new ItemSubtypeDefinition(ingot, 1);
-		ingotCarbonSteel = new ItemSubtypeDefinition(ingot, 2);
-		ingotCrystalSteel = new ItemSubtypeDefinition(ingot, 3);
+		this.ingotUranium = new ItemSubtypeDefinition(ingot, 0);
+		this.ingotPureUranium = new ItemSubtypeDefinition(ingot, 1);
+		this.ingotCarbonSteel = new ItemSubtypeDefinition(ingot, 2);
+		this.ingotCrystalSteel = new ItemSubtypeDefinition(ingot, 3);
 
-		crystalUranium = new ItemSubtypeDefinition(crystal, 0);
-		crystalRedstone = new ItemSubtypeDefinition(crystal, 1);
+		this.crystalUranium = new ItemSubtypeDefinition(crystal, 0);
+		this.crystalRedstone = new ItemSubtypeDefinition(crystal, 1);
 
-		capacitorIron = new ItemSubtypeDefinition(capacitor, 0);
-		capacitorGold = new ItemSubtypeDefinition(capacitor, 1);
-		capacitorDiamond = new ItemSubtypeDefinition(capacitor, 2);
-		capacitorObsidian = new ItemSubtypeDefinition(capacitor, 3);
+		this.capacitorIron = new ItemSubtypeDefinition(capacitor, 0);
+		this.capacitorGold = new ItemSubtypeDefinition(capacitor, 1);
+		this.capacitorDiamond = new ItemSubtypeDefinition(capacitor, 2);
+		this.capacitorObsidian = new ItemSubtypeDefinition(capacitor, 3);
 
-		vacuumTubeIron = new ItemSubtypeDefinition(vacuumTube, 0);
-		vacuumTubeGold = new ItemSubtypeDefinition(vacuumTube, 1);
-		vacuumTubeDiamond = new ItemSubtypeDefinition(vacuumTube, 2);
-		vacuumTubeObsidian = new ItemSubtypeDefinition(vacuumTube, 3);
+		this.vacuumTubeIron = new ItemSubtypeDefinition(vacuumTube, 0);
+		this.vacuumTubeGold = new ItemSubtypeDefinition(vacuumTube, 1);
+		this.vacuumTubeDiamond = new ItemSubtypeDefinition(vacuumTube, 2);
+		this.vacuumTubeObsidian = new ItemSubtypeDefinition(vacuumTube, 3);
 	}
 
 	@Override
 	public void preInit()
 	{
-		capacitor = newDefinition(new ItemCapacitor());
-		crystalSeed = newDefinition(new ItemCrystalSeed());
-		dust = newDefinition(new ItemDust());
-		ingot = newDefinition(new ItemIngot());
-		crystal = newDefinition(new ItemCrystal());
-		vacuumTube = newDefinition(new ItemVacuumTube());
-		mesh = newDefinition(new ItemMesh());
-		plate = newDefinition(new ItemPlate());
-		spring = newDefinition(new ItemSpring());
-		grenade = newDefinition(new ItemGrenade());
+		this.capacitor = newDefinition(new ItemCapacitor());
+		this.crystalSeed = newDefinition(new ItemCrystalSeed());
+		this.dust = newDefinition(new ItemDust());
+		this.ingot = newDefinition(new ItemIngot());
+		this.crystal = newDefinition(new ItemCrystal());
+		this.vacuumTube = newDefinition(new ItemVacuumTube());
+		this.mesh = newDefinition(new ItemMesh());
+		this.plate = newDefinition(new ItemPlate());
+		this.spring = newDefinition(new ItemSpring());
+		this.grenade = newDefinition(new ItemGrenade());
+		this.multiMeter = newDefinition(new ItemMultiMeter());
 
 		initSubtypes();
 	}
@@ -130,16 +136,22 @@ public class ItemInstances extends GrcModuleItems
 	@Override
 	public void register()
 	{
+		// Tools
+		multiMeter.register("yatm.multi_meter");
+
+		// Weapons
+		grenade.register("yatm.grenade");
+
+		// Materials
 		capacitor.register("yatm.capacitor");
-		crystalSeed.register("yatm.crystal_seed");
+		vacuumTube.register("yatm.vacuum_tube");
 		dust.register("yatm.dust");
 		ingot.register("yatm.ingot");
-		crystal.register("yatm.crystal");
-		vacuumTube.register("yatm.vacuum_tube");
-		mesh.register("yatm.mesh");
 		plate.register("yatm.plate");
+		mesh.register("yatm.mesh");
 		spring.register("yatm.spring");
-		grenade.register("yatm.grenade");
+		crystalSeed.register("yatm.crystal_seed");
+		crystal.register("yatm.crystal");
 
 		AEApi.instance().registries().grinder().addRecipe(crystalUranium.asStack(), EnumDust.URANIUM.asStack(1), 4);
 		AEApi.instance().registries().grinder().addRecipe(crystalRedstone.asStack(), EnumDust.PURE_REDSTONE.asStack(1), 4);
