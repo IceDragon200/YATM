@@ -61,7 +61,7 @@ public class GuiWirelessRedstoneBase<C extends Container, T extends TileEntityWi
 		inputAddress.drawTextBox();
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawRFBar(x1 + 164, y1 + 16, tileEntity.getPowerValue() / 15.0f);
+		drawPowerGauge(x1 + 164, y1 + 16, tileEntity.getPowerValue() / 15.0f);
 	}
 
 	@Override

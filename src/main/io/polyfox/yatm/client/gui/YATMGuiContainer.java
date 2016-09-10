@@ -42,7 +42,7 @@ public abstract class YATMGuiContainer<C extends Container, T extends TileEntity
 		super(res, container, te);
 	}
 
-	protected void drawRFBar(int x, int y, float rate)
+	protected void drawPowerGauge(int x, int y, float rate)
 	{
 		final int w = 4;
 		final int h = (int)(72 * rate);

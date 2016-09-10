@@ -58,7 +58,7 @@ public abstract class YATMPoweredGuiContainer<C extends Container, T extends Til
 		super.drawGuiContainerBackgroundElements(_f, x, y);
 		final int x1 = (width - xSize) / 2;
 		final int y1 = (height - ySize) / 2;
-		drawRFBar(x1 + 164, y1 + 16, poweredTile.getPowerStorageRate(ForgeDirection.UNKNOWN));
+		drawPowerGauge(x1 + 164, y1 + 16, poweredTile.getPowerStorageRate(ForgeDirection.UNKNOWN));
 	}
 
 	@Override
@@ -68,9 +68,9 @@ public abstract class YATMPoweredGuiContainer<C extends Container, T extends Til
 		switch (handle)
 		{
 			case "energy_storage":
-				tooltip.add(String.format("Energy Stored: %dRF / %dRF",
-					poweredTile.getEnergyStored(ForgeDirection.UNKNOWN),
-					poweredTile.getMaxEnergyStored(ForgeDirection.UNKNOWN)));
+				tooltip.add(String.format("Energy Stored: %d YW / %d YW",
+					poweredTile.getPowerStoredFrom(ForgeDirection.UNKNOWN),
+					poweredTile.getPowerCapacityFrom(ForgeDirection.UNKNOWN)));
 				break;
 			default:
 				break;
