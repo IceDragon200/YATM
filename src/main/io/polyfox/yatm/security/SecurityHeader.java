@@ -93,7 +93,7 @@ public class SecurityHeader implements INBTSerializable
 	{
 		if (ownerUUID != null)
 		{
-			this.ownerUUID = true;
+			this.ownerUUID = null;
 			return true;
 		}
 		return false;
