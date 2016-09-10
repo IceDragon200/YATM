@@ -47,6 +47,8 @@ import io.polyfox.yatm.network.handlers.UpdateStringTilePropertyMessageHandler;
 import io.polyfox.yatm.network.handlers.WirelessMessageHandler;
 import io.polyfox.yatm.network.messages.UpdateStringTilePropertyMessage;
 import io.polyfox.yatm.network.messages.WirelessMessage;
+import io.polyfox.yatm.security.SecuritySystem;
+import io.polyfox.yatm.security.SecurityWorldEventHandler;
 import io.polyfox.yatm.system.WirelessSystem;
 
 import appeng.api.util.AEColor;
@@ -66,6 +68,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -119,6 +122,7 @@ public class YATM
 		modules.register();
 		network.registerMessage(WirelessMessageHandler.class, WirelessMessage.class, 200, Side.SERVER);
 		network.registerMessage(UpdateStringTilePropertyMessageHandler.class, UpdateStringTilePropertyMessage.class, 200, Side.SERVER);
+		MinecraftForge.EVENT_BUS.register(new SecurityWorldEventHandler(SecuritySystem.instance()));
 	}
 
 	private void registerCrushingRecipes()
