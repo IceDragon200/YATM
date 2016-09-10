@@ -23,43 +23,39 @@
  */
 package io.polyfox.yatm.api.power;
 
-import io.polyfox.yatm.api.core.util.MathI64;
+import org.junit.Test;
 
-public class PowerThrottle
+import static org.junit.Assert.assertEquals;
+
+public class PowerThrottleTest
 {
-	protected PowerStorage storage;
-	protected long maxConsume;
-	protected long maxReceive;
-
-	public PowerThrottle(PowerStorage p_storage, long p_maxConsume, long p_maxReceive)
+	@Test
+	public void test_receive()
 	{
-		this.storage = p_storage;
-		this.maxConsume = p_maxConsume;
-		this.maxReceive = p_maxReceive;
+		final PowerStorage storage = new PowerStorage(4000);
+		final PowerThrottle throttle = new PowerThrottle(storage, 40, 40);
+		assertEquals(0, storage.getAmount());
+		// receive a throttled amount, non-simulated
+		throttle.receive(50, false);
+		assertEquals(40, storage.getAmount());
+		// receive a throttled amount, simulated
+		throttle.receive(50, true);
+		assertEquals(40, storage.getAmount());
 	}
 
-	public PowerThrottle(PowerStorage p_storage, long p_maxTransmit)
+	@Test
+	public void test_consume()
 	{
-		this(p_storage, p_maxTransmit, p_maxTransmit);
-	}
-
-	public long getMaxReceive()
-	{
-		return maxReceive;
-	}
-
-	public long getMaxConsume()
-	{
-		return maxConsume;
-	}
-
-	public long receive(long p_amount, boolean simulate)
-	{
-		return storage.receive(MathI64.clamp(p_amount, 0, maxReceive), simulate);
-	}
-
-	public long consume(long p_amount, boolean simulate)
-	{
-		return storage.consume(MathI64.clamp(p_amount, 0, maxConsume), simulate);
+		final PowerStorage storage = new PowerStorage(4000);
+		final PowerThrottle throttle = new PowerThrottle(storage, 40, 40);
+		assertEquals(0, storage.getAmount());
+		storage.setAmountUnsafe(4000);
+		assertEquals(4000, storage.getAmount());
+		// consume a throttled amount, non-simulated
+		throttle.consume(50, false);
+		assertEquals(3960, storage.getAmount());
+		// consume a throttled amount, simulated
+		throttle.consume(50, true);
+		assertEquals(3960, storage.getAmount());
 	}
 }

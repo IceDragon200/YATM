@@ -71,7 +71,7 @@ public class PowerStorage implements INBTSerializable
 
 	public void setAmountUnsafe(long p_amount)
 	{
-		this.amount = Math.max(p_amount, 0);
+		this.amount = MathI64.max(p_amount, 0);
 	}
 
 	public void setAmount(long p_amount)
@@ -83,7 +83,7 @@ public class PowerStorage implements INBTSerializable
 	{
 		final long a = p_amount + amount;
 		final long capped = MathI64.clamp(a, 0, capacity);
-		return p_amount - a - capped;
+		return capped - amount;
 	}
 
 	public long receive(long p_amount, boolean simulate)

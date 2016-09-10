@@ -87,7 +87,7 @@ public class BytePack
 		return result;
 	}
 
-	public static void packI64ToI32(long value, int[] target, int start)
+	public static void packI64ToI32a(long value, int[] target, int start)
 	{
 		target[start] = (int)(value & INT32_MASK);
 		target[start + 1] = (int)((value >> 32) & INT32_MASK);
@@ -99,7 +99,7 @@ public class BytePack
 		for (int i = 0; i < array.length; ++i)
 		{
 			final long value = array[i];
-			packI64ToI32(value, result, i * 2);
+			packI64ToI32a(value, result, i * 2);
 		}
 		return result;
 	}

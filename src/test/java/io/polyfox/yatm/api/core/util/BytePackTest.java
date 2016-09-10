@@ -21,45 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.api.power;
+package io.polyfox.yatm.api.core.util;
 
-import io.polyfox.yatm.api.core.util.MathI64;
+import org.junit.Test;
 
-public class PowerThrottle
+import static org.junit.Assert.assertEquals;
+
+public class BytePackTest
 {
-	protected PowerStorage storage;
-	protected long maxConsume;
-	protected long maxReceive;
-
-	public PowerThrottle(PowerStorage p_storage, long p_maxConsume, long p_maxReceive)
+	@Test
+	public void test_packI64ToI32a()
 	{
-		this.storage = p_storage;
-		this.maxConsume = p_maxConsume;
-		this.maxReceive = p_maxReceive;
+		final int[] ary = new int[2];
+		BytePack.packI64ToI32a(64, ary, 0);
+		assertEquals(64, ary[0]);
+		assertEquals(0, ary[1]);
+		BytePack.packI64ToI32a((long)1 << 32, ary, 0);
+		assertEquals(0, ary[0]);
+		assertEquals(1, ary[1]);
 	}
 
-	public PowerThrottle(PowerStorage p_storage, long p_maxTransmit)
+	@Test
+	public void tets_unpackI64FromI32a()
 	{
-		this(p_storage, p_maxTransmit, p_maxTransmit);
-	}
-
-	public long getMaxReceive()
-	{
-		return maxReceive;
-	}
-
-	public long getMaxConsume()
-	{
-		return maxConsume;
-	}
-
-	public long receive(long p_amount, boolean simulate)
-	{
-		return storage.receive(MathI64.clamp(p_amount, 0, maxReceive), simulate);
-	}
-
-	public long consume(long p_amount, boolean simulate)
-	{
-		return storage.consume(MathI64.clamp(p_amount, 0, maxConsume), simulate);
+		final int[] ary = new int[2];
+		BytePack.packI64ToI32a(64, ary, 0);
+		final long result = BytePack.unpackI64FromI32a(ary, 0);
+		assertEquals(64, result);
 	}
 }
