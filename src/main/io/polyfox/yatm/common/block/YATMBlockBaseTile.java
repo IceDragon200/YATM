@@ -30,6 +30,7 @@ import growthcraft.core.common.tileentity.feature.IInteractionObject;
 import io.polyfox.yatm.client.util.StateIconLoader;
 import io.polyfox.yatm.common.tileentity.feature.ITileNeighbourAware;
 import io.polyfox.yatm.creativetab.CreativeTabsYATM;
+import io.polyfox.yatm.security.ISecuredEntity;
 import io.polyfox.yatm.util.BlockFacing;
 import io.polyfox.yatm.util.YATMPlatform;
 
@@ -118,10 +119,27 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 		}
 	}
 
+	protected void claimOwnershipOfTile(World world, int x, int y, int z, EntityPlayer player)
+	{
+		if (world.isRemote) return;
+		final TileEntity te = getTileEntity(world, x, y, z);
+		if (te instanceof ISecuredEntity)
+		{
+			if (((ISecuredEntity)te).getSecurityHeader().tryClaimOwnership(player))
+			{
+				te.markDirty();
+			}
+		}
+	}
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack)
 	{
 		super.onBlockPlacedBy(world, x, y, z, entity, stack);
+		if (entity instanceof EntityPlayer)
+		{
+			claimOwnershipOfTile(world, x, y, z, (EntityPlayer)entity);
+		}
 		placeBlockByDirection(world, x, y, z, entity, stack);
 	}
 

@@ -39,6 +39,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 
 import cpw.mods.fml.common.Optional;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -86,6 +87,11 @@ public class YATMDataProvider implements IWailaDataProvider
 			else
 			{
 				tooltip.add("Machine Inactive");
+			}
+			if (tag.hasKey("owner_name"))
+			{
+				final String ownerName = tag.getString("owner_name");
+				tooltip.add("Owner: " + ownerName);
 			}
 		}
 
@@ -143,6 +149,11 @@ public class YATMDataProvider implements IWailaDataProvider
 		{
 			final TilePoweredMachine pm = (TilePoweredMachine)te;
 			tag.setBoolean("working_state", pm.getWorkingState());
+			final EntityPlayer owner = pm.getOwnerPlayer();
+			if (owner != null)
+			{
+				tag.setString("owner_name", owner.getDisplayName());
+			}
 		}
 
 		if (te instanceof IPowerStorageTile)

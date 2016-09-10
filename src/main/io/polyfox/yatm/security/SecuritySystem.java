@@ -35,6 +35,8 @@ public class SecuritySystem
 	private boolean testSharedAccess(SecurityHeader header, EntityPlayer player)
 	{
 		if (worldData == null) return false;
+		// the header is open
+		if (header.ownerUUID == null) return true;
 		return worldData.hasSharedAccessTo(player.getPersistentID(), header.ownerUUID);
 	}
 

@@ -38,6 +38,7 @@ import io.polyfox.yatm.common.item.ItemGrenade;
 import io.polyfox.yatm.common.item.ItemIngot;
 import io.polyfox.yatm.common.item.ItemMesh;
 import io.polyfox.yatm.common.item.ItemMultiMeter;
+import io.polyfox.yatm.common.item.ItemOwnerStamp;
 import io.polyfox.yatm.common.item.ItemPlate;
 import io.polyfox.yatm.common.item.ItemSpring;
 import io.polyfox.yatm.common.item.ItemVacuumTube;
@@ -52,6 +53,7 @@ public class ItemInstances extends GrcModuleItems
 {
 	// Tools
 	public ItemDefinition multiMeter;
+	public ItemDefinition ownerStamp;
 
 	// Weapons
 	public ItemDefinition grenade;
@@ -129,6 +131,7 @@ public class ItemInstances extends GrcModuleItems
 		this.spring = newDefinition(new ItemSpring());
 		this.grenade = newDefinition(new ItemGrenade());
 		this.multiMeter = newDefinition(new ItemMultiMeter());
+		this.ownerStamp = newDefinition(new ItemOwnerStamp());
 
 		initSubtypes();
 	}
@@ -138,6 +141,7 @@ public class ItemInstances extends GrcModuleItems
 	{
 		// Tools
 		multiMeter.register("yatm.multi_meter");
+		ownerStamp.register("yatm.owner_stamp");
 
 		// Weapons
 		grenade.register("yatm.grenade");

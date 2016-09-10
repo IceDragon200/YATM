@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import growthcraft.api.core.nbt.INBTSerializable;
+import io.polyfox.yatm.util.ServerUtils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -85,6 +86,66 @@ public class SecurityHeader implements INBTSerializable
 	public UUID ownerUUID;
 	public SharingType sharing = SharingType.EVERYONE;
 
+	/**
+	 * @return true, if there was an owner, false otherwise
+	 */
+	public boolean revokeOwnership()
+	{
+		if (ownerUUID != null)
+		{
+			this.ownerUUID = true;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Takes ownership of the item, as long as the player isn't null
+	 *
+	 * @param player player attempting the take ownership
+	 * @return true, the header was claimed by the given player, false it was already claimed
+	 */
+	public boolean takeOwnership(EntityPlayer player)
+	{
+		if (player != null)
+		{
+			this.ownerUUID = player.getPersistentID();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Attempts to claim the header for the given player
+	 *
+	 * @param player player attempting the take ownership
+	 * @return true, the header was claimed by the given player, false it was already claimed
+	 */
+	public boolean tryClaimOwnership(EntityPlayer player)
+	{
+		if (ownerUUID == null)
+		{
+			return takeOwnership(player);
+		}
+		return false;
+	}
+
+	/**
+	 * The owner player, may be null even if the UUID is set
+	 *
+	 * @return player
+	 */
+	public EntityPlayer getOwnerPlayer()
+	{
+		if (ownerUUID == null) return null;
+		return ServerUtils.findPlayerByUUID(ownerUUID);
+	}
+
+	/**
+	 * Can the specified player access the item protected by this header?
+	 *
+	 * @return true, yes they can access it, false otherwise
+	 */
 	public boolean canAccess(EntityPlayer player)
 	{
 		return SecuritySystem.instance().canAccess(this, player);
@@ -93,14 +154,21 @@ public class SecurityHeader implements INBTSerializable
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setString("owner_uuid", ownerUUID.toString());
+		if (ownerUUID != null)
+		{
+			nbt.setString("owner_uuid", ownerUUID.toString());
+		}
 		nbt.setString("sharing", sharing.getBasename());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		this.ownerUUID = UUID.fromString(nbt.getString("owner_uuid"));
+		this.ownerUUID = null;
+		if (nbt.hasKey("owner_uuid"))
+		{
+			this.ownerUUID = UUID.fromString(nbt.getString("owner_uuid"));
+		}
 		this.sharing = SharingType.byBasename(nbt.getString("sharing"));
 	}
 }
