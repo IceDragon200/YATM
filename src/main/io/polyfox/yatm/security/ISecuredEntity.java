@@ -23,7 +23,10 @@
  */
 package io.polyfox.yatm.security;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 public interface ISecuredEntity
 {
 	SecurityHeader getSecurityHeader();
+	EntityPlayer getOwnerPlayer();
 }

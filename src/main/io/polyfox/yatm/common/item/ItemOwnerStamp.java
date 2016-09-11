@@ -25,6 +25,15 @@ package io.polyfox.yatm.common.item;
 
 import growthcraft.core.common.item.GrcItemBase;
 import io.polyfox.yatm.security.ISecuredEntity;
+import io.polyfox.yatm.creativetab.CreativeTabsYATM;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemOwnerStamp extends GrcItemBase
 {

@@ -28,8 +28,10 @@ import java.util.List;
 import io.polyfox.yatm.api.power.IPowerStorageTile;
 import io.polyfox.yatm.common.tileentity.TileEntitySolarPanel;
 import io.polyfox.yatm.common.tileentity.TileEntitySpringWoundCrank;
+import io.polyfox.yatm.common.tileentity.TilePowered;
 import io.polyfox.yatm.common.tileentity.TilePoweredMachine;
 import io.polyfox.yatm.common.tileentity.TilePowerProviderBase;
+import io.polyfox.yatm.security.ISecuredEntity;
 
 import appeng.util.ReadableNumberConverter;
 import appeng.util.IWideReadableNumberConverter;
@@ -78,6 +80,15 @@ public class YATMDataProvider implements IWailaDataProvider
 			tooltip.add(String.format("Winds: %d / %d", w, m));
 		}
 
+		if (te instanceof TilePowered)
+		{
+			if (tag.hasKey("owner_name"))
+			{
+				final String ownerName = tag.getString("owner_name");
+				tooltip.add("Owner: " + ownerName);
+			}
+		}
+
 		if (te instanceof TilePoweredMachine)
 		{
 			if (tag.getBoolean("working_state"))
@@ -87,11 +98,6 @@ public class YATMDataProvider implements IWailaDataProvider
 			else
 			{
 				tooltip.add("Machine Inactive");
-			}
-			if (tag.hasKey("owner_name"))
-			{
-				final String ownerName = tag.getString("owner_name");
-				tooltip.add("Owner: " + ownerName);
 			}
 		}
 
@@ -145,15 +151,20 @@ public class YATMDataProvider implements IWailaDataProvider
 			tag.setInteger("max_winds", swc.maxWinds);
 		}
 
-		if (te instanceof TilePoweredMachine)
+		if (te instanceof TilePowered)
 		{
-			final TilePoweredMachine pm = (TilePoweredMachine)te;
-			tag.setBoolean("working_state", pm.getWorkingState());
-			final EntityPlayer owner = pm.getOwnerPlayer();
+			final TilePowered tp = (TilePowered)te;
+			final EntityPlayer owner = tp.getOwnerPlayer();
 			if (owner != null)
 			{
 				tag.setString("owner_name", owner.getDisplayName());
 			}
+		}
+
+		if (te instanceof TilePoweredMachine)
+		{
+			final TilePoweredMachine pm = (TilePoweredMachine)te;
+			tag.setBoolean("working_state", pm.getWorkingState());
 		}
 
 		if (te instanceof IPowerStorageTile)

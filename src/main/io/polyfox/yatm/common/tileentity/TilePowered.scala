@@ -26,18 +26,29 @@ package io.polyfox.yatm.common.tileentity
 import growthcraft.api.core.nbt.INBTItemSerializable
 import io.polyfox.yatm.api.power.IPowerConsumer
 import io.polyfox.yatm.common.tileentity.feature.ITileNeighbourAware
+import io.polyfox.yatm.common.tileentity.traits.TraitSecured
+import io.polyfox.yatm.security.SecurityHeader
 import io.polyfox.yatm.util.TileUtils
 import io.polyfox.yatm.YATM
 
 import net.minecraft.block.Block
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
 
-abstract class TilePowered extends TilePowerStorage() with IPowerConsumer with INBTItemSerializable with ITileNeighbourAware
+abstract class TilePowered extends TilePowerStorage()
+	with IPowerConsumer
+	with INBTItemSerializable
+	with ITileNeighbourAware
+	with TraitSecured
 {
 	protected var needCacheRebuild: Boolean = true
 	protected var tileCache: Array[TileEntity] = TileUtils.instance().createTileCache()
+	protected var securityHeader: SecurityHeader = new SecurityHeader()
+
+	override def getSecurityHeader(): SecurityHeader = securityHeader
+	override def getOwnerPlayer(): EntityPlayer = getSecurityHeader().getOwnerPlayer()
 
 	override def receivePowerFrom(from: ForgeDirection, amount: Long, simulated: Boolean): Long =
 	{

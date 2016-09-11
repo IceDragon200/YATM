@@ -40,7 +40,6 @@ import io.polyfox.yatm.common.inventory.IYATMInventory
 import io.polyfox.yatm.common.tileentity.machine.IMachineLogic
 import io.polyfox.yatm.common.tileentity.machine.IProgressiveMachine
 import io.polyfox.yatm.common.tileentity.machine.MachineUpdateState
-import io.polyfox.yatm.common.tileentity.traits.TraitSecured
 import io.polyfox.yatm.common.tileentity.traits.TraitSidedInventory
 import io.polyfox.yatm.security.SecurityHeader
 
@@ -59,7 +58,6 @@ abstract class TilePoweredMachine extends TilePowered()
 	with IGuiNetworkSync
 	with IInventoryWatcher
 	with IInteractionObject
-	with TraitSecured
 	with TraitSidedInventory
 {
 	protected var inventory: IYATMInventory = createInventory()
@@ -67,13 +65,9 @@ abstract class TilePoweredMachine extends TilePowered()
 	protected var lastWorkingState: Boolean = true
 	protected var dirtyNext: Boolean = true
 	protected var machineState: MachineUpdateState = new MachineUpdateState()
-	protected var securityHeader: SecurityHeader = new SecurityHeader()
 
 	this.machine.setTileEntity(this)
 
-	override def getSecurityHeader(): SecurityHeader = securityHeader
-
-	def getOwnerPlayer(): EntityPlayer = getSecurityHeader().getOwnerPlayer()
 	def getWorkingState(): Boolean = lastWorkingState
 
 	private def readInventoryFromNBT(nbt: NBTTagCompound)
