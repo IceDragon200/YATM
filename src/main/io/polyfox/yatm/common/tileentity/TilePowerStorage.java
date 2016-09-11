@@ -39,7 +39,7 @@ import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTile, INBTItemSerializable //, IEnergyReceiver
+abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTile, INBTItemSerializable, IEnergyReceiver
 {
 	private PowerThrottle powerThrottle;
 	private PowerStorage powerStorage;
@@ -101,8 +101,7 @@ abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTil
 		return 0.0f;
 	}
 
-	// @todo - FIXME RF
-	/*@Override
+	@Override
 	public int getEnergyStored(ForgeDirection from)
 	{
 		return (int)PowerSystem.YW_RF.toTarget(powerStorage.getAmount());
@@ -129,7 +128,7 @@ abstract class TilePowerStorage extends YATMTileBase implements IPowerStorageTil
 			onInternalPowerChanged();
 		}
 		return result;
-	}*/
+	}
 
 	@TileEventHandler(event=TileEventHandler.EventType.NETWORK_READ)
 	public boolean readFromStream_Power(ByteBuf stream) throws IOException

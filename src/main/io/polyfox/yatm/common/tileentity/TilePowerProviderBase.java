@@ -32,7 +32,6 @@ import io.polyfox.yatm.api.power.IPowerProducer;
 import io.polyfox.yatm.api.power.IPowerStorageTile;
 import io.polyfox.yatm.api.power.PowerSyncDirection;
 import io.polyfox.yatm.system.PowerSystem;
-import io.polyfox.yatm.YATM;
 
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
@@ -43,7 +42,7 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TilePowerProviderBase extends TilePowered implements IPowerGridSync, IPowerProducer//, IEnergyHandler
+public abstract class TilePowerProviderBase extends TilePowered implements IPowerGridSync, IPowerProducer, IEnergyHandler
 {
 	protected int powerSyncLevel = 10;
 	protected long[] powerDemand = new long[6];
@@ -67,17 +66,16 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 		}
 	}
 
-	// @todo - FIXME RF
-	/*@Override
+	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulated)
 	{
-		final long result = powerThrottle.consume(PowerSystem.YW_RF.toBase(maxExtract), simulated);
+		final long result = getPowerThrottle().consume(PowerSystem.YW_RF.toBase(maxExtract), simulated);
 		if (!simulated && result != 0)
 		{
 			onInternalPowerChanged();
 		}
 		return (int)result;
-	}*/
+	}
 
 	protected void setPowerSyncLevel(int value)
 	{
@@ -132,7 +130,7 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 		{
 			case NONE:
 			case RECEIVE:
-				YATM.getLogger().info("Not syncing with target=%s target from tile=%s x=%d y=%d z=%d", target, this, xCoord, yCoord, zCoord);
+				//YATM.getLogger().info("Not syncing with target=%s target from tile=%s x=%d y=%d z=%d", target, this, xCoord, yCoord, zCoord);
 				break;
 			case SEND:
 				final long supp = getPowerStorage().consume(getPowerSyncAmount(dir, target), true);
@@ -190,16 +188,15 @@ public abstract class TilePowerProviderBase extends TilePowered implements IPowe
 				else if (te instanceof IEnergyReceiver)
 				{
 					final IEnergyReceiver receiver = (IEnergyReceiver)te;
-					// @todo FIXME - RF
-					//final int feed = extractEnergy(dir, (int)PowerSystem.YW_RF.toTarget(powerThrottle.getMaxConsume()), true);
-					//final int diff = receiver.receiveEnergy(dir.getOpposite(), feed, false);
-					//if (diff > 0)
-					//{
-					//	if (extractEnergy(dir, diff, false) != 0)
-					//	{
-					//		onInternalPowerChanged();
-					//	}
-					//}
+					final int feed = extractEnergy(dir, (int)PowerSystem.YW_RF.toTarget(getPowerThrottle().getMaxConsume()), true);
+					final int diff = receiver.receiveEnergy(dir.getOpposite(), feed, false);
+					if (diff > 0)
+					{
+						if (extractEnergy(dir, diff, false) != 0)
+						{
+							onInternalPowerChanged();
+						}
+					}
 				}
 			}
 			powerDemand[i] = 0;
