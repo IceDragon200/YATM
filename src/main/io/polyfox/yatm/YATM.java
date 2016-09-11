@@ -91,6 +91,7 @@ public class YATM
 	public static final GrcGuiProvider guiProvider = new GrcGuiProvider(new GrcLogger(MOD_ID + ":GuiProvider"));
 	public static final BlockInstances blocks = new BlockInstances();
 	public static final ItemInstances items = new ItemInstances();
+	public static final io.polyfox.harmonia.Harmonia harmonia = new io.polyfox.harmonia.Harmonia();
 
 	@Instance(MOD_ID)
 	private static YATM modInstance;
@@ -111,13 +112,13 @@ public class YATM
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		modules.setLogger(logger);
 		modules.add(blocks);
 		modules.add(items);
-		modules.add(new io.polyfox.yatm.modules.Harmonia());
+		modules.add(harmonia);
 		modules.add(new io.polyfox.yatm.integration.ThaumcraftModule());
 		modules.add(new io.polyfox.yatm.integration.Waila());
 		modules.add(CommonProxy.instance);
+		modules.setLogger(logger);
 		modules.freeze();
 		modules.preInit();
 		modules.register();

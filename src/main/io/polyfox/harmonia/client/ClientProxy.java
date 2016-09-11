@@ -21,14 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.modules;
+package io.polyfox.harmonia.client;
 
-import growthcraft.core.common.GrcModuleBase;
+import io.polyfox.harmonia.client.renderer.TilePylonRenderer;
+import io.polyfox.harmonia.common.CommonProxy;
+import io.polyfox.harmonia.common.tile.TilePylon;
 
-/**
- * Harmonia consists of the `Magic` side to YATM, dealing with spirits, and the like
- */
-public class Harmonia extends GrcModuleBase
+import cpw.mods.fml.client.registry.ClientRegistry;
+
+public class ClientProxy extends CommonProxy
 {
-
+	@Override
+	public void init()
+	{
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePylon.class, new TilePylonRenderer());
+	}
 }

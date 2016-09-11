@@ -21,11 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package io.polyfox.yatm.modules.harmonia.init;
+package io.polyfox.harmonia.init;
 
-import growthcraft.core.common.GrcModuleBlocks;
+//import growthcraft.core.common.definition.ItemDefinition;
+//import growthcraft.core.common.definition.ItemTypeDefinition;
+import growthcraft.core.common.GrcModuleItems;
 
-public class HarmoniaBlocks extends GrcModuleBlocks
+public class HarmoniaItems extends GrcModuleItems
 {
+	@Override
+	public void preInit()
+	{
+	}
 
+	@Override
+	public void register()
+	{
+	}
 }
