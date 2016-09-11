@@ -59,8 +59,6 @@ public abstract class YATMBlockBaseTile extends GrcBlockContainer
 	public YATMBlockBaseTile(Material material, Class<? extends TileEntity> klass)
 	{
 		super(material);
-		setStepSound(Block.soundTypeStone);
-		setHardness(4.0F);
 		setCreativeTab(CreativeTabsYATM.instance());
 		setTileEntityType(klass);
 	}

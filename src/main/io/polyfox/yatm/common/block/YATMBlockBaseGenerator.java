@@ -33,6 +33,8 @@ public abstract class YATMBlockBaseGenerator extends YATMBlockBaseTile
 	public YATMBlockBaseGenerator(Material mat, Class<? extends TileEntity> klass)
 	{
 		super(mat, klass);
+		setStepSound(soundTypeStone);
+		setHardness(4.0F);
 	}
 
 	@Override

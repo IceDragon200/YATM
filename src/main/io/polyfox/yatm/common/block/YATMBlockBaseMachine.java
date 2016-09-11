@@ -34,6 +34,8 @@ public abstract class YATMBlockBaseMachine extends YATMBlockBaseTile
 	public YATMBlockBaseMachine(Material mat, Class<? extends TileEntity> klass)
 	{
 		super(mat, klass);
+		setStepSound(Block.soundTypeStone);
+		setHardness(4.0F);
 	}
 
 	@Override
