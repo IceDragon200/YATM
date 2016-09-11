@@ -2,6 +2,7 @@
 itemGroup.creative_tabs_yatm=Yet Another Tech Mod
 
 # Blocks
+## YATM
 tile.yatm.auto_crafter.name=Auto Crafter
 tile.yatm.auto_grinder.name=Auto Grindstone
 tile.yatm.chassis.name=Chassis
@@ -50,6 +51,11 @@ tile.yatm.wireless_redstone_receiver.name=Wireless Redstone Receiver
 tile.yatm.pylon.name=Spirit Pylon
 
 # Items
+## Tools
+item.yatm.multi_meter.name=Multi-Meter
+item.yatm.owner_stamp.name=Owner Stamp
+item.yatm.owner_stamp.desc=Go forth and claim the machines!
+## Capacitors
 item.yatm.capacitor.0.name=Iron Capacitor
 item.yatm.capacitor.1.name=Gold Capacitor
 item.yatm.capacitor.2.name=Diamond Capacitor
