@@ -33,6 +33,7 @@ import io.polyfox.yatm.YATM
 
 import net.minecraft.block.Block
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
@@ -49,6 +50,18 @@ abstract class TilePowered extends TilePowerStorage()
 
 	override def getSecurityHeader(): SecurityHeader = securityHeader
 	override def getOwnerPlayer(): EntityPlayer = getSecurityHeader().getOwnerPlayer()
+
+	override def readFromNBTForItem(nbt: NBTTagCompound)
+	{
+		super.readFromNBTForItem(nbt)
+		readSecurityFromNBT(nbt)
+	}
+
+	override def writeToNBTForItem(nbt: NBTTagCompound)
+	{
+		super.readFromNBTForItem(nbt)
+		writeSecurityToNBT(nbt)
+	}
 
 	override def receivePowerFrom(from: ForgeDirection, amount: Long, simulated: Boolean): Long =
 	{

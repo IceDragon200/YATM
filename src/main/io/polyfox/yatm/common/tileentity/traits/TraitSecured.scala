@@ -33,8 +33,7 @@ trait TraitSecured extends ISecuredEntity
 {
 	def getSecurityHeader(): SecurityHeader
 
-	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
-	def readFromNBT_Secured(nbt: NBTTagCompound)
+	def readSecurityFromNBT(nbt: NBTTagCompound)
 	{
 		val header = getSecurityHeader()
 		if (nbt.hasKey("security_header"))
@@ -44,12 +43,23 @@ trait TraitSecured extends ISecuredEntity
 		}
 	}
 
-	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
-	def writeToNBT_Secured(nbt: NBTTagCompound)
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_READ)
+	def readFromNBT_Secured(nbt: NBTTagCompound)
+	{
+		readSecurityFromNBT(nbt);
+	}
+
+	def writeSecurityToNBT(nbt: NBTTagCompound)
 	{
 		val header = getSecurityHeader()
 		val sectag = new NBTTagCompound()
 		header.writeToNBT(sectag)
 		nbt.setTag("security_header", sectag)
+	}
+
+	@TileEventHandler(event=TileEventHandler.EventType.NBT_WRITE)
+	def writeToNBT_Secured(nbt: NBTTagCompound)
+	{
+		writeSecurityToNBT(nbt);
 	}
 }
